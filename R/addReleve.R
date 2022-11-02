@@ -158,7 +158,7 @@ addRELEVE <- function(DATARELE = "NEW", DATAhead = "NEW", SAVE, checklist = "def
       print(TABLEexp)
     }
       while (TRUE) {
-        list.save(RelNew, "RELnew.rds")
+        rlist::list.save(RelNew, "RELnew.rds")
         m <- toupper(readline("AddNewLayer?(Y/N) "))
         if (m == "Y" |m == "N") {
           m <- m
@@ -261,11 +261,11 @@ addRELEVE <- function(DATARELE = "NEW", DATAhead = "NEW", SAVE, checklist = "def
 
                 RelNew[which(RelNew$ShortName == substr(nanas, 1, 9)), ][, 2] <- o
                 print(RelNew[(RelNew[, 2] > 0), ])
-                list.save(RelNew, "RELnew.rds")
+                rlist::list.save(RelNew, "RELnew.rds")
               } else {
                 RelNew[which(RelNew$ShortName == substr(nana, 1, 9)), ][, 2] <- o
                 print(RelNew[(RelNew[, 2] > 0), ])
-                list.save(RelNew, "RELnew.rds")
+                rlist::list.save(RelNew, "RELnew.rds")
               }
             } else if (m == "N"|m == "n") {
               break
