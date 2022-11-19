@@ -12,7 +12,7 @@
 #'
 #'
 
-RvegToJuice <- function(Data, checklist = "default") {
+RvegToJuice <- function(Data, checklist = "default", export = "export") {
   Data_rel <- read.csv(paste0(Data,"REL.csv"),row.names = 1)
   Data_head <- read.csv(paste0(Data,"HEAD.csv"),row.names = 1)
   if (checklist == "default"){
@@ -52,8 +52,8 @@ RvegToJuice <- function(Data, checklist = "default") {
   tty <- paste0("Export from ", Data)
   ttz <- paste0("Number of relevés:",ncol(tt))
 
-  write(x = paste0(tty,"\n",ttz,"\n"),file = "export.csv") # problem s encodingem
-  write.table(tttt,file = "export.csv",row.names = F,col.names =F,na = "",sep = ",",quote = F,append = T) # fileEncoding = "Windows-1252"
+  write(x = paste0(tty,"\n",ttz,"\n"),file = paste0(export, ".csv")) # possible encoding problem?
+  write.table(tttt,file = paste0(export, ".csv"),row.names = F,col.names =F,na = "",sep = ",",quote = F,append = T) # fileEncoding = "Windows-1252"
 
 }
 

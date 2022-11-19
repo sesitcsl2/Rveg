@@ -4,7 +4,7 @@
 \alias{RvegToJuice}
 \title{Export database Juice software compatible format}
 \usage{
-RvegToJuice(Data, checklist = "default")
+RvegToJuice(Data, checklist = "default", export = "export")
 }
 \arguments{
 \item{Data}{name of your database without extension}

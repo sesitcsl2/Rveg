@@ -9,7 +9,7 @@
 #'
 #' @returns Rveg database containing two csv files, header data and releve data.
 #'
-#' @examples RvegMERGE(x, y)
+#' @examples RvegMerge(x, y)
 #'
 #'
 #'
@@ -17,7 +17,7 @@
 #'
 #'
 
-RvegMERGE <- function(x, y, save="export_merge", head=T){
+RvegMerge <- function(x, y, save="export_merge", head=T){
 
   tab1 <- read.csv(paste0(x, "REL.csv"))
   tab2 <- read.csv(paste0(y, "REL.csv"))
