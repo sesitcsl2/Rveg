@@ -22,8 +22,8 @@
 
 RvegCombine <- function(database, export){
 
-    DATA <-read.csv(paste0(DATABASE, "REL.csv"), row.names = 1)
-    HeaderDATA <-read.csv(paste0(DATABASE, "HEAD.csv"), row.names = 1)
+    DATA <-read.csv(paste0(database, "REL.csv"), row.names = 1)
+    HeaderDATA <-read.csv(paste0(database, "HEAD.csv"), row.names = 1)
 
     while (TRUE) {
       a <- toupper(readline("Combine?(LAYER/SPEC/PRINTREL/N)"))
