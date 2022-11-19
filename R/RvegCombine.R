@@ -35,8 +35,7 @@ RvegCombine <- function(database, export){
             if (any(c(b,c) == c(1,2,3,"J",0))) {
 
               for (i in DATA$ShortName) {
-                if (i == paste0(substr(i,1,7),"_",a)&&any(DATA$ShortName==paste0(substr(i,1,7),"_",b))) {
-                  print(substr(i,1,7))
+                if (i == paste0(substr(i,1,7),"_",b)&&any(DATA$ShortName==paste0(substr(i,1,7),"_",c))) {
                   l1 <- DATA[DATA$ShortName==i,-1]
                   l2 <- DATA[DATA$ShortName==paste0(substr(i,1,7),"_",b),-1]
                   l3 <- round(l1 + (l2*(l1/100))) ### vzorec ma chybu
