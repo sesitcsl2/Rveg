@@ -25,7 +25,7 @@ RvegMERGE <- function(x, y, save="export_merge", head=T){
   head2 <- read.csv(paste0(y, "HEAD.csv"))
 
   # rel
-  jointab<-full_join(tab1,tab2,by = c("X","ShortName"))
+  jointab<-dplyr::full_join(tab1,tab2,by = c("X","ShortName"))
   jointab[is.na(jointab)] <- 0
   jointab<-jointab[order(jointab$X),]
 
@@ -44,6 +44,6 @@ RvegMERGE <- function(x, y, save="export_merge", head=T){
 }
 
 
-} # require dplyr
+}
 
 

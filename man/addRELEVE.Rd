@@ -2,23 +2,27 @@
 % Please edit documentation in R/addReleve.R
 \name{addRELEVE}
 \alias{addRELEVE}
-\title{Writing end editing your releves}
+\title{Writing and editing your releves}
 \usage{
-addRELEVE(DATARELE = "NEW", DATAhead = "NEW", SAVE, checklist = "default")
+addRELEVE(DATABASE = "NEW", SAVE, checklist = "default", extrahead = NULL)
 }
 \arguments{
-\item{DATARELE}{csv file for releve table}
+\item{DATABASE}{name of csv files for releve table and header}
 
-\item{DATAhead}{csv file for environmental variables}
+\item{SAVE}{name of exporting database}
+
+\item{checklist}{custom checklist}
+
+\item{extrahead}{extra rows in header}
 }
 \value{
-Export two csv files
+Export two csv files, one for releve and one for header
 }
 \description{
-Writing end editing your releves
+Writing and editing your releves
 }
 \examples{
 
-addRELEVE(SAVE = EXAMPLE)
+addRELEVE(SAVE = "test_database")
 
 }
