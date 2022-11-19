@@ -50,7 +50,7 @@ RvegCombine <- function(database, export){
               }
 
               break
-            } else { warning("wrong layers input\n") }
+            } else { print("wrong layers input") }
 
 
           }
