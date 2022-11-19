@@ -96,8 +96,9 @@ addRELEVE <- function(DATABASE = "NEW", SAVE, checklist = "default", extrahead =
       j <- readline("Ejuv? ")
       k <- readline("E0? ")
       l <- readline("Note? ")
+
+      extraval<-NULL
       if (!is.null(extrahead)) {
-        extraval<-NULL
         for (val in extrahead) {
           assign(val, readline(paste0(val,"? ")))
           extraval<-c(extraval,eval(as.symbol(val)))
@@ -138,8 +139,9 @@ addRELEVE <- function(DATABASE = "NEW", SAVE, checklist = "default", extrahead =
       j <- readline("Ejuv? ")
       k <- readline("E0? ")
       l <- readline("Note? ")
+
+      extraval<-NULL
       if (!is.null(extrahead)) {
-        extraval<-NULL
         for (val in extrahead) {
           assign(val, readline(paste0(val,"? ")))
           extraval<-c(extraval,eval(as.symbol(val)))
