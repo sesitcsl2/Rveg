@@ -32,7 +32,7 @@ RvegCombine <- function(database, export){
 
             b <- toupper(readline("Which layer?(3/2/1/0/J)"))
             c <- toupper(readline("To which layer?(3/2/1/0/J)"))
-            if (any(b&c == c(1,2,3,"J",0))) {
+            if (any(c(b,c) == c(1,2,3,"J",0))) {
 
               for (i in DATA$ShortName) {
                 if (i == paste0(substr(i,1,7),"_",a)&&any(DATA$ShortName==paste0(substr(i,1,7),"_",b))) {
