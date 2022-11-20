@@ -37,8 +37,8 @@ RvegCombine <- function(database, export){
               for (i in DATA$ShortName) {
                 if (i == paste0(substr(i,1,7),"_",b)&&any(DATA$ShortName==paste0(substr(i,1,7),"_",c))) {
                   l1 <- DATA[DATA$ShortName==i,-1]
-                  l2 <- DATA[DATA$ShortName==paste0(substr(i,1,7),"_",b),-1]
-                  l3 <- round(l1 + (l2*(l1/100))) ### vzorec ma chybu
+                  l2 <- DATA[DATA$ShortName==paste0(substr(i,1,7),"_",c),-1]
+                  l3 <- round(l1 + (l2*(1-(l1/100)))) #warinig v podmince c(b, c)?
                   DATA <- DATA[DATA$ShortName!=paste0(substr(i,1,7),"_",b),]
                   DATA[DATA$ShortName==i,-1] <- l3
 
@@ -56,10 +56,33 @@ RvegCombine <- function(database, export){
           }
 
 
-
-
         } else if (a == "SPEC") {
-          print("not implemented yet")
+
+          while (TRUE) {
+
+            b <- toupper(readline("Which specie?(GenuSpe_L)"))
+            c <- toupper(readline("To which layer?(GenuSpe_L)"))
+            if (nchar(b) == 7&nchar(c) == 7) {
+
+              l1 <- DATA[DATA$ShortName==b,-1]
+              l2 <- DATA[DATA$ShortName==c,-1]
+              l3 <- round(l1 + (l2*(1-(l1/100))))
+
+              DATA <- DATA[DATA$ShortName!=b,]
+              DATA[DATA$ShortName==c,-1] <- l3
+
+              write.csv(DATA, paste0(export, "REL.csv"))
+              write.csv(HeaderDATA, paste0(export, "HEAD.csv"))
+
+
+              break
+            } else { print("wrong species input") }
+
+
+          }
+
+
+
         } else if (a == "PRINTREL") {
           print(DATA)
         } else if (a == "N") {
