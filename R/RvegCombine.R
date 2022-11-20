@@ -32,13 +32,13 @@ RvegCombine <- function(database, export){
 
             b <- toupper(readline("Which layer?(3/2/1/0/J)"))
             c <- toupper(readline("To which layer?(3/2/1/0/J)"))
-            if (any(c(b,c) == c(1,2,3,"J",0))) {
+            if (any(c(b,c) %in% c(1,2,3,"J",0))) {
 
               for (i in DATA$ShortName) {
                 if (i == paste0(substr(i,1,7),"_",b)&&any(DATA$ShortName==paste0(substr(i,1,7),"_",c))) {
                   l1 <- DATA[DATA$ShortName==i,-1]
                   l2 <- DATA[DATA$ShortName==paste0(substr(i,1,7),"_",c),-1]
-                  l3 <- round(l1 + (l2*(1-(l1/100)))) #warinig v podmince c(b, c)?
+                  l3 <- round(l1 + (l2*(1-(l1/100))))
                   DATA <- DATA[DATA$ShortName!=paste0(substr(i,1,7),"_",b),]
                   DATA[DATA$ShortName==i,-1] <- l3
 
@@ -62,7 +62,7 @@ RvegCombine <- function(database, export){
 
             b <- toupper(readline("Which specie?(GenuSpe_L)"))
             c <- toupper(readline("To which layer?(GenuSpe_L)"))
-            if (nchar(b) == 7&nchar(c) == 7) {
+            if (nchar(b) == 9 & nchar(c) == 9) {
 
               l1 <- DATA[DATA$ShortName==b,-1]
               l2 <- DATA[DATA$ShortName==c,-1]
