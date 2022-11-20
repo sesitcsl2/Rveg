@@ -39,8 +39,8 @@ RvegCombine <- function(database, export){
                   l1 <- DATA[DATA$ShortName==i,-1]
                   l2 <- DATA[DATA$ShortName==paste0(substr(i,1,7),"_",c),-1]
                   l3 <- round(l1 + (l2*(1-(l1/100))))
-                  DATA <- DATA[DATA$ShortName!=paste0(substr(i,1,7),"_",b),-1]
-                  DATA[DATA$ShortName!=paste0(substr(i,1,7),"_",c),-1] <- l3
+                  DATA <- DATA[DATA$ShortName!=paste0(substr(i,1,7),"_",b),]
+                  DATA[DATA$ShortName==paste0(substr(i,1,7),"_",c),-1] <- l3
 
                   write.csv(DATA, paste0(export, "REL.csv"))
                   write.csv(HeaderDATA, paste0(export, "HEAD.csv"))
