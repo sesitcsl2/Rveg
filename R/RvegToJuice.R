@@ -163,7 +163,7 @@ while(T){
   }
   }
 
-for (s in tvrel$V1) {
+for (s in tvrel[,1]) {
   if (length((s==tvrel[,1])[(s==tvrel[,1])==TRUE])>1) {
 
     #l1 <- as.character(as.vector(tvrel[s == tvrel[,1],][1,]))
@@ -178,7 +178,7 @@ for (s in tvrel$V1) {
 
 
 
-    tvrel[tvrel$V1==s,][1,c(-1,-2)] = l3
+    tvrel[tvrel[,1]==s,][1,c(-1,-2)] = l3
     tvrel = tvrel[!(rownames(tvrel) %in% r1),]
     #tvrel[tvrel$V1==s,] = subset(tvrel[rownames(tvrel),],!rownames(tvrel)==r1)
 
