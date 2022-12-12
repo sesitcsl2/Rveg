@@ -58,6 +58,20 @@ RvegToJuice <- function(Data, checklist = "default", export = "export") {
 }
 
 
+#'
+#' Export database Juice software compatible format
+#'
+#' @param Data name of your database without extension
+#' @returns csv file
+#'
+#' @examples
+#'
+#' tvToRveg(Database)
+#'
+#' @export
+#'
+#'
+
 tvToRveg <- function(tv, export = "export",...){
 
   data <- read.csv(tv)
