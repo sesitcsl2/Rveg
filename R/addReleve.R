@@ -62,15 +62,7 @@ addRELEVE <- function(DATABASE = "NEW", SAVE, checklist = "default", extrahead =
   while (TRUE) {
     DATA2 <- read.csv(paste0(SAVE, "REL.csv"),row.names =1) # rownames
     HeaderDATA2 <- read.csv(paste0(SAVE, "HEAD.csv"), row.names = 1) # rownames
-
-    aa <-
-      toupper(readline(
-        "AddReleve?(NEW/Y/N/RREL/RHEAD/REMOVEREL/PRINTREL/PRINTHEAD) "
-      ))
-
-    if (aa == "NEW" | aa == "RREL" | aa == "Y") {
-
-      if (aa == "NEW") {
+    if (DATABASE == "NEW") {
       Header <-
         data.frame(
           ShortName = c("ID","DATE","SpringDATE","LOCALITY","FieldCODE","Authors","PlotSize",
@@ -111,7 +103,18 @@ addRELEVE <- function(DATABASE = "NEW", SAVE, checklist = "default", extrahead =
       colnames(HeaderDATA2)[2] <- c(1)
       write.csv(HeaderDATA2, paste0(SAVE, "HEAD.csv"))
 
+    aa = "NEW"
+    DATABASE = ""
+    } else {
+    aa <-
+      toupper(readline(
+        "AddReleve?(Y/N/RREL/RHEAD/REMOVEREL/PRINTREL/PRINTHEAD) "
+      ))
     }
+
+    if (aa == "NEW" | aa == "RREL" | aa == "Y") {
+
+
       if (aa == "Y") {
 
       Header <-
