@@ -183,7 +183,6 @@ addRELEVE <- function(DATABASE = "NEW", SAVE, checklist = "default", extrahead =
       print(TABLEexp)
     }
       while (TRUE) {
-        rlist::list.save(RelNew, "RELnew.rds")
         m <- toupper(readline("AddNewLayer?(Y/N) "))
         if (m == "Y" |m == "N") {
           m <- m
@@ -264,7 +263,8 @@ addRELEVE <- function(DATABASE = "NEW", SAVE, checklist = "default", extrahead =
                 }
 
                 k <- paste0(toupper(substr(k, 1, 1)), tolower(substr(k, 2, 3)))
-                print(SpLIST1[grep(paste0("^", k), SpLIST1[, 3]), ])
+                searchlist<-SpLIST1[grep(paste0("^", k), SpLIST1[, 3]), ]
+                print(searchlist[order(searchlist$FullName),])
                 while (TRUE){
                   while (TRUE) {
                     s <- toupper(readline("SpeciesName?(7lettersGenuSpe) "))
@@ -286,11 +286,9 @@ addRELEVE <- function(DATABASE = "NEW", SAVE, checklist = "default", extrahead =
 
                 RelNew[which(RelNew$ShortName == substr(nanas, 1, 9)), ][, 2] <- o
                 print(RelNew[(RelNew[, 2] > 0), ])
-                rlist::list.save(RelNew, "RELnew.rds")
               } else {
                 RelNew[which(RelNew$ShortName == substr(nana, 1, 9)), ][, 2] <- o
                 print(RelNew[(RelNew[, 2] > 0), ])
-                rlist::list.save(RelNew, "RELnew.rds")
               }
             } else if (m == "N"|m == "n") {
               break

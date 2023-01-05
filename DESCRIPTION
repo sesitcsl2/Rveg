@@ -1,6 +1,6 @@
 Package: Rveg
 Title: Digitazion of phytosociological releves
-Version: 0.0.6
+Version: 0.0.7
 Authors@R: c( 
     person("Premysl", "Kral", , "kralp@fzp.czu.cz", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-2887-651x")),
@@ -12,6 +12,5 @@ License: GPL (>= 3)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.1
-Imports: 
-    dplyr,
-    rlist
+Imports:
+    dplyr
