@@ -16,7 +16,7 @@
 #'
 #'
 
-addRELEVE <- function(DATABASE = "NEW", SAVE, checklist = "default", extrahead = NULL) {
+addReleve <- function(DATABASE = "NEW", SAVE, checklist = "default", extrahead = NULL) {
   # LOAD DATA ------------------------------------------------------------------------------------------
 
   if (checklist == "default"){
