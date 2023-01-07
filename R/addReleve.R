@@ -73,8 +73,8 @@ addReleve <- function(DATABASE = "NEW", SAVE, checklist = "default", extrahead =
       ID <- ncol(DATA2)
       colnames(RelNew)[2] <- (ID - 1)
       Header[1, 2] <- (1)
-      ab <- readline("DATE(Y/M/D-2009/07/05)? ")
-      bb <- readline("SPRINGDATE(Y/M/D-2009/07/05)? ")
+      ab <- readline("DATE?(Y/M/D-2009/07/05) ")
+      bb <- readline("SPRINGDATE?(Y/M/D-2009/07/05) ")
       bc <- readline("LOCALITY? ")
       a <- readline("FieldCODE? ")
       b <- readline("Authors? ")
@@ -127,8 +127,8 @@ addReleve <- function(DATABASE = "NEW", SAVE, checklist = "default", extrahead =
       ID <- ncol(DATA2)
       colnames(RelNew)[2] <- (ID - 1)
       Header[1, 2] <- (length(colnames(HeaderDATA2)))
-      ab <- readline("DATE(Y/M/D-2009/07/05)? ")
-      bb <- readline("SPRINGDATE(Y/M/D-2009/07/05)? ")
+      ab <- readline("DATE?(Y/M/D-2009/07/05) ")
+      bb <- readline("SPRINGDATE?(Y/M/D-2009/07/05) ")
       bc <- readline("LOCALITY? ")
       a <- readline("FieldCODE? ")
       b <- readline("Authors? ")
@@ -167,7 +167,7 @@ addReleve <- function(DATABASE = "NEW", SAVE, checklist = "default", extrahead =
         if (is.na(n)!=TRUE) {
           HeaderDATA3 <- read.csv(paste0(SAVE, "HEAD.csv"), row.names = 1) # rownames
           print(HeaderDATA3[,n+1])
-          tt <- toupper(readline("CorrectNumber?Y/N "))
+          tt <- toupper(readline("CorrectNumber?(Y/N) "))
           if (tt == "Y") {
           break
           }
@@ -190,13 +190,13 @@ addReleve <- function(DATABASE = "NEW", SAVE, checklist = "default", extrahead =
 
         if (m == "Y") {
           while (TRUE) {
-            most <- toupper(readline("Add layer - 3,2,1,J,0 "))
+            most <- toupper(readline("Select Layer (3,2,1,J,0) "))
             if (most == 3 | most == 2 |most == 1 |most == "J" |most == 0) {
               break
             }
           }
           while (TRUE) {
-            oo <- toupper(readline("P - percentage, BB - Braun B. scale? "))
+            oo <- toupper(readline("P - percentage, BB - Braun B. scale "))
 
             if (oo == "P" |oo == "BB"| oo == "B" ) {
               break
@@ -209,10 +209,10 @@ addReleve <- function(DATABASE = "NEW", SAVE, checklist = "default", extrahead =
               n <- m
 
               if (oo == "P") {
-                o <- readline("Abundance(%)? ")
+                o <- readline("Abundance?(%) ")
               } else if (oo == "BB"| oo == "B") {
                 while (TRUE){
-                  o <- toupper(readline("Abundance(0,R,+,1,2,M,A,B,3,4,5)? "))
+                  o <- toupper(readline("Abundance?(0,R,+,1,2,M,A,B,3,4,5) "))
                   if (o == "R" |o == "+" |o== "0"|o == "1" |o == "2" |o == "M" |o == "A" |o == "B" |
                     o == "3" |o == "4" |o == "5") {
                     break
@@ -246,7 +246,7 @@ addReleve <- function(DATABASE = "NEW", SAVE, checklist = "default", extrahead =
               specie_check<-SpLIST[SpLIST[,2]==substr(nana,1,9),]
               print(specie_check[3])
               while(TRUE){
-                tt <- toupper(readline("CorrectName?Y/F(search for name) "))
+                tt <- toupper(readline("CorrectName?(Y/F(search for name)) "))
                 if (tt == "Y" && !is.na(specie_check[1,3])| tt == "F") {
                   break
                 }
@@ -254,33 +254,32 @@ addReleve <- function(DATABASE = "NEW", SAVE, checklist = "default", extrahead =
 
               if (tt == "F") {
                 while (TRUE){
-                  k <- readline("AddSpeciesFirst3letters(eg.Che)? ")
-                  tt <- toupper(readline("Correct 3 letters? Y/N  "))
+                  k <- readline("SpeciesFirst3letters?(eg.Che) ")
+                  if (nchar(k)>=3 ) {
+                    k <- paste0(toupper(substr(k, 1, 1)), tolower(substr(k, 2, 3)))
+                    searchlist<-SpLIST1[grep(paste0("^", k), SpLIST1[, 3]), ]
+                    print(searchlist[order(searchlist$FullName),])
+                    while (TRUE){
+                      while (TRUE) {
+                        s <- toupper(readline("SpeciesName?(GenuSpe) "))
+                        if (nchar(s)==7) {
+                        nana <- paste(s, most, sep = "_")
+                        specie_check<-SpLIST[SpLIST[,2]==substr(nana,1,9),]
+                        print(specie_check[3])
+                        break
+                        }
+                      }
 
-                  if (tt == "Y" ) {
-                    break
-                  }
-                }
-
-                k <- paste0(toupper(substr(k, 1, 1)), tolower(substr(k, 2, 3)))
-                searchlist<-SpLIST1[grep(paste0("^", k), SpLIST1[, 3]), ]
-                print(searchlist[order(searchlist$FullName),])
-                while (TRUE){
-                  while (TRUE) {
-                    s <- toupper(readline("SpeciesName?(7lettersGenuSpe) "))
-                    if (nchar(s)==7) {
-                    nana <- paste(s, most, sep = "_")
-                    specie_check<-SpLIST[SpLIST[,2]==substr(nana,1,9),]
-                    print(specie_check[3])
-                    break
+                      tt <- toupper(readline("CorrectSpecies?(Y/N)  "))
+                      if ((tt == "Y") & !is.na(specie_check[1,3])) {
+                        break
+                      }
                     }
-                  }
-
-                  tt <- toupper(readline("Correct 7lettersGenuSpe Y/N  "))
-                  if ((tt == "Y") & !is.na(specie_check[1,3])) {
                     break
                   }
                 }
+
+
 
                 nanas <- paste(s, most, sep = "_")
 
@@ -341,7 +340,7 @@ addReleve <- function(DATABASE = "NEW", SAVE, checklist = "default", extrahead =
         if (n<=(ncol(HeaderDATA2)-1)& n>0) {
           print(HeaderDATA2[, colnames(HeaderDATA2)==paste0("X",n)])
 
-          tt <- toupper(readline("CorrectColumn?Y/F "))
+          tt <- toupper(readline("CorrectColumn?(Y/F) "))
           if (tt == "Y") {
             break
           }
@@ -354,7 +353,7 @@ addReleve <- function(DATABASE = "NEW", SAVE, checklist = "default", extrahead =
       if (m == "Y") {
         print(HeaderDATA2[, 1])
         while (TRUE) {
-          l <- readline("HedearCharacteristic? ")
+          l <- readline("HeaderCharacteristic? ")
 
           if (l == "ID" |l == "DATE" |l == "SpringDATE" |l == "LOCALITY" |l == "FieldCODE" |
             l == "Authors" |l == "PlotSize" |l == "Latitude" |l == "4" |l == "5" |l == "Longitude" |
@@ -375,10 +374,10 @@ addReleve <- function(DATABASE = "NEW", SAVE, checklist = "default", extrahead =
       DATA2 <-
         read.csv(paste0(SAVE, "REL.csv"),row.names = 1) # rownames
       while(TRUE) {
-        n <- readline("Removesetofnumber? (e.g. 3) ")
+        n <- readline("ReleveNumber? ")
         n <- as.numeric(n)
         print(HeaderDATA2[,colnames(HeaderDATA2)==paste0("X",n)])
-        tt <- toupper(readline("CorrectNumber?Y/N "))
+        tt <- toupper(readline("CorrectNumber?(Y/N) "))
         if (tt == "Y") {
           DATA2 <- DATA2[,colnames(DATA2)!=paste0("X",n)]
           HeaderDATA2 <- HeaderDATA2[,HeaderDATA2[1,]!=n]

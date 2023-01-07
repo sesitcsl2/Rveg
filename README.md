@@ -27,7 +27,7 @@ devtools::install_github("sesitcsl2/Rveg")
 require(Rveg)
 ```
 
-or with simpler`remotes` package:
+or with simpler `remotes` package:
 
 ``` r
 install.packages("remotes")
@@ -65,8 +65,8 @@ relevés. Rveg database consist of Header csv file and Relevé csv file.
 First you have to fill header DATA for your first relevé.
 
 ``` console
-DATE(Y/M/D)?: 2023/1/5
-SPRINGDATE(Y/M/D):
+DATE?(Y/M/D): 2023/1/5
+SPRINGDATE?(Y/M/D):
 LOCALITY?: Yellowstone
 .
 .
@@ -78,8 +78,8 @@ writing species.
 
 ``` console
 AddNewLayer?(Y/N): Y
-Add layer - 3,2,1,J,0: 1
-P - percentage, BB - Braun B. scale?: P
+Select layer (3,2,1,J,0): 1
+P - percentage, BB - Braun B. scale: P
 AddSpecies?(GenuSpe/N): ...
 ```
 
@@ -90,7 +90,7 @@ letters of species name.
 
 ``` console
 AddSpecies?(GenuSpe/N): TrifPra
-Abundance (%)?: 25
+Abundance?(%): 25
                 FullName
 32391 Trifolium pratense
 CorrectName?Y/F(search for name) Y
