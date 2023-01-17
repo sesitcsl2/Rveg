@@ -2,27 +2,20 @@
 % Please edit documentation in R/RvegCheck.R
 \name{RvegCheck}
 \alias{RvegCheck}
-\title{Checking your DATABASE for duplicity}
+\title{RvegCheck}
 \usage{
-RvegCheck(DATABASE)
+RvegCheck(DATABASE, fullnames = FALSE, export = "export")
 }
 \arguments{
-\item{DATABASE}{name of csv files for releve table and header}
+\item{DATABASE}{name of csv files for releve table and header - database}
 
-\item{SAVE}{name of exporting database}
+\item{fullnames}{logical value if you want to add fullnames to the database}
 
-\item{checklist}{custom checklist}
-
-\item{extrahead}{extra rows in header}
+\item{export}{name of exporting database}
 }
 \value{
-Export two csv files, one for releve and one for header
+Export csv file releve table
 }
 \description{
-Checking your DATABASE for duplicity
-}
-\examples{
-
-modify(SAVE = "test_database")
-
+Checking your DATABASE for duplicity and allowing to export table with full species name (not editable anymore).
 }

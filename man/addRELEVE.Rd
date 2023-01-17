@@ -2,12 +2,12 @@
 % Please edit documentation in R/addReleve.R
 \name{addReleve}
 \alias{addReleve}
-\title{Writing and editing your releves}
+\title{addReleve}
 \usage{
 addReleve(DATABASE = "NEW", SAVE, checklist = "default", extrahead = NULL)
 }
 \arguments{
-\item{DATABASE}{name of csv files for releve table and header}
+\item{DATABASE}{name of csv files for releve table and header - database}
 
 \item{SAVE}{name of exporting database}
 
@@ -16,13 +16,8 @@ addReleve(DATABASE = "NEW", SAVE, checklist = "default", extrahead = NULL)
 \item{extrahead}{extra rows in header}
 }
 \value{
-Export two csv files, one for releve and one for header
+export two csv files, one for releve and one for header
 }
 \description{
 Writing and editing your releves
-}
-\examples{
-
-addRELEVE(SAVE = "test_database")
-
 }

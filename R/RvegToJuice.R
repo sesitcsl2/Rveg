@@ -1,15 +1,15 @@
 #'
-#' Export database Juice software compatible format
+#' RvegToJuice
 #'
-#' @param Data name of your database without extension
-#' @returns csv file
+#' Export Rveg database to Juice software compatible format
 #'
-#' @examples
+#' @param Data name of your Rveg database
+#' @param checklist path to your custom species checklist
+#' @param export name of your exported csv file
 #'
-#' RvegToJuice(Database)
+#' @returns csv file which is readible by Juice
 #'
 #' @export
-#'
 #'
 
 RvegToJuice <- function(Data, checklist = "default", export = "export") {
@@ -50,7 +50,7 @@ RvegToJuice <- function(Data, checklist = "default", export = "export") {
   tttt <- cbind(ttt,tt)
   tttt <- rbind(tzt,tttt)
   tty <- paste0("Export from ", Data)
-  ttz <- paste0("Number of relevés:",ncol(tt))
+  ttz <- paste0("Number of relev\u00e9s:",ncol(tt))
 
   write(x = paste0(tty,"\n",ttz,"\n"),file = paste0(export, ".csv")) # possible encoding problem?
   write.table(tttt,file = paste0(export, ".csv"),row.names = F,col.names =F,na = "",sep = ",",quote = F,append = T) # fileEncoding = "Windows-1252"
@@ -59,20 +59,20 @@ RvegToJuice <- function(Data, checklist = "default", export = "export") {
 
 
 #'
-#' Export database Juice software compatible format
+#' TvToRveg
 #'
-#' @param Data name of your database without extension
+#' Export Turboveg csv file to Rveg database compatible format
+#'
+#' @param tv path to Turboveg csv export
+#' @param export name of your exported database
+#'
 #' @returns csv file
-#'
-#' @examples
-#'
-#' tvToRveg(Database)
 #'
 #' @export
 #'
 #'
 
-tvToRveg <- function(tv, export = "export",...){
+tvToRveg <- function(tv, export = "export"){
 
   data <- read.csv(tv)
   lim = as.numeric(rownames(data[data[,1]=="",]))

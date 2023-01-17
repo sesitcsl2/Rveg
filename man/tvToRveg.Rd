@@ -2,21 +2,18 @@
 % Please edit documentation in R/RvegToJuice.R
 \name{tvToRveg}
 \alias{tvToRveg}
-\title{Export database Juice software compatible format}
+\title{TvToRveg}
 \usage{
-tvToRveg(tv, export = "export", ...)
+tvToRveg(tv, export = "export")
 }
 \arguments{
-\item{Data}{name of your database without extension}
+\item{tv}{path to Turboveg csv export}
+
+\item{export}{name of your exported database}
 }
 \value{
 csv file
 }
 \description{
-Export database Juice software compatible format
-}
-\examples{
-
-tvToRveg(Database)
-
+Export Turboveg csv file to Rveg database compatible format
 }

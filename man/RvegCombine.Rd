@@ -2,28 +2,18 @@
 % Please edit documentation in R/RvegCombine.R
 \name{RvegCombine}
 \alias{RvegCombine}
-\title{Combining species in the database}
+\title{RvegCombine}
 \usage{
 RvegCombine(database, export)
 }
 \arguments{
-\item{database}{name of loading database}
+\item{database}{name of the loading database}
 
-\item{export}{name of the export database}
-
-\item{save}{name of exported databes withou extension}
-
-\item{head}{logical value if you want to export header data aswell}
+\item{export}{name of the exported database}
 }
 \value{
-Rveg database containing two csv files, header data and releve data.
+export two csv files, one for releve and one for header
 }
 \description{
-Combining species in the database
-}
-\examples{
-RvegCombine(x, y)
-
-
-
+Merging species or layers in the database
 }

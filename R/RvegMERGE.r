@@ -1,20 +1,16 @@
 #'
+#' RvegMerge
+#'
 #' Merge two Rveg databases
 #'
+#' @param x name of first database
+#' @param y name of second database
+#' @param save name of exported databes
+#' @param head logical value if want to merge header
 #'
-#' @param x name of first database without extension
-#' @param y name of second database without extension
-#' @param save name of exported databes withou extension
-#' @param head logical value if you want to export header data aswell
-#'
-#' @returns Rveg database containing two csv files, header data and releve data.
-#'
-#' @examples RvegMerge(x, y)
-#'
-#'
+#' @returns export two csv files, one for releve and one for header
 #'
 #' @export
-#'
 #'
 
 RvegMerge <- function(x, y, save="export_merge", head=T){

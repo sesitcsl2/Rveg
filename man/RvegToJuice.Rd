@@ -2,21 +2,20 @@
 % Please edit documentation in R/RvegToJuice.R
 \name{RvegToJuice}
 \alias{RvegToJuice}
-\title{Export database Juice software compatible format}
+\title{RvegToJuice}
 \usage{
 RvegToJuice(Data, checklist = "default", export = "export")
 }
 \arguments{
-\item{Data}{name of your database without extension}
+\item{Data}{name of your Rveg database}
+
+\item{checklist}{path to your custom species checklist}
+
+\item{export}{name of your exported csv file}
 }
 \value{
-csv file
+csv file which is readible by Juice
 }
 \description{
-Export database Juice software compatible format
-}
-\examples{
-
-RvegToJuice(Database)
-
+Export Rveg database to Juice software compatible format
 }

@@ -1,16 +1,13 @@
 #'
+#' addReleve
+#'
 #' Writing and editing your releves
-#' @param DATABASE name of csv files for releve table and header
+#' @param DATABASE name of csv files for releve table and header - database
 #' @param SAVE name of exporting database
 #' @param checklist custom checklist
 #' @param extrahead extra rows in header
 #'
-#'
-#' @returns Export two csv files, one for releve and one for header
-#'
-#' @examples
-#'
-#' addRELEVE(SAVE = "test_database")
+#' @returns export two csv files, one for releve and one for header
 #'
 #' @export
 #'
@@ -82,6 +79,8 @@ addReleve <- function(DATABASE = "NEW", SAVE, checklist = "default", extrahead =
       d <- readline("Latitude? ")
       e <- readline("Longitude? ")
       f <- readline("Accuracy? ")
+      ff <- readline("Slope? ")
+      fk <- readline("Exposure? ")
       g <- readline("E3? ")
       h <- readline("E2? ")
       i <- readline("E1? ")
@@ -119,7 +118,7 @@ addReleve <- function(DATABASE = "NEW", SAVE, checklist = "default", extrahead =
 
       Header <-
         data.frame(
-          ShortName = c("ID","DATE","SpringDATE","LOCALITY","FieldCODE","Authors","PlotSize","Latitude","Longitude","Accuracy",
+          ShortName = c("ID","DATE","SpringDATE","LOCALITY","FieldCODE","Authors","PlotSize","Latitude","Longitude","Accuracy", "Slope", "Exposure",
             "E3","E2","E1","Ejuv","E0","Note",extrahead),
           Value = 0
         )
@@ -136,6 +135,8 @@ addReleve <- function(DATABASE = "NEW", SAVE, checklist = "default", extrahead =
       d <- readline("Latitude? ")
       e <- readline("Longitude? ")
       f <- readline("Accuracy? ")
+      ff <- readline("Slope? ")
+      fk <- readline("Exposure? ")
       g <- readline("E3? ")
       h <- readline("E2? ")
       i <- readline("E1? ")
@@ -150,7 +151,7 @@ addReleve <- function(DATABASE = "NEW", SAVE, checklist = "default", extrahead =
           extraval<-c(extraval,eval(as.symbol(val)))
         }
       }
-      hh <- c(ab, bb, bc, a, b, c, d, e, f, g, h, i, j, k, l, extraval)
+      hh <- c(ab, bb, bc, a, b, c, d, e, f, ff, fk, g, h, i, j, k, l, extraval)
       Header[2:(length(hh)+1), 2] <- hh
       colnames(Header)[2] <- (ID - 1)
       HeaderDATA2 <- data.frame(HeaderDATA2, Header[, 2])
@@ -355,9 +356,7 @@ addReleve <- function(DATABASE = "NEW", SAVE, checklist = "default", extrahead =
         while (TRUE) {
           l <- readline("HeaderCharacteristic? ")
 
-          if (l == "ID" |l == "DATE" |l == "SpringDATE" |l == "LOCALITY" |l == "FieldCODE" |
-            l == "Authors" |l == "PlotSize" |l == "Latitude" |l == "4" |l == "5" |l == "Longitude" |
-            l == "Accuracy" |l == "E3" |l == "E2" |l == "E1" |l == "Ejuv" |l == "E0" |l == "Note"|any(l == extrahead)) {
+          if (l %in% hh) {
             break
           }
         }

@@ -2,28 +2,22 @@
 % Please edit documentation in R/RvegMERGE.r
 \name{RvegMerge}
 \alias{RvegMerge}
-\title{Merge two Rveg databases}
+\title{RvegMerge}
 \usage{
 RvegMerge(x, y, save = "export_merge", head = T)
 }
 \arguments{
-\item{x}{name of first database without extension}
+\item{x}{name of first database}
 
-\item{y}{name of second database without extension}
+\item{y}{name of second database}
 
-\item{save}{name of exported databes withou extension}
+\item{save}{name of exported databes}
 
-\item{head}{logical value if you want to export header data aswell}
+\item{head}{logical value if want to merge header}
 }
 \value{
-Rveg database containing two csv files, header data and releve data.
+export two csv files, one for releve and one for header
 }
 \description{
 Merge two Rveg databases
-}
-\examples{
-RvegMerge(x, y)
-
-
-
 }

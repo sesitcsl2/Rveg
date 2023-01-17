@@ -1,20 +1,14 @@
 #'
-#' Combining species in the database
+#' RvegCombine
 #'
+#' Merging species or layers in the database
 #'
-#' @param database name of loading database
-#' @param export name of the export database
-#' @param save name of exported databes withou extension
-#' @param head logical value if you want to export header data aswell
+#' @param database name of the loading database
+#' @param export name of the exported database
 #'
-#' @returns Rveg database containing two csv files, header data and releve data.
-#'
-#' @examples RvegCombine(x, y)
-#'
-#'
+#' @returns export two csv files, one for releve and one for header
 #'
 #' @export
-#'
 #'
 
 

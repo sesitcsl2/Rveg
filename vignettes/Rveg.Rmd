@@ -1,0 +1,29 @@
+---
+title: "Rveg User Manual"
+author: "P\u0159emysl Kr\u00e1l and Jan Douda"
+subtitle: "version 0.1.0"
+output: 
+  rmarkdown::pdf_document:
+    number_sections: true
+    toc: true
+vignette: >
+  %\VignetteIndexEntry{Rveg User Manual}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+\newpage
+
+# Introduction
+
+Rveg package is database software for transcribing your vegetation relev&#233;s
+
+# header 2
+
+text text text
+
+# header 3
+
+hello
+hello
+hello
