@@ -25,7 +25,7 @@ addReleve <- function(DATABASE = "NEW", SAVE, checklist = "default", extrahead =
   if (DATABASE == "NEW") {
     DATA <- data.frame(ShortName = character(), stringsAsFactors = FALSE)
     HeaderDATA <- data.frame(ShortName = c("ID","DATE","SpringDATE","LOCALITY","FieldCODE","Authors",
-                                           "PlotSize","Latitude","Longitude","Accuracy",
+                                           "PlotSize","Latitude","Longitude","Accuracy","Slope","Exposure",
                                             "E3","E2","E1","Ejuv","E0","Note",extrahead),
                                           stringsAsFactors = FALSE
       )
@@ -63,7 +63,7 @@ addReleve <- function(DATABASE = "NEW", SAVE, checklist = "default", extrahead =
       Header <-
         data.frame(
           ShortName = c("ID","DATE","SpringDATE","LOCALITY","FieldCODE","Authors","PlotSize",
-            "Latitude","Longitude","Accuracy","E3","E2","E1","Ejuv","E0","Note",extrahead),
+            "Latitude","Longitude","Accuracy","Slope","Exposure","E3","E2","E1","Ejuv","E0","Note",extrahead),
           Value = 0
         )
       RelNew <- data.frame(ShortName = SpLIST[, 2], Value = 0)
