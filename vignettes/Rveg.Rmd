@@ -16,14 +16,54 @@ vignette: >
 
 # Introduction
 
-Rveg package is database software for transcribing your vegetation relev&#233;s
+Rveg package is database software for students and scientists, mainly botanists and ecologists, that allows transcription of your phytosociological relev&#233;s in R environment. This is full-depth guide to understand how Rveg package work and its capabilities.
 
-# header 2
+You are reading the first published version (0.1.0), but it is expected to keep developing of the package in future, aswell as debugging. For the latest versions of Rveg you might check one of different cloud storages.
 
-text text text
+1. github at https://github.com/sesitcsl2/Rveg
+2. team websites at https://plant-ecology-lab-czu.com/rveg/
+3. or CRAN repository
 
-# header 3
+## overview
 
-hello
-hello
-hello
+Rveg is capable of fast transcription, editation and view of your relev&#233;s. It creates *database* composed of two csv files (separeted by comma), one for header data (environmental variables, file ending with HEAD.csv) and second for abundance data (file ending with REL.csv). Values in both files can be edited outside of Rveg in any spreadsheet software while keeping compatibility with Rveg, but do not edit row names or collumn names. 
+
+**header** file consist of preset variables in rows and relev&#233;s in collumns. I would advise to not use commas in valus, as it is used as separator. 
+
+**relev&#233;s** file consist of species number codes as row names, and relev&#233;s in collumns. The first collumn represent species shortcut code combined by underscore with vegetation layer. It is based on the external checklist of species (Danihelka 2012), which assign shortcut code (Eg *TRIFPRA* for *Trifolium pratense*) to each species to prevent typo mistakes and to speedup the process of writing.
+
+figures of database
+
+Rveg package is based all around working with these two files, which is reffered to as Rveg database. That is achieved by running these functions:
+
+1. addReleve
+2. RvegCombine
+3. RvegCheck
+4. RvegToJuice
+5. RvegMerge
+6. tvToRveg
+ 
+To understand each function view next chapter or run help("fun").
+
+# Functions
+
+## addReleve
+
+Most important function, which is base of whole package. It will allow you create and edit database, within the Rveg limits. You can create Database for your project with preset header data, but also allow you to add your own characteristics. Thanks to the provided species checklist (Danihelka 2013) for central Europe
+
+## RvegCombine
+
+## RvegCheck
+
+## RvegToJuice
+
+## RvegMerge
+
+## TvToRveg
+
+# Developer notes
+
+Our goal is to create tool for quick processing of phytosociological relev&#233;s without need of additional software, when most of the statstical analysis and generations of plot happens in R anyway. Package is still in early development phase. We use it on the regular basis without problems and we want share it with public, but it can be expected as the user base grows, so will the number of flaws and reported bugs. We will be more than happy for any improvments suggestions or bug reports.
+
+at kralp@fzp.czu.cz
+or via github system at https://github.com/sesitcsl2/Rveg

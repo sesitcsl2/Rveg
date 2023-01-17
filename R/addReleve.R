@@ -95,7 +95,7 @@ addReleve <- function(DATABASE = "NEW", SAVE, checklist = "default", extrahead =
           extraval<-c(extraval,eval(as.symbol(val)))
         }
       }
-      hh <- c(ab, bb, bc, a, b, c, d, e, f, g, h, i, j, k, l, extraval)
+      hh <- c(ab, bb, bc, a, b, c, d, e, f, ff, fk, g, h, i, j, k, l, extraval)
       Header[2:(length(hh)+1), 2] <- hh
       colnames(Header)[2] <- (1)
       HeaderDATA2 <- data.frame(HeaderDATA2, Header[, 2])
