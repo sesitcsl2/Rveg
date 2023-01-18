@@ -178,7 +178,7 @@ addReleve <- function(DATABASE = "NEW", SAVE, checklist = "default", extrahead =
       ID <- n + 1
       RelNew <- data.frame(ShortName = SpLIST[, 2], Value = 0)
 
-      RelNew[rownames(DATA2), ][, 2] <- DATA2[, ID]
+      RelNew[RelNew[,1]%in%DATA2[,1],][,2]  <- DATA2[, ID]
       TABLEexp <- RelNew[RelNew[, 2] > 0, ]
       colnames(TABLEexp) <- c("ShortNames", "Cover")
       print(TABLEexp)
@@ -356,7 +356,7 @@ addReleve <- function(DATABASE = "NEW", SAVE, checklist = "default", extrahead =
         while (TRUE) {
           l <- readline("HeaderCharacteristic? ")
 
-          if (l %in% hh) {
+          if (l %in% HeaderDATA2[, 1]) {
             break
           }
         }

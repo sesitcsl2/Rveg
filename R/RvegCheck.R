@@ -13,7 +13,7 @@
 #' @export
 #'
 
-RvegCheck <- function(DATABASE, fullnames = FALSE,export = "export"){
+RvegCheck <- function(DATABASE, fullnames = FALSE,export = "export", checklist = "default"){
 
 
   DATA <- read.csv(paste0(DATABASE, "REL.csv"),row.names =1)

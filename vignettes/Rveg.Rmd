@@ -18,11 +18,13 @@ vignette: >
 
 Rveg package is database software for students and scientists, mainly botanists and ecologists, that allows transcription of your phytosociological relev&#233;s in R environment. This is full-depth guide to understand how Rveg package work and its capabilities.
 
-You are reading the first published version (0.1.0), but it is expected to keep developing of the package in future, aswell as debugging. For the latest versions of Rveg you might check one of different cloud storages.
+You are reading manual for the first published version (0.1.0), but it is expected to keep developing of the package in future, aswell as debugging. For the latest versions of Rveg you might check one of different cloud storages.
 
 1. github at https://github.com/sesitcsl2/Rveg
 2. team websites at https://plant-ecology-lab-czu.com/rveg/
 3. or CRAN repository
+
+If you dont want to deeply dig into the manual, you can try quick setup
 
 ## overview
 
@@ -45,21 +47,328 @@ Rveg package is based all around working with these two files, which is reffered
  
 To understand each function view next chapter or run help("fun").
 
+\newpage
+
 # Functions
 
 ## addReleve
 
-Most important function, which is base of whole package. It will allow you create and edit database, within the Rveg limits. You can create Database for your project with preset header data, but also allow you to add your own characteristics. Thanks to the provided species checklist (Danihelka 2013) for central Europe
+```{r eval=F}
+
+addReleve(DATABASE = "NEW", SAVE, checklist = "default", extrahead = NULL)
+```
+
+
+
+Most important function, which is base of whole package. It will allow you create and edit database, within the Rveg limits. You can create Database for your project with preset header data, but also allow you to add your own characteristics. Thanks to the species checklist (Danihelka 2013) for Czech republic provided with the package, Rveg will connect Species names to the 7 letter shortcuts. If you ever find checklist insufficient, you can create your own checklist, or modify current checklist (preferable). Structure of checklist is dataframe with 3 collumns. First collumn *Number* represent ID of species. Rveg will recalculate IDs by itself, so there is no real use of this column, you can use it for your own sorting and orientation. If you dont want to think of number you can simply enter 99999, or any other number. Second collumn *ShortName* is already mentioned species shortcut. It is written in uppercase and consist of 3 letters of Genus and 4 letters of species. It is important to keep uppercase alphabet and keep every shortname unique present only once. For this you can simply enter **doplnit**. last collumn *FullName* contains full species names. Collumns are separated by tabulator, be careful as some text editors can alter tabulator with spaces.
+
+**arguments**
+
+*DATABASE* is set by default to "NEW", which indicates that user is creating a new database. You will need to change this value only in case, you want to edit or add new records to your database created before. In that case you will enter name of the database (not the REL.csv files).
+
+*SAVE* set the name of your database. It is therefore only required argument when creating a new database. When you are editing already existing database you can choose to keep *SAVE* same as *DATABASE*, which will rewrite loaded database, or you can choose different *SAVE* value to create new database aswell as keep the old one (Eg backup or versioning).
+
+*checklist* is set by dy default to "default", which makes Rveg to use provided checklist by Danihelka (). At the moment there are no more checklists, but you are able to edit or create own checklists. 
+
+*extrahead* is set by default set to NULL, meaning there are no extra header characteristics. Preset commonly used values are:
+
+1. ID - generated automatically, unique value for each relev&#233;
+2. DATE - date of data sampling
+3. SpringDATE -
+4. LOCALITY - place where relev&#233; was taken
+5. FieldCODE - internal code for distinquishing relev&#233;s from same locality
+6. Authors - name of the sampler
+7. PlotSize - size of the sampled area
+8. Latitude & Longitude - XY coordinates
+9. Accuracy - accuracy of coordinates measurement
+10. Slope
+11. Exposure
+12. E3, E2, E1, Ejuv, E0 - Percentage cover of each layer (tree, shrub, herb, juvenile and moss, respectively)
+13. Note - any extra note you might need to record
+
+Some characteristics might have recommended format, but it is completely up to you and your preferences, how you fill them. Everything is converted to string (text) format.
+
+**usage**
+
+Run function
+
+```{r eval=F}
+
+addReleve(SAVE = "First_database")
+```
+
+That will start dialoque communication with the user. Be careful to not stop the dialoque in the process (if you dont want that) by pressing escape key for example. When creating a new database, it will start immediately recording your first relev&#233;, starting with header
+
+``` console
+
+DATE?(Y/M/D): 2023/1/5
+SPRINGDATE?(Y/M/D):
+LOCALITY?: Yellowstone
+.
+.
+.
+```
+
+You do not have to fill all the characteristics, if you were not recording something or you will not have any use of it, you can left the field blank (as we did with *SPRINGDATE*). After that loop dialoque will allow you to start recording species.
+
+``` console
+
+AddNewLayer?(Y/N): Y
+Selec layer (3,2,1,J,0): 1
+P - percentage, BB - Braun B. scale: P
+AddSpecies?(GenuSpe/N): ...
+```
+
+We started to write species in the first (herb) layer with covers noted in percentage. Second possible option is using modified Braun Blanquet scale (BB). Now we have to start filling species using 7 letters code, consisting of first 4 letters of genus and first 3 letters of species name. There are a few exceptions, for example genus *Poa* is written with 3 letters of genus, space and 3 letters of species name. Or you might want to record aggregate, that is achieved with hastag symbol, eg *ARTE#VU* stands for *Artemisia vulgaris agg.*. There is no need to remember the codes, as the Rveg can show them to you, but after some time you might start memorizing them automatically.
+
+``` console
+AddSpecies?(GenuSpe/N): TrifPra
+Abundance?(%): 25
+                FullName
+32391 Trifolium pratense
+CorrectName?(Y/F(search for name)) Y
+      ShortName  0
+32391 TRIFPRA_1 25
+AddSpecies?(GenuSpe/N): ...
+```
+
+We added *Trifolium pratense* with cover of 25%. This process should be repeated for every species in the first layer, and then again for all other layers you have sampled. What might happen is, the Rved for some reason does not recognize the Shortname code correctly, for example if the code is reserved by any other species, than code has to be different than standard formula. This situation can look like this, while we try to add *Galium aparine*:
+
+``` console
+AddSpecies?(GenuSpe/N): Galiapa
+Abundance?(%): 15
+[1] FullName
+<0 rows> (or  0-length row.names)
+CorrectName?(Y/F(search for name)) F
+SpeciesFirst3letters?(eg.Che) Gal
+..
+.
+3708    4575    GALUPYC           Galium album ssp. pycnotrichum
+3694    4552    GALUAPA                          Gallium aparine
+3693    4551    GALU#AP                      Galium aparine agg.
+.
+..
+SpeciesName?(GenuSpe) Galuapa
+            FullName
+26686 Galium aparine
+CorrectSpecies?(Y/N) Y
+      ShortName  0
+26686 GALUAPA_1 15
+32391 TRIFPRA_1 25
+AddSpecies?(GenuSpe/N): ...
+```
+
+When Rveg asks if the species name is correct, but the software gives you nonsense response (or wrong species). It is then needed to not confirm by "F". Write 3 starting letters of Genus to get full list of all species start with those letter, with their corresponding shortname code. You just have to scroll through the alphabeticaly sorted list to find desired species. After the entering correct code Rveg recognize the species correctly.
+
+In the case you accidentally enter wrong abundance or wrong species, you can immediately repair the error by rewriting the same species with correct abundance or with 0 abundance if it is not present. After you sucessfully record all species in the first relev&#233;, you refuse adding more species.
+
+``` console
+AddSpecies?(GenuSpe/N): N
+AddNewLayer?(Y/N): N
+[1] "Species_richness"
+[1] 2
+AddReleve?(Y/N/RREL/RHEAD/REMOVEREL/PRINTREL/PRINTHEAD): ...
+```
+
+You receive number of species recorded in the relev&#233;, which is good for checking if you recorded all the species. Notice that species present in more layer count as more species. You are now in the main menu, which offers some more functions. If you would start editing existing database before, you would find yourself here. To add more relev&#233;s, enter Y and repeat the same process as before.
+
+Commands PRINTHEAD & PRINTREL will show you current database header and relev&#233;s, respectively. Lets say we have database with 3 relev&#233;s.
+
+``` console
+AddReleve?(Y/N/RREL/RHEAD/REMOVEREL/PRINTREL/PRINTHEAD): PRINTREL
+      ShortName X1 X2 X3
+7354  QUERROB_3  0 70  0
+26564 FRAGVES_1  0 10  0
+26686 GALUAPA_1 15  0  0
+29791 POA TRI_1  0  0 70
+32391 TRIFPRA_1 25  0  0
+AddReleve?(Y/N/RREL/RHEAD/REMOVEREL/PRINTREL/PRINTHEAD): ...
+```
+
+It is possible to edit relev&#233;s with RREL command
+
+``` console
+AddReleve?(Y/N/RREL/RHEAD/REMOVEREL/PRINTREL/PRINTHEAD): RREL
+ReleveNumber? 2
+ [1] "2" ... #all header characteristics to check if correct rel is selected
+CorrecNumber?(Y/N) Y
+      ShortName Cover
+7354  QUERROB_3    70
+26564 FRAGVES_1    10
+AddNewLayer?(Y/N) ...
+```
+
+Similiarly RHEAD allow edit header characteristics, lets change shrub cover to 70%
+
+``` console
+AddReleve?(Y/N/RREL/RHEAD/REMOVEREL/PRINTREL/PRINTHEAD): RHEAD
+ReleveNumber? 2
+ [1] "2" "x" ... "50" ... #all header values
+CorrecColumn?(Y/F) Y
+RepairHeader?(Y/N) Y
+[1] "ID"    "DATE" ... "E2" ...
+HeaderCharacteristic? E2
+NewValue? 70
+RepairHeader?(Y/N) N
+```
+
+Last one, rarely used command is REMOVEREL. It removes chosen relev&#233; with its header from the database.
 
 ## RvegCombine
 
-## RvegCheck
+```{r eval=F}
+RvegCombine(database, export)
+```
 
-## RvegToJuice
+This function allows us to combine all species from different layers to one or to merge two different species in all relev&#233;s.
+
+**argmunets**
+
+*database* path to the database we want to edit
+
+*export* name of our edited database (save)
+
+**usage**
+``` console
+      ShortName X1 X2 X3
+291   ALNUGLU_3  0 60  0
+11787 ALNUGLU_2  0 23  0
+26564 FRAGVES_1 23  0  0
+26686 GALUAPA_1  0  0 45
+```
+
+lets imagine following example, we have *Alnus glutinosa* present in second relev&#233;, both in tree and shrub layer, but we decided only distinguished layers in our database will be herb and tree layer.
+
+``` console
+Combine?(LAYER/SPEC/PRINTREL/N) PRINTREL
+      ShortName X1 X2 X3
+291   ALNUGLU_3  0 60  0
+11787 ALNUGLU_2  0 23  0
+26564 FRAGVES_1 23  0  0
+29789 POA RIP_1 20  0  0
+
+Combine?(LAYER/SPEC/PRINTREL/N) LAYER
+Which layer?(3/2/1/0/J) 2
+To which layer?(3/2/1/0/J) 3
+Combine?(LAYER/SPEC/PRINTREL/N) printrel
+      ShortName X1 X2 X3
+291   ALNUGLU_3  0 69  0
+26564 FRAGVES_1 23  0  0
+29789 POA RIP_1 20  0  0
+
+Combine?(LAYER/SPEC/PRINTREL/N) ...
+
+```
+
+Second possible use of this function is to merge two species together with the same formula. Lets combine *Fragaria vesca* to *Poa riphaea*.
+
+``` console
+Combine?(LAYER/SPEC/PRINTREL/N) SPEC
+Which specie?(GenuSpe_L) FRAGVES_1
+To which layer?(GenuSpe_L) POA RIP_1
+Combine?(LAYER/SPEC/PRINTREL/N) PRINTREL
+      ShortName X1 X2 X3
+291   ALNUGLU_3  0 69  0
+26686 GALUAPA_1  0  0 45
+26768 GERAPUS_1  0 23  0
+29789 POA RIP_1 38  0  0
+29791 POA TRI_1 40  0  0
+31388 SILELAT_1  0  0  3
+32391 TRIFPRA_1  0 34  0
+Combine?(LAYER/SPEC/PRINTREL/N) ...
+```
+Dont mismatch this function with RvegMerge()
 
 ## RvegMerge
 
+```{r eval=F}
+RvegMerge(x, y, save = "export_merge", head = T)
+```
+
+This function allows to join two databases together. It is useful when more people are working on the same project or when you have large database and want to work with it in parts. When your database get significantly big (eg. 100 relev&#233;s), you might notice the process slow a bit. If this gets to unacceptable level, you can start a new database and join them later on with this function. It will automatically create a new database files without any additional action needed.
+
+**argmunets**
+
+*x* path to the first joining database
+
+*y* path to the second joining database
+
+*save* name of the exported database
+
+*head* logical value, deciding if we want to join headers files aswell
+
+## RvegCheck
+
+```{r eval=F}
+RvegCheck(DATABASE, fullnames = FALSE, export = "export", checklist = "default")
+```
+
+As is said at beggining of this manual, it is important to have unique shortname code for every species. On the other side, some species might teoreticaly have more shortname codes in the checklist. If this happens and you find you used 2 different shortname codes for one species, this function will detect the duplicate species and solve the issue for you, by keeping the highest value in each relev&#233; from both (in case u enter both shortname codes in one relev&#233;). Also there is option to include fullnames in the exported table, this might by useful when u want to browse manualy or present your data. But be careful, as table with fullnames will not be backward compatibile with Rveg and thus uneditable (in Rveg).
+
+**argmunets**
+
+*DATABASE* path to the database you want to check
+
+*fullnames* Logical value if you want to include fullnames of species in the export
+
+*export* name of the exported table
+
+*checklist* checklist used to match shortnames with fullnames
+
+**usage**
+
+If it will find any duplicate, you can choose how to solve each one individually. Otherwise it will just generate a new table without any additional action needed.
+
+``` console
+found duplicate codes for Stellaria nemorum
+STEL#NE STELNEM
+               fullName ShortName X1 X2 X3
+10569 Stellaria nemorum STEL#NE_1 10 20  0
+10570 Stellaria nemorum STELNEM_1  0  0 10
+select merging method?(M - merge, N - none) M
+This merging method will keep the higher value
+select first row (with correct code) 10570
+select second row 10569
+
+``` 
+resulting in 
+``` console
+10570	Stellaria nemorum	STELNEM_1	10	20	10
+```
+
+## RvegToJuice
+
+```{r eval=F}
+RvegToJuice(Data, checklist = "default", export = "export")
+```
+
+This function will convert Rveg database format to the juice compatible format. Juice () is software for 
+
+**argmunets**
+
+*Data* path to the database you want to convert
+
+*checklist* checklist used to match shortnames with fullnames
+
+*export* name of the exported table
+
+After running 
+
 ## TvToRveg
+
+```{r eval=F}
+tvToRveg(tv, export = "export", checklist = "default",)
+```
+
+This function will convert csv export from Turboveg software into the Rveg compatible format. This way you can edit or continue your work from Turboveg in Rveg. It will automatically create a new database files without any additional action needed.
+
+**argmunets**
+
+*tv* path to the Turboveg csv export
+
+*checklist* checklist used to match shortnames with fullnames
+
+*export* name of the exported table
 
 # Developer notes
 

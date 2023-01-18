@@ -72,7 +72,7 @@ RvegToJuice <- function(Data, checklist = "default", export = "export") {
 #'
 #'
 
-tvToRveg <- function(tv, export = "export"){
+tvToRveg <- function(tv, export = "export", checklist = "default"){
 
   data <- read.csv(tv)
   lim = as.numeric(rownames(data[data[,1]=="",]))
@@ -103,7 +103,9 @@ tvToRveg <- function(tv, export = "export"){
   rvhead[17:(17+lim-22),i-1] <- tvhead[22:lim-1,i]
   } # header end
 
-  SpLIST <- read.delim("DANIHELKA2012rko.txt", sep = "\t")
+  if (checklist == "default"){
+    checklist<- paste0(path.package("Rveg"),"/extdata/DANIHELKA2012rko.txt")
+    }
   aaa <- paste(SpLIST[, 2], 3, sep = "_")
   bbb <- paste(SpLIST[, 2], 2, sep = "_")
   ccc <- paste(SpLIST[, 2], 1, sep = "_")

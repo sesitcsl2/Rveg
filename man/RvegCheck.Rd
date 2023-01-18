@@ -4,7 +4,12 @@
 \alias{RvegCheck}
 \title{RvegCheck}
 \usage{
-RvegCheck(DATABASE, fullnames = FALSE, export = "export")
+RvegCheck(
+  DATABASE,
+  fullnames = FALSE,
+  export = "export",
+  checklist = "default"
+)
 }
 \arguments{
 \item{DATABASE}{name of csv files for releve table and header - database}

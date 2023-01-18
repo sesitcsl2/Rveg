@@ -21,13 +21,17 @@ RvegMerge <- function(x, y, save="export_merge", head=T){
   head2 <- read.csv(paste0(y, "HEAD.csv"))
 
   # rel
-  jointab<-dplyr::full_join(tab1,tab2,by = c("X","ShortName"))
+  jointab<-dplyr::full_join(tab1,tab2[-1],by = c("ShortName"))
   jointab[is.na(jointab)] <- 0
-  jointab<-jointab[order(jointab$X),]
+  jointab<-jointab[order(jointab$ShortName),]
+
 
   n <- 3:ncol(jointab)-2
   for (i in 3:ncol(jointab)) {
   colnames(jointab)[i] <- paste0("X",n[i-2])
+
+  n <- 1:nrow(jointab)
+  jointab$X <- n
 
   write.csv(x = jointab,file = paste0(save,"REL.csv"),row.names = F)
 

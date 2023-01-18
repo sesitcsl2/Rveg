@@ -4,7 +4,7 @@
 \alias{tvToRveg}
 \title{TvToRveg}
 \usage{
-tvToRveg(tv, export = "export")
+tvToRveg(tv, export = "export", checklist = "default")
 }
 \arguments{
 \item{tv}{path to Turboveg csv export}
