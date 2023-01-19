@@ -17,6 +17,8 @@ RvegCheck(
 \item{fullnames}{logical value if you want to add fullnames to the database}
 
 \item{export}{name of exporting database}
+
+\item{checklist}{checklist used to match shortnames with species name}
 }
 \value{
 Export csv file releve table

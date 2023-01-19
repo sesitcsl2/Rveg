@@ -65,6 +65,7 @@ RvegToJuice <- function(Data, checklist = "default", export = "export") {
 #'
 #' @param tv path to Turboveg csv export
 #' @param export name of your exported database
+#' @param checklist checklist used to match shortnames with species name
 #'
 #' @returns csv file
 #'

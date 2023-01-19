@@ -10,6 +10,8 @@ tvToRveg(tv, export = "export", checklist = "default")
 \item{tv}{path to Turboveg csv export}
 
 \item{export}{name of your exported database}
+
+\item{checklist}{checklist used to match shortnames with species name}
 }
 \value{
 csv file

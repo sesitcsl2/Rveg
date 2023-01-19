@@ -4,9 +4,9 @@
 \name{Rveg-package}
 \alias{Rveg}
 \alias{Rveg-package}
-\title{Rveg: Digitazion of phytosociological releves}
+\title{Rveg: Digitization of phytosociological releves}
 \description{
-Simple and fast tool to transforming phytosociological vegetation data into the digital form for following analysis.
+Simple and fast tool for transforming phytosociological vegetation data into digital form for the following analysis.
 }
 \author{
 \strong{Maintainer}: Premysl Kral \email{kralp@fzp.czu.cz} (\href{https://orcid.org/0000-0002-2887-651x}{ORCID})

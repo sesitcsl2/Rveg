@@ -19,8 +19,8 @@ addReleve <- function(DATABASE = "NEW", SAVE, checklist = "default", extrahead =
   if (checklist == "default"){
     checklist<- paste0(path.package("Rveg"),"/extdata/DANIHELKA2012rko.txt")}
 
-  warn = getOption("warn")
-  options(warn=-1)
+  #warn = getOption("warn")
+  #options(warn=-1)
 
   if (DATABASE == "NEW") {
     DATA <- data.frame(ShortName = character(), stringsAsFactors = FALSE)
@@ -395,7 +395,7 @@ addReleve <- function(DATABASE = "NEW", SAVE, checklist = "default", extrahead =
       break
     }
   }
- options(warn=warn)
+ #options(warn=warn)
 }
 
 

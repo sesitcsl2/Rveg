@@ -6,7 +6,7 @@
 #' @param DATABASE name of csv files for releve table and header - database
 #' @param fullnames logical value if you want to add fullnames to the database
 #' @param export name of exporting database
-#'
+#' @param checklist checklist used to match shortnames with species name
 #'
 #' @returns Export csv file releve table
 #'

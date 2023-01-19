@@ -20,12 +20,12 @@ RvegCombine <- function(database, export){
     HeaderDATA <-read.csv(paste0(database, "HEAD.csv"), row.names = 1)
 
     while (TRUE) {
-      a <- toupper(readline("Combine?(LAYER/SPEC/PRINTREL/N)"))
+      a <- toupper(readline("Combine?(LAYER/SPEC/PRINTREL/N) "))
         if (a == "LAYER") {
           while (TRUE) {
 
-            b <- toupper(readline("Which layer?(3/2/1/0/J)"))
-            c <- toupper(readline("To which layer?(3/2/1/0/J)"))
+            b <- toupper(readline("Which layer?(3/2/1/0/J) "))
+            c <- toupper(readline("To which layer?(3/2/1/0/J) "))
             if (any(c(b,c) %in% c(1,2,3,"J",0))) {
 
               for (i in DATA$ShortName) {
@@ -54,8 +54,8 @@ RvegCombine <- function(database, export){
 
           while (TRUE) {
 
-            b <- toupper(readline("Which specie?(GenuSpe_L)"))
-            c <- toupper(readline("To which layer?(GenuSpe_L)"))
+            b <- toupper(readline("Which specie?(GenuSpe_L) "))
+            c <- toupper(readline("To which layer?(GenuSpe_L) "))
             if (nchar(b) == 9 & nchar(c) == 9) {
 
               l1 <- DATA[DATA$ShortName==b,-1]
