@@ -1,5 +1,5 @@
 Package: Rveg
-Title: Digitization of phytosociological releves
+Title: Digitization of Phytosociological Releves
 Version: 0.1.0
 Authors@R: c( 
     person("Premysl", "Kral", , "kralp@fzp.czu.cz", role = c("aut", "cre"),
