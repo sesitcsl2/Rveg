@@ -10,12 +10,22 @@
 #'
 #' @returns Export csv file releve table
 #'
+#' @examples
+#' ## NOT RUN
+#' if (interactive()) {RvegCheck(DATABASE = paste0(path.package("Rveg"),
+#' "/extdata/example_db"))
+#' read.csv("exportREL.csv",row.names = 1)}
+#'
 #' @export
 #'
 
 RvegCheck <- function(DATABASE, fullnames = FALSE,export = "export", checklist = "default"){
 
-
+  warning("This function will write files into your working directory")
+  write_check <- readline("do you want to continue?(Y/N) ")
+  if (toupper(write_check) == "N") {
+    stop("access denied")
+  }
   DATA <- read.csv(paste0(DATABASE, "REL.csv"),row.names =1)
   #HeaderDATA <- read.csv(paste0(DATABASE, "HEAD.csv"), row.names = 1)
 
@@ -31,14 +41,14 @@ RvegCheck <- function(DATABASE, fullnames = FALSE,export = "export", checklist =
 
   for (i in 1:length(DATA$fullName)) {
     if (length(unique(substr(DATA$ShortName[DATA$fullName==DATA$fullName[i]],1,7))) > 1) {
-      cat(paste0("found duplicate codes for ",DATA$fullName[i],"\n"))
-      cat(unique(substr(DATA$ShortName[DATA$fullName==DATA$fullName[i]],1,7)))
-      cat("\n")
+      message(paste0("found duplicate codes for ",DATA$fullName[i],"\n"))
+      message(unique(substr(DATA$ShortName[DATA$fullName==DATA$fullName[i]],1,7)))
+      message("\n")
       print(DATA[DATA$fullName==DATA$fullName[i],])
       while (TRUE) {
         met <- toupper(readline("select merging method?(M - merge, N - none) "))
         if (met == "M") {
-          cat("This merging method will keep the higher value")
+          message("This merging method will keep the higher value")
           while (TRUE) {
             l1 <- as.numeric(readline("select first row (with correct code) "))
             l2 <- as.numeric(readline("select second row "))

@@ -26,3 +26,10 @@ Export csv file releve table
 \description{
 Checking your DATABASE for duplicity and allowing to export table with full species name (not editable anymore).
 }
+\examples{
+## NOT RUN
+if (interactive()) {RvegCheck(DATABASE = paste0(path.package("Rveg"),
+"/extdata/example_db"))
+read.csv("exportREL.csv",row.names = 1)}
+
+}

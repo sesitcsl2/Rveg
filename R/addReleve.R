@@ -9,11 +9,22 @@
 #'
 #' @returns export two csv files, one for releve and one for header
 #'
+#' @examples
+#' ## NOT RUN
+#' if (interactive()) {addReleve(SAVE = "MyFirstDatabase")}
+#'
+#'
 #' @export
 #'
 #'
 
 addReleve <- function(DATABASE = "NEW", SAVE, checklist = "default", extrahead = NULL) {
+  warning("This function will write files into your working directory")
+  write_check <- readline("do you want to continue?(Y/N) ")
+  if (toupper(write_check) == "N") {
+    stop("access denied")
+  }
+
   # LOAD DATA ------------------------------------------------------------------------------------------
 
   if (checklist == "default"){

@@ -9,10 +9,22 @@
 #'
 #' @returns csv file which is readible by Juice
 #'
+#' @examples
+#' ## NOT RUN
+#' if(interactive()){
+#' RvegToJuice(Data = paste0(path.package("Rveg"),
+#' "/extdata/example_db"))
+#' read.csv("export.csv",header = FALSE)}
+#'
 #' @export
 #'
 
 RvegToJuice <- function(Data, checklist = "default", export = "export") {
+  warning("This function will write files into your working directory")
+  write_check <- readline("do you want to continue?(Y/N) ")
+  if (toupper(write_check) == "N") {
+    stop("access denied")
+  }
   Data_rel <- read.csv(paste0(Data,"REL.csv"),row.names = 1)
   Data_head <- read.csv(paste0(Data,"HEAD.csv"),row.names = 1)
   if (checklist == "default"){
@@ -43,7 +55,7 @@ RvegToJuice <- function(Data, checklist = "default", export = "export") {
 
   }
 
-  tt<-data.frame(matrix(unlist(z), nrow = length(z),byrow=T))
+  tt<-data.frame(matrix(unlist(z), nrow = length(z),byrow=TRUE))
   ttt <- data.frame(x,y)
   tt[tt==0] <- "."
   tzt <- c(NA,NA,1:ncol(tt))
@@ -53,7 +65,7 @@ RvegToJuice <- function(Data, checklist = "default", export = "export") {
   ttz <- paste0("Number of relev\u00e9s:",ncol(tt))
 
   write(x = paste0(tty,"\n",ttz,"\n"),file = paste0(export, ".csv")) # possible encoding problem?
-  write.table(tttt,file = paste0(export, ".csv"),row.names = F,col.names =F,na = "",sep = ",",quote = F,append = T) # fileEncoding = "Windows-1252"
+  write.table(tttt,file = paste0(export, ".csv"),row.names = FALSE,col.names =FALSE,na = "",sep = ",",quote = FALSE,append = TRUE) # fileEncoding = "Windows-1252"
 
 }
 
@@ -69,19 +81,31 @@ RvegToJuice <- function(Data, checklist = "default", export = "export") {
 #'
 #' @returns csv file
 #'
+#' ## NOT RUN
+#' if(interactive){
+#' tvToRveg(tv = paste0(path.package("Rveg"),
+#' "/extdata/tvexport.csv"))
+#' read.csv("exportREL.csv",row.names=1)}
+#'
+#'
 #' @export
 #'
 #'
 
 tvToRveg <- function(tv, export = "export", checklist = "default"){
 
+  warning("This function will write files into your working directory")
+  write_check <- readline("do you want to continue?(Y/N) ")
+  if (toupper(write_check) == "N") {
+    stop("access denied")
+  }
   data <- read.csv(tv)
   lim = as.numeric(rownames(data[data[,1]=="",]))
 
   tvhead <- data [1:(lim-1),]
   tvrel <- data [(lim+1):nrow(data),]
 
-  rvrel<- data.frame( ShortName = character(),stringsAsFactors = F)
+  rvrel<- data.frame( ShortName = character(),stringsAsFactors = FALSE)
   rvhead <- data.frame(ShortName = c("ID","DATE","SpringDATE","LOCALITY","FieldCODE","Authors",
                                   "PlotSize","Latitude","Longitude","Accuracy",
                                   "E3","E2","E1","Ejuv","E0","Note",data[22:lim-1,1]),
@@ -106,7 +130,8 @@ tvToRveg <- function(tv, export = "export", checklist = "default"){
 
   if (checklist == "default"){
     checklist<- paste0(path.package("Rveg"),"/extdata/DANIHELKA2012rko.txt")
-    }
+  }
+  SpLIST <- read.delim(checklist, sep = "\t")
   aaa <- paste(SpLIST[, 2], 3, sep = "_")
   bbb <- paste(SpLIST[, 2], 2, sep = "_")
   ccc <- paste(SpLIST[, 2], 1, sep = "_")
@@ -115,7 +140,7 @@ tvToRveg <- function(tv, export = "export", checklist = "default"){
   ddd <- c(aaa, bbb, ccc, eee, fff)
   SpLIST <- rbind(SpLIST, SpLIST, SpLIST, SpLIST, SpLIST)
   SpLIST[, 2] <- ddd
-  SpLIST1 <- read.delim("DANIHELKA2012rko.txt", sep = "\t")
+  SpLIST1 <- read.delim(checklist, sep = "\t")
 
   for (i in 1:nrow(tvrel)) {
   if (substr(tvrel[i,2],1,1)=="h"){
@@ -132,7 +157,7 @@ tvToRveg <- function(tv, export = "export", checklist = "default"){
 
 tvrel[tvrel==""] = 0
 
-while(T){
+while(TRUE){
   cla <- readline("Data in Bran blanquet or percentage? (B/%)")
   if (cla == "B") {
 
@@ -205,7 +230,7 @@ for (i in 1:nrow(tvrel)) {
   #nana <- paste(sp, abc, sep = "_")
   #specie_check<-SpLIST[SpLIST[,2]==substr(nana,1,9),]
 
-  while (T) {
+  while (TRUE) {
     check <- toupper(readline("correct name?(blank/N) "))
     if (check == "" & !is.na(rvrel[i,1])) {
       break

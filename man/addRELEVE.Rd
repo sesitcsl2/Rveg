@@ -21,3 +21,9 @@ export two csv files, one for releve and one for header
 \description{
 Writing and editing your releves
 }
+\examples{
+## NOT RUN
+if (interactive()) {addReleve(SAVE = "MyFirstDatabase")}
+
+
+}

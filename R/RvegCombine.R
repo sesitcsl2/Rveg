@@ -8,14 +8,25 @@
 #'
 #' @returns export two csv files, one for releve and one for header
 #'
+#' @examples
+#' ## NOT RUN
+#' if (interactive()) {RvegCombine(database = paste0(path.package("Rveg"),
+#' "/extdata/example_db"))
+#' read.csv("exportREL.csv",row.names = 1)}
+#'
 #' @export
 #'
 
 
 
 
-RvegCombine <- function(database, export){
+RvegCombine <- function(database, export = "export"){
 
+    warning("This function will write files into your working directory")
+    write_check <- readline("do you want to continue?(Y/N) ")
+    if (toupper(write_check) == "N") {
+      stop("access denied")
+    }
     DATA <-read.csv(paste0(database, "REL.csv"), row.names = 1)
     HeaderDATA <-read.csv(paste0(database, "HEAD.csv"), row.names = 1)
 

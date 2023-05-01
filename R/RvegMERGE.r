@@ -10,11 +10,24 @@
 #'
 #' @returns export two csv files, one for releve and one for header
 #'
+#' @examples
+#' ## NOT RUN
+#' if(interactive()){
+#' RvegMerge(x = paste0(path.package("Rveg"),
+#' "/extdata/example_db"), y = paste0(path.package("Rveg"),
+#' "/extdata/example_db"))
+#' read.csv("export_mergeREL.csv",row.names = 1)}
+#'
 #' @export
 #'
 
-RvegMerge <- function(x, y, save="export_merge", head=T){
+RvegMerge <- function(x, y, save="export_merge", head=TRUE){
 
+  warning("This function will write files into your working directory")
+  write_check <- readline("do you want to continue?(Y/N) ")
+  if (toupper(write_check) == "N") {
+    stop("access denied")
+  }
   tab1 <- read.csv(paste0(x, "REL.csv"))
   tab2 <- read.csv(paste0(y, "REL.csv"))
   head1 <- read.csv(paste0(x, "HEAD.csv"))
@@ -33,13 +46,13 @@ RvegMerge <- function(x, y, save="export_merge", head=T){
   n <- 1:nrow(jointab)
   jointab$X <- n
 
-  write.csv(x = jointab,file = paste0(save,"REL.csv"),row.names = F)
+  write.csv(x = jointab,file = paste0(save,"REL.csv"),row.names = FALSE)
 
   # head
-  if (head == T) {
+  if (head == TRUE) {
     joinhead <- cbind(head1,head2[,c(-1,-2)])
     colnames(joinhead)[(ncol(head1)+1):(ncol(head1)+ncol(head2)-2)] <- paste0("X",(ncol(head1)-1):(ncol(head1)+ncol(head2)-4))
-    write.csv(x = joinhead,file = paste0(save,"HEAD.csv"), row.names = F)
+    write.csv(x = joinhead,file = paste0(save,"HEAD.csv"), row.names = FALSE)
   }
 }
 

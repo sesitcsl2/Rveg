@@ -4,7 +4,7 @@
 \alias{RvegMerge}
 \title{RvegMerge}
 \usage{
-RvegMerge(x, y, save = "export_merge", head = T)
+RvegMerge(x, y, save = "export_merge", head = TRUE)
 }
 \arguments{
 \item{x}{name of first database}
@@ -20,4 +20,13 @@ export two csv files, one for releve and one for header
 }
 \description{
 Merge two Rveg databases
+}
+\examples{
+## NOT RUN
+if(interactive()){
+RvegMerge(x = paste0(path.package("Rveg"),
+"/extdata/example_db"), y = paste0(path.package("Rveg"),
+"/extdata/example_db"))
+read.csv("export_mergeREL.csv",row.names = 1)}
+
 }

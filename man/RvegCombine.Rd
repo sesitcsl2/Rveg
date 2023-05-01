@@ -4,7 +4,7 @@
 \alias{RvegCombine}
 \title{RvegCombine}
 \usage{
-RvegCombine(database, export)
+RvegCombine(database, export = "export")
 }
 \arguments{
 \item{database}{name of the loading database}
@@ -16,4 +16,11 @@ export two csv files, one for releve and one for header
 }
 \description{
 Merging species or layers in the database
+}
+\examples{
+## NOT RUN
+if (interactive()) {RvegCombine(database = paste0(path.package("Rveg"),
+"/extdata/example_db"))
+read.csv("exportREL.csv",row.names = 1)}
+
 }

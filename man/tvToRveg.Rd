@@ -15,6 +15,13 @@ tvToRveg(tv, export = "export", checklist = "default")
 }
 \value{
 csv file
+\subsection{NOT RUN}{
+
+if(interactive){
+tvToRveg(tv = paste0(path.package("Rveg"),
+"/extdata/tvexport.csv"))
+read.csv("exportREL.csv",row.names=1)}
+}
 }
 \description{
 Export Turboveg csv file to Rveg database compatible format

@@ -1,0 +1,84 @@
+Table number,,1,2,3
+Releve number,,1,2,3
+Country code,,CZ,CZ,CZ
+Biblioreference,,,,
+No. table in publ.,,,,
+No. releve in table,,1,2,3
+Cover abundance scale,,1,1,1
+Year,,1961,1961,1961
+Month,,7,7,7
+Day,,19,26,19
+Project code,,,,
+Author code,,,,
+Date (year/month/day),,19610719,19610726,19610719
+Syntaxon code,,,,
+Releve area (m2),,200,150,200
+UTM grid system code,,,,
+Altitude (m),,,,
+Aspect (degrees),,,,
+Slope (degrees),,,,
+Cover total (%),,0,0,0
+Cover tree layer (%),,40,40,40
+Cover shrub layer (%),,0,0,5
+Cover herb layer (%),,60,50,70
+Cover moss layer (%),,0,0,0
+Cover lichen layer (%),,0,0,0
+Cover algae layer (%),,0,0,0
+Cover litter layer (%),,0,0,0
+Cover open water (%),,0,0,0
+Cover bare rock (%),,0,0,0
+Height (high) tree layer (m),,0,0,0
+Height low tree layer (m),,0,0,0
+Height (high) shrub layer (m),,0,0,0
+Height low shrub  layer (m),,0,0,0
+Height (high) herb layer (cm),,0,0,0
+Height (low) herb layer (cm),,0,0,0
+Max. height herb layer (cm),,0,0,0
+Max. height crypt. layer (mm),,0,0,0
+Mosses identified (y/n),,,,
+Lichens identified (y/n),,,,
+Remarks,,xx,xx,xx
+Coordinate system,,,,
+Polesi,,xxxx,xxx,xxxxx
+Porost,,13a,5b,13a
+Number of species,,21,17,30
+,,,,
+Alnus glutinosa,t1,+,+,1
+Carex acuta,hl,1,1,
+Carex riparia,hl,4,4,
+Circaea lutetiana,hl,+,,+
+Filipendula ulmaria,hl,+,,+
+Fraxinus excelsior,hl,+,,+
+Galium palustre,hl,+,,1
+Glyceria maxima,hl,2,2,2
+Iris pseudacorus,hl,1,2,1
+Lemna minor,hl,3,3,+
+Lycopus europaeus,hl,+,+,1
+Lysimachia vulgaris,hl,+,,1
+Lythrum salicaria,hl,+,,+
+Phalaris arundinacea,hl,1,+,4
+Rubus caesius,hl,+,+,
+Salix alba,t1,2,3,1
+Salix fragilis agg.,t1,2,1,2
+Salix pentandra,t1,+,,1
+Stachys palustris,hl,+,,1
+Symphytum officinale,hl,+,+,+
+Ulmus minor,t1,r,,
+Carex rostrata,hl,,+,
+Myosotis palustris agg.,hl,,+,1
+Phragmites australis,hl,,1,
+Salicornia species,t1,,r,
+Solanum dulcamara,hl,,+,1
+Arctium nemorosum,hl,,,r
+Calystegia sepium,hl,,,+
+Deschampsia cespitosa,hl,,,1
+Festuca gigantea,hl,,,+
+Fraxinus excelsior,t1,,,1
+Glechoma hederacea,hl,,,1
+Lysimachia nummularia,hl,,,+
+Poa palustris,hl,,,+
+Populus alba,t1,,,+
+Ranunculus repens,hl,,,1
+Rumex sanguineus,hl,,,+
+Salix alba,s1,,,1
+Sium latifolium,hl,,,r
