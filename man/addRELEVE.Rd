@@ -4,7 +4,12 @@
 \alias{addReleve}
 \title{addReleve}
 \usage{
-addReleve(DATABASE = "NEW", SAVE, checklist = "default", extrahead = NULL)
+addReleve(
+  DATABASE = "NEW",
+  SAVE = "default",
+  checklist = "default",
+  extrahead = NULL
+)
 }
 \arguments{
 \item{DATABASE}{name of csv files for releve table and header - database}
@@ -23,7 +28,7 @@ Writing and editing your releves
 }
 \examples{
 ## NOT RUN
-if (interactive()) {addReleve(SAVE = "MyFirstDatabase")}
+if (interactive()) {addReleve()}
 
 
 }

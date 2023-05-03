@@ -21,11 +21,16 @@
 
 RvegCheck <- function(DATABASE, fullnames = FALSE,export = "export", checklist = "default"){
 
-  warning("This function will write files into your working directory")
-  write_check <- readline("do you want to continue?(Y/N) ")
-  if (toupper(write_check) == "N") {
-    stop("access denied")
+  #warning("This function will write files into your working directory")
+  #write_check <- readline("do you want to continue?(Y/N) ")
+  #if (toupper(write_check) == "N") {
+  #  stop("access denied")
+  #}
+
+  if (export == "export") {
+    export = file.path(tempdir(), "export")
   }
+
   DATA <- read.csv(paste0(DATABASE, "REL.csv"),row.names =1)
   #HeaderDATA <- read.csv(paste0(DATABASE, "HEAD.csv"), row.names = 1)
 

@@ -22,11 +22,16 @@
 
 RvegCombine <- function(database, export = "export"){
 
-    warning("This function will write files into your working directory")
-    write_check <- readline("do you want to continue?(Y/N) ")
-    if (toupper(write_check) == "N") {
-      stop("access denied")
+    #warning("This function will write files into your working directory")
+    #write_check <- readline("do you want to continue?(Y/N) ")
+    #if (toupper(write_check) == "N") {
+    #  stop("access denied")
+    #}
+
+    if (export == "export") {
+    export = file.path(tempdir(), "export")
     }
+
     DATA <-read.csv(paste0(database, "REL.csv"), row.names = 1)
     HeaderDATA <-read.csv(paste0(database, "HEAD.csv"), row.names = 1)
 
@@ -55,7 +60,7 @@ RvegCombine <- function(database, export = "export"){
               }
 
               break
-            } else { print("wrong layers input") }
+            } else { warning("wrong layers input") }
 
 
           }
@@ -81,7 +86,7 @@ RvegCombine <- function(database, export = "export"){
 
 
               break
-            } else { print("wrong species input") }
+            } else { warning("wrong species input") }
 
 
           }

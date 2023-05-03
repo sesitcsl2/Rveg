@@ -11,24 +11,27 @@
 #'
 #' @examples
 #' ## NOT RUN
-#' if (interactive()) {addReleve(SAVE = "MyFirstDatabase")}
+#' if (interactive()) {addReleve()}
 #'
 #'
 #' @export
 #'
 #'
 
-addReleve <- function(DATABASE = "NEW", SAVE, checklist = "default", extrahead = NULL) {
-  warning("This function will write files into your working directory")
-  write_check <- readline("do you want to continue?(Y/N) ")
-  if (toupper(write_check) == "N") {
-    stop("access denied")
-  }
+addReleve <- function(DATABASE = "NEW", SAVE = "default", checklist = "default", extrahead = NULL) {
+  #warning("This function will write files into your working directory")
+  #write_check <- readline("do you want to continue?(Y/N) ")
+  #if (toupper(write_check) == "N") {
+  #  stop("access denied")
+  #}
 
   # LOAD DATA ------------------------------------------------------------------------------------------
 
   if (checklist == "default"){
     checklist<- paste0(path.package("Rveg"),"/extdata/DANIHELKA2012rko.txt")}
+  if (SAVE == "default") {
+    SAVE = file.path(tempdir(), "default")
+  }
 
   #warn = getOption("warn")
   #options(warn=-1)
@@ -307,7 +310,7 @@ addReleve <- function(DATABASE = "NEW", SAVE, checklist = "default", extrahead =
           }
         } else if (m == "N" | m == "n") {
 
-          print("Species_richness")
+          message("Species_richness")
           print(nrow(RelNew[(RelNew[, 2] > 0), ]))
           if (aa == "Y") {
           DATA2<-read.csv(paste0(SAVE, "REL.csv"),row.names = 1) # rownames

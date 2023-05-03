@@ -20,11 +20,16 @@
 #'
 
 RvegToJuice <- function(Data, checklist = "default", export = "export") {
-  warning("This function will write files into your working directory")
-  write_check <- readline("do you want to continue?(Y/N) ")
-  if (toupper(write_check) == "N") {
-    stop("access denied")
+  #warning("This function will write files into your working directory")
+  #write_check <- readline("do you want to continue?(Y/N) ")
+  #if (toupper(write_check) == "N") {
+  #  stop("access denied")
+  #}
+
+  if (export == "export") {
+    export = file.path(tempdir(), "export")
   }
+
   Data_rel <- read.csv(paste0(Data,"REL.csv"),row.names = 1)
   Data_head <- read.csv(paste0(Data,"HEAD.csv"),row.names = 1)
   if (checklist == "default"){
@@ -94,11 +99,16 @@ RvegToJuice <- function(Data, checklist = "default", export = "export") {
 
 tvToRveg <- function(tv, export = "export", checklist = "default"){
 
-  warning("This function will write files into your working directory")
-  write_check <- readline("do you want to continue?(Y/N) ")
-  if (toupper(write_check) == "N") {
-    stop("access denied")
+  #warning("This function will write files into your working directory")
+  #write_check <- readline("do you want to continue?(Y/N) ")
+  #if (toupper(write_check) == "N") {
+  #  stop("access denied")
+  #}
+
+  if (export == "export") {
+    export = file.path(tempdir(), "export")
   }
+
   data <- read.csv(tv)
   lim = as.numeric(rownames(data[data[,1]=="",]))
 

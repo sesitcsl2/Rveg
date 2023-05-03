@@ -23,11 +23,16 @@
 
 RvegMerge <- function(x, y, save="export_merge", head=TRUE){
 
-  warning("This function will write files into your working directory")
-  write_check <- readline("do you want to continue?(Y/N) ")
-  if (toupper(write_check) == "N") {
-    stop("access denied")
+  #warning("This function will write files into your working directory")
+  #write_check <- readline("do you want to continue?(Y/N) ")
+  #if (toupper(write_check) == "N") {
+  #  stop("access denied")
+  #}
+
+  if (save == "export_merge") {
+    save = file.path(tempdir(), "export_merge")
   }
+
   tab1 <- read.csv(paste0(x, "REL.csv"))
   tab2 <- read.csv(paste0(y, "REL.csv"))
   head1 <- read.csv(paste0(x, "HEAD.csv"))
