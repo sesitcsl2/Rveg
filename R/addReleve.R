@@ -176,6 +176,7 @@ addReleve <- function(DATABASE = "NEW", SAVE = "default", checklist = "default",
     }
       if (aa == "RREL") {
       DATA2 <- read.csv(paste0(SAVE, "REL.csv"), row.names = 1) # rownames
+      DATA2 <- DATA2[order(as.numeric(row.names(DATA2))),]
       while (TRUE){
 
         n <- as.numeric(readline("ReleveNumber? "))
@@ -192,6 +193,7 @@ addReleve <- function(DATABASE = "NEW", SAVE = "default", checklist = "default",
       ID <- n + 1
       RelNew <- data.frame(ShortName = SpLIST[, 2], Value = 0)
 
+      DATA2 <- DATA2[order(as.numeric(row.names(DATA2))),]
       RelNew[RelNew[,1]%in%DATA2[,1],][,2]  <- DATA2[, ID]
       TABLEexp <- RelNew[RelNew[, 2] > 0, ]
       colnames(TABLEexp) <- c("ShortNames", "Cover")

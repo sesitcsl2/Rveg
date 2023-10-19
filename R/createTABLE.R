@@ -1,7 +1,7 @@
 
 
 createTABLE <- function(SpLIST,RelNew,DATA2){
-  TABLE<-data.frame(number=SpLIST[,1],ShortName=SpLIST[,2],Value=0)
+  TABLE<-data.frame(number=row.names(SpLIST),ShortName=SpLIST[,2],Value=0)
   #TABLE<-TABLE[order(TABLE$number),]
   zz<-c()
   for (i in 2:length(colnames(DATA2))) {
