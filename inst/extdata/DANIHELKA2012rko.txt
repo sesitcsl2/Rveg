@@ -2568,8 +2568,8 @@ Number	ShortName	FullName
 3161	CRATL*R	Crataegus x macrocarpa
 3162	CRATM*R	Crataegus x fallacina
 3163	CRATL*L	Crataegus x calycina
-3164	CRATL*O	Crataegus lindmanii Î C. monogyna
-3165	CRATL*H	Crataegus lindmanii Î C. rhipidophylla
+3164	CRATL*O	Crataegus lindmanii x C. monogyna
+3165	CRATL*H	Crataegus lindmanii x C. rhipidophylla
 3167	CRATPED	Crataegus coccinea
 3169	CRAT-SP	Crataegus species
 3170	CRAOCOM	Cratoneuron commutatum
@@ -4318,7 +4318,7 @@ Number	ShortName	FullName
 5353	HYPEPER	Hypericum perforatum
 5354	HYPEPUL	Hypericum pulchrum
 5355	HYPETET	Hypericum tetrapterum
-5357	HYPE*DE	Hypericum maculatum Î perforatum
+5357	HYPE*DE	Hypericum maculatum x perforatum
 5358	HYPE-SP	Hypericum species
 5359	HYPRADG	Hyperphyscia adglutinata
 5360	HYPR-SP	Hyperphyscia species
@@ -10813,7 +10813,7 @@ Number	ShortName	FullName
 13777	PICEOMO	Picea omorika
 13778	PICEORI	Picea orientalis
 13779	PICEPUN	Picea pungens
-13780	PINGV*V	Pinguicula vulgaris ssp. bohemica Î P. *vulgaris
+13780	PINGV*V	Pinguicula vulgaris ssp. bohemica x P. *vulgaris
 13781	PINGVUA	Pinguicula vulgaris ssp. vulgaris
 13782	PINUBAN	Pinus banksiana
 13783	PINUCON	Pinus contorta
@@ -10831,7 +10831,7 @@ Number	ShortName	FullName
 13795	PLAAMEB	Plantago media ssp. media
 13796	PLAA*MI	Plantago x mixta (P. major x media)
 13797	PLAA*MO	Plantago x moravica (P. major x uliginosa)
-13798	PLAE*HY	Platanthera Îgraebneri (P. bifolia x chlorantha)
+13798	PLAE*HY	Platanthera xgraebneri (P. bifolia x chlorantha)
 13799	PLASOCC	Platanus occidentalis
 13800	PLASORI	Platanus orientalis
 13801	PLUMAUR	Plumbago auriculata
@@ -11089,7 +11089,7 @@ Number	ShortName	FullName
 14060	SAXINIV	Saxifraga nivalis
 14061	SAXISPN	Saxifraga rosacea
 14062	SAXIUMB	Saxifraga umbrosa
-14063	SAXI*UR	Saxifraga x urbium (S. spathularis Î S. umbrosa)
+14063	SAXI*UR	Saxifraga x urbium (S. spathularis x S. umbrosa)
 14065	SCAB*JA	Scabiosa x janchenii (S. columbaria x ochroleuca)
 14067	SCILLUC	Scilla luciliae
 14069	SCIP*CE	Scirpus radicans x sylvaticus
@@ -11338,7 +11338,7 @@ Number	ShortName	FullName
 14320	WEIGFLB	Weigela floribunda
 14321	*CONC*C	Conyza canadensis x Erigeron acris
 14322	*DACD*D	Dactylorhiza *majalis x Gymnadenia conopsea
-14323	*DACD*A	Dactylorhiza fuchsii Î Gymnadenia conopsea
+14323	*DACD*A	Dactylorhiza fuchsii x Gymnadenia conopsea
 14325	*DATD*D	Coeloglossum viride x Dactylorhiza sambucina
 14326	*FESF*F	Festuca pratensis x Lolium multiflorum
 14327	*FESF*E	Festuca pratensis x Lolium perenne
@@ -11470,7 +11470,7 @@ Number	ShortName	FullName
 99999	"TRAD""*S"	Tradescantia x andersoniana
 99999	TULI*GE	Tulipa x gesneriana
 99999	"VALE""TR"	Valeriana excelsa nssp. transiens
-99999	*DACD*C	Dactylorhiza fuchsii Î Gymnadenia conopsea
+99999	*DACD*C	Dactylorhiza fuchsii x Gymnadenia conopsea
 99999	ACONNAP	Aconitum napellus agg.
 99999	KOEL#PY	Koeleria macrantha+pyramidata
 99999	POA #NE	Poa nemoralis+riphaea

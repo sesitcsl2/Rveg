@@ -46,7 +46,7 @@ RvegMerge <- function(x, y, save="export_merge", head=TRUE){
 
   n <- 3:ncol(jointab)-2
   for (i in 3:ncol(jointab)) {
-  colnames(jointab)[i] <- paste0("X",n[i-2])
+  colnames(jointab)[i] <- paste0("X",n[i-2]) }
 
   n <- 1:nrow(jointab)
   jointab$X <- n
@@ -59,7 +59,7 @@ RvegMerge <- function(x, y, save="export_merge", head=TRUE){
     colnames(joinhead)[(ncol(head1)+1):(ncol(head1)+ncol(head2)-2)] <- paste0("X",(ncol(head1)-1):(ncol(head1)+ncol(head2)-4))
     write.csv(x = joinhead,file = paste0(save,"HEAD.csv"), row.names = FALSE)
   }
-}
+
 
 
 }
