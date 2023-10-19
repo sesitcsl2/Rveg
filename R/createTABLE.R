@@ -7,8 +7,8 @@ createTABLE <- function(SpLIST,RelNew,DATA2){
   for (i in 2:length(colnames(DATA2))) {
     RelNewKrs<-data.frame(ShortName=SpLIST[,2],Value=0)
     zzz<-DATA2[,c(1,i)]
-    #zzz<-zzz[order(zzz$ShortName),]
-    #RelNewKrs<-RelNewKrs[order(RelNewKrs$ShortName),]
+    zzz<-zzz[order(as.numeric(row.names(zzz))),]
+    RelNewKrs<-RelNewKrs[order(as.numeric(row.names(RelNewKrs))),]
     RelNewKrs[RelNewKrs[,1]%in%zzz[,1],][,2] <- zzz[,2]
     TABLE<-data.frame(TABLE,RelNewKrs[,2])
     zz<-c(zz,i)
