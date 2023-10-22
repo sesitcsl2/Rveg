@@ -86,8 +86,9 @@ RvegToJuice <- function(Data, checklist = "default", export = "export") {
 #'
 #' @returns csv file
 #'
+#' @examples
 #' ## NOT RUN
-#' if(interactive){
+#' if(interactive()){
 #' tvToRveg(tv = paste0(path.package("Rveg"),
 #' "/extdata/tvexport.csv"))
 #' read.csv("exportREL.csv",row.names=1)}

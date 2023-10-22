@@ -125,7 +125,7 @@ addReleve <- function(DATABASE = "NEW", SAVE = "default", checklist = "default",
       ))
     }
 
-    if (aa == "RREL" | aa == "Y") {
+    if (aa == "NEW" | aa == "RREL" | aa == "Y") {
 
 
       if (aa == "Y") {
