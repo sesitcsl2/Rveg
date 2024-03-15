@@ -19,8 +19,12 @@ Merging species or layers in the database
 }
 \examples{
 ## NOT RUN
-if (interactive()) {RvegCombine(database = paste0(path.package("Rveg"),
-"/extdata/example_db"))
-read.csv("exportREL.csv",row.names = 1)}
+if (interactive()) {
+  RvegCombine(database = paste0(
+    path.package("Rveg"),
+    "/extdata/example_db"
+  ))
+  read.csv("exportREL.csv", row.names = 1)
+}
 
 }

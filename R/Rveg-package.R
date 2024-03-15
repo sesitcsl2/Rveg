@@ -22,6 +22,7 @@
 ## usethis namespace: start
 #' @importFrom utils read.csv
 #' @importFrom utils read.delim
+#' @importFrom utils read.table
 #' @importFrom utils write.csv
 #' @importFrom utils write.table
 ## usethis namespace: end

@@ -23,10 +23,15 @@ Merge two Rveg databases
 }
 \examples{
 ## NOT RUN
-if(interactive()){
-RvegMerge(x = paste0(path.package("Rveg"),
-"/extdata/example_db"), y = paste0(path.package("Rveg"),
-"/extdata/example_db"))
-read.csv("export_mergeREL.csv",row.names = 1)}
+if (interactive()) {
+  RvegMerge(x = paste0(
+    path.package("Rveg"),
+    "/extdata/example_db"
+  ), y = paste0(
+    path.package("Rveg"),
+    "/extdata/example_db"
+  ))
+  read.csv("export_mergeREL.csv", row.names = 1)
+}
 
 }

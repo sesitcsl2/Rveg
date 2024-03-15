@@ -12,44 +12,41 @@
 #'
 #' @examples
 #' ## NOT RUN
-#' if (interactive()) {RvegCheck(DATABASE = paste0(path.package("Rveg"),
-#' "/extdata/example_db"))
-#' read.csv("exportREL.csv",row.names = 1)}
+#' if (interactive()) {
+#'   RvegCheck(DATABASE = paste0(
+#'     path.package("Rveg"),
+#'     "/extdata/example_db"
+#'   ))
+#'   read.csv("exportREL.csv", row.names = 1)
+#' }
 #'
 #' @export
 #'
 
-RvegCheck <- function(DATABASE, fullnames = FALSE,export = "export", checklist = "default"){
-
-  #warning("This function will write files into your working directory")
-  #write_check <- readline("do you want to continue?(Y/N) ")
-  #if (toupper(write_check) == "N") {
-  #  stop("access denied")
-  #}
-
+RvegCheck <- function(DATABASE, fullnames = FALSE, export = "export", checklist = "default") {
   if (export == "export") {
-    export = file.path(tempdir(), "export")
+    export <- file.path(tempdir(), "export")
   }
 
-  DATA <- read.csv(paste0(DATABASE, "REL.csv"),row.names =1)
-  #HeaderDATA <- read.csv(paste0(DATABASE, "HEAD.csv"), row.names = 1)
+  DATA <- read.csv(paste0(DATABASE, "REL.csv"), row.names = 1)
 
-  if (checklist == "default"){
-    checklist<- paste0(path.package("Rveg"),"/extdata/DANIHELKA2012rko.txt")}
+  if (checklist == "default") {
+    checklist <- paste0(path.package("Rveg"), "/extdata/DANIHELKA2012rko.txt")
+  }
 
   SpLIST <- read.delim(checklist, sep = "\t")
-  fullName = c(rep("",nrow(DATA)))
-  DATA <- cbind(fullName,DATA)
+  fullName <- c(rep("", nrow(DATA)))
+  DATA <- cbind(fullName, DATA)
   for (i in 1:length(DATA$ShortName)) {
-    DATA$fullName[i] <- SpLIST$FullName[SpLIST$ShortName==substr(DATA$ShortName[i],1,7)]
+    DATA$fullName[i] <- SpLIST$FullName[SpLIST$ShortName == substr(DATA$ShortName[i], 1, 7)]
   }
 
   for (i in 1:length(DATA$fullName)) {
-    if (length(unique(substr(DATA$ShortName[DATA$fullName==DATA$fullName[i]],1,7))) > 1) {
-      message(paste0("found duplicate codes for ",DATA$fullName[i],"\n"))
-      message(unique(substr(DATA$ShortName[DATA$fullName==DATA$fullName[i]],1,7)))
+    if (length(unique(substr(DATA$ShortName[DATA$fullName == DATA$fullName[i]], 1, 7))) > 1) {
+      message(paste0("found duplicate codes for ", DATA$fullName[i], "\n"))
+      message(unique(substr(DATA$ShortName[DATA$fullName == DATA$fullName[i]], 1, 7)))
       message("\n")
-      print(DATA[DATA$fullName==DATA$fullName[i],])
+      print(DATA[DATA$fullName == DATA$fullName[i], ])
       while (TRUE) {
         met <- toupper(readline("select merging method?(M - merge, N - none) "))
         if (met == "M") {
@@ -57,19 +54,18 @@ RvegCheck <- function(DATABASE, fullnames = FALSE,export = "export", checklist =
           while (TRUE) {
             l1 <- as.numeric(readline("select first row (with correct code) "))
             l2 <- as.numeric(readline("select second row "))
-            if (is.na(l1) != TRUE & is.na(l2) != TRUE  & isTRUE(c(l1,l2) %in% as.numeric(row.names(DATA)))) {
+            if (is.na(l1) != TRUE & is.na(l2) != TRUE & isTRUE(c(l1, l2) %in% as.numeric(row.names(DATA)))) {
               break
             }
           }
 
 
-          for (i in 1:length(DATA[row.names(DATA)==l1,])) {
-            if (is.numeric(DATA[l1,i])) {
-              DATA[row.names(DATA)==l1,i] <- max(c(DATA[row.names(DATA)==l1,i],DATA[row.names(DATA)==l2,i]))
+          for (i in 1:length(DATA[row.names(DATA) == l1, ])) {
+            if (is.numeric(DATA[l1, i])) {
+              DATA[row.names(DATA) == l1, i] <- max(c(DATA[row.names(DATA) == l1, i], DATA[row.names(DATA) == l2, i]))
             }
-
           }
-          DATA<- DATA[!(row.names(DATA)==l2),]
+          DATA <- DATA[!(row.names(DATA) == l2), ]
 
 
           break
@@ -79,17 +75,12 @@ RvegCheck <- function(DATABASE, fullnames = FALSE,export = "export", checklist =
           break
         }
       }
-
-
-
-
     }
   }
 
   if (fullnames) {
-    write.csv(DATA, paste0(export,"REL.csv"))
-    #write.csv(HeaderDATA, paste0(export,"REL.csv"))
-  } else  {
-    write.csv(DATA[-1,], paste0(export,"REL.csv"))
-    }
+    write.csv(DATA, paste0(export, "REL.csv"))
+  } else {
+    write.csv(DATA[-1, ], paste0(export, "REL.csv"))
   }
+}

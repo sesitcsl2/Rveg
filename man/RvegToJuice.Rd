@@ -21,9 +21,12 @@ Export Rveg database to Juice software compatible format
 }
 \examples{
 ## NOT RUN
-if(interactive()){
-RvegToJuice(Data = paste0(path.package("Rveg"),
-"/extdata/example_db"))
-read.csv("export.csv",header = FALSE)}
+if (interactive()) {
+  RvegToJuice(Data = paste0(
+    path.package("Rveg"),
+    "/extdata/example_db"
+  ))
+  read.csv("export.csv", header = FALSE)
+}
 
 }

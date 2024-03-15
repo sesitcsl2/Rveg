@@ -21,10 +21,12 @@ Export Turboveg csv file to Rveg database compatible format
 }
 \examples{
 ## NOT RUN
-if(interactive()){
-tvToRveg(tv = paste0(path.package("Rveg"),
-"/extdata/tvexport.csv"))
-read.csv("exportREL.csv",row.names=1)}
-
+if (interactive()) {
+  tvToRveg(tv = paste0(
+    path.package("Rveg"),
+    "/extdata/tvexport.csv"
+  ))
+  read.csv("exportREL.csv", row.names = 1)
+}
 
 }

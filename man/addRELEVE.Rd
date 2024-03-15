@@ -28,7 +28,8 @@ Writing and editing your releves
 }
 \examples{
 ## NOT RUN
-if (interactive()) {addReleve()}
-
+if (interactive()) {
+  addReleve()
+}
 
 }
