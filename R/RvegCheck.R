@@ -54,7 +54,7 @@ RvegCheck <- function(DATABASE, fullnames = FALSE, export = "export", checklist 
           while (TRUE) {
             l1 <- as.numeric(readline("select first row (with correct code) "))
             l2 <- as.numeric(readline("select second row "))
-            if (is.na(l1) != TRUE & is.na(l2) != TRUE & isTRUE(c(l1, l2) %in% as.numeric(row.names(DATA)))) {
+            if (is.na(l1) != TRUE & is.na(l2) != TRUE & isTRUE(l1 %in% as.numeric(row.names(DATA))) & isTRUE(l2 %in% as.numeric(row.names(DATA)))) {
               break
             }
           }
