@@ -48,8 +48,10 @@ RvegCombine <- function(database, export = "export") {
               DATA[DATA$ShortName == paste0(substr(i, 1, 7), "_", c), -1] <- l3
 
               write.csv(DATA, paste0(export, "REL.csv"))
-              write.csv(HeaderDATA, paste0(export, "HEAD.csv"))
-            }
+              write.csv(HeaderDATA, paste0(export, "HEAD.csv")) # merge Two existing layerss
+            } else if (i == paste0(substr(i, 1, 7), "_", b) && !any(DATA$ShortName == paste0(substr(i, 1, 7), "_", c))) {
+              DATA[DATA$ShortName == i, 1] <- paste0(substr(i,1,7),"_", c) # changing single layer
+              }
           }
 
           break
