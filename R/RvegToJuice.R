@@ -303,21 +303,6 @@ RvegToTv <- function(database, export = "export", sep = ",", checklist = "defaul
   SpLIST1 <- read.delim(checklist, sep = "\t")
   SpLIST <- makeSpLIST(checklist)
 
-  # layers converting
-  for (i in 1:nrow(tvrel)) {
-    if (substr(tvrel[i, 2], 1, 1) == "h") {
-      abc <- 1
-    } else if (substr(tvrel[i, 2], 1, 1) == "s") {
-      abc <- 2
-    } else if (substr(tvrel[i, 2], 1, 1) == "t") {
-      abc <- 3
-    } else if (substr(tvrel[i, 2], 1, 1) == "m") {
-      abc <- 0
-    }
-    tvrel[i, 2] <- abc
-  }
-
-
   ### Header
   header <- read.csv(paste0(database, "HEAD.csv"))
   header[, 1] <- header[, 2]
