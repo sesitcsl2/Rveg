@@ -335,5 +335,5 @@ RvegToTv <- function(database, export = "export", sep = ",", checklist = "defaul
   names(rel) <- 1:ncol(rel)
   names(header) <- 1:ncol(header)
   out <- rbind(header, c(rep("", ncol(header))), rel)
-  write.csv(out, "export.csv", row.names = F)
+  write.csv(out, paste0(export,".csv"), row.names = F, col.names = F)
 }
