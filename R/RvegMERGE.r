@@ -49,7 +49,7 @@ RvegMerge <- function(x, y, save = "export_merge", head = TRUE) {
   }
 
   n <- 1:nrow(jointab)
-  jointab$X <- n
+  #jointab$X <- n
 
   write.csv(x = jointab, file = paste0(save, "REL.csv"), row.names = FALSE)
 
