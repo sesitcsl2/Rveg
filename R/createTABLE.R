@@ -31,7 +31,7 @@ createTABLE <- function(SpLIST, RelNew, DATA2) {
   TABLE[] <- lapply(TABLE, as.character)
   TABLEexp <- TABLE[apply(TABLE[, c(-1, -2)], 1, function(x) sum(x != "0")) > 0, ] # Remove non present species
   TABLEexp <- TABLEexp[, -c(1)]
-  colnames(TABLEexp)[2:(length(zz) + 2)] <- c(1:(length(zz) + 1)) # naming the collumns
+  colnames(TABLEexp)[2:(length(zz) + 2)] <- paste0("X",c(1:(length(zz) + 1))) # naming the collumns
   TABLEexp <- TABLEexp[order(as.numeric(rownames(TABLEexp))),] # Sorting back by previous ID <- by layers
   return(TABLEexp)
   print(TABLEexp)

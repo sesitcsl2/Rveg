@@ -131,6 +131,8 @@ tvToRveg <- function(tv, export = "export", checklist = "default") {
     rvhead[rvhead$ShortName == "E1", i - 1] <- tvhead[tvhead[, 1] == "Cover herb layer (%)", i]
     rvhead[rvhead$ShortName == "Note", i - 1] <- tvhead[tvhead[, 1] == "Remarks", i]
     rvhead[17:(17 + lim - 22), i - 1] <- tvhead[22:lim - 1, i] # matching consistent header characteristics
+    colnames(rvhead) <- c("ShortName", paste0("X", c(1:(ncol(DATA) - 1))))
+
   } # header end
 
   if (checklist == "default") {
@@ -257,7 +259,7 @@ tvToRveg <- function(tv, export = "export", checklist = "default") {
   }
 
   DATA <- cbind(rvrel, tvrel[, c(-1, -2)])
-  colnames(DATA) <- c("", paste0("X", c(1:(ncol(DATA) - 1))))
+  colnames(DATA) <- c("ShortName", paste0("X", c(1:(ncol(DATA) - 1))))
 
   write.csv(DATA, paste0(export, "REL.csv"))
   write.csv(rvhead, paste0(export, "HEAD.csv"))
