@@ -102,7 +102,7 @@ addReleve <- function(DATABASE = "NEW", SAVE = "default", checklist = "default",
       Header[2:(length(hh) + 1), 2] <- hh
       colnames(Header)[2] <- (1)
       HeaderDATA2 <- data.frame(HeaderDATA2, Header[, 2])
-      colnames(HeaderDATA2)[2] <- c(1)
+      colnames(HeaderDATA2)[2] <- "X1"
       write.csv(HeaderDATA2, paste0(SAVE, "HEAD.csv"))
 
       aa <- "NEW" # menu options
@@ -157,7 +157,7 @@ addReleve <- function(DATABASE = "NEW", SAVE = "default", checklist = "default",
         Header[2:(length(hh) + 1), 2] <- hh
         colnames(Header)[2] <- (ID - 1)
         HeaderDATA2 <- data.frame(HeaderDATA2, Header[, 2])
-        colnames(HeaderDATA2)[2:length(colnames(HeaderDATA2))] <- c(1:(length(colnames(HeaderDATA2)) - 1))
+        colnames(HeaderDATA2)[2:length(colnames(HeaderDATA2))] <- paste0("X",c(1:(length(colnames(HeaderDATA2)) - 1)))
         write.csv(HeaderDATA2, paste0(SAVE, "HEAD.csv"))
       }
       if (aa == "RREL") {
@@ -312,12 +312,13 @@ addReleve <- function(DATABASE = "NEW", SAVE = "default", checklist = "default",
             DATA2 <- DATA2[, -c(ID)]
             colnames(DATA2)[length(colnames(DATA2))] <- ID - 1
             DATA2 <- DATA2[, c(colnames(DATA2)[1], 1:(length(colnames(DATA2)) - 1))]
+            colnames(DATA2)[,-c(1,2)] <- paste0("X",1:length(colnames(DATA2)-2)) #testX
             write.csv(DATA2, paste0(SAVE, "REL.csv"))
             break
           }
           if (aa == "NEW") {
             DATA2 <- RelNew[(RelNew[, 2] > 0), ] # first releve?
-            colnames(DATA2)[2] <- 1
+            colnames(DATA2)[2] <- "X1"
             write.csv(DATA2, paste0(SAVE, "REL.csv"))
             break
           }
