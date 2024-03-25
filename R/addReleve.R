@@ -303,7 +303,7 @@ addReleve <- function(DATABASE = "NEW", SAVE = "default", checklist = "default",
           if (aa == "Y") {
             DATA2 <- read.csv(paste0(SAVE, "REL.csv"), row.names = 1) # New releve
             DATA2 <- createTABLE(SpLIST, RelNew, DATA2)
-            colnames(DATA2)[,-c(1,2)] <- paste0("X",1:(length(colnames(DATA2))-2))
+            colnames(DATA2)[,-1] <- paste0("X",1:(length(colnames(DATA2))-1))
             write.csv(DATA2, paste0(SAVE, "REL.csv"))
             break
           }
@@ -313,7 +313,7 @@ addReleve <- function(DATABASE = "NEW", SAVE = "default", checklist = "default",
             DATA2 <- DATA2[, -c(ID)]
             colnames(DATA2)[length(colnames(DATA2))] <- ID - 1
             DATA2 <- DATA2[, c(colnames(DATA2)[1], 1:(length(colnames(DATA2)) - 1))]
-            colnames(DATA2)[,-c(1,2)] <- paste0("X",1:(length(colnames(DATA2)) - 2)) #testX
+            colnames(DATA2)[,-1] <- paste0("X",1:(length(colnames(DATA2)) - 1)) #testX
             write.csv(DATA2, paste0(SAVE, "REL.csv"))
             break
           }
