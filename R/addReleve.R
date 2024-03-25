@@ -129,7 +129,7 @@ addReleve <- function(DATABASE = "NEW", SAVE = "default", checklist = "default",
         colnames(RelNew)[2] <- (ID - 1)
         #Header[1, 2] <- (length(colnames(HeaderDATA2)))
         #Header[1, 2] <- HeaderDATA2[1,ncol(HeaderDATA2)]+1
-        printe(HeaderDATA2)
+        print(HeaderDATA2)
         ab <- readline("DATE?(Y/M/D-2009/07/05) ")
         bb <- readline("SPRINGDATE?(Y/M/D-2009/07/05) ")
         bc <- readline("LOCALITY? ")
