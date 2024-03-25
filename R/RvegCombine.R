@@ -56,7 +56,7 @@ RvegCombine <- function(database, export = "export", checklist = "default") {
             } else if (i == paste0(substr(i, 1, 7), "_", b) && !any(DATA$ShortName == paste0(substr(i, 1, 7), "_", c))) {
               DATA[DATA$ShortName == i, 1] <- paste0(substr(i,1,7),"_", c) # changing single layer
               SpLIST <- makeSpLIST(checklist)
-              for (i in 2:nrow(DATA)) {
+              for (i in 1:nrow(DATA)) {
                 rownames(DATA)[i] <- row.names(SpLIST)[SpLIST$ShortName==DATA$ShortName[i]]
               }
 
