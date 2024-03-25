@@ -384,6 +384,9 @@ addReleve <- function(DATABASE = "NEW", SAVE = "default", checklist = "default",
         if (tt == "Y") {
           DATA2 <- DATA2[, colnames(DATA2) != paste0("X", n)] # removal of rel
           HeaderDATA2 <- HeaderDATA2[, HeaderDATA2[1, ] != n] # removal of header
+          colnames(DATA2)[-1] <- paste0("X",1:(length(colnames(DATA2)) - 1)) # reindexing
+          colnames(HeaderDATA2)[2:length(colnames(HeaderDATA2))] <- paste0("X",c(1:(length(colnames(HeaderDATA2)) - 1))) # header rein
+
           write.csv(DATA2, paste0(SAVE, "REL.csv"))
           write.csv(HeaderDATA2, paste0(SAVE, "HEAD.csv"))
           break
