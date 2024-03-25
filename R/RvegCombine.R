@@ -5,6 +5,7 @@
 #'
 #' @param database name of the loading database
 #' @param export name of the exported database
+#' @param checklist checklist to be used
 #'
 #' @returns export two csv files, one for releve and one for header
 #'
@@ -24,9 +25,12 @@
 
 
 
-RvegCombine <- function(database, export = "export") {
+RvegCombine <- function(database, export = "export", checklist = "default") {
   if (export == "export") {
     export <- file.path(tempdir(), "export")
+  }
+  if (checklist == "default") {
+    checklist <- paste0(path.package("Rveg"), "/extdata/DANIHELKA2012rko.txt")
   }
 
   DATA <- read.csv(paste0(database, "REL.csv"), row.names = 1)
