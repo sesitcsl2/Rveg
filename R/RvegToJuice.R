@@ -131,9 +131,11 @@ tvToRveg <- function(tv, export = "export", checklist = "default") {
     rvhead[rvhead$ShortName == "E1", i - 1] <- tvhead[tvhead[, 1] == "Cover herb layer (%)", i]
     rvhead[rvhead$ShortName == "Note", i - 1] <- tvhead[tvhead[, 1] == "Remarks", i]
     rvhead[17:(17 + lim - 22), i - 1] <- tvhead[22:lim - 1, i] # matching consistent header characteristics
-    colnames(rvhead) <- c("ShortName", paste0("X", c(1:(ncol(DATA) - 1))))
 
-  } # header end
+
+  }
+  colnames(rvhead) <- c("","ShortName", paste0("X", c(1:(ncol(rvhead) - 2))))
+  # header end
 
   if (checklist == "default") {
     checklist <- paste0(path.package("Rveg"), "/extdata/DANIHELKA2012rko.txt")
