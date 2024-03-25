@@ -56,7 +56,7 @@ RvegMerge <- function(x, y, save = "export_merge", head = TRUE) {
   # head
   if (head == TRUE) {
     joinhead <- cbind(head1, head2[, c(-1, -2)])
-    joinhead[1,c(-1,-2)] <- 1:(ncol(joinhead)-2)
+    #joinhead[1,c(-1,-2)] <- 1:(ncol(joinhead)-2)
     colnames(joinhead)[1] <- ""
     colnames(joinhead)[(ncol(head1) + 1):(ncol(head1) + ncol(head2) - 2)] <- paste0("X", (ncol(head1) - 1):(ncol(head1) + ncol(head2) - 4))
     write.csv(x = joinhead, file = paste0(save, "HEAD.csv"), row.names = FALSE)
