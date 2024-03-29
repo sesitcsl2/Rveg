@@ -293,7 +293,7 @@ tvToRveg <- function(tv, export = "export", checklist = "default") {
 #'
 #'
 
-RvegToTv <- function(database, export = "export", ,ver = 3,sep = ",", checklist = "default") {
+RvegToTv <- function(database, export = "export", ver = 3, sep = ",", checklist = "default") {
   if (export == "export") {
     export <- file.path(tempdir(), "export")
   }
