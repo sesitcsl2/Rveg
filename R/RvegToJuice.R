@@ -293,7 +293,7 @@ tvToRveg <- function(tv, export = "export", checklist = "default") {
 #'
 #'
 
-RvegToTv <- function(database, export = "export", sep = ",", checklist = "default") {
+RvegToTv <- function(database, export = "export", ,ver = 3,sep = ",", checklist = "default") {
   if (export == "export") {
     export <- file.path(tempdir(), "export")
   }
@@ -335,10 +335,22 @@ RvegToTv <- function(database, export = "export", sep = ",", checklist = "defaul
     }
   }
 
-  rel <- cbind(rel$Fullname, rel$Layer, rel[, -c(1, 2, ncol(rel), ncol(rel) - 1)])
-  names(rel) <- 1:ncol(rel)
-  names(header) <- 1:ncol(header)
-  out <- rbind(header, c(rep("", ncol(header))), rel)
-  colnames(out)<-out[1,]
-  write.csv(out[-1,], paste0(export,".csv"), row.names = F)
+  if (ver == 3) {
+    rel <- cbind(rel$Fullname, rel$Layer, rel[, -c(1, 2, ncol(rel), ncol(rel) - 1)])
+    names(rel) <- 1:ncol(rel)
+    names(header) <- 1:ncol(header)
+    out <- rbind(header, c(rep("", ncol(header))), rel)
+    colnames(out)<-out[1,]
+    write.csv(out[-1,], paste0(export,".csv"), row.names = F)
+  } else if (ver == 2) {
+    # rel
+    rel <- cbind(rel$Fullname, rel$Layer, rel[, -c(1, 2, ncol(rel), ncol(rel) - 1)])
+    names(rel) <- rel[1,]
+    write.csv(rel[-1,], paste0(export,"R.csv"), row.names = F)
+    # head
+    header<-as.data.frame(t(header))
+    colnames(header) <- header[1,]
+    write.csv(header[-1,],paste0(export,"H.csv"), row.names = F)
+  }
+
 }
