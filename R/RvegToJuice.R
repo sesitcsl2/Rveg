@@ -337,7 +337,8 @@ RvegToTv <- function(database, export = "export", sep = ",", checklist = "defaul
 
   rel <- cbind(rel$Fullname, rel$Layer, rel[, -c(1, 2, ncol(rel), ncol(rel) - 1)])
   names(rel) <- 1:ncol(rel)
-  colnames(header) <- as.character(header[1,])
-  out <- rbind(header[-1,], c(rep("", ncol(header))), rel)
-  write.csv(out, paste0(export,".csv"), row.names = F)
+  names(header) <- 1:ncol(header)
+  out <- rbind(header, c(rep("", ncol(header))), rel)
+  colnames(out)<-out[1,]
+  write.csv(out[-1,], paste0(export,".csv"), row.names = F)
 }
