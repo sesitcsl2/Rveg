@@ -4,14 +4,14 @@
 \alias{RvegToTv}
 \title{RvegToTv}
 \usage{
-RvegToTv(database, export = "export", sep = ",", checklist = "default")
+RvegToTv(database, export = "export", ver = 3, checklist = "default")
 }
 \arguments{
 \item{database}{path to Rveg database}
 
 \item{export}{name of your exported Tv file}
 
-\item{sep}{chosen separator}
+\item{ver}{version of TURBOVEG}
 
 \item{checklist}{checklist to match Fullnames}
 }

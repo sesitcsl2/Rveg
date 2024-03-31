@@ -274,7 +274,7 @@ tvToRveg <- function(tv, export = "export", checklist = "default") {
 #'
 #' @param database path to Rveg database
 #' @param export name of your exported Tv file
-#' @param sep chosen separator
+#' @param ver version of TURBOVEG
 #' @param checklist checklist to match Fullnames
 #'
 #' @returns csv file
@@ -293,7 +293,7 @@ tvToRveg <- function(tv, export = "export", checklist = "default") {
 #'
 #'
 
-RvegToTv <- function(database, export = "export", ver = 3, sep = ",", checklist = "default") {
+RvegToTv <- function(database, export = "export", ver = 3, checklist = "default") {
   if (export == "export") {
     export <- file.path(tempdir(), "export")
   }
