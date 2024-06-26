@@ -27,7 +27,7 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Přemysl Král \email{kralp@fzp.czu.cz} (\href{https://orcid.org/0000-0002-2887-651x}{ORCID})
+\strong{Maintainer}: Přemysl Král \email{kralp@fzp.czu.cz} (\href{https://orcid.org/0000-0002-2887-651X}{ORCID})
 
 Authors:
 \itemize{
