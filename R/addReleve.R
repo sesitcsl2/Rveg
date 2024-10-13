@@ -34,7 +34,7 @@ addReleve <- function(DATABASE = "NEW", SAVE = "default", checklist = "default",
     HeaderDATA <- data.frame(
       ShortName = c(
         "ID", "DATE", "SpringDATE", "LOCALITY", "FieldCODE", "Authors",
-        "PlotSize", "Latitude", "Longitude", "Accuracy", "Slope", "Exposure",
+        "PlotSize", "Latitude", "Longitude", "Accuracy", "CRS", "Slope", "Exposure",
         "E3", "E2", "E1", "Ejuv", "E0", "Note", extrahead
       ),
       stringsAsFactors = FALSE
@@ -64,7 +64,7 @@ addReleve <- function(DATABASE = "NEW", SAVE = "default", checklist = "default",
         data.frame(
           ShortName = c(
             "ID", "DATE", "SpringDATE", "LOCALITY", "FieldCODE", "Authors", "PlotSize",
-            "Latitude", "Longitude", "Accuracy", "Slope", "Exposure", "E3", "E2", "E1", "Ejuv", "E0", "Note", extrahead
+            "Latitude", "Longitude", "Accuracy", "CRS", "Slope", "Exposure", "E3", "E2", "E1", "Ejuv", "E0", "Note", extrahead
           ),
           Value = 0
         )
@@ -72,23 +72,25 @@ addReleve <- function(DATABASE = "NEW", SAVE = "default", checklist = "default",
       ID <- ncol(DATA2)
       colnames(RelNew)[2] <- (ID - 1)
       Header[1, 2] <- (1)
+
       ## filling the header
-      ab <- readline("DATE?(Y/M/D-2009/07/05) ")
-      bb <- readline("SPRINGDATE?(Y/M/D-2009/07/05) ")
+      ab <- readline("DATE?(YYYY/MM/DD) ")
+      bb <- readline("SPRINGDATE?(YYYY/MM/DD) ")
       bc <- readline("LOCALITY? ")
       a <- readline("FieldCODE? ")
       b <- readline("Authors? ")
-      c <- readline("PlotSize? ")
+      c <- readline("PlotSize?(m2) ")
       d <- readline("Latitude? ")
       e <- readline("Longitude? ")
       f <- readline("Accuracy? ")
-      ff <- readline("Slope? ")
+      crs <- readline("Coordinta Reference System? ")
+      ff <- readline("Slope?(degrees) ")
       fk <- readline("Exposure? ")
-      g <- readline("E3? ")
-      h <- readline("E2? ")
-      i <- readline("E1? ")
-      j <- readline("Ejuv? ")
-      k <- readline("E0? ")
+      g <- readline("E3?(%) ")
+      h <- readline("E2?(%) ")
+      i <- readline("E1?(%) ")
+      j <- readline("Ejuv?(%) ")
+      k <- readline("E0?(%) ")
       l <- readline("Note? ")
 
       extraval <- NULL
@@ -98,7 +100,7 @@ addReleve <- function(DATABASE = "NEW", SAVE = "default", checklist = "default",
           extraval <- c(extraval, eval(as.symbol(val)))
         }
       }
-      hh <- c(ab, bb, bc, a, b, c, d, e, f, ff, fk, g, h, i, j, k, l, extraval)
+      hh <- c(ab, bb, bc, a, b, c, d, e, f, crs, ff, fk, g, h, i, j, k, l, extraval)
       Header[2:(length(hh) + 1), 2] <- hh
       colnames(Header)[2] <- (1)
       HeaderDATA2 <- data.frame(HeaderDATA2, Header[, 2])
@@ -116,45 +118,92 @@ addReleve <- function(DATABASE = "NEW", SAVE = "default", checklist = "default",
 
     if (aa == "NEW" | aa == "RREL" | aa == "Y") {
       if (aa == "Y") {
-        Header <-
-          data.frame(
-            ShortName = c(
-              "ID", "DATE", "SpringDATE", "LOCALITY", "FieldCODE", "Authors", "PlotSize", "Latitude", "Longitude", "Accuracy", "Slope", "Exposure",
-              "E3", "E2", "E1", "Ejuv", "E0", "Note", extrahead
-            ),
-            Value = 0
-          )
+        # Header <-
+        #   data.frame(
+        #     ShortName = c(
+        #       "ID", "DATE", "SpringDATE", "LOCALITY", "FieldCODE", "Authors", "PlotSize", "Latitude", "Longitude", "Accuracy", "Slope", "Exposure",
+        #       "E3", "E2", "E1", "Ejuv", "E0", "Note", extrahead
+        #     ),
+        #     Value = 0
+        #   )
+
+        Header <- data.frame(ShortName = rownames(HeaderDATA2),
+                             Value = 0)
+
         RelNew <- data.frame(ShortName = SpLIST[, 2], Value = 0)
         ID <- ncol(DATA2)
         colnames(RelNew)[2] <- (ID - 1)
         #Header[1, 2] <- (length(colnames(HeaderDATA2)))
         Header[1, 2] <- as.numeric(HeaderDATA2[1,ncol(HeaderDATA2)])+1
-        ab <- readline("DATE?(Y/M/D-2009/07/05) ")
-        bb <- readline("SPRINGDATE?(Y/M/D-2009/07/05) ")
+
+        ## hinting previous prompts
+        hhp <- HeaderDATA2[-1,ncol(HeaderDATA2)]
+
+        message(paste0("YY <- ",hhp[1]))
+        ab <- readline("DATE?(YYYY/MM/DD) ")
+        message(paste0("YY <- ",hhp[2]))
+        bb <- readline("SPRINGDATE?(YYYY/MM/DD) ")
+        message(paste0("YY <- ",hhp[3]))
         bc <- readline("LOCALITY? ")
+        message(paste0("YY <- ",hhp[4]))
         a <- readline("FieldCODE? ")
+        message(paste0("YY <- ",hhp[5]))
         b <- readline("Authors? ")
-        c <- readline("PlotSize? ")
+        message(paste0("YY <- ",hhp[6]))
+        c <- readline("PlotSize?(m2) ")
+        message(paste0("YY <- ",hhp[7]))
         d <- readline("Latitude? ")
+        message(paste0("YY <- ",hhp[8]))
         e <- readline("Longitude? ")
-        f <- readline("Accuracy? ")
-        ff <- readline("Slope? ")
+        message(paste0("YY <- ",hhp[9]))
+        f <- readline("Accuracy?(m) ")
+        message(paste0("YY <- ",hhp[10]))
+        crs <- readline("Coordinta Reference System? ")
+        message(paste0("YY <- ",hhp[11]))
+        ff <- readline("Slope?(degrees) ")
+        message(paste0("YY <- ",hhp[12]))
         fk <- readline("Exposure? ")
-        g <- readline("E3? ")
-        h <- readline("E2? ")
-        i <- readline("E1? ")
-        j <- readline("Ejuv? ")
-        k <- readline("E0? ")
+        message(paste0("YY <- ",hhp[13]))
+        g <- readline("E3?(%) ")
+        message(paste0("YY <- ",hhp[14]))
+        h <- readline("E2?(%) ")
+        message(paste0("YY <- ",hhp[15]))
+        i <- readline("E1?(%) ")
+        message(paste0("YY <- ",hhp[16]))
+        j <- readline("Ejuv?(%) ")
+        message(paste0("YY <- ",hhp[17]))
+        k <- readline("E0?(%) ")
+        message(paste0("YY <- ",hhp[18]))
         l <- readline("Note? ")
+
+        if (length(hhp)>18) {
+          extrahead <- c()
+          for (ext in 1:(length(hhp)-18)) {
+            extrahead[ext] <- HeaderDATA2[ext+19,1]
+          }
+        }
 
         extraval <- NULL
         if (!is.null(extrahead)) {
+          ehcounter <- 1 # extrahead counter
           for (val in extrahead) {
+            message(paste0("YY <- ",hhp[18+ehcounter]))
+            ehcounter <- ehcounter + 1
             assign(val, readline(paste0(val, "? ")))
             extraval <- c(extraval, eval(as.symbol(val)))
           }
         }
-        hh <- c(ab, bb, bc, a, b, c, d, e, f, ff, fk, g, h, i, j, k, l, extraval)
+
+
+
+        hh <- c(ab, bb, bc, a, b, c, d, e, f, crs, ff, fk, g, h, i, j, k, l, extraval)
+
+        for (hval in 1:length(hh)) {
+          if (toupper(hh[hval]) == "YY") {
+            hh[hval] <- hhp[hval]
+          }
+        }
+
         Header[2:(length(hh) + 1), 2] <- hh
         colnames(Header)[2] <- (ID - 1)
         HeaderDATA2 <- data.frame(HeaderDATA2, Header[, 2])
@@ -201,9 +250,9 @@ addReleve <- function(DATABASE = "NEW", SAVE = "default", checklist = "default",
             }
           }
           while (TRUE) {
-            oo <- toupper(readline("P - percentage, BB - Braun B. scale "))
+            oo <- toupper(readline("P - percentage, BB - Braun B. scale, CS - custom scale "))
 
-            if (oo == "P" | oo == "BB" | oo == "B") {
+            if (oo == "P" | oo == "BB" | oo == "B" | oo == "CS") {
               break
             }
           }
@@ -214,7 +263,12 @@ addReleve <- function(DATABASE = "NEW", SAVE = "default", checklist = "default",
               n <- m
 
               if (oo == "P") {
-                o <- readline("Abundance?(%) ")
+                while (TRUE) {
+                  o <- suppressWarnings(as.numeric(readline("Abundance?(%) ")))
+                  if (!is.na(o) && o >= 0 && o <= 100) {break}
+                  }
+              } else if (oo == "CS") {
+                o <- as.character(readline("Abundance?(%) "))
               } else if (oo == "BB" | oo == "B") {
                 while (TRUE) {
                   o <- toupper(readline("Abundance?(0,R,+,1,2,M,A,B,3,4,5) "))

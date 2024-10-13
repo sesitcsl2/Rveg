@@ -3,6 +3,7 @@
 export(CreateChecklist)
 export(RvegCheck)
 export(RvegCombine)
+export(RvegLoad)
 export(RvegMerge)
 export(RvegToJuice)
 export(RvegToTv)
