@@ -110,13 +110,14 @@ addReleve <- function(DATABASE = "NEW", SAVE = "default", checklist = "default",
       aa <- "NEW" # menu options
       DATABASE <- ""
     } else {
+      message(paste0("number of relevés: ", ncol(DATA2)-1 , ", number of headers: ", ncol(HeaderDATA2) -1 ))
       aa <-
         toupper(readline(
-          "AddReleve?(Y/N/RREL/RHEAD/REMOVEREL/PRINTREL/PRINTHEAD) "
+          "AddReleve?(Y/N/RREL/RHEAD/REMOVEREL/PRINTREL/PRINTHEAD/YSP) "
         ))
     }
 
-    if (aa == "NEW" | aa == "RREL" | aa == "Y") {
+    if (aa == "NEW" | aa == "RREL" | aa == "Y" | aa == "ADDREL") {
       if (aa == "Y") {
         # Header <-
         #   data.frame(
@@ -126,7 +127,10 @@ addReleve <- function(DATABASE = "NEW", SAVE = "default", checklist = "default",
         #     ),
         #     Value = 0
         #   )
-
+        if (ncol(HeaderDATA2) != ncol(DATA2)) {
+          message("Number of Relevés must match number of headers!")
+          break
+        }
         Header <- data.frame(ShortName = rownames(HeaderDATA2),
                              Value = 0)
 
@@ -236,6 +240,11 @@ addReleve <- function(DATABASE = "NEW", SAVE = "default", checklist = "default",
         colnames(TABLEexp) <- c("ShortNames", "Cover")
         print(TABLEexp)
       }
+      if (aa == "ADDREL") {
+        RelNew <- data.frame(ShortName = SpLIST[, 2], Value = 0)
+        ID <- ncol(DATA2)
+        colnames(RelNew)[2] <- (ID - 1)
+        }
       while (TRUE) {
         m <- toupper(readline("AddNewLayer?(Y/N) "))
         if (m == "Y" | m == "N") {
@@ -355,7 +364,7 @@ addReleve <- function(DATABASE = "NEW", SAVE = "default", checklist = "default",
         } else if (m == "N" | m == "n") {
           message("Species_richness")
           print(nrow(RelNew[(RelNew[, 2] > 0), ]))
-          if (aa == "Y") {
+          if (aa == "Y" | aa == "ADDREL") {
             DATA2 <- read.csv(paste0(SAVE, "REL.csv"), row.names = 1) # New releve
             DATA2 <- createTABLE(SpLIST, RelNew, DATA2)
             colnames(DATA2)[-1] <- paste0("X",1:(length(colnames(DATA2))-1))
@@ -381,6 +390,8 @@ addReleve <- function(DATABASE = "NEW", SAVE = "default", checklist = "default",
         }
       }
     }
+
+
 
     if (aa == "PRINTHEAD") {
       HeaderDATA3 <- read.csv(paste0(SAVE, "HEAD.csv"), row.names = 1) # actual headers
@@ -447,6 +458,126 @@ addReleve <- function(DATABASE = "NEW", SAVE = "default", checklist = "default",
           break
         }
       }
+    }
+
+    if (aa == "YSP") {
+      while (TRUE) {
+        m <- suppressWarnings(as.numeric(readline("How many releves?")))
+        if (!is.na(m)) {
+
+          Rels <- list()
+          DATAtemp <- read.csv(paste0(SAVE, "REL.csv"), row.names = 1) # New releve
+          for (i in 1:m) {
+            Rels[[paste0("r",i)]] <- data.frame(ShortName = SpLIST[, 2],value = 0)
+          }
+
+          break
+        }
+
+      } ## how many releves
+      while (TRUE) {
+        n <-toupper(readline("Add new species (GenuSpe)/N?  "))
+        if (nchar(n) == 7) {
+          while (TRUE){
+            l <- readline("What layer?" )
+            if (l == "1") {
+              break
+            }
+
+          } ## what layer
+          nana <- paste(n, l, sep = "_") # creating the species name
+          specie_check <- SpLIST[SpLIST[, 2] == substr(nana, 1, 9), ] # double check
+          print(specie_check[3])
+          while (TRUE) {
+            tt <- toupper(readline("CorrectName?(Y/F(search for name)) ")) # double check
+            if (tt == "Y" && !is.na(specie_check[1, 3]) | tt == "F") {
+              break
+            } else if (tt == "F") {
+              while (TRUE) {
+                k <- readline("SpeciesFirst3letters?(eg.Che) ") # search correct name in original list
+                if (nchar(k) >= 3) {
+                  k <- paste0(toupper(substr(k, 1, 1)), tolower(substr(k, 2, 3)))
+                  searchlist <- SpLIST1[grep(paste0("^", k), SpLIST1[, 3]), ]
+                  print(searchlist[order(searchlist$FullName), ])
+                  while (TRUE) {
+                    while (TRUE) {
+                      s <- toupper(readline("SpeciesName?(GenuSpe) "))
+                      if (nchar(s) == 7) {
+                        nana <- paste(s, most, sep = "_")
+                        specie_check <- SpLIST[SpLIST[, 2] == substr(nana, 1, 9), ]
+                        print(specie_check[3])
+                        break
+                      }
+                    }
+
+                    tt <- toupper(readline("CorrectSpecies?(Y/N)  "))
+                    if ((tt == "Y") & !is.na(specie_check[1, 3])) {
+                      break
+                    }
+                  }
+                  break
+                }
+              }
+
+              # nanas <- paste(s, most, sep = "_")
+              #
+              # RelNew[which(RelNew$ShortName == substr(nanas, 1, 9)), ][, 2] <- o
+              # print(RelNew[(RelNew[, 2] > 0), ])
+
+            }
+          } # correct name
+
+          RelFake <- data.frame(ShortName = SpLIST[, 2])
+          for (i in 1:m) {
+            RelFake[[paste0("r",i)]] <- 0
+          }
+
+          for (i in 1:m) {
+            o <- readline(paste0("Abundance in relevé ",i))
+            Rels[[paste0("r",i)]][which(Rels[[paste0("r",i)]]$ShortName == substr(nana, 1, 9)), ][, 2] <- o
+            RelFake[which(RelFake$ShortName == substr(nana, 1, 9)), ][, i+1] <- o
+            print(RelFake[(RelFake[,i+1] > 0), ])
+
+          }
+          DATA2 <- DATAtemp
+          DATA2 <- createTABLE(SpLIST, Rels, DATA2,variation = 2)
+          print(DATA2)
+          colnames(DATA2)[-1] <- paste0("X",1:(length(colnames(DATA2))-1))
+          write.csv(DATA2, paste0(SAVE, "REL.csv"))
+
+
+
+        } else if (n == "N") {
+          while (TRUE) {
+            rs <- toupper(readline("Add headers? "))
+            if (rs == "Y") {
+              for (i in 1:m) {
+                header <- createHEADER(HeaderDATA2)
+                HeaderDATA2 <- data.frame(HeaderDATA2, header[, 2])
+                colnames(HeaderDATA2)[2:length(colnames(HeaderDATA2))] <- paste0("X",c(1:(length(colnames(HeaderDATA2)) - 1)))
+                write.csv(HeaderDATA2, paste0(SAVE, "HEAD.csv"))
+                }
+
+
+              break
+            } else if (rs == "N") {
+
+              break
+            }
+
+          }
+          break
+
+        }
+
+      } ## add new species
+    }
+
+    if (aa == "ADDHEAD") {
+      header <- createHEADER(HeaderDATA2)
+      HeaderDATA2 <- data.frame(HeaderDATA2, header[, 2])
+      colnames(HeaderDATA2)[2:length(colnames(HeaderDATA2))] <- paste0("X",c(1:(length(colnames(HeaderDATA2)) - 1)))
+      write.csv(HeaderDATA2, paste0(SAVE, "HEAD.csv"))
     }
 
     if (aa == "N") {

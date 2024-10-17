@@ -4,10 +4,12 @@
 \alias{RvegLoad}
 \title{RvegLoad}
 \usage{
-RvegLoad(DATABASE = "export", checklist = "default")
+RvegLoad(DATABASE = "export", CustomScale = FALSE, checklist = "default")
 }
 \arguments{
 \item{DATABASE}{name of csv files for releve table and header - database}
+
+\item{CustomScale}{logical values if different than predefined scale was used during the database creation}
 
 \item{checklist}{used checklist}
 }
