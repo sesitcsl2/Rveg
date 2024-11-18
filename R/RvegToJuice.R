@@ -34,6 +34,21 @@ RvegToJuice <- function(Data, checklist = "default", export = "export") {
   }
   Splist <- read.delim(checklist, sep = "\t")
 
+  # header
+
+  Data_head <- as.data.frame(t(Data_head))
+  colnames(Data_head) <- Data_head[1,]
+  colnames(Data_head) <- iconv(colnames(Data_head), from = "UTF-8", to = "ASCII//TRANSLIT")
+  Data_head <- Data_head[-1,]
+
+  Data_head <- cbind(c(1:nrow(Data_head)),Data_head)
+  colnames(Data_head)[1] <- "Relevé number"
+
+
+
+  # rel
+
+
   x <- NULL
   y <- NULL
   z <- NULL
@@ -65,8 +80,9 @@ RvegToJuice <- function(Data, checklist = "default", export = "export") {
   tty <- paste0("Export from ", Data)
   ttz <- paste0("Number of relev\u00e9s:", ncol(tt)) # way to export Juice format
 
-  write(x = paste0(tty, "\n", ttz, "\n"), file = paste0(export, ".csv")) # possible encoding problem?
-  write.table(tttt, file = paste0(export, ".csv"), row.names = FALSE, col.names = FALSE, na = "", sep = ",", quote = FALSE, append = TRUE) # fileEncoding = "Windows-1252"?
+  write.csv(Data_head,file = paste0(export, "H.csv"),row.names = F)
+  write(x = paste0(tty, "\n", ttz, "\n"), file = paste0(export, "R.csv")) # possible encoding problem?
+  write.table(tttt, file = paste0(export, "R.csv"), row.names = FALSE, col.names = FALSE, na = "", sep = ",", quote = FALSE, append = TRUE) # fileEncoding = "Windows-1252"?
 }
 
 
@@ -103,38 +119,74 @@ tvToRveg <- function(tv, export = "export", checklist = "default") {
   data <- read.csv(tv)
   lim <- as.numeric(rownames(data[data[, 1] == "", ])) # blank separator of header and relevés
 
-  tvhead <- data[1:(lim - 1), ]
-  tvrel <- data[(lim + 1):nrow(data), ]
+  tvhead <- data[1:(lim - 1), -(ncol(data))]
+  tvrel <- data[(lim + 2):nrow(data), -(ncol(data))]
 
   rvrel <- data.frame(ShortName = character(), stringsAsFactors = FALSE)
   rvhead <- data.frame(
     ShortName = c(
       "ID", "DATE", "SpringDATE", "LOCALITY", "FieldCODE", "Authors",
-      "PlotSize", "Latitude", "Longitude", "Accuracy",
-      "E3", "E2", "E1", "Ejuv", "E0", "Note", data[22:lim - 1, 1]
+      "PlotSize", "Latitude", "Longitude", "Accuracy", "CRS", "Slope", "Exposure",
+      "E3", "E2", "E1", "Ejuv", "E0", "Note", data[1:lim - 1, 1]
     ),
     stringsAsFactors = FALSE
   )
 
   # header
-  for (i in 3:ncol(data)) {
-    rvhead[rvhead$ShortName == "ID", i - 1] <- tvhead[tvhead[, 1] == "Releve number", i]
-    rvhead[rvhead$ShortName == "DATE", i - 1] <- tvhead[tvhead[, 1] == "Date (year/month/day)", i]
-    rvhead[rvhead$ShortName == "LOCALITY", i - 1] <- tvhead[tvhead[, 1] == "Releve number", i]
-    rvhead[rvhead$ShortName == "FieldCODE", i - 1] <- tvhead[tvhead[, 1] == "Releve number", i]
-    rvhead[rvhead$ShortName == "Authors", i - 1] <- "unknown"
-    rvhead[rvhead$ShortName == "PlotSize", i - 1] <- tvhead[tvhead[, 1] == "Releve area (m2)", i]
-    rvhead[rvhead$ShortName == "Latitude", i - 1] <- "unknown"
-    rvhead[rvhead$ShortName == "Longitude", i - 1] <- "unknown"
-    rvhead[rvhead$ShortName == "E3", i - 1] <- tvhead[tvhead[, 1] == "Cover tree layer (%)", i]
-    rvhead[rvhead$ShortName == "E2", i - 1] <- tvhead[tvhead[, 1] == "Cover shrub layer (%)", i]
-    rvhead[rvhead$ShortName == "E1", i - 1] <- tvhead[tvhead[, 1] == "Cover herb layer (%)", i]
-    rvhead[rvhead$ShortName == "Note", i - 1] <- tvhead[tvhead[, 1] == "Remarks", i]
-    rvhead[17:(17 + lim - 22), i - 1] <- tvhead[22:lim - 1, i] # matching consistent header characteristics
+  get_tvhead_value <- function(key, i) {
+    idx <- which(tvhead[, 1] == key)
+    if (length(idx) > 0) {
+      return(tvhead[idx, i])
+    } else {
+      return(NA)  # Assign NA or any default value you prefer
+    }
+  } # Function to retrieve values from tvhead
 
+  # for (i in 3:ncol(data)) {
+  #   rvhead[rvhead$ShortName == "ID", i - 1] <- tvhead[tvhead[, 1] == "Releve number", i]
+  #   rvhead[rvhead$ShortName == "DATE", i - 1] <- tvhead[tvhead[, 1] == "Date (year/month/day)", i]
+  #   rvhead[rvhead$ShortName == "LOCALITY", i - 1] <- tvhead[tvhead[, 1] == "Releve number", i]
+  #   rvhead[rvhead$ShortName == "FieldCODE", i - 1] <- tvhead[tvhead[, 1] == "Releve number", i]
+  #   rvhead[rvhead$ShortName == "Authors", i - 1] <- "unknown"
+  #   rvhead[rvhead$ShortName == "PlotSize", i - 1] <- tvhead[tvhead[, 1] == "Releve area (m2)", i]
+  #   rvhead[rvhead$ShortName == "Latitude", i - 1] <- "unknown"
+  #   rvhead[rvhead$ShortName == "Longitude", i - 1] <- "unknown"
+  #   rvhead[rvhead$ShortName == "E3", i - 1] <- tvhead[tvhead[, 1] == "Cover tree layer (%)", i]
+  #   rvhead[rvhead$ShortName == "E2", i - 1] <- tvhead[tvhead[, 1] == "Cover shrub layer (%)", i]
+  #   rvhead[rvhead$ShortName == "E1", i - 1] <- tvhead[tvhead[, 1] == "Cover herb layer (%)", i]
+  #   rvhead[rvhead$ShortName == "Note", i - 1] <- tvhead[tvhead[, 1] == "Remarks", i]
+  #   rvhead[17:(17 + lim - 22), i - 1] <- tvhead[22:lim - 1, i] # matching consistent header characteristics
+  #
+  #
+  # }
 
+  rvhead_original <- rvhead
+  rvhead_original[20:nrow(rvhead),] <- "neverusedvalues2"
+  for (i in 3:(ncol(data)-1)) {
+    rvhead[rvhead_original$ShortName == "ID", i - 1] <- get_tvhead_value("Releve number", i)
+    rvhead[rvhead_original$ShortName == "DATE", i - 1] <- get_tvhead_value("Date (year/month/day)", i)
+    rvhead[rvhead_original$ShortName == "LOCALITY", i - 1] <- get_tvhead_value("Releve number", i)
+    rvhead[rvhead_original$ShortName == "FieldCODE", i - 1] <- get_tvhead_value("Releve number", i)
+    rvhead[rvhead_original$ShortName == "Authors", i - 1] <- get_tvhead_value("Releve area (m2)", i) #sc
+    rvhead[rvhead_original$ShortName == "PlotSize", i - 1] <- get_tvhead_value("Releve area (m2)", i)
+    rvhead[rvhead_original$ShortName == "Latitude", i - 1] <- get_tvhead_value("Releve area (m2)", i) #sc
+    rvhead[rvhead_original$ShortName == "Longitude", i - 1] <- get_tvhead_value("Releve area (m2)", i) #sc
+    rvhead[rvhead_original$ShortName == "E3", i - 1] <- get_tvhead_value("Cover tree layer (%)", i)
+    rvhead[rvhead_original$ShortName == "E2", i - 1] <- get_tvhead_value("Cover shrub layer (%)", i)
+    rvhead[rvhead_original$ShortName == "E1", i - 1] <- get_tvhead_value("Cover herb layer (%)", i)
+    rvhead[rvhead_original$ShortName == "Note", i - 1] <- get_tvhead_value("Remarks", i)
+    #rvhead[17:(17 + lim - 22), i - 1] <- tvhead[22:lim - 1, i] # matching consistent header characteristics
+
+    #   # Adjust the indices for the range and ensure it doesn't cause errors
+    #   if (lim > 22) {
+    #     rvhead[17:(17 + lim - 22), i - 1] <- tvhead[22:(lim - 1), i]
+    #   } else {
+    #     rvhead[17:(17 + lim - 22), i - 1] <- NA  # Or handle as needed
+    #   }
   }
-  colnames(rvhead) <- c("","ShortName", paste0("X", c(1:(ncol(rvhead) - 2))))
+  rvhead[20:nrow(rvhead),] <- tvhead[,-2]
+
+  colnames(rvhead) <- c("ShortName", paste0("X", c(1:(ncol(rvhead) - 1))))
   # header end
 
   if (checklist == "default") {
@@ -153,6 +205,8 @@ tvToRveg <- function(tv, export = "export", checklist = "default") {
       abc <- 3
     } else if (substr(tvrel[i, 2], 1, 1) == "m") {
       abc <- 0
+    } else if (substr(tvrel[i, 2], 1, 1) == "j") {
+      abc <- "J"
     }
     tvrel[i, 2] <- abc
   } # converting TV layer codes
@@ -221,10 +275,23 @@ tvToRveg <- function(tv, export = "export", checklist = "default") {
     print(rvrel[i, 1])
 
     while (TRUE) {
-      check <- toupper(readline("correct name?(blank/N) ")) # doublecheck for correct code
+      check <- toupper(readline("correct name?(blank/N/GenuSpe) ")) # doublecheck for correct code
       if (check == "" & !is.na(rvrel[i, 1])) {
         break
       }
+
+      if (nchar(check) == 7) {
+        nana <- paste(check, abc, sep = "_")
+        specie_check <- SpLIST[SpLIST[, 2] == substr(nana, 1, 9), ]
+        print(specie_check[3])
+        ttcheck <- toupper(readline("Correct 7lettersGenuSpe Y/N  "))
+        if ((ttcheck == "Y") & !is.na(specie_check[1, 3])) {
+          rvrel[i, 1] <- nana
+          rownames(rvrel)[i] <- rownames(specie_check)
+          break
+        }
+        }
+
       if (check == "N") {
         while (TRUE) {
           k <- readline("AddSpeciesFirst3letters(eg.Che)? ")
@@ -253,7 +320,7 @@ tvToRveg <- function(tv, export = "export", checklist = "default") {
             rownames(rvrel)[i] <- rownames(specie_check)
             break
           }
-          break
+          #break
         }
         break
       }

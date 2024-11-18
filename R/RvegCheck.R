@@ -79,8 +79,8 @@ RvegCheck <- function(DATABASE, fullnames = FALSE, export = "export", checklist 
   }
 
   if (fullnames) {
-    write.csv(DATA, paste0(export, "REL.csv"))
+    write.csv(DATA, paste0(export, ".csv"))
   } else {
-    write.csv(DATA[-1, ], paste0(export, "REL.csv"))
+    write.csv(DATA[-1, ], paste0(export, ".csv"))
   }
 }

@@ -6,6 +6,7 @@
 #' @param SAVE name of exporting database
 #' @param checklist custom checklist
 #' @param extrahead extra rows in header
+#' @param start Boolean to start immediately digitizing first releve
 #'
 #' @returns export two csv files, one for releve and one for header
 #'
@@ -19,7 +20,7 @@
 #'
 #'
 
-addReleve <- function(DATABASE = "NEW", SAVE = "default", checklist = "default", extrahead = NULL) {
+addReleve <- function(DATABASE = "NEW", SAVE = "default", checklist = "default", extrahead = NULL, start = TRUE) {
   # LOAD DATA ------------------------------------------------------------------------------------------
 
   if (checklist == "default") {
@@ -59,7 +60,7 @@ addReleve <- function(DATABASE = "NEW", SAVE = "default", checklist = "default",
   while (TRUE) {
     DATA2 <- read.csv(paste0(SAVE, "REL.csv"), row.names = 1) #
     HeaderDATA2 <- read.csv(paste0(SAVE, "HEAD.csv"), row.names = 1) #
-    if (DATABASE == "NEW") {
+    if (DATABASE == "NEW"  & start == TRUE) {
       Header <-
         data.frame(
           ShortName = c(
@@ -113,11 +114,14 @@ addReleve <- function(DATABASE = "NEW", SAVE = "default", checklist = "default",
       message(paste0("number of relevés: ", ncol(DATA2)-1 , ", number of headers: ", ncol(HeaderDATA2) -1 ))
       aa <-
         toupper(readline(
-          "AddReleve?(Y/N/RREL/RHEAD/REMOVEREL/PRINTREL/PRINTHEAD/YSP) "
+          "AddReleve?(Y/N/RREL/RHEAD/REMOVEREL/PRINTREL/PRINTHEAD/ADDREL/ADDHEAD/YSP) "
         ))
     }
+    if ((aa == "Y" | aa == "YSP") & ncol(DATA2) != ncol(HeaderDATA2)) {
+      message("Number of relevés and headers must match!!!")
+    } ## warning for mismatch
 
-    if (aa == "NEW" | aa == "RREL" | aa == "Y" | aa == "ADDREL") {
+    if (aa == "NEW" | aa == "RREL" | (aa == "Y" & ncol(DATA2) == ncol(HeaderDATA2)) | aa == "ADDREL") {
       if (aa == "Y") {
         # Header <-
         #   data.frame(
@@ -127,10 +131,7 @@ addReleve <- function(DATABASE = "NEW", SAVE = "default", checklist = "default",
         #     ),
         #     Value = 0
         #   )
-        if (ncol(HeaderDATA2) != ncol(DATA2)) {
-          message("Number of Relevés must match number of headers!")
-          break
-        }
+
         Header <- data.frame(ShortName = rownames(HeaderDATA2),
                              Value = 0)
 
@@ -140,44 +141,48 @@ addReleve <- function(DATABASE = "NEW", SAVE = "default", checklist = "default",
         #Header[1, 2] <- (length(colnames(HeaderDATA2)))
         Header[1, 2] <- as.numeric(HeaderDATA2[1,ncol(HeaderDATA2)])+1
 
+        if (is.na(Header[1, 2])) {
+          Header[1, 2] <- 1
+        }
+
         ## hinting previous prompts
         hhp <- HeaderDATA2[-1,ncol(HeaderDATA2)]
 
-        message(paste0("YY <- ",hhp[1]))
+        message(paste0("RE <- ",hhp[1]))
         ab <- readline("DATE?(YYYY/MM/DD) ")
-        message(paste0("YY <- ",hhp[2]))
+        message(paste0("RE <- ",hhp[2]))
         bb <- readline("SPRINGDATE?(YYYY/MM/DD) ")
-        message(paste0("YY <- ",hhp[3]))
+        message(paste0("RE <- ",hhp[3]))
         bc <- readline("LOCALITY? ")
-        message(paste0("YY <- ",hhp[4]))
+        message(paste0("RE <- ",hhp[4]))
         a <- readline("FieldCODE? ")
-        message(paste0("YY <- ",hhp[5]))
+        message(paste0("RE <- ",hhp[5]))
         b <- readline("Authors? ")
-        message(paste0("YY <- ",hhp[6]))
+        message(paste0("RE <- ",hhp[6]))
         c <- readline("PlotSize?(m2) ")
-        message(paste0("YY <- ",hhp[7]))
+        message(paste0("RE <- ",hhp[7]))
         d <- readline("Latitude? ")
-        message(paste0("YY <- ",hhp[8]))
+        message(paste0("RE <- ",hhp[8]))
         e <- readline("Longitude? ")
-        message(paste0("YY <- ",hhp[9]))
+        message(paste0("RE <- ",hhp[9]))
         f <- readline("Accuracy?(m) ")
-        message(paste0("YY <- ",hhp[10]))
+        message(paste0("RE <- ",hhp[10]))
         crs <- readline("Coordinta Reference System? ")
-        message(paste0("YY <- ",hhp[11]))
+        message(paste0("RE <- ",hhp[11]))
         ff <- readline("Slope?(degrees) ")
-        message(paste0("YY <- ",hhp[12]))
+        message(paste0("RE <- ",hhp[12]))
         fk <- readline("Exposure? ")
-        message(paste0("YY <- ",hhp[13]))
+        message(paste0("RE <- ",hhp[13]))
         g <- readline("E3?(%) ")
-        message(paste0("YY <- ",hhp[14]))
+        message(paste0("RE <- ",hhp[14]))
         h <- readline("E2?(%) ")
-        message(paste0("YY <- ",hhp[15]))
+        message(paste0("RE <- ",hhp[15]))
         i <- readline("E1?(%) ")
-        message(paste0("YY <- ",hhp[16]))
+        message(paste0("RE <- ",hhp[16]))
         j <- readline("Ejuv?(%) ")
-        message(paste0("YY <- ",hhp[17]))
+        message(paste0("RE <- ",hhp[17]))
         k <- readline("E0?(%) ")
-        message(paste0("YY <- ",hhp[18]))
+        message(paste0("RE <- ",hhp[18]))
         l <- readline("Note? ")
 
         if (length(hhp)>18) {
@@ -191,7 +196,7 @@ addReleve <- function(DATABASE = "NEW", SAVE = "default", checklist = "default",
         if (!is.null(extrahead)) {
           ehcounter <- 1 # extrahead counter
           for (val in extrahead) {
-            message(paste0("YY <- ",hhp[18+ehcounter]))
+            message(paste0("RE <- ",hhp[18+ehcounter]))
             ehcounter <- ehcounter + 1
             assign(val, readline(paste0(val, "? ")))
             extraval <- c(extraval, eval(as.symbol(val)))
@@ -203,7 +208,7 @@ addReleve <- function(DATABASE = "NEW", SAVE = "default", checklist = "default",
         hh <- c(ab, bb, bc, a, b, c, d, e, f, crs, ff, fk, g, h, i, j, k, l, extraval)
 
         for (hval in 1:length(hh)) {
-          if (toupper(hh[hval]) == "YY") {
+          if (toupper(hh[hval]) == "RE") {
             hh[hval] <- hhp[hval]
           }
         }
@@ -364,6 +369,14 @@ addReleve <- function(DATABASE = "NEW", SAVE = "default", checklist = "default",
         } else if (m == "N" | m == "n") {
           message("Species_richness")
           print(nrow(RelNew[(RelNew[, 2] > 0), ]))
+          if (aa == "NEW" | !isTRUE(start)) {
+            DATA2 <- RelNew[(RelNew[, 2] > 0), ] # first releve?
+            colnames(DATA2)[2] <- "X1"
+            write.csv(DATA2, paste0(SAVE, "REL.csv"))
+            start = TRUE
+            DATABASE = ""
+            break
+          }
           if (aa == "Y" | aa == "ADDREL") {
             DATA2 <- read.csv(paste0(SAVE, "REL.csv"), row.names = 1) # New releve
             DATA2 <- createTABLE(SpLIST, RelNew, DATA2)
@@ -381,17 +394,10 @@ addReleve <- function(DATABASE = "NEW", SAVE = "default", checklist = "default",
             write.csv(DATA2, paste0(SAVE, "REL.csv"))
             break
           }
-          if (aa == "NEW") {
-            DATA2 <- RelNew[(RelNew[, 2] > 0), ] # first releve?
-            colnames(DATA2)[2] <- "X1"
-            write.csv(DATA2, paste0(SAVE, "REL.csv"))
-            break
-          }
+
         }
       }
     }
-
-
 
     if (aa == "PRINTHEAD") {
       HeaderDATA3 <- read.csv(paste0(SAVE, "HEAD.csv"), row.names = 1) # actual headers
@@ -460,10 +466,10 @@ addReleve <- function(DATABASE = "NEW", SAVE = "default", checklist = "default",
       }
     }
 
-    if (aa == "YSP") {
+    if (aa == "YSP" & ncol(DATA2) == ncol(HeaderDATA2)) {
       while (TRUE) {
-        m <- suppressWarnings(as.numeric(readline("How many releves?")))
-        if (!is.na(m)) {
+        m <- suppressWarnings(as.numeric(readline("How many releves? ")))
+        if (!is.na(m) & m>0) {
 
           Rels <- list()
           DATAtemp <- read.csv(paste0(SAVE, "REL.csv"), row.names = 1) # New releve
@@ -476,11 +482,18 @@ addReleve <- function(DATABASE = "NEW", SAVE = "default", checklist = "default",
 
       } ## how many releves
       while (TRUE) {
+        oo <- toupper(readline("P - percentage, BB - Braun B. scale, CS - custom scale "))
+
+        if (oo == "P" | oo == "BB" | oo == "B" | oo == "CS") {
+          break
+        }
+      }
+      while (TRUE) {
         n <-toupper(readline("Add new species (GenuSpe)/N?  "))
         if (nchar(n) == 7) {
           while (TRUE){
-            l <- readline("What layer?" )
-            if (l == "1") {
+            l <- toupper(readline("Select Layer (3,2,1,J,0) " ))
+            if (l == "1" | l == "2" | l == "3" | l == "J" | l == "0" ) {
               break
             }
 
@@ -490,7 +503,7 @@ addReleve <- function(DATABASE = "NEW", SAVE = "default", checklist = "default",
           print(specie_check[3])
           while (TRUE) {
             tt <- toupper(readline("CorrectName?(Y/F(search for name)) ")) # double check
-            if (tt == "Y" && !is.na(specie_check[1, 3]) | tt == "F") {
+            if (tt == "Y" && !is.na(specie_check[1, 3]) | tt == "FFF") {
               break
             } else if (tt == "F") {
               while (TRUE) {
@@ -503,7 +516,7 @@ addReleve <- function(DATABASE = "NEW", SAVE = "default", checklist = "default",
                     while (TRUE) {
                       s <- toupper(readline("SpeciesName?(GenuSpe) "))
                       if (nchar(s) == 7) {
-                        nana <- paste(s, most, sep = "_")
+                        nana <- paste(s, l, sep = "_")
                         specie_check <- SpLIST[SpLIST[, 2] == substr(nana, 1, 9), ]
                         print(specie_check[3])
                         break
@@ -533,10 +546,51 @@ addReleve <- function(DATABASE = "NEW", SAVE = "default", checklist = "default",
           }
 
           for (i in 1:m) {
-            o <- readline(paste0("Abundance in relevé ",i))
+            message(paste0("Relevé ",i))
+
+            if (oo == "P") {
+              while (TRUE) {
+                o <- suppressWarnings(as.numeric(readline("Abundance?(%) ")))
+                if (!is.na(o) && o >= 0 && o <= 100) {break}
+              }
+            } else if (oo == "CS") {
+              o <- as.character(readline("Abundance?(%) "))
+            } else if (oo == "BB" | oo == "B") {
+              while (TRUE) {
+                o <- toupper(readline("Abundance?(0,R,+,1,2,M,A,B,3,4,5) "))
+                if (o == "R" | o == "+" | o == "0" | o == "1" | o == "2" | o == "M" | o == "A" | o == "B" |
+                    o == "3" | o == "4" | o == "5") {
+                  break
+                }
+              }
+              if (o == "R") {
+                o <- 1
+              } else if (o == "+") {
+                o <- 2
+              } else if (o == "1") {
+                o <- 3
+              } else if (o == "2") {
+                o <- 15
+              } else if (o == "M") {
+                o <- 4
+              } else if (o == "A") {
+                o <- 8
+              } else if (o == "B") {
+                o <- 18
+              } else if (o == "3") {
+                o <- 38
+              } else if (o == "4") {
+                o <- 63
+              } else if (o == "5") {
+                o <- 88
+              } else if (o == "0") {
+                o <- 0
+              }
+            }
+
             Rels[[paste0("r",i)]][which(Rels[[paste0("r",i)]]$ShortName == substr(nana, 1, 9)), ][, 2] <- o
             RelFake[which(RelFake$ShortName == substr(nana, 1, 9)), ][, i+1] <- o
-            print(RelFake[(RelFake[,i+1] > 0), ])
+            #print(RelFake[(RelFake[,i+1] > 0), ])
 
           }
           DATA2 <- DATAtemp
@@ -552,6 +606,7 @@ addReleve <- function(DATABASE = "NEW", SAVE = "default", checklist = "default",
             rs <- toupper(readline("Add headers? "))
             if (rs == "Y") {
               for (i in 1:m) {
+                message(paste0("Relevé ",i))
                 header <- createHEADER(HeaderDATA2)
                 HeaderDATA2 <- data.frame(HeaderDATA2, header[, 2])
                 colnames(HeaderDATA2)[2:length(colnames(HeaderDATA2))] <- paste0("X",c(1:(length(colnames(HeaderDATA2)) - 1)))
@@ -585,5 +640,6 @@ addReleve <- function(DATABASE = "NEW", SAVE = "default", checklist = "default",
       write.csv(HeaderDATA2, paste0(SAVE, "HEAD.csv")) # the script ends, database is saved
       break
     }
+
   }
 }

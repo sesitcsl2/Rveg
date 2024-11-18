@@ -1,7 +1,7 @@
 #'
 #' CreateChecklist
 #'
-#' Create a custom checklist with species shortnames
+#' Create a custom checklist with species ShortNames
 #'
 #' @param specieslist path to list of species
 #' @param export name of your exported checklist file
@@ -101,7 +101,7 @@ CreateChecklist <- function(specieslist, export = "export") {
       df$shortname[i] <- paste0(df$shortgen[i], substring(df$spec[i], 1, 1), ";", substring(word_after_ssp, 1, 1))
     } # Variety variations
 
-    if (grepl(" X ", df$spec[i])) {
+    if (grepl("X ", df$spec[i])) {
 
       words <- strsplit(df$spec[i], " ")[[1]]
       ssp_index <- which(words == "X")
@@ -117,7 +117,7 @@ CreateChecklist <- function(specieslist, export = "export") {
       ssp_index <- which(words == "SECT.")
       word_after_ssp <- words[ssp_index + 1]
 
-      df$shortname[i] <- paste0(df$shortgen[i], "S", substring(word_after_ssp, 1, 2))
+      df$shortname[i] <- paste0(df$shortgen[i], "SE", substring(word_after_ssp, 1, 1))
     } # Section variations
     ii <- 4
     while (duplicated(df$shortname)[i]) {

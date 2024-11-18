@@ -54,38 +54,46 @@ createTABLE <- function(SpLIST, RelNew, DATA2, variation = 1) {
     zz <- c()
 
     ## speed increase by pre ordering
-    DATA2 <- DATA2[order(DATA2[,1]),]
-    RelNewKrs <- data.frame(ShortName = SpLIST[, 2], Value = 0) # Create empty checklist
-    RelNewKrs <- RelNewKrs[order(RelNewKrs[,1]), ]
+    if (ncol(DATA2)!=1) {
+      DATA2 <- DATA2[order(DATA2[,1]),]
 
-    for (i in 2:length(colnames(DATA2))) {
+      RelNewKrs <- data.frame(ShortName = SpLIST[, 2], Value = 0) # Create empty checklist
+      RelNewKrs <- RelNewKrs[order(RelNewKrs[,1]), ]
 
-      zzz <- DATA2[, c(1, i)] # Copy i releve
-      #zzz <- zzz[order(as.numeric(row.names(zzz))), ] # previous order based on IDs
-      zzz <- zzz[order(zzz[,1]), ] # new ordering base od ShortNames
-      #RelNewKrs <- RelNewKrs[order(as.numeric(row.names(RelNewKrs))), ]
-      RNK <- RelNewKrs
-      RNK[RNK[, 1] %in% zzz[, 1], ][, 2] <- zzz[, 2] # Match the Relevé with SPlist
+      for (i in 2:length(colnames(DATA2))) {
 
-      ## check if the function works properly
-      a <- RNK[RNK[, 1] %in% zzz[, 1], ][, 1]
-      b <- zzz[, 1]
-      if (!all(a == b)) {
-        warning("Mismatch while matching the table, please make backup of your current database and
+        zzz <- DATA2[, c(1, i)] # Copy i releve
+        #zzz <- zzz[order(as.numeric(row.names(zzz))), ] # previous order based on IDs
+        zzz <- zzz[order(zzz[,1]), ] # new ordering base od ShortNames
+        #RelNewKrs <- RelNewKrs[order(as.numeric(row.names(RelNewKrs))), ]
+        RNK <- RelNewKrs
+        RNK[RNK[, 1] %in% zzz[, 1], ][, 2] <- zzz[, 2] # Match the Relevé with SPlist
+
+        ## check if the function works properly
+        a <- RNK[RNK[, 1] %in% zzz[, 1], ][, 1]
+        b <- zzz[, 1]
+        if (!all(a == b)) {
+          warning("Mismatch while matching the table, please make backup of your current database and
                            check your original data and used checklist.")
-      }
+        }
 
-      TABLE <- data.frame(TABLE, RNK[, 2])
-      zz <- c(zz, i)
+        TABLE <- data.frame(TABLE, RNK[, 2])
+        zz <- c(zz, i)
+      }
     }
+
+
 
 
     #TABLE <- TABLE[, -c(3)] # removing empty collumn # now I have previous table sorted?! Tak hodne prace za malo muziky
     if (T) {
         RelSort <- RelNew[["r1"]]
-      for (i in 2:length(RelNew)) {
-        RelSort <- cbind(RelSort,RelNew[[paste0("r",i)]][,-1])
-      }
+        if (length(RelNew)>1) {
+          for (i in 2:length(RelNew)) {
+            RelSort <- cbind(RelSort,RelNew[[paste0("r",i)]][,-1])
+          }
+        }
+
 
       RelNew <- RelSort[order(RelSort[,1]), ] # ordering the new relevé by ShortNames
       TABLE <- data.frame(TABLE, RelNew[,-1]) # merging the Tables
@@ -124,45 +132,50 @@ createHEADER <- function(DATA) {
   #Header[1, 2] <- (length(colnames(DATA)))
   Header[1, 2] <- as.numeric(DATA[1,ncol(DATA)])+1
 
+
+  if (is.na(Header[1, 2])) {
+    Header[1, 2] <- 1
+  }
+
   ## hinting previous prompts
   ht <- list()# header return
   hhp <- DATA[-1,ncol(DATA)]
 
-  message(paste0("YY <- ",hhp[1]))
+  message(paste0("RE <- ",hhp[1]))
   ab <- readline("DATE?(YYYY/MM/DD) ")
-  message(paste0("YY <- ",hhp[2]))
+  message(paste0("RE <- ",hhp[2]))
   bb <- readline("SPRINGDATE?(YYYY/MM/DD) ")
-  message(paste0("YY <- ",hhp[3]))
+  message(paste0("RE <- ",hhp[3]))
   bc <- readline("LOCALITY? ")
-  message(paste0("YY <- ",hhp[4]))
+  message(paste0("RE <- ",hhp[4]))
   a <- readline("FieldCODE? ")
-  message(paste0("YY <- ",hhp[5]))
+  message(paste0("RE <- ",hhp[5]))
   b <- readline("Authors? ")
-  message(paste0("YY <- ",hhp[6]))
+  message(paste0("RE <- ",hhp[6]))
   c <- readline("PlotSize?(m2) ")
-  message(paste0("YY <- ",hhp[7]))
+  message(paste0("RE <- ",hhp[7]))
   d <- readline("Latitude? ")
-  message(paste0("YY <- ",hhp[8]))
+  message(paste0("RE <- ",hhp[8]))
   e <- readline("Longitude? ")
-  message(paste0("YY <- ",hhp[9]))
+  message(paste0("RE <- ",hhp[9]))
   f <- readline("Accuracy?(m) ")
-  message(paste0("YY <- ",hhp[10]))
+  message(paste0("RE <- ",hhp[10]))
   crs <- readline("Coordinta Reference System? ")
-  message(paste0("YY <- ",hhp[11]))
+  message(paste0("RE <- ",hhp[11]))
   ff <- readline("Slope?(degrees) ")
-  message(paste0("YY <- ",hhp[12]))
+  message(paste0("RE <- ",hhp[12]))
   fk <- readline("Exposure? ")
-  message(paste0("YY <- ",hhp[13]))
+  message(paste0("RE <- ",hhp[13]))
   g <- readline("E3?(%) ")
-  message(paste0("YY <- ",hhp[14]))
+  message(paste0("RE <- ",hhp[14]))
   h <- readline("E2?(%) ")
-  message(paste0("YY <- ",hhp[15]))
+  message(paste0("RE <- ",hhp[15]))
   i <- readline("E1?(%) ")
-  message(paste0("YY <- ",hhp[16]))
+  message(paste0("RE <- ",hhp[16]))
   j <- readline("Ejuv?(%) ")
-  message(paste0("YY <- ",hhp[17]))
+  message(paste0("RE <- ",hhp[17]))
   k <- readline("E0?(%) ")
-  message(paste0("YY <- ",hhp[18]))
+  message(paste0("RE <- ",hhp[18]))
   l <- readline("Note? ")
 
   if (length(hhp)>18) {
@@ -170,13 +183,15 @@ createHEADER <- function(DATA) {
     for (ext in 1:(length(hhp)-18)) {
       extrahead[ext] <- DATA[ext+19,1]
     }
+  } else {
+    extrahead <- NULL
   }
 
   extraval <- NULL
   if (!is.null(extrahead)) {
     ehcounter <- 1 # extrahead counter
     for (val in extrahead) {
-      message(paste0("YY <- ",hhp[18+ehcounter]))
+      message(paste0("RE <- ",hhp[18+ehcounter]))
       ehcounter <- ehcounter + 1
       assign(val, readline(paste0(val, "? ")))
       extraval <- c(extraval, eval(as.symbol(val)))
@@ -186,7 +201,7 @@ createHEADER <- function(DATA) {
   hh <- c(ab, bb, bc, a, b, c, d, e, f, crs, ff, fk, g, h, i, j, k, l, extraval)
 
   for (hval in 1:length(hh)) {
-    if (toupper(hh[hval]) == "YY") {
+    if (toupper(hh[hval]) == "RE") {
       hh[hval] <- hhp[hval]
     }
   }
