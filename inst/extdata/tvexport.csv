@@ -1,84 +1,62 @@
-Table number,,1,2,3
-Releve number,,1,2,3
-Country code,,CZ,CZ,CZ
-Biblioreference,,,,
-No. table in publ.,,,,
-No. releve in table,,1,2,3
-Cover abundance scale,,1,1,1
-Year,,1961,1961,1961
-Month,,7,7,7
-Day,,19,26,19
-Project code,,,,
-Author code,,,,
-Date (year/month/day),,19610719,19610726,19610719
-Syntaxon code,,,,
-Releve area (m2),,200,150,200
-UTM grid system code,,,,
-Altitude (m),,,,
-Aspect (degrees),,,,
-Slope (degrees),,,,
-Cover total (%),,0,0,0
-Cover tree layer (%),,40,40,40
-Cover shrub layer (%),,0,0,5
-Cover herb layer (%),,60,50,70
-Cover moss layer (%),,0,0,0
-Cover lichen layer (%),,0,0,0
-Cover algae layer (%),,0,0,0
-Cover litter layer (%),,0,0,0
-Cover open water (%),,0,0,0
-Cover bare rock (%),,0,0,0
-Height (high) tree layer (m),,0,0,0
-Height low tree layer (m),,0,0,0
-Height (high) shrub layer (m),,0,0,0
-Height low shrub  layer (m),,0,0,0
-Height (high) herb layer (cm),,0,0,0
-Height (low) herb layer (cm),,0,0,0
-Max. height herb layer (cm),,0,0,0
-Max. height crypt. layer (mm),,0,0,0
-Mosses identified (y/n),,,,
-Lichens identified (y/n),,,,
-Remarks,,xx,xx,xx
-Coordinate system,,,,
-Polesi,,xxxx,xxx,xxxxx
-Porost,,13a,5b,13a
-Number of species,,21,17,30
-,,,,
-Alnus glutinosa,t1,+,+,1
-Carex acuta,hl,1,1,
-Carex riparia,hl,4,4,
-Circaea lutetiana,hl,+,,+
-Filipendula ulmaria,hl,+,,+
-Fraxinus excelsior,hl,+,,+
-Galium palustre,hl,+,,1
-Glyceria maxima,hl,2,2,2
-Iris pseudacorus,hl,1,2,1
-Lemna minor,hl,3,3,+
-Lycopus europaeus,hl,+,+,1
-Lysimachia vulgaris,hl,+,,1
-Lythrum salicaria,hl,+,,+
-Phalaris arundinacea,hl,1,+,4
-Rubus caesius,hl,+,+,
-Salix alba,t1,2,3,1
-Salix fragilis agg.,t1,2,1,2
-Salix pentandra,t1,+,,1
-Stachys palustris,hl,+,,1
-Symphytum officinale,hl,+,+,+
-Ulmus minor,t1,r,,
-Carex rostrata,hl,,+,
-Myosotis palustris agg.,hl,,+,1
-Phragmites australis,hl,,1,
-Salicornia species,t1,,r,
-Solanum dulcamara,hl,,+,1
-Arctium nemorosum,hl,,,r
-Calystegia sepium,hl,,,+
-Deschampsia cespitosa,hl,,,1
-Festuca gigantea,hl,,,+
-Fraxinus excelsior,t1,,,1
-Glechoma hederacea,hl,,,1
-Lysimachia nummularia,hl,,,+
-Poa palustris,hl,,,+
-Populus alba,t1,,,+
-Ranunculus repens,hl,,,1
-Rumex sanguineus,hl,,,+
-Salix alba,s1,,,1
-Sium latifolium,hl,,,r
+Table number,,1,2,3,4,5,6,7,8,
+Releve number,,183,250,279,570,595,608,728,919,
+Country code,,,,,,,,,,
+Biblio reference,,,,,,,,,,
+Nr. table in publ.,,,,,,,,,,
+Nr. relevé in table,,,,,,,,,,
+Cover abundance scale,,12,12,12,12,12,12,12,12,
+Year,,2011,2011,2012,2014,2014,2014,2018,2020,
+Month,,06,06,06,06,06,06,06,06,
+Day,,23,23,13,03,03,03,13,15,
+Project code,,,,,,,,,,
+Author code,,0695,0639,0695,0639,0639,0695,0639,0639,
+Date (year/month/day),,20110623,20110623,20120613,20140603,20140603,20140603,20180613,20200615,
+Syntaxon code,,,,,,,,,,
+Relevé area (m2),,9.00,9.00,9.00,9.00,9.00,9.00,9.00,9.00,
+UTM grid system code,,,,,,,,,,
+Altitude (m),,,,,,,,,,
+Aspect (degrees),,,,,,,,,,
+Slope (degrees),,,,,,,,,,
+Cover total (%),,0,0,0,0,0,0,0,0,
+Cover tree layer (%),,0,0,0,0,0,0,0,0,
+Cover shrub layer (%),,0,0,0,0,0,0,0,0,
+Cover herb layer (%),,15,5,13,16,13,12,2,80,
+Cover moss layer (%),,1,2,5,2,1,1,1,0,
+Cover lichen layer (%),,0,0,0,0,0,0,0,0,
+Cover algae layer (%),,0,0,0,0,0,0,0,0,
+Cover litter layer (%),,0,0,0,0,0,0,0,0,
+Cover open water (%),,0,0,0,0,0,0,0,0,
+Cover bare rock (%),,0,0,0,0,0,0,0,0,
+Height (highest) trees (m),,0,0,0,0,0,0,0,0,
+Height lowest trees (m),,0,0,0,0,0,0,0,0,
+Height (highest) shrubs (m),,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,
+Height lowest shrubs (m),,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,
+Aver. height (high) herbs (cm),,0,0,0,0,0,0,0,0,
+Aver. height lowest herbs (cm),,0,0,0,0,0,0,0,0,
+Maximum height herbs (cm),,0,0,0,0,0,0,0,0,
+Maximum height cryptogams (mm),,0,0,0,0,0,0,0,0,
+Mosses identified (y/n),,,,,,,,,,
+Lichens identified (y/n),,,,,,,,,,
+Number of species,,20,11,22,26,25,22,6,21,
+,,,,,,,,,,Species no.,Species name,
+Acer campestre,jl,1,1,1,,,1,,15,80,
+Anthericum ramosum,hl,5,,1,,,1,1,,705,
+Brachypodium sylvaticum,hl,1,,,,,,,,1451,
+Calamagrostis arundinacea,hl,1,,,,,,,,1775,
+Festuca ovina,hl,1,,1,1,1,,,,4283,
+Fraxinus excelsior,jl,1,,1,,1,1,,1,4430,
+Hieracium murorum,hl,1,,,1,1,,,,5137,
+Hieracium sabaudum,hl,1,,,,1,1,,,5165,
+Hieracium umbellatum,hl,1,,,,,,,,5184,
+Hypericum perforatum,hl,1,,,1,1,,,,5353,
+Inula hirta,hl,1,,,,1,1,,,5441,
+Lychnis viscaria,hl,1,,,,,,,,6499,
+Melampyrum pratense,hl,1,,,,,,,,6674,
+Polygonatum odoratum,hl,2,,,5,,1,1,1,8375,
+Quercus petraea,jl,1,1,2,,,1,,1,8850,
+Campanula bononiensis,hl,,1,,,,,,,1992,
+Carpinus betulus,jl,,1,,,1,,1,,2315,
+Euonymus europaeus,jl,,1,,,,,,,4109,
+Fallopia species,hl,,1,,1,1,,,,4231,
+Galeopsis ladanum agg.,hl,,1,,,,,,,4536,
+Inula conyza,hl,,1,,,,,,,5437,

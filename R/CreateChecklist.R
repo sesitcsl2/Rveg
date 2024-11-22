@@ -6,7 +6,7 @@
 #' @param specieslist path to list of species
 #' @param export name of your exported checklist file
 #'
-#' @returns txt file
+#' @returns txt file used as checklist in Rveg functions
 #'
 #' @examples
 #' ## NOT RUN

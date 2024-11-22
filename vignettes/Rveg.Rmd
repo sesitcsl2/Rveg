@@ -356,7 +356,7 @@ That will start a dialogue communication with the user. Be careful not to stop t
 \newpage
 
 \begin{lstlisting}[style=style]
-DATE?(YYYY/MM/DD): ($@\textbf{\textcolor{blue}{2023/01/55}}@$)
+DATE?(YYYY/MM/DD): ($@\textbf{\textcolor{blue}{2023/01/05}}@$)
 SPRINGDATE?(Y/M/D):
 LOCALITY?: ($@\textbf{\textcolor{blue}{Yellowstone}}@$)
 ...
@@ -399,7 +399,7 @@ We added *Trifolium pratense* with a cover of 2b (18%). This process should be r
 
 \begin{lstlisting}[style=style]
 AddSpecies?(GenuSpe/N): ($@\textbf{\textcolor{blue}{Galiapa}}@$)
-Abundance?(%): ($@\textbf{\textcolor{blue}{15}}@$)
+Abundance?(%): ($@\textbf{\textcolor{blue}{a}}@$)
 [1] FullName
 <0 rows> (or  0-length row.names)
 CorrectName?(Y/F(search for name)) ($@\textbf{\textcolor{blue}{F}}@$)
@@ -457,11 +457,12 @@ CorrectName?(Y/F(search for name)) ($@\textbf{\textcolor{blue}{y}}@$)
 Very nice! Notice how layers are distinguished in one list. Now we realize that we have mistakenly inserted *Populus tremula*, but our intention was to insert *Pinus sylvestris*. How can we correct that mistake? The species can be removed by assigning it a zero cover. Cover can also be changed by inserting the species again with the correct cover value. Let's first remove *P. tremula* by assigning it a cover of zero, and then add the intended species, *P. sylvestris*.
 
 \begin{lstlisting}[style=style]
+AddSpecies?(GenuSpe/N): ($@\textbf{\textcolor{blue}{n}}@$)
 AddNewLayer?(Y/N) ($@\textbf{\textcolor{blue}{y}}@$)
 Select Layer (3,2,1,J,0) ($@\textbf{\textcolor{blue}{3}}@$)
 P - percentage, BB - Braun B. scale, CS - custom scale ($@\textbf{\textcolor{blue}{p}}@$)
 AddSpecies?(GenuSpe/N) ($@\textbf{\textcolor{blue}{poputre}}@$)
-Abundance?(%) 0
+Abundance?(%) ($@\textbf{\textcolor{blue}{0}}@$)
             FullName
 6986 Populus tremula
 CorrectName?(Y/F(search for name)) ($@\textbf{\textcolor{blue}{y}}@$)
@@ -470,7 +471,7 @@ CorrectName?(Y/F(search for name)) ($@\textbf{\textcolor{blue}{y}}@$)
 26686 GALUAPA_1  8
 32391 TRIFPRA_1 18
 AddSpecies?(GenuSpe/N) ($@\textbf{\textcolor{blue}{pinusyl}}@$)
-Abundance?(%) 45
+Abundance?(%) ($@\textbf{\textcolor{blue}{45}}@$)
              FullName
 6656 Pinus sylvestris
 CorrectName?(Y/F(search for name)) ($@\textbf{\textcolor{blue}{y}}@$)
@@ -487,7 +488,7 @@ Now the mistake has been repaired. Let's assume that our first relev&#233; is co
 \begin{lstlisting}[style=style]
 AddSpecies?(GenuSpe/N) ($@\textbf{\textcolor{blue}{N}}@$) 
 AddNewLayer?(Y/N) ($@\textbf{\textcolor{blue}{N}}@$)
-Species_richness
+($@\textbf{\textcolor{red}{Species\_richness}}@$)
 [1] 4
 ($@\textbf{\textcolor{red}{number of relevés: 1, number of headers: 1}}@$)
 AddReleve?(Y/N/RREL/RHEAD/REMOVEREL/PRINTREL/PRINTHEAD/ADDREL/ADDHEAD/YSP)
@@ -499,7 +500,7 @@ You receive the number of species recorded in the relev&#233;, which is good for
 
 ### Menu options (prompts)
 
-If you had started editing an existing database earlier, you would find yourself here. To add more relev&#233;s, enter "Y" and repeat the same process as before. The commands `PRINTHEAD` and `PRINTREL` will show you the current database header and relevés, respectively.
+If you had started editing an existing database earlier, you would find yourself here. To add more relev&#233;s, enter `Y` and repeat the same process as before. The commands `PRINTHEAD` and `PRINTREL` will show you the current database header and relevés, respectively.
 
 \begin{lstlisting}[style=style]
 AddReleve?(Y/N/RREL/RHEAD/REMOVEREL/PRINTREL/PRINTHEAD/ADDREL/ADDHEAD/YSP) ($@\textbf{\textcolor{blue}{printrel}}@$) 
@@ -612,7 +613,7 @@ AddReleve?(Y/N/RREL/RHEAD/REMOVEREL/PRINTREL/PRINTHEAD/ADDREL/ADDHEAD/YSP) ($@\t
 AddNewLayer?(Y/N) ($@\textbf{\textcolor{blue}{y}}@$)
 Select Layer (3,2,1,J,0) ($@\textbf{\textcolor{blue}{1}}@$)
 P - percentage, BB - Braun B. scale, CS - custom scale ($@\textbf{\textcolor{blue}{p}}@$)
-AddSpecies?(GenuSpe/N) ($@\textbf{\textcolor{blue}{plaomaj}}@$)
+AddSpecies?(GenuSpe/N) ($@\textbf{\textcolor{blue}{planmaj}}@$)
 Abundance?(%) ($@\textbf{\textcolor{blue}{10}}@$)
 [1] FullName
 <0 rows> (or 0-length row.names)
@@ -631,7 +632,7 @@ CorrectSpecies?(Y/N)  ($@\textbf{\textcolor{blue}{y}}@$)
 29732 PLAAMAJ_1 10
 AddSpecies?(GenuSpe/N) ($@\textbf{\textcolor{blue}{n}}@$)
 AddNewLayer?(Y/N) ($@\textbf{\textcolor{blue}{n}}@$)
-Species_richness
+($@\textbf{\textcolor{red}{Species\_richness}}@$)
 [1] 1
 ($@\textbf{\textcolor{red}{number of relevés: 2, number of headers: 1}}@$)
 AddReleve?(Y/N/RREL/RHEAD/REMOVEREL/PRINTREL/PRINTHEAD/ADDREL/ADDHEAD/YSP) ($@\textbf{\textcolor{blue}{addhead}}@$)
@@ -702,7 +703,7 @@ The last option is to digitize relev&#233;s by species. However, for that and ot
 \begin{lstlisting}[style=style]
 ($@\textbf{\textcolor{red}{number of relevés: 2, number of headers: 3}}@$)
 AddReleve?(Y/N/RREL/RHEAD/REMOVEREL/PRINTREL/PRINTHEAD/ADDREL/ADDHEAD/YSP) ($@\textbf{\textcolor{blue}{ysp}}@$)
-($@\textbf{\textcolor{red}{Number of releves and headers must match!!!}}@$)
+($@\textbf{\textcolor{red}{Number of relevés and headers must match!!!}}@$)
 ($@\textbf{\textcolor{red}{number of relevés: 2, number of headers: 3}}@$)
 AddReleve?(Y/N/RREL/RHEAD/REMOVEREL/PRINTREL/PRINTHEAD/ADDREL/ADDHEAD/YSP) ($@\textbf{\textcolor{blue}{addrel}}@$)
 AddNewLayer?(Y/N) ($@\textbf{\textcolor{blue}{y}}@$)
@@ -717,7 +718,7 @@ P - percentage, BB - Braun B. scale, CS - custom scale ($@\textbf{\textcolor{blu
 
 \begin{lstlisting}[style=style]
 AddReleve?(Y/N/RREL/RHEAD/REMOVEREL/PRINTREL/PRINTHEAD/ADDREL/ADDHEAD/YSP) ($@\textbf{\textcolor{blue}{ysp}}@$)
-How many releves? ($@\textbf{\textcolor{blue}{3}}@$)
+How many relev&#233;s? ($@\textbf{\textcolor{blue}{3}}@$)
 P - percentage, BB - Braun B. scale, CS - custom scale ($@\textbf{\textcolor{blue}{p}}@$)
 Add new species (GenuSpe)/N?  ($@\textbf{\textcolor{blue}{trifpra}}@$)
 Select Layer (3,2,1,J,0) ($@\textbf{\textcolor{blue}{1}}@$)
@@ -741,7 +742,7 @@ Abundance?(%) ($@\textbf{\textcolor{blue}{5}}@$)
 19520 SAMBNIG_2 38  0 0  0  0 0
 ...
 Add new species (GenuSpe)/N?  ($@\textbf{\textcolor{blue}{plaamaj}}@$)
-Select Layer (3,2,1,J,0) 1
+Select Layer (3,2,1,J,0) ($@\textbf{\textcolor{blue}{1}}@$)
             FullName
 29732 Plantago major
 CorrectName?(Y/F(search for name)) ($@\textbf{\textcolor{blue}{y}}@$)
@@ -804,7 +805,7 @@ Now we can try loading the database. We end up in the menu and are able to conti
 
 \begin{lstlisting}[style=style]
 ($@\textbf{\textcolor{blue}{addReleve(DATABASE = "First\_database", SAVE = "First\_database")}}@$)
-($@\textbf{\textcolor{red}{number of releves: 6, number of headers: 6}}@$)
+($@\textbf{\textcolor{red}{number of relevés: 6, number of headers: 6}}@$)
 AddReleve?(Y/N/RREL/RHEAD/REMOVEREL/PRINTREL/PRINTHEAD/ADDREL/ADDHEAD/YSP) ($@\textbf{\textcolor{blue}{REMOVEREL}}@$)
 ReleveNumber? ($@\textbf{\textcolor{blue}{4}}@$)
  [1] "4"           "2023/01/05"  ""            "Yellowstone" "4"           "PK"          "200" 
@@ -813,7 +814,7 @@ ReleveNumber? ($@\textbf{\textcolor{blue}{4}}@$)
 "70"         
 [17] ""            "12"          ""           
 CorrectNumber?(Y/N) ($@\textbf{\textcolor{blue}{y}}@$)
-($@\textbf{\textcolor{red}{number of releves: 5, number of headers: 5}}@$)
+($@\textbf{\textcolor{red}{number of relevés: 5, number of headers: 5}}@$)
 AddReleve?(Y/N/RREL/RHEAD/REMOVEREL/PRINTREL/PRINTHEAD/ADDREL/ADDHEAD/YSP) ($@\textbf{\textcolor{blue}{printhead}}@$)
     ShortName          X1          X2          X3          X4          X5
 1          ID           1           2           3           5           6
@@ -825,9 +826,9 @@ Let's try changing parameters in the function. We will now not start with the de
 \begin{lstlisting}[style=style]
 ($@\textbf{\textcolor{blue}{addReleve(SAVE = "Second\_database",checklist = "test.txt",extrahead = c("soil","weather"),}}@$)
 ($@\textbf{\textcolor{blue}{start = FALSE)}}@$)
-($@\textbf{\textcolor{red}{number of releves: 0, number of headers: 0}}@$)
+($@\textbf{\textcolor{red}{number of relevés: 0, number of headers: 0}}@$)
 AddReleve?(Y/N/RREL/RHEAD/REMOVEREL/PRINTREL/PRINTHEAD/ADDREL/ADDHEAD/YSP) ($@\textbf{\textcolor{blue}{ysp}}@$)
-How many releves? ($@\textbf{\textcolor{blue}{2}}@$)
+How many relev&#233;s? ($@\textbf{\textcolor{blue}{2}}@$)
 P - percentage, BB - Braun B. scale, CS - custom scale ($@\textbf{\textcolor{blue}{p}}@$)
 ...
 \end{lstlisting}
@@ -935,7 +936,7 @@ This function allows us to combine all species from different layers into one or
 **ARGUMENTS**
 
 - **database**: Path to the database we want to edit.
-- **export**: Name of our edited database (save).
+- **export**: Name of our edited database (save). If kept on default **export**, the file will be saved in the `tmp` directory.
 - **checklist**: Used checklist.
 
 **DESCRIPTION**
@@ -1000,7 +1001,7 @@ RvegMerge(x, y, save = "export_merge", head = TRUE)
  
  - **x** path to the first joining database
  - **y** path to the second joining database
- - **save** name of the exported database
+ - **save** name of the exported database. If kept on default **export_merge**, the file will be saved in the `tmp` directory.
  - **head** logical value, deciding if we want to join headers files as well
  
  **DESCRIPTION**
@@ -1019,7 +1020,7 @@ RvegCheck(DATABASE, fullnames = FALSE, export = "export", checklist = "default")
 
  - **DATABASE** path to the database you want to check
  - **fullnames** logical value if you want to include fullnames of species in the export
- - **export** name of the exported table
+ - **export** name of the exported table. If kept on default **export**, the file will be saved in the `tmp` directory.
  - **checklist** checklist used to match shortnames with fullnames
 
 **DESCRIPTION**
@@ -1058,7 +1059,7 @@ RvegToJuice(Data, checklist = "default", export = "export")
 
  - **Data** path to the database you want to convert
  - **checklist** checklist used to match ShortNames with FullNames
- - **export** name of the exported table
+ - **export** name of the exported table. If kept on default **export**, the file will be saved in the `tmp` directory.
 
 **DESCRIPTION**
 
@@ -1088,7 +1089,7 @@ tvToRveg(tv, export = "export", checklist = "default",)
 
  - **tv** Path to the Turboveg csv export
  - **checklist** Checklist used to match ShortNames with FullNames
- - **export** Name of the exported table
+ - **export** Name of the exported table. If kept on default **export**, the files will be saved in the `tmp` directory.
 
 **DESCRIPTION**
 
@@ -1140,7 +1141,7 @@ RvegToTv(database, export = "export", ver = 3, checklist = "default")
 **ARGUMENTS**
 
  - **database** Path to the Rveg database to export
- - **export** Name of the exported table / files
+ - **export** Name of the exported table / files. If kept on default **export**, the file will be saved in the `tmp` directory.
  - **ver** Version of turvobeg to upload to, turboveg 3 can import one single file but turboveg 2 needs import of headers and relev&#233;s separately
  - **checklist** Checklist used to match ShortNames with FullNames
 
@@ -1178,7 +1179,7 @@ CreateChecklist(specieslist, export = "export")
 **ARGUMENTS**
 
  - **specieslist** Path to the list of species, which will be used to create checklist
- - **export** Name and path to the export of the checklist
+ - **export** Name and path to the export of the checklist. If kept on default **export**, the file will be saved in the `tmp` directory.
 
 **DESCRIPTION**
 
@@ -1216,12 +1217,12 @@ The checklist then will be usable in `addReleve()`.
 ## `RvegLoad`
 
 \begin{lstlisting}[style=styleR]
-RvegLoad(DATABASE = "export",CustomScale = FALSE,checklist = "default")
+RvegLoad(DATABASE = "default",CustomScale = FALSE,checklist = "default")
 \end{lstlisting}
 
 **ARGUMENTS**
 
- - **DATABASE** Path to your database
+ - **DATABASE** Path to your database. Default option **default** will load example database.
  - **CustomScale** Boolean if custom not precoded scale was used during the digitizing
  - **checklist** TXT checklist used during creation of the database
 

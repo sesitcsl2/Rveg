@@ -130,7 +130,7 @@ createHEADER <- function(DATA) {
   Header <- data.frame(ShortName = rownames(DATA),
                        Value = 0)
   #Header[1, 2] <- (length(colnames(DATA)))
-  Header[1, 2] <- as.numeric(DATA[1,ncol(DATA)])+1
+  Header[1, 2] <- suppressWarnings(as.numeric(DATA[1,ncol(DATA)])+1)
 
 
   if (is.na(Header[1, 2])) {

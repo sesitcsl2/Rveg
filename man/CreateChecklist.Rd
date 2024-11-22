@@ -12,10 +12,10 @@ CreateChecklist(specieslist, export = "export")
 \item{export}{name of your exported checklist file}
 }
 \value{
-txt file
+txt file used as checklist in Rveg functions
 }
 \description{
-Create a custom checklist with species shortnames
+Create a custom checklist with species ShortNames
 }
 \examples{
 ## NOT RUN

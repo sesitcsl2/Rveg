@@ -8,7 +8,8 @@ addReleve(
   DATABASE = "NEW",
   SAVE = "default",
   checklist = "default",
-  extrahead = NULL
+  extrahead = NULL,
+  start = TRUE
 )
 }
 \arguments{
@@ -19,12 +20,14 @@ addReleve(
 \item{checklist}{custom checklist}
 
 \item{extrahead}{extra rows in header}
+
+\item{start}{Boolean to start immediately digitizing first releve}
 }
 \value{
-export two csv files, one for releve and one for header
+export two csv files, one for releve and one for header (Rveg database)
 }
 \description{
-Writing and editing your releves
+Digitizing and editing your releves - Rveg database
 }
 \examples{
 ## NOT RUN

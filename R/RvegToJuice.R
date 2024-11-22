@@ -16,7 +16,6 @@
 #'     path.package("Rveg"),
 #'     "/extdata/example_db"
 #'   ))
-#'   read.csv("export.csv", header = FALSE)
 #' }
 #'
 #' @export
@@ -100,18 +99,17 @@ RvegToJuice <- function(Data, checklist = "default", export = "export") {
 #' @examples
 #' ## NOT RUN
 #' if (interactive()) {
-#'   tvToRveg(tv = paste0(
+#'   TvToRveg(tv = paste0(
 #'     path.package("Rveg"),
 #'     "/extdata/tvexport.csv"
 #'   ))
-#'   read.csv("exportREL.csv", row.names = 1)
 #' }
 #'
 #' @export
 #'
 #'
 
-tvToRveg <- function(tv, export = "export", checklist = "default") {
+TvToRveg <- function(tv, export = "export", checklist = "default") {
   if (export == "export") {
     export <- file.path(tempdir(), "export")
   }

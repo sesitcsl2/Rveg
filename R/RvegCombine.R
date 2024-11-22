@@ -16,7 +16,6 @@
 #'     path.package("Rveg"),
 #'     "/extdata/example_db"
 #'   ))
-#'   read.csv("exportREL.csv", row.names = 1)
 #' }
 #'
 #' @export

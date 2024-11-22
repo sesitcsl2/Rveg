@@ -26,7 +26,6 @@ if (interactive()) {
     path.package("Rveg"),
     "/extdata/example_db"
   ))
-  read.csv("export.csv", header = FALSE)
 }
 
 }

@@ -4,10 +4,10 @@
 \alias{RvegLoad}
 \title{RvegLoad}
 \usage{
-RvegLoad(DATABASE = "export", CustomScale = FALSE, checklist = "default")
+RvegLoad(DATABASE = "default", CustomScale = FALSE, checklist = "default")
 }
 \arguments{
-\item{DATABASE}{name of csv files for releve table and header - database}
+\item{DATABASE}{name of Rveg database}
 
 \item{CustomScale}{logical values if different than predefined scale was used during the database creation}
 
@@ -17,12 +17,10 @@ RvegLoad(DATABASE = "export", CustomScale = FALSE, checklist = "default")
 read the database in one object
 }
 \description{
-Writing and editing your releves
+Reading your Rveg database
 }
 \examples{
-## NOT RUN
-if (interactive()) {
-  RvegLoad
-}
+
+  RvegLoad()
 
 }

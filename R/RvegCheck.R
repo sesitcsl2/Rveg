@@ -1,7 +1,7 @@
 #'
 #' RvegCheck
 #'
-#' Checking your DATABASE for duplicity and allowing to export table with full species name (not editable anymore).
+#' Checking your DATABASE for duplicity and allowing to export table with full species name (not Rveg editable anymore).
 #'
 #' @param DATABASE name of csv files for releve table and header - database
 #' @param fullnames logical value if you want to add fullnames to the database
@@ -17,7 +17,6 @@
 #'     path.package("Rveg"),
 #'     "/extdata/example_db"
 #'   ))
-#'   read.csv("exportREL.csv", row.names = 1)
 #' }
 #'
 #' @export

@@ -1,14 +1,14 @@
 #'
 #' addReleve
 #'
-#' Writing and editing your releves
+#' Digitizing and editing your releves - Rveg database
 #' @param DATABASE name of csv files for releve table and header - database
 #' @param SAVE name of exporting database
 #' @param checklist custom checklist
 #' @param extrahead extra rows in header
 #' @param start Boolean to start immediately digitizing first releve
 #'
-#' @returns export two csv files, one for releve and one for header
+#' @returns export two csv files, one for releve and one for header (Rveg database)
 #'
 #' @examples
 #' ## NOT RUN
@@ -139,7 +139,8 @@ addReleve <- function(DATABASE = "NEW", SAVE = "default", checklist = "default",
         ID <- ncol(DATA2)
         colnames(RelNew)[2] <- (ID - 1)
         #Header[1, 2] <- (length(colnames(HeaderDATA2)))
-        Header[1, 2] <- as.numeric(HeaderDATA2[1,ncol(HeaderDATA2)])+1
+
+        Header[1, 2] <- suppressWarnings(as.numeric(HeaderDATA2[1,ncol(HeaderDATA2)])+1)
 
         if (is.na(Header[1, 2])) {
           Header[1, 2] <- 1
@@ -454,10 +455,12 @@ addReleve <- function(DATABASE = "NEW", SAVE = "default", checklist = "default",
         print(HeaderDATA2[, colnames(HeaderDATA2) == paste0("X", n)]) # selection or releve
         tt <- toupper(readline("CorrectNumber?(Y/N) ")) # double check
         if (tt == "Y") {
-          DATA2 <- DATA2[, colnames(DATA2) != paste0("X", n)] # removal of rel
-          HeaderDATA2 <- HeaderDATA2[, HeaderDATA2[1, ] != n] # removal of header
+          DATA2 <- DATA2[, colnames(DATA2) != paste0("X", n),drop = FALSE] # removal of rel
+          #HeaderDATA2 <- HeaderDATA2[, HeaderDATA2[1, ] != n] # removal of header
+          HeaderDATA2 <- HeaderDATA2[, colnames(HeaderDATA2) != paste0("X", n),drop = FALSE] # removal of header
           colnames(DATA2)[-1] <- paste0("X",1:(length(colnames(DATA2)) - 1)) # reindexing
-          colnames(HeaderDATA2)[2:length(colnames(HeaderDATA2))] <- paste0("X",c(1:(length(colnames(HeaderDATA2)) - 1))) # header rein
+          #colnames(HeaderDATA2)[2:length(colnames(HeaderDATA2))] <- paste0("X",c(1:(length(colnames(HeaderDATA2)) - 1))) # header rein
+          colnames(HeaderDATA2)[-1] <- paste0("X",1:(length(colnames(HeaderDATA2)) - 1))
 
           write.csv(DATA2, paste0(SAVE, "REL.csv"))
           write.csv(HeaderDATA2, paste0(SAVE, "HEAD.csv"))
@@ -590,7 +593,7 @@ addReleve <- function(DATABASE = "NEW", SAVE = "default", checklist = "default",
 
             Rels[[paste0("r",i)]][which(Rels[[paste0("r",i)]]$ShortName == substr(nana, 1, 9)), ][, 2] <- o
             RelFake[which(RelFake$ShortName == substr(nana, 1, 9)), ][, i+1] <- o
-            #print(RelFake[(RelFake[,i+1] > 0), ])
+            print(RelFake[(RelFake[,i+1] > 0), ])
 
           }
           DATA2 <- DATAtemp
@@ -598,12 +601,13 @@ addReleve <- function(DATABASE = "NEW", SAVE = "default", checklist = "default",
           print(DATA2)
           colnames(DATA2)[-1] <- paste0("X",1:(length(colnames(DATA2))-1))
           write.csv(DATA2, paste0(SAVE, "REL.csv"))
-
+          start = TRUE
+          DATABASE = ""
 
 
         } else if (n == "N") {
           while (TRUE) {
-            rs <- toupper(readline("Add headers? "))
+            rs <- toupper(readline("Add headers?(Y/N) "))
             if (rs == "Y") {
               for (i in 1:m) {
                 message(paste0("Relevé ",i))

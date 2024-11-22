@@ -1,24 +1,26 @@
 #'
 #' RvegLoad
 #'
-#' Writing and editing your releves
-#' @param DATABASE name of csv files for releve table and header - database
+#' Reading your Rveg database
+#' @param DATABASE name of Rveg database
 #' @param CustomScale logical values if different than predefined scale was used during the database creation
 #' @param checklist used checklist
 #'
 #' @returns read the database in one object
 #'
 #' @examples
-#' ## NOT RUN
-#' if (interactive()) {
-#'   RvegLoad
-#' }
+#'
+#'   RvegLoad()
 #'
 #' @export
 #'
 #'
 
-RvegLoad <- function(DATABASE = "export",CustomScale = FALSE,checklist = "default") {
+RvegLoad <- function(DATABASE = "default",CustomScale = FALSE,checklist = "default") {
+
+  if (DATABASE == "default") {
+    DATABASE = paste0(path.package("Rveg"), "/extdata/example_db")
+  }
 
   DATArele <- read.csv(paste0(DATABASE, "REL.csv"), row.names = 1)
   DATAhead <- read.csv(paste0(DATABASE, "HEAD.csv"), row.names = 1)
@@ -42,6 +44,9 @@ RvegLoad <- function(DATABASE = "export",CustomScale = FALSE,checklist = "defaul
   }
 
   SpLIST <- read.delim(checklist, sep = "\t")
+  SpLIST1 <- makeSpLIST(checklist) # navic pridane ODSTRANIT
+
+
   fullName <- c(rep("", nrow(DATArele)))
   layer <- c(rep("", nrow(DATArele)))
   layer <- cbind(fullName, layer) # fullname a layer
