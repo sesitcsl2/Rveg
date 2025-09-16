@@ -111,14 +111,14 @@ addReleve <- function(DATABASE = "NEW", SAVE = "default", checklist = "default",
       aa <- "NEW" # menu options
       DATABASE <- ""
     } else {
-      message(paste0("number of relevés: ", ncol(DATA2)-1 , ", number of headers: ", ncol(HeaderDATA2) -1 ))
+      message(paste0("number of relev\u00e9s: ", ncol(DATA2)-1 , ", number of headers: ", ncol(HeaderDATA2) -1 ))
       aa <-
         toupper(readline(
           "AddReleve?(Y/N/RREL/RHEAD/REMOVEREL/PRINTREL/PRINTHEAD/ADDREL/ADDHEAD/YSP) "
         ))
     }
     if ((aa == "Y" | aa == "YSP") & ncol(DATA2) != ncol(HeaderDATA2)) {
-      message("Number of relevés and headers must match!!!")
+      message("Number of eelev\u00e9s:s and headers must match!!!")
     } ## warning for mismatch
 
     if (aa == "NEW" | aa == "RREL" | (aa == "Y" & ncol(DATA2) == ncol(HeaderDATA2)) | aa == "ADDREL") {
@@ -549,7 +549,7 @@ addReleve <- function(DATABASE = "NEW", SAVE = "default", checklist = "default",
           }
 
           for (i in 1:m) {
-            message(paste0("Relevé ",i))
+            message(paste0("Relev\u00e9 ",i))
 
             if (oo == "P") {
               while (TRUE) {
@@ -610,7 +610,7 @@ addReleve <- function(DATABASE = "NEW", SAVE = "default", checklist = "default",
             rs <- toupper(readline("Add headers?(Y/N) "))
             if (rs == "Y") {
               for (i in 1:m) {
-                message(paste0("Relevé ",i))
+                message(paste0("Relev\u00e9 ",i))
                 header <- createHEADER(HeaderDATA2)
                 HeaderDATA2 <- data.frame(HeaderDATA2, header[, 2])
                 colnames(HeaderDATA2)[2:length(colnames(HeaderDATA2))] <- paste0("X",c(1:(length(colnames(HeaderDATA2)) - 1)))

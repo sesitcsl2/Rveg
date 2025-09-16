@@ -41,7 +41,7 @@ RvegToJuice <- function(Data, checklist = "default", export = "export") {
   Data_head <- Data_head[-1,]
 
   Data_head <- cbind(c(1:nrow(Data_head)),Data_head)
-  colnames(Data_head)[1] <- "Relevé number"
+  colnames(Data_head)[1] <- "Relev\u00e9 number"
 
 
 
@@ -115,7 +115,7 @@ TvToRveg <- function(tv, export = "export", checklist = "default") {
   }
 
   data <- read.csv(tv)
-  lim <- as.numeric(rownames(data[data[, 1] == "", ])) # blank separator of header and relevés
+  lim <- as.numeric(rownames(data[data[, 1] == "", ])) # blank separator of header and releves
 
   tvhead <- data[1:(lim - 1), -(ncol(data))]
   tvrel <- data[(lim + 2):nrow(data), -(ncol(data))]
