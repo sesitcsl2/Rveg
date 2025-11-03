@@ -4,14 +4,19 @@
 \alias{RvegLoad}
 \title{RvegLoad}
 \usage{
-RvegLoad(DATABASE = "default", CustomScale = FALSE, checklist = "default")
+RvegLoad(
+  DATABASE = "default",
+  checklist = "default",
+  CustomScale = FALSE,
+  variation = 1
+)
 }
 \arguments{
 \item{DATABASE}{name of Rveg database}
 
-\item{CustomScale}{logical values if different than predefined scale was used during the database creation}
-
 \item{checklist}{used checklist}
+
+\item{CustomScale}{logical values if different than predefined scale was used during the database creation}
 }
 \value{
 read the database in one object

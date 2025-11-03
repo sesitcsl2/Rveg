@@ -26,18 +26,21 @@ RvegCheck <- function(DATABASE, fullnames = FALSE, export = "export", checklist 
   if (export == "export") {
     export <- file.path(tempdir(), "export")
   }
-
-  DATA <- read.csv(paste0(DATABASE, "REL.csv"), row.names = 1)
+  db <- read_db(DATABASE)
+  DATA <- db$RelDATA
 
   if (checklist == "default") {
-    checklist <- paste0(path.package("Rveg"), "/extdata/DANIHELKA2012rko.txt")
+    checklist <- db$meta$checklist
+    if (checklist %in% c("wcvp_por","wcvp_que","cz_dh2012")) {
+      checklist <- system.file("extdata",paste0(checklist,".txt"),package="Rveg",mustWork = TRUE)
+    }
   }
 
-  SpLIST <- read.delim(checklist, sep = "\t")
+  SpLIST <- makeSpLIST(checklist,db$meta)
   fullName <- c(rep("", nrow(DATA)))
   DATA <- cbind(fullName, DATA)
   for (i in 1:length(DATA$ShortName)) {
-    DATA$fullName[i] <- SpLIST$FullName[SpLIST$ShortName == substr(DATA$ShortName[i], 1, 7)]
+    DATA$fullName[i] <- SpLIST$FullName[SpLIST$ShortName == substr(DATA$ShortName[i], 1, 9)]
   }
 
   for (i in 1:length(DATA$fullName)) {

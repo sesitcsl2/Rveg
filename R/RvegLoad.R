@@ -16,18 +16,19 @@
 #'
 #'
 
-RvegLoad <- function(DATABASE = "default",CustomScale = FALSE,checklist = "default") {
+RvegLoad <- function(DATABASE = "default",checklist = "default", CustomScale = FALSE, variation = 1) {
 
   if (DATABASE == "default") {
-    DATABASE = paste0(path.package("Rveg"), "/extdata/example_db")
+    #DATABASE = paste0(path.package("Rveg"), "/extdata/example_db")
+    DATABASE <- system.file("extdata", package = "Rveg", mustWork = TRUE)
+    DATABASE <- paste0(DATABASE,"/example")
   }
 
-  DATArele <- read.csv(paste0(DATABASE, "REL.csv"), row.names = 1)
-  DATAhead <- read.csv(paste0(DATABASE, "HEAD.csv"), row.names = 1)
+  db <- read_db(DATABASE)
 
   if (CustomScale == TRUE) {
 
-    rele <- DATArele[,-1]
+    rele <- db$RelDATA[,-1]
     releorig <- rele
     uniq <- unique(unlist(rele))
 
@@ -36,36 +37,51 @@ RvegLoad <- function(DATABASE = "default",CustomScale = FALSE,checklist = "defau
       rele[releorig==val] <- replace
     }
 
-    DATArele[,-1] <- rele
+    db$RelDATA[,-1] <- rele
   }
 
   if (checklist == "default") {
-    checklist <- paste0(path.package("Rveg"), "/extdata/DANIHELKA2012rko.txt")
+    checklist <- db$meta$checklist #
+    if (checklist %in% c("wcvp_por","wcvp_que","cz_dh2012")) {
+      checklist <- system.file("extdata",paste0(checklist,".txt"),package="Rveg",mustWork = TRUE)
+    }
   }
 
-  SpLIST <- read.delim(checklist, sep = "\t")
-  SpLIST1 <- makeSpLIST(checklist) # navic pridane ODSTRANIT
+  SpLIST1 <- read.delim(checklist, sep = "\t")
+  SpLIST <- makeSpLIST(checklist, db$meta) # creating Species checklist
 
-
-  fullName <- c(rep("", nrow(DATArele)))
-  layer <- c(rep("", nrow(DATArele)))
+  fullName <- c(rep("", nrow(db$RelDATA)))
+  layer <- c(rep("", nrow(db$RelDATA)))
   layer <- cbind(fullName, layer) # fullname a layer
-  DATArele <- cbind(layer, DATArele) # pro vrstvu
+
+  DATArele <- cbind(layer, db$RelDATA) # pro vrstvu
   for (i in 1:length(DATArele$ShortName)) {
-    DATArele$fullName[i] <- SpLIST$FullName[SpLIST$ShortName == substr(DATArele$ShortName[i], 1, 7)]
+    DATArele$fullName[i] <- SpLIST$FullName[SpLIST$ShortName == substr(DATArele$ShortName[i], 1, 9)]
     DATArele$layer[i] <- substr(DATArele$ShortName[i], 9, 9)
     DATArele$ShortName[i] <- substr(DATArele$ShortName[i], 1, 7)
   }
 
   DATArele <- cbind(DATArele$ShortName,DATArele[,-3])
   colnames(DATArele)[1] <- "ShortName"
-  DATAhead <- cbind(rep("",times=nrow(DATAhead)),DATAhead)
+
+  DATAhead <- cbind(rep("",times=nrow(db$HeaderDATA)),db$HeaderDATA)
   DATAhead <- cbind(rep("",times=nrow(DATAhead)),DATAhead)
   DATAhead <- cbind(DATAhead$ShortName,DATAhead[,-3])
   colnames(DATAhead) <- colnames(DATArele)
 
+  if (variation == 1) {
+    output <- rbind(DATAhead,DATArele)
+  } ## one table cbind header and releve + fullnames
 
-  output <- rbind(DATAhead,DATArele)
+  if (variation == 2) {
+    output <- db
+  } ## raw output
+
+  if (variation == 3) {
+    db2<- db
+    db2$RelDATA <- DATArele
+    output <- db2
+    } ## separate output with fullnames.
 
   return(output)
 

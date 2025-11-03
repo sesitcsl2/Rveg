@@ -2145,7 +2145,7 @@ Number	ShortName	FullName
 2679	CHABVUL	Chara vulgaris
 2680	CHAB-SP	Chara species
 2681	CHAPBRA	Chara braunii
-2682	CHAB-SP	Charopsis species
+2682	CHPS-SP	Charopsis species
 2683	CHEICHL	Cheilothela chloropus
 2684	CHEI-SP	Cheilothela species
 2685	CHERFLA	Cheiromycina flabelliformis
@@ -9223,7 +9223,7 @@ Number	ShortName	FullName
 11310	TOLYINT	Tolypella intricata
 11311	TOLYNID	Tolypella nidifica
 11312	"TOLYN;G"	Tolypella glomerata
-11313	TOLYNID	Tolypella nidifica var. nidifica
+11313	"TOLYN;N"	Tolypella nidifica var. nidifica
 11314	TOLY-SP	Tolypella species
 11315	TOMAART	Tomasellia arthonioides
 11316	TOMA-SP	Tomasellia species
@@ -11367,8 +11367,8 @@ Number	ShortName	FullName
 14408	TREN-SP	Trentepohlia species
 14409	TRENUMB	Trentepohlia umbrina
 14411	TRIFVES	Trifolium vesiculosum
-14412	WEISCOR	Weissia controversa var. controversa
-14413	WEISCOO	Weissia controversa var. wimmeriana
+14412	"WEISC;C"	Weissia controversa var. controversa
+14413	"WEISC;W"	Weissia controversa var. wimmeriana
 14414	CENT*BE	Centaurea x beckiana (C. jacea x stoebe)
 14415	CENT*AU	Centaurea jacea ssp. jacea x phrygia
 14416	CENT*FL	Centaurea x fleischeri (C. jacea x oxylepis)
@@ -11411,10 +11411,9 @@ Number	ShortName	FullName
 14458	SORUOMI	Sorbus omissa
 50026	STIPGLA	Stipa glabrata
 50028	STIPSMI	Stipa smirnovii
-50088	"SPHGP;C"	Sphagnum centrale
+50088	SPHGCEN	Sphagnum centrale
 50089	WEISCOO	Weissia wimmeriana
-50090	CHABGLO	Chara fragilis
-99999	CHABFRA	Chara globularis
+99999	CHABFRA	Chara fragilis
 99999	"ANCH""LY"	Lycopsis species
 99999	"ASPL""CE"	Asplenium ceterach
 99999	"ASPL""PH"	Asplenium species

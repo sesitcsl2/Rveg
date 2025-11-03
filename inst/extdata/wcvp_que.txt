@@ -1,0 +1,3945 @@
+ShortName	FullName
+ABIEBAL	Abies balsamea
+ABIEB;B	Abies balsamea var. balsamea
+ABIE-SP	Abies SPECIES
+ACALRHO	Acalypha rhomboidea
+ACAL-SP	Acalypha SPECIES
+ACERNEG	Acer negundo
+ACERN-N	Acer negundo subsp. negundo
+ACERN;T	Acer negundo var. texanum
+ACERNIG	Acer nigrum
+ACERPEN	Acer pensylvanicum
+ACERPLA	Acer platanoides
+ACERP-P	Acer platanoides subsp. platanoides
+ACERRUB	Acer rubrum
+ACERR;R	Acer rubrum var. rubrum
+ACERSAC	Acer saccharinum
+ACERSAH	Acer saccharum
+ACERS;S	Acer saccharum var. saccharum
+ACER-SP	Acer SPECIES
+ACERSPI	Acer spicatum
+ACERTAT	Acer tataricum
+ACERT-G	Acer tataricum subsp. ginnala
+ACORAME	Acorus americanus
+ACORA-A	Acorus americanus subsp. americanus
+ACORCAL	Acorus calamus
+ACOR-SP	Acorus SPECIES
+ACTAPAY	Actaea pachypoda
+ACTAPAC	Actaea pachypoda f. pachypoda
+ACTAPAH	Actaea pachypoda f. rubrocarpa
+ACTARUB	Actaea rubra
+ACTA-SP	Actaea SPECIES
+ADIAALE	Adiantum aleuticum
+ADIAPED	Adiantum pedatum
+ADIA-SP	Adiantum SPECIES
+ADLUFUN	Adlumia fungosa
+ADLU-SP	Adlumia SPECIES
+AEGOPOD	Aegopodium podagraria
+AEGO-SP	Aegopodium SPECIES
+AESCHIP	Aesculus hippocastanum
+AESC-SP	Aesculus SPECIES
+AETHCYN	Aethusa cynapium
+AETHC-C	Aethusa cynapium subsp. cynapium
+AETH-SP	Aethusa SPECIES
+AGALPUR	Agalinis purpurea
+AGALP;P	Agalinis purpurea var. parviflora
+AGAL-SP	Agalinis SPECIES
+AGALTEN	Agalinis tenuifolia
+AGASFOE	Agastache foeniculum
+AGASNEP	Agastache nepetoides
+AGAS-SP	Agastache SPECIES
+AGERALT	Ageratina altissima
+AGERA;A	Ageratina altissima var. altissima
+AGER-SP	Ageratina SPECIES
+AGOSAUR	Agoseris aurantiaca
+AGOSA;A	Agoseris aurantiaca var. aurantiaca
+AGOS-SP	Agoseris SPECIES
+AGRIGRY	Agrimonia gryposepala
+AGRIPUB	Agrimonia pubescens
+AGRI-SP	Agrimonia SPECIES
+AGRISTR	Agrimonia striata
+AGRPCRI	Agropyron cristatum
+AGRP-SP	Agropyron SPECIES
+AGROGIT	Agrostemma githago
+AGRO-SP	Agrostemma SPECIES
+AGRSCAN	Agrostis canina
+AGRSCAP	Agrostis capillaris
+AGRSGIG	Agrostis gigantea
+AGRSG-G	Agrostis gigantea subsp. gigantea
+AGRSMER	Agrostis mertensii
+AGRSPER	Agrostis perennans
+AGRSSCA	Agrostis scabra
+AGRS-SP	Agrostis SPECIES
+AGRSSTO	Agrostis stolonifera
+ACHIALP	Achillea alpina
+ACHIA-M	Achillea alpina subsp. multiflora
+ACHIDIS	Achillea distans
+ACHID-D	Achillea distans subsp. distans
+ACHIGRA	Achillea gracilis
+ACHIPAN	Achillea pannonica
+ACHIPTA	Achillea ptarmica
+ACHIP-P	Achillea ptarmica subsp. ptarmica
+ACHI-SP	Achillea SPECIES
+AILAALT	Ailanthus altissima
+AILAA;A	Ailanthus altissima var. altissima
+AILA-SP	Ailanthus SPECIES
+AJUGGEN	Ajuga genevensis
+AJUGREP	Ajuga reptans
+AJUG-SP	Ajuga SPECIES
+ALCEROS	Alcea rosea
+ALCE-SP	Alcea SPECIES
+ALCHFIL	Alchemilla filicaulis
+ALCHGLA	Alchemilla glabra
+ALCHGLU	Alchemilla glaucescens
+ALCHGLO	Alchemilla glomerulans
+ALCHMIC	Alchemilla micans
+ALCHMON	Alchemilla monticola
+ALCH-SP	Alchemilla SPECIES
+ALCHSUB	Alchemilla subcrenata
+ALCHXAN	Alchemilla xanthochlora
+ALISGRA	Alisma gramineum
+ALIS-SP	Alisma SPECIES
+ALISSUB	Alisma subcordatum
+ALISTRI	Alisma triviale
+ALKEO;O	Alkekengi officinarum var. officinarum
+ALKE-SP	Alkekengi SPECIES
+ALLIBUR	Allium burdickii
+ALLICAN	Allium canadense
+ALLIC;C	Allium canadense var. canadense
+ALLISCH	Allium schoenoprasum
+ALLI-SP	Allium SPECIES
+ALLITRI	Allium tricoccum
+ALLIVIN	Allium vineale
+ALNUALN	Alnus alnobetula
+ALNUA-C	Alnus alnobetula subsp. crispa
+ALNUINC	Alnus incana
+ALNUI-R	Alnus incana subsp. rugosa
+ALNUSER	Alnus serrulata
+ALNU-SP	Alnus SPECIES
+ALOPAEQ	Alopecurus aequalis
+ALOPGEN	Alopecurus geniculatus
+ALOPMAG	Alopecurus magellanicus
+ALOPPRA	Alopecurus pratensis
+ALOPP-P	Alopecurus pratensis subsp. pratensis
+ALOP-SP	Alopecurus SPECIES
+ALTHOFF	Althaea officinalis
+ALTH-SP	Althaea SPECIES
+ALYSALY	Alyssum alyssoides
+ALYS-SP	Alyssum SPECIES
+AMARALB	Amaranthus albus
+AMARBLI	Amaranthus blitoides
+AMARBLT	Amaranthus blitum
+AMARB-B	Amaranthus blitum subsp. blitum
+AMARB-E	Amaranthus blitum subsp. emarginatus
+AMARHYB	Amaranthus hybridus
+AMARH-H	Amaranthus hybridus subsp. hybridus
+AMARHYP	Amaranthus hypochondriacus
+AMARPOW	Amaranthus powellii
+AMARRET	Amaranthus retroflexus
+AMAR-SP	Amaranthus SPECIES
+AMARTUB	Amaranthus tuberculatus
+AMARVIR	Amaranthus viridis
+AMBRART	Ambrosia artemisiifolia
+AMBRPSI	Ambrosia psilostachya
+AMBR-SP	Ambrosia SPECIES
+AMBRTRI	Ambrosia trifida
+AMELAMA	Amelanchier amabilis
+AMELARB	Amelanchier arborea
+AMELBAR	Amelanchier bartramiana
+AMELCAN	Amelanchier canadensis
+AMELFER	Amelanchier fernaldii
+AMELGAS	Amelanchier gaspensis
+AMELHUM	Amelanchier humilis
+AMELINT	Amelanchier interior
+AMELINE	Amelanchier intermedia
+AMELLAE	Amelanchier laevis
+AMELSAN	Amelanchier sanguinea
+AMEL-SP	Amelanchier SPECIES
+AMELSTO	Amelanchier stolonifera
+AMPHBRA	Amphicarpaea bracteata
+AMPH-SP	Amphicarpaea SPECIES
+ANAC-SP	Anacis SPECIES
+ANACTRI	Anacis tripteris
+ANACVER	Anacis verticillata
+ANAPMAR	Anaphalis margaritacea
+ANAPM-M	Anaphalis margaritacea subsp. margaritacea
+ANAP-SP	Anaphalis SPECIES
+ANDEBOR	Andersonglossum boreale
+ANDE-SP	Andersonglossum SPECIES
+ANDRPOL	Andromeda polifolia
+ANDRP;J	Andromeda polifolia nothovar. jamesiana
+ANDRP-P	Andromeda polifolia subsp. polifolia
+ANDRP;L	Andromeda polifolia var. latifolia
+ANDR-SP	Andromeda SPECIES
+ANDOGER	Andropogon gerardi
+ANDOG;G	Andropogon gerardi var. gerardi
+ANDO-SP	Andropogon SPECIES
+ANDSSEP	Androsace septentrionalis
+ANDS-SP	Androsace SPECIES
+ANEMCAN	Anemonastrum canadense
+ANEMRIC	Anemonastrum richardsonii
+ANEM-SP	Anemonastrum SPECIES
+ANEOCYL	Anemone cylindrica
+ANEOMUL	Anemone multifida
+ANEOM;H	Anemone multifida var. hudsoniana
+ANEOPAR	Anemone parviflora
+ANEOQUI	Anemone quinquefolia
+ANEO-SP	Anemone SPECIES
+ANEOVIR	Anemone virginiana
+ANEOV;A	Anemone virginiana var. alba
+ANEOV;C	Anemone virginiana var. cylindroidea
+ANEOV;V	Anemone virginiana var. virginiana
+ANETGRA	Anethum graveolens
+ANET-SP	Anethum SPECIES
+ANGEATR	Angelica atropurpurea
+ANGELUC	Angelica lucida
+ANGE-SP	Angelica SPECIES
+ANGESYL	Angelica sylvestris
+ANGES-S	Angelica sylvestris subsp. sylvestris
+ANCHARV	Anchusa arvensis
+ANCH-SP	Anchusa SPECIES
+ANTEALP	Antennaria alpina
+ANTEFRI	Antennaria friesiana
+ANTEF-F	Antennaria friesiana subsp. friesiana
+ANTEHOW	Antennaria howellii
+ANTEH-C	Antennaria howellii subsp. canadensis
+ANTEH-N	Antennaria howellii subsp. neodioica
+ANTEH-P	Antennaria howellii subsp. petaloidea
+ANTEMIC	Antennaria microphylla
+ANTEMON	Antennaria monocephala
+ANTEM-A	Antennaria monocephala subsp. angustata
+ANTENEG	Antennaria neglecta
+ANTEPAR	Antennaria parlinii
+ANTEP-F	Antennaria parlinii subsp. fallax
+ANTEP-P	Antennaria parlinii subsp. parlinii
+ANTEPLA	Antennaria plantaginifolia
+ANTEPUL	Antennaria pulcherrima
+ANTEP-E	Antennaria pulcherrima subsp. eucosma
+ANTEP-U	Antennaria pulcherrima subsp. pulcherrima
+ANTEROS	Antennaria rosea
+ANTER-A	Antennaria rosea subsp. arida
+ANTER-C	Antennaria rosea subsp. confinis
+ANTER-P	Antennaria rosea subsp. pulvinata
+ANTE-SP	Antennaria SPECIES
+ANTMARV	Anthemis arvensis
+ANTMA-A	Anthemis arvensis subsp. arvensis
+ANTMCOT	Anthemis cotula
+ANTM-SP	Anthemis SPECIES
+ANTOARC	Anthoxanthum arcticum
+ANTOARI	Anthoxanthum aristatum
+ANTOMON	Anthoxanthum monticola
+ANTONIT	Anthoxanthum nitens
+ANTOODO	Anthoxanthum odoratum
+ANTORAC	Anthoxanthum racemosum
+ANTO-SP	Anthoxanthum SPECIES
+ANTHCER	Anthriscus cerefolium
+ANTH-SP	Anthriscus SPECIES
+ANTHSYL	Anthriscus sylvestris
+ANTHS-S	Anthriscus sylvestris subsp. sylvestris
+ANTIELE	Anticlea elegans
+ANTIE-E	Anticlea elegans subsp. elegans
+ANTIE-G	Anticlea elegans subsp. glauca
+ANTI-SP	Anticlea SPECIES
+ANTRMAJ	Antirrhinum majus
+ANTR-SP	Antirrhinum SPECIES
+APIOAME	Apios americana
+APIO-SP	Apios SPECIES
+APLEHYE	Aplectrum hyemale
+APLE-SP	Aplectrum SPECIES
+APOCAND	Apocynum androsaemifolium
+APOCCAN	Apocynum cannabinum
+APOC-SP	Apocynum SPECIES
+AQUICAN	Aquilegia canadensis
+AQUI-SP	Aquilegia SPECIES
+AQUIVUL	Aquilegia vulgaris
+ARABARE	Arabidopsis arenicola
+ARAB-SP	Arabidopsis SPECIES
+ARABTHA	Arabidopsis thaliana
+ARAIALP	Arabis alpina
+ARAIA-A	Arabis alpina subsp. alpina
+ARAICAU	Arabis caucasica
+ARAIPYC	Arabis pycnocarpa
+ARAI-SP	Arabis SPECIES
+ARALHIS	Aralia hispida
+ARALNUD	Aralia nudicaulis
+ARALRAC	Aralia racemosa
+ARAL-SP	Aralia SPECIES
+ARCEPUS	Arceuthobium pusillum
+ARCE-SP	Arceuthobium SPECIES
+ARCALAT	Arctagrostis latifolia
+ARCA-SP	Arctagrostis SPECIES
+ARCTLAP	Arctium lappa
+ARCTL-L	Arctium lappa subsp. lappa
+ARCTMIN	Arctium minus
+ARCT-SP	Arctium SPECIES
+ARCTTOM	Arctium tomentosum
+ARCPEMI	Arctopoa eminens
+ARCPSAL	Arctopoa saltuensis
+ARCP-SP	Arctopoa SPECIES
+ARCO-SP	Arctostaphylos SPECIES
+ARCOUVA	Arctostaphylos uva-ursi
+ARCUALP	Arctous alpina
+ARCURUB	Arctous rubra
+ARCU-SP	Arctous SPECIES
+ARENHUM	Arenaria humifusa
+ARENSER	Arenaria serpyllifolia
+ARENS;S	Arenaria serpyllifolia var. serpyllifolia
+AREN-SP	Arenaria SPECIES
+ARETBUL	Arethusa bulbosa
+ARET-SP	Arethusa SPECIES
+ARGEANS	Argentina anserina
+ARGEA-A	Argentina anserina subsp. anserina
+ARGEA-G	Argentina anserina subsp. groenlandica
+ARGEPAC	Argentina pacifica
+ARGE-SP	Argentina SPECIES
+ARISDRA	Arisaema dracontium
+ARISPUS	Arisaema pusillum
+ARIS-SP	Arisaema SPECIES
+ARISSTE	Arisaema stewardsonii
+ARISTRI	Arisaema triphyllum
+ARIIBAS	Aristida basiramea
+ARII-SP	Aristida SPECIES
+ARITCLE	Aristolochia clematitis
+ARIT-SP	Aristolochia SPECIES
+ARMORUS	Armoracia rusticana
+ARMO-SP	Armoracia SPECIES
+ARNIANG	Arnica angustifolia
+ARNIA-A	Arnica angustifolia subsp. angustifolia
+ARNIGRI	Arnica griscomii
+ARNIG-G	Arnica griscomii subsp. griscomii
+ARNICHA	Arnica chamissonis
+ARNILAN	Arnica lanceolata
+ARNIL-L	Arnica lanceolata subsp. lanceolata
+ARNILON	Arnica lonchophylla
+ARNI-SP	Arnica SPECIES
+ARONARB	Aronia arbutifolia
+ARONMEL	Aronia melanocarpa
+ARON-SP	Aronia SPECIES
+ARRHELA	Arrhenatherum elatius
+ARRHE-E	Arrhenatherum elatius subsp. elatius
+ARRH-SP	Arrhenatherum SPECIES
+ARTEABR	Artemisia abrotanum
+ARTEABS	Artemisia absinthium
+ARTEANN	Artemisia annua
+ARTEBIE	Artemisia biennis
+ARTECAM	Artemisia campestris
+ARTEC-C	Artemisia campestris subsp. canadensis
+ARTEC-A	Artemisia campestris subsp. caudata
+ARTEFRG	Artemisia frigida
+ARTEFRI	Artemisia frigida f. frigida
+ARTELUD	Artemisia ludoviciana
+ARTEL-L	Artemisia ludoviciana subsp. ludoviciana
+ARTEPON	Artemisia pontica
+ARTE-SP	Artemisia SPECIES
+ARTESTE	Artemisia stelleriana
+ARTETIL	Artemisia tilesii
+ARTEVUL	Artemisia vulgaris
+ARTEV-V	Artemisia vulgaris subsp. vulgaris
+ARUNDIO	Aruncus dioicus
+ARUND;A	Aruncus dioicus var. acuminatus
+ARUN-SP	Aruncus SPECIES
+ASARCAN	Asarum canadense
+ASAR-SP	Asarum SPECIES
+ASCLEXA	Asclepias exaltata
+ASCLINC	Asclepias incarnata
+ASCLI-I	Asclepias incarnata subsp. incarnata
+ASCL-SP	Asclepias SPECIES
+ASCLSYR	Asclepias syriaca
+ASCLTUB	Asclepias tuberosa
+ASCLT-I	Asclepias tuberosa subsp. interior
+ASPAOFF	Asparagus officinalis
+ASPA-SP	Asparagus SPECIES
+ASPLPLA	Asplenium platyneuron
+ASPLP;P	Asplenium platyneuron var. platyneuron
+ASPLRHI	Asplenium rhizophyllum
+ASPLRUT	Asplenium ruta-muraria
+ASPLR;C	Asplenium ruta-muraria var. cryptolepis
+ASPL-SP	Asplenium SPECIES
+ASPLTRI	Asplenium trichomanes
+ASPLT-Q	Asplenium trichomanes subsp. quadrivalens
+ASPLT-T	Asplenium trichomanes subsp. trichomanes
+ASPLVIR	Asplenium viride
+ASTRABO	Astragalus aboriginorum
+ASTRA;A	Astragalus aboriginorum var. aboriginorum
+ASTRAGR	Astragalus agrestis
+ASTRALP	Astragalus alpinus
+ASTRA;L	Astragalus alpinus var. alpinus
+ASTRA;B	Astragalus alpinus var. brunetianus
+ASTRAME	Astragalus americanus
+ASTRCAN	Astragalus canadensis
+ASTRC;C	Astragalus canadensis var. canadensis
+ASTRCIC	Astragalus cicer
+ASTREUC	Astragalus eucosmus
+ASTRR;F	Astragalus robbinsii var. fernaldii
+ASTRR;M	Astragalus robbinsii var. minor
+ASTR-SP	Astragalus SPECIES
+ATHYAME	Athyrium americanum
+ATHYANG	Athyrium angustum
+ATHYCYC	Athyrium cyclosorum
+ATHY-SP	Athyrium SPECIES
+ATOCARM	Atocion armeria
+ATOC-SP	Atocion SPECIES
+ATRIDIO	Atriplex dioica
+ATRIGLA	Atriplex glabriuscula
+ATRIG;A	Atriplex glabriuscula var. acadiensis
+ATRIG;G	Atriplex glabriuscula var. glabriuscula
+ATRIHOR	Atriplex hortensis
+ATRILAC	Atriplex laciniata
+ATRIMIC	Atriplex micrantha
+ATRIPAT	Atriplex patula
+ATRIP-P	Atriplex patula subsp. patula
+ATRIPRO	Atriplex prostrata
+ATRIP-R	Atriplex prostrata subsp. prostrata
+ATRI-SP	Atriplex SPECIES
+AURISAX	Aurinia saxatilis
+AURIS-S	Aurinia saxatilis subsp. saxatilis
+AURI-SP	Aurinia SPECIES
+AVENFAT	Avena fatua
+AVENSAT	Avena sativa
+AVEN-SP	Avena SPECIES
+AVENSTE	Avena sterilis
+AVENS-S	Avena sterilis subsp. sterilis
+AVEEFLE	Avenella flexuosa
+AVEEF-C	Avenella flexuosa subsp. corsica
+AVEEF-F	Avenella flexuosa subsp. flexuosa
+AVEE-SP	Avenella SPECIES
+AVEUPUB	Avenula pubescens
+AVEU-SP	Avenula SPECIES
+AXYRAMA	Axyris amaranthoides
+AXYR-SP	Axyris SPECIES
+BARBORT	Barbarea orthoceras
+BARB-SP	Barbarea SPECIES
+BARBSTR	Barbarea stricta
+BARBVUL	Barbarea vulgaris
+BART-SP	Bartonia SPECIES
+BARTVIR	Bartonia virginica
+BARSALP	Bartsia alpina
+BARS-SP	Bartsia SPECIES
+BASSSCO	Bassia scoparia
+BASS-SP	Bassia SPECIES
+BECK-SP	Beckmannia SPECIES
+BECKSYZ	Beckmannia syzigachne
+BELLPER	Bellis perennis
+BELL-SP	Bellis SPECIES
+BERBAQU	Berberis aquifolium
+BERB-SP	Berberis SPECIES
+BERBVUL	Berberis vulgaris
+BERBV-V	Berberis vulgaris subsp. vulgaris
+BERTINC	Berteroa incana
+BERT-SP	Berteroa SPECIES
+BETUALL	Betula alleghaniensis
+BETUCOR	Betula cordifolia
+BETUGLA	Betula glandulosa
+BETUMIC	Betula michauxii
+BETUPAP	Betula papyrifera
+BETUPOP	Betula populifolia
+BETUPUM	Betula pumila
+BETU-SP	Betula SPECIES
+BIDEALB	Bidens alba
+BIDEBEC	Bidens beckii
+BIDECER	Bidens cernua
+BIDECON	Bidens connata
+BIDEDIS	Bidens discoidea
+BIDEEAT	Bidens eatonii
+BIDEFRO	Bidens frondosa
+BIDEHET	Bidens heterodoxa
+BIDEHYP	Bidens hyperborea
+BIDE-SP	Bidens SPECIES
+BIDETRI	Bidens trichosperma
+BIDETRP	Bidens tripartita
+BIDEVUL	Bidens vulgata
+BIST-SP	Bistorta SPECIES
+BISTVIV	Bistorta vivipara
+BLEPHIR	Blephilia hirsuta
+BLEP-SP	Blephilia SPECIES
+BLITBON	Blitum bonus-henricus
+BLITCAP	Blitum capitatum
+BLITC-C	Blitum capitatum subsp. capitatum
+BLIT-SP	Blitum SPECIES
+BLYSRUF	Blysmus rufus
+BLYS-SP	Blysmus SPECIES
+BOEHCYL	Boehmeria cylindrica
+BOEH-SP	Boehmeria SPECIES
+BOECCOL	Boechera collinsii
+BOECDRU	Boechera drummondii
+BOECGRA	Boechera grahamii
+BOECQUE	Boechera quebecensis
+BOECRET	Boechera retrofracta
+BOEC-SP	Boechera SPECIES
+BOLBFLU	Bolboschoenus fluviatilis
+BOLBMAR	Bolboschoenus maritimus
+BOLBM-P	Bolboschoenus maritimus subsp. paludosus
+BOLB-SP	Bolboschoenus SPECIES
+BORAOFF	Borago officinalis
+BORA-SP	Borago SPECIES
+BOROCAN	Borodinia canadensis
+BOROLAE	Borodinia laevigata
+BORO-SP	Borodinia SPECIES
+BOTRANG	Botrychium angustisegmentum
+BOTRASC	Botrychium ascendens
+BOTRBOR	Botrychium boreale
+BOTRCAM	Botrychium campestre
+BOTRDIS	Botrychium dissectum
+BOTRLAN	Botrychium lanceolatum
+BOTRLIN	Botrychium lineare
+BOTRMAT	Botrychium matricariifolium
+BOTRMIN	Botrychium minganense
+BOTRMOR	Botrychium mormo
+BOTRMUL	Botrychium multifidum
+BOTRNEO	Botrychium neolunaria
+BOTRONE	Botrychium oneidense
+BOTRONO	Botrychium onondagense
+BOTRPAL	Botrychium pallidum
+BOTRPED	Botrychium pedunculosum
+BOTRRUG	Botrychium rugulosum
+BOTRSIM	Botrychium simplex
+BOTRSPA	Botrychium spathulatum
+BOTR-SP	Botrychium SPECIES
+BOTRVIR	Botrychium virginianum
+BOTRV-V	Botrychium virginianum subsp. virginianum
+BRACARI	Brachyelytrum aristosum
+BRACERE	Brachyelytrum erectum
+BRAC-SP	Brachyelytrum SPECIES
+BRAESCH	Brasenia schreberi
+BRAE-SP	Brasenia SPECIES
+BRASNAP	Brassica napus
+BRASOLE	Brassica oleracea
+BRASRAP	Brassica rapa
+BRAS-SP	Brassica SPECIES
+BRAYGLA	Braya glabella
+BRAYHUM	Braya humilis
+BRAYH-H	Braya humilis subsp. humilis
+BRAY-SP	Braya SPECIES
+BRIZMAX	Briza maxima
+BRIZ-SP	Briza SPECIES
+BROMALE	Bromus aleutensis
+BROMARV	Bromus arvensis
+BROMCIL	Bromus ciliatus
+BROMERE	Bromus erectus
+BROMHOR	Bromus hordeaceus
+BROMH-H	Bromus hordeaceus subsp. hordeaceus
+BROMINE	Bromus inermis
+BROMKAL	Bromus kalmii
+BROMLAT	Bromus latiglumis
+BROMPUB	Bromus pubescens
+BROMPUM	Bromus pumpellianus
+BROMRAC	Bromus racemosus
+BROMSEC	Bromus secalinus
+BROM-SP	Bromus SPECIES
+BROMTEC	Bromus tectorum
+BUGLARV	Buglossoides arvensis
+BUGLA-A	Buglossoides arvensis subsp. arvensis
+BUGL-SP	Buglossoides SPECIES
+BULBCAP	Bulbostylis capillaris
+BULBC-C	Bulbostylis capillaris subsp. capillaris
+BULB-SP	Bulbostylis SPECIES
+BUNIORI	Bunias orientalis
+BUNI-SP	Bunias SPECIES
+BUPLROT	Bupleurum rotundifolium
+BUPL-SP	Bupleurum SPECIES
+BUTOJUN	Butomus junceus
+BUTO-SP	Butomus SPECIES
+CAKIEDE	Cakile edentula
+CAKIE-E	Cakile edentula subsp. edentula
+CAKIE;L	Cakile edentula var. lacustris
+CAKI-SP	Cakile SPECIES
+CALABRE	Calamagrostis breviligulata
+CALAB-B	Calamagrostis breviligulata subsp. breviligulata
+CALACAN	Calamagrostis canadensis
+CALADES	Calamagrostis deschampsioides
+CALAINE	Calamagrostis inexpansa
+CALALAP	Calamagrostis lapponica
+CALAPUR	Calamagrostis purpurascens
+CALAP-L	Calamagrostis purpurascens subsp. laricina
+CALAP-P	Calamagrostis purpurascens subsp. purpurascens
+CALAPUP	Calamagrostis purpurea
+CALA-SP	Calamagrostis SPECIES
+CALASTR	Calamagrostis stricta
+CALEOFF	Calendula officinalis
+CALE-SP	Calendula SPECIES
+CALLPAL	Calla palustris
+CALL-SP	Calla SPECIES
+CALIHER	Callitriche hermaphroditica
+CALIH-H	Callitriche hermaphroditica subsp. hermaphroditica
+CALIHET	Callitriche heterophylla
+CALIPAL	Callitriche palustris
+CALIP-P	Callitriche palustris subsp. palustris
+CALI-SP	Callitriche SPECIES
+CALISTA	Callitriche stagnalis
+CALO-SP	Calopogon SPECIES
+CALOTUB	Calopogon tuberosus
+CALOT;T	Calopogon tuberosus var. tuberosus
+CALTPAL	Caltha palustris
+CALTP;P	Caltha palustris var. palustris
+CALT-SP	Caltha SPECIES
+CALPBUL	Calypso bulbosa
+CALPB;A	Calypso bulbosa var. americana
+CALP-SP	Calypso SPECIES
+CALYPUB	Calystegia pubescens
+CALYSEP	Calystegia sepium
+CALYS-A	Calystegia sepium subsp. americana
+CALYS-N	Calystegia sepium subsp. angulata
+CALYS-E	Calystegia sepium subsp. erratica
+CALY-SP	Calystegia SPECIES
+CALYSPI	Calystegia spithamaea
+CALYS-S	Calystegia spithamaea subsp. stans
+CAMEMIC	Camelina microcarpa
+CAMESAT	Camelina sativa
+CAME-SP	Camelina SPECIES
+CAMPGIE	Campanula giesekiana
+CAMPGLO	Campanula glomerata
+CAMPG-G	Campanula glomerata subsp. glomerata
+CAMPINT	Campanula intercedens
+CAMPPER	Campanula persicifolia
+CAMPP-P	Campanula persicifolia subsp. persicifolia
+CAMPRAP	Campanula rapunculoides
+CAMPR-R	Campanula rapunculoides subsp. rapunculoides
+CAMP-SP	Campanula SPECIES
+CAMPTRA	Campanula trachelium
+CAMPT-T	Campanula trachelium subsp. trachelium
+CAMAAME	Campanulastrum americanum
+CAMA-SP	Campanulastrum SPECIES
+CANNSAT	Cannabis sativa
+CANN-SP	Cannabis SPECIES
+CAPNSEM	Capnoides sempervirens
+CAPN-SP	Capnoides SPECIES
+CAPSBUR	Capsella bursa-pastoris
+CAPSB-B	Capsella bursa-pastoris subsp. bursa-pastoris
+CAPS-SP	Capsella SPECIES
+CARGARB	Caragana arborescens
+CARG-SP	Caragana SPECIES
+CARABEL	Cardamine bellidifolia
+CARAB-B	Cardamine bellidifolia subsp. bellidifolia
+CARABUL	Cardamine bulbosa
+CARACON	Cardamine concatenata
+CARADIP	Cardamine diphylla
+CARAMAX	Cardamine maxima
+CARAPAR	Cardamine parviflora
+CARAPEN	Cardamine pensylvanica
+CARAPOL	Cardamine polemonioides
+CARAPRA	Cardamine pratensis
+CARAP-P	Cardamine pratensis subsp. pratensis
+CARA-SP	Cardamine SPECIES
+CARDACA	Carduus acanthoides
+CARDA-A	Carduus acanthoides subsp. acanthoides
+CARDCRI	Carduus crispus
+CARDC-C	Carduus crispus subsp. crispus
+CARDNUT	Carduus nutans
+CARDN-N	Carduus nutans subsp. nutans
+CARD-SP	Carduus SPECIES
+CAREADU	Carex adusta
+CAREALA	Carex alascana
+CAREALB	Carex albicans
+CAREA;A	Carex albicans var. albicans
+CAREA;E	Carex albicans var. emmonsii
+CAREALU	Carex albursina
+CAREALO	Carex alopecoidea
+CAREANN	Carex annectens
+CAREAPP	Carex appalachica
+CAREAQU	Carex aquatilis
+CAREA;Q	Carex aquatilis var. aquatilis
+CAREA;M	Carex aquatilis var. minor
+CAREA;S	Carex aquatilis var. substricta
+CAREARC	Carex arcta
+CAREART	Carex arctata
+CAREARO	Carex arctogena
+CAREARG	Carex argyrantha
+CAREATH	Carex atherodes
+CAREATL	Carex atlantica
+CAREA-C	Carex atlantica subsp. capillacea
+CAREATR	Carex atratiformis
+CAREATO	Carex atrofusca
+CAREA-A	Carex atrofusca subsp. atrofusca
+CAREAUR	Carex aurea
+CAREBAC	Carex backii
+CAREBAI	Carex baileyi
+CAREBEB	Carex bebbii
+CAREBIC	Carex bicolor
+CAREBIG	Carex bigelowii
+CAREB-B	Carex bigelowii subsp. bigelowii
+CAREBIL	Carex billingsii
+CAREBLA	Carex blanda
+CAREBRE	Carex brevior
+CAREBRO	Carex bromoides
+CAREB-R	Carex bromoides subsp. bromoides
+CAREBRU	Carex brunnescens
+CAREB-U	Carex brunnescens subsp. brunnescens
+CAREB-S	Carex brunnescens subsp. sphaerostachya
+CAREBUX	Carex buxbaumii
+CARECAN	Carex canescens
+CAREC-C	Carex canescens subsp. canescens
+CAREC-D	Carex canescens subsp. disjuncta
+CARECAP	Carex capillaris
+CAREC-A	Carex capillaris subsp. capillaris
+CARECAI	Carex capitata
+CARECAS	Carex castanea
+CARECEP	Carex cephaloidea
+CARECEH	Carex cephalophora
+CARECOM	Carex communis
+CAREC;C	Carex communis var. communis
+CARECOO	Carex comosa
+CARECON	Carex concinna
+CARECOI	Carex conoidea
+CARECRA	Carex crawei
+CARECRW	Carex crawfordii
+CARECRI	Carex crinita
+CAREC;R	Carex crinita var. crinita
+CARECRS	Carex cristatella
+CARECRY	Carex cryptolepis
+CARECUM	Carex cumulata
+CAREDEB	Carex debilis
+CARED;R	Carex debilis var. rudgei
+CAREDEF	Carex deflexa
+CARED;D	Carex deflexa var. deflexa
+CAREDEM	Carex demissa
+CARED-D	Carex demissa subsp. demissa
+CAREDEW	Carex deweyana
+CARED;C	Carex deweyana var. collectanea
+CARED;E	Carex deweyana var. deweyana
+CAREDIA	Carex diandra
+CAREDIG	Carex digitalis
+CARED;I	Carex digitalis var. digitalis
+CAREDIS	Carex disperma
+CAREDIT	Carex disticha
+CAREEBU	Carex eburnea
+CAREECH	Carex echinata
+CAREE-E	Carex echinata subsp. echinata
+CAREEXI	Carex exilis
+CAREFLA	Carex flacca
+CAREF-F	Carex flacca subsp. flacca
+CAREFLV	Carex flava
+CAREFOE	Carex foenea
+CAREFOL	Carex folliculata
+CAREFOR	Carex formosa
+CAREFUL	Carex fuliginosa
+CAREGAR	Carex garberi
+CAREGLA	Carex glacialis
+CAREGLR	Carex glareosa
+CAREG-G	Carex glareosa subsp. glareosa
+CAREGRA	Carex gracillima
+CAREGRN	Carex granularis
+CAREGRY	Carex grayi
+CAREGRI	Carex grisea
+CAREGYN	Carex gynandra
+CAREHAY	Carex haydenii
+CAREHEL	Carex heleonastes
+CAREH-H	Carex heleonastes subsp. heleonastes
+CAREHIR	Carex hirsutella
+CAREHIT	Carex hirta
+CAREHII	Carex hirtifolia
+CAREHIC	Carex hitchcockiana
+CAREHOL	Carex holostoma
+CAREHOR	Carex hormathodes
+CAREHOS	Carex hostiana
+CAREHOU	Carex houghtoniana
+CAREHYS	Carex hystericina
+CARECHO	Carex chordorrhiza
+CAREINT	Carex interior
+CAREINU	Carex intumescens
+CAREKRA	Carex krauseorum
+CAREK-P	Carex krauseorum subsp. porsildiana
+CARELAU	Carex lacustris
+CARELAC	Carex lachenalii
+CAREL-L	Carex lachenalii subsp. lachenalii
+CARELAP	Carex lapponica
+CARELAS	Carex lasiocarpa
+CAREL;A	Carex lasiocarpa var. americana
+CAREL;L	Carex lasiocarpa var. lasiocarpa
+CARELAX	Carex laxiflora
+CARELEN	Carex lenticularis
+CARELEP	Carex lepidocarpa
+CAREL-E	Carex lepidocarpa subsp. lepidocarpa
+CARELEO	Carex leporina
+CARELET	Carex leptalea
+CAREL-P	Carex leptalea subsp. leptalea
+CARELEE	Carex leptonervia
+CARELIM	Carex limosa
+CARELIV	Carex livida
+CARELUC	Carex lucorum
+CARELUP	Carex lupuliformis
+CARELUU	Carex lupulina
+CARELUR	Carex lurida
+CAREMAC	Carex mackenziei
+CAREMAL	Carex macloviana
+CAREM;M	Carex macloviana var. macloviana
+CAREMAG	Carex magellanica
+CAREM-I	Carex magellanica subsp. irrigua
+CAREMAR	Carex marina
+CAREM-M	Carex marina subsp. marina
+CAREMAI	Carex maritima
+CAREMED	Carex media
+CAREMEM	Carex membranacea
+CAREMER	Carex merritt-fernaldii
+CAREMIR	Carex microglochin
+CAREMIC	Carex michauxiana
+CAREMIL	Carex miliaris
+CAREMOL	Carex molesta
+CAREMUE	Carex muehlenbergii
+CAREM;U	Carex muehlenbergii var. muehlenbergii
+CAREMYO	Carex myosuroides
+CARENAR	Carex nardina
+CAREN;N	Carex nardina var. nardina
+CARENIG	Carex nigra
+CAREN-N	Carex nigra subsp. nigra
+CARENOR	Carex normalis
+CARENOV	Carex norvegica
+CAREN-O	Carex norvegica subsp. norvegica
+CARENOA	Carex novae-angliae
+CAREOED	Carex oederi
+CAREO;O	Carex oederi var. oederi
+CAREOKL	Carex oklahomensis
+CAREOLI	Carex oligocarpa
+CAREOLG	Carex oligosperma
+CAREORM	Carex ormostachya
+CAREPAL	Carex paleacea
+CAREPAE	Carex pallescens
+CAREPAU	Carex pauciflora
+CAREPEC	Carex peckii
+CAREPED	Carex pedunculata
+CAREPEL	Carex pellita
+CAREPEN	Carex pensylvanica
+CAREPET	Carex petricosa
+CAREP;M	Carex petricosa var. misandroides
+CAREPLA	Carex plantaginea
+CAREPLT	Carex platyphylla
+CAREPRA	Carex praegracilis
+CAREPRI	Carex prairea
+CAREPRS	Carex prasina
+CAREPRT	Carex praticola
+CAREPRO	Carex projecta
+CAREPSE	Carex pseudocyperus
+CAREP;P	Carex pseudocyperus var. pseudocyperus
+CARERAD	Carex radiata
+CARERAR	Carex rariflora
+CARER;R	Carex rariflora var. rariflora
+CAREREC	Carex recta
+CARERET	Carex retrorsa
+CARERHO	Carex rhomalea
+CARERIC	Carex richardsonii
+CAREROS	Carex rosea
+CAREROT	Carex rostrata
+CARER;A	Carex rostrata var. ambigens
+CARER;O	Carex rostrata var. rostrata
+CAREROU	Carex rotundata
+CARERUF	Carex rufina
+CARERUP	Carex rupestris
+CARER-R	Carex rupestris subsp. rupestris
+CARESAL	Carex salina
+CARES;P	Carex salina var. pseudofilipendula
+CARES;S	Carex salina var. salina
+CARESAR	Carex sartwellii
+CARES;A	Carex sartwellii var. sartwellii
+CARESCA	Carex scabrata
+CARESCI	Carex scirpoidea
+CARES;C	Carex scirpoidea var. scirpoidea
+CARESCO	Carex scoparia
+CARESIC	Carex siccata
+CARES;I	Carex siccata var. siccata
+CARESIL	Carex silicea
+CARESIM	Carex simpliciuscula
+CARES-S	Carex simpliciuscula subsp. simpliciuscula
+CARESPA	Carex sparganioides
+CARE-SP	Carex SPECIES
+CARESPR	Carex sprengelii
+CARESTE	Carex sterilis
+CARESTI	Carex stipata
+CARES;T	Carex stipata var. stipata
+CARESTR	Carex stricta
+CARESTY	Carex stylosa
+CARESUB	Carex subspathacea
+CARESWA	Carex swanii
+CARESYC	Carex sychnocephala
+CARETEN	Carex tenera
+CARETEU	Carex tenuiflora
+CARETIN	Carex tincta
+CARETON	Carex tonsa
+CARET;R	Carex tonsa var. rugosperma
+CARET;T	Carex tonsa var. tonsa
+CARETOR	Carex torta
+CARETRI	Carex tribuloides
+CARET;I	Carex tribuloides var. tribuloides
+CARETRC	Carex trichocarpa
+CARETRS	Carex trisperma
+CARETUC	Carex tuckermanii
+CARETYP	Carex typhina
+CAREUMB	Carex umbellata
+CAREURS	Carex ursina
+CAREUTR	Carex utriculata
+CAREVAC	Carex vacillans
+CAREVAG	Carex vaginata
+CAREV;V	Carex vaginata var. vaginata
+CAREVES	Carex vesicaria
+CAREVIR	Carex virescens
+CAREVUL	Carex vulpinoidea
+CAREWIE	Carex wiegandii
+CAREWIL	Carex williamsii
+CARPCAR	Carpinus caroliniana
+CARPC-V	Carpinus caroliniana subsp. virginiana
+CARP-SP	Carpinus SPECIES
+CARUCAR	Carum carvi
+CARU-SP	Carum SPECIES
+CARYCOR	Carya cordiformis
+CARYOVA	Carya ovata
+CARYO;O	Carya ovata var. ovata
+CARY-SP	Carya SPECIES
+CASSHYP	Cassiope hypnoides
+CASS-SP	Cassiope SPECIES
+CASTELE	Castilleja elegans
+CASTRAU	Castilleja raupii
+CASTSEP	Castilleja septentrionalis
+CAST-SP	Castilleja SPECIES
+CATAAQU	Catabrosa aquatica
+CATA-SP	Catabrosa SPECIES
+CAULGIG	Caulophyllum giganteum
+CAUL-SP	Caulophyllum SPECIES
+CAULTHA	Caulophyllum thalictroides
+CEANAME	Ceanothus americanus
+CEANHER	Ceanothus herbaceus
+CEAN-SP	Ceanothus SPECIES
+CELAORB	Celastrus orbiculatus
+CELASCA	Celastrus scandens
+CELA-SP	Celastrus SPECIES
+CELTOCC	Celtis occidentalis
+CELT-SP	Celtis SPECIES
+CENCLON	Cenchrus longispinus
+CENC-SP	Cenchrus SPECIES
+CENTCYA	Centaurea cyanus
+CENTDIF	Centaurea diffusa
+CENTJAC	Centaurea jacea
+CENTJ-J	Centaurea jacea subsp. jacea
+CENTMAC	Centaurea macrocephala
+CENTMON	Centaurea montana
+CENTNIG	Centaurea nigra
+CENTN-N	Centaurea nigra subsp. nigra
+CENTNIR	Centaurea nigrescens
+CENTN-I	Centaurea nigrescens subsp. nigrescens
+CENTSCA	Centaurea scabiosa
+CENTS-S	Centaurea scabiosa subsp. scabiosa
+CENT-SP	Centaurea SPECIES
+CENTSTO	Centaurea stoebe
+CENTS-A	Centaurea stoebe subsp. australis
+CENAERY	Centaurium erythraea
+CENAE-E	Centaurium erythraea subsp. erythraea
+CENAPUL	Centaurium pulchellum
+CENAP-P	Centaurium pulchellum subsp. pulchellum
+CENA-SP	Centaurium SPECIES
+CEPAOCC	Cephalanthus occidentalis
+CEPA-SP	Cephalanthus SPECIES
+CEPHGIG	Cephalaria gigantea
+CEPH-SP	Cephalaria SPECIES
+CERAALP	Cerastium alpinum
+CERAA;A	Cerastium alpinum var. alpinum
+CERAA;L	Cerastium alpinum var. lanatum
+CERAARC	Cerastium arcticum
+CERAARV	Cerastium arvense
+CERAA-A	Cerastium arvense subsp. arvense
+CERABEE	Cerastium beeringianum
+CERAB-B	Cerastium beeringianum subsp. beeringianum
+CERAELO	Cerastium elongatum
+CERAGLO	Cerastium glomeratum
+CERAG-G	Cerastium glomeratum subsp. glomeratum
+CERAHOL	Cerastium holosteoides
+CERANUT	Cerastium nutans
+CERAN;N	Cerastium nutans var. nutans
+CERAREG	Cerastium regelii
+CERA-SP	Cerastium SPECIES
+CERATOM	Cerastium tomentosum
+CERAT;T	Cerastium tomentosum var. tomentosum
+CERTDEM	Ceratophyllum demersum
+CERTD;D	Ceratophyllum demersum var. demersum
+CERTECH	Ceratophyllum echinatum
+CERT-SP	Ceratophyllum SPECIES
+CERIMAJ	Cerinthe major
+CERIM-M	Cerinthe major subsp. major
+CERI-SP	Cerinthe SPECIES
+CICUBUL	Cicuta bulbifera
+CICUMAC	Cicuta maculata
+CICUM;A	Cicuta maculata var. angustifolia
+CICUM;M	Cicuta maculata var. maculata
+CICUM;V	Cicuta maculata var. victorinii
+CICU-SP	Cicuta SPECIES
+CICUVIR	Cicuta virosa
+CICHINT	Cichorium intybus
+CICHI-I	Cichorium intybus subsp. intybus
+CICH-SP	Cichorium SPECIES
+CINNARU	Cinna arundinacea
+CINNLAT	Cinna latifolia
+CINN-SP	Cinna SPECIES
+CIRCALP	Circaea alpina
+CIRCA-A	Circaea alpina subsp. alpina
+CIRCCAN	Circaea canadensis
+CIRCC-C	Circaea canadensis subsp. canadensis
+CIRC-SP	Circaea SPECIES
+CIRSARV	Cirsium arvense
+CIRSA;A	Cirsium arvense var. arvense
+CIRSDIS	Cirsium discolor
+CIRSFLO	Cirsium flodmanii
+CIRSMUT	Cirsium muticum
+CIRSPAL	Cirsium palustre
+CIRSSCA	Cirsium scariosum
+CIRSS;S	Cirsium scariosum var. scariosum
+CIRS-SP	Cirsium SPECIES
+CIRSVUL	Cirsium vulgare
+CIRSV-V	Cirsium vulgare subsp. vulgare
+CLADMAR	Cladium mariscoides
+CLAD-SP	Cladium SPECIES
+CLARAMO	Clarkia amoena
+CLARA-A	Clarkia amoena subsp. amoena
+CLAR-SP	Clarkia SPECIES
+CLAYCAR	Claytonia caroliniana
+CLAY-SP	Claytonia SPECIES
+CLAYVIR	Claytonia virginica
+CLEMOCC	Clematis occidentalis
+CLEMO;O	Clematis occidentalis var. occidentalis
+CLEM-SP	Clematis SPECIES
+CLEMVIR	Clematis virginiana
+CLEODOD	Cleome dodecandra
+CLEOHOU	Cleome houtteana
+CLEO-SP	Cleome SPECIES
+CLINMEN	Clinopodium menthifolium
+CLINM-A	Clinopodium menthifolium subsp. ascendens
+CLIN-SP	Clinopodium SPECIES
+CLITBOR	Clintonia borealis
+CLIT-SP	Clintonia SPECIES
+COCHGRO	Cochlearia groenlandica
+COCH-SP	Cochlearia SPECIES
+COCHTRI	Cochlearia tridactylites
+COLLLIN	Collomia linearis
+COLL-SP	Collomia SPECIES
+COMN-SP	Comandra SPECIES
+COMNUMB	Comandra umbellata
+COMNU-U	Comandra umbellata subsp. umbellata
+COMRPAL	Comarum palustre
+COMR-SP	Comarum SPECIES
+COMA-SP	Comastoma SPECIES
+COMATEN	Comastoma tenellum
+COMMCOM	Commelina communis
+COMMC;C	Commelina communis var. communis
+COMM-SP	Commelina SPECIES
+COMPPER	Comptonia peregrina
+COMP-SP	Comptonia SPECIES
+CONICHI	Conioselinum chinense
+CONI-SP	Conioselinum SPECIES
+CONUMAC	Conium maculatum
+CONU-SP	Conium SPECIES
+CONPAME	Conopholis americana
+CONP-SP	Conopholis SPECIES
+CONRORI	Conringia orientalis
+CONR-SP	Conringia SPECIES
+CONVMAJ	Convallaria majalis
+CONV-SP	Convallaria SPECIES
+CONOARV	Convolvulus arvensis
+CONO-SP	Convolvulus SPECIES
+COPT-SP	Coptis SPECIES
+COPTTRI	Coptis trifolia
+CORLMAC	Corallorhiza maculata
+CORLM;M	Corallorhiza maculata var. maculata
+CORLM;O	Corallorhiza maculata var. occidentalis
+CORLODO	Corallorhiza odontorhiza
+CORLO;O	Corallorhiza odontorhiza var. odontorhiza
+CORL-SP	Corallorhiza SPECIES
+CORLSTR	Corallorhiza striata
+CORLS;S	Corallorhiza striata var. striata
+CORLTRI	Corallorhiza trifida
+CORMCON	Corema conradii
+CORM-SP	Corema SPECIES
+COREGRA	Coreopsis grandiflora
+COREG;G	Coreopsis grandiflora var. grandiflora
+CORE-SP	Coreopsis SPECIES
+CORETIN	Coreopsis tinctoria
+CORASAT	Coriandrum sativum
+CORA-SP	Coriandrum SPECIES
+CORIAME	Corispermum americanum
+CORIA;A	Corispermum americanum var. americanum
+CORIPAL	Corispermum pallasii
+CORI-SP	Corispermum SPECIES
+CORIVIL	Corispermum villosum
+CORNALT	Cornus alternifolia
+CORNCAN	Cornus canadensis
+CORNOBL	Cornus obliqua
+CORNRAC	Cornus racemosa
+CORNRUG	Cornus rugosa
+CORNSER	Cornus sericea
+CORN-SP	Cornus SPECIES
+CORNSUE	Cornus suecica
+CORDAUR	Corydalis aurea
+CORDA-A	Corydalis aurea subsp. aurea
+CORD-SP	Corydalis SPECIES
+CORYAME	Corylus americana
+CORYCOR	Corylus cornuta
+CORYC-C	Corylus cornuta subsp. cornuta
+CORY-SP	Corylus SPECIES
+COSMBIP	Cosmos bipinnatus
+COSM-SP	Cosmos SPECIES
+COTA-SP	Cota SPECIES
+COTATIN	Cota tinctoria
+COTAT-T	Cota tinctoria subsp. tinctoria
+COTOACU	Cotoneaster acutifolius
+COTO-SP	Cotoneaster SPECIES
+COTUCOR	Cotula coronopifolia
+COTU-SP	Cotula SPECIES
+CRASAQU	Crassula aquatica
+CRASSAG	Crassula saginoides
+CRAS-SP	Crassula SPECIES
+CRATBRA	Crataegus brainerdii
+CRATCOC	Crataegus coccinea
+CRATC;R	Crataegus coccinea var. pringlei
+CRATCOI	Crataegus coccinioides
+CRATCRU	Crataegus crus-galli
+CRATDOD	Crataegus dodgei
+CRATFLA	Crataegus flabellata
+CRATFLU	Crataegus fluviatilis
+CRATHOL	Crataegus holmesiana
+CRATCHR	Crataegus chrysocarpa
+CRATC;B	Crataegus chrysocarpa var. blanchardii
+CRATC;F	Crataegus chrysocarpa var. faxonii
+CRATC;C	Crataegus chrysocarpa var. chrysocarpa
+CRATC;P	Crataegus chrysocarpa var. phoeniceoides
+CRATC;S	Crataegus chrysocarpa var. subrotundifolia
+CRATIRR	Crataegus irrasa
+CRATLAU	Crataegus laurentiana
+CRATLUM	Crataegus lumaria
+CRATMAC	Crataegus macracantha
+CRATMAR	Crataegus macrosperma
+CRATMON	Crataegus monogyna
+CRATPRU	Crataegus pruinosa
+CRATP;P	Crataegus pruinosa var. pruinosa
+CRATPUN	Crataegus punctata
+CRATSCA	Crataegus scabrida
+CRATSCH	Crataegus schuettei
+CRATS;S	Crataegus schuettei var. schuettei
+CRAT-SP	Crataegus SPECIES
+CRATSUB	Crataegus submollis
+CRATSUO	Crataegus suborbiculata
+CRATSUC	Crataegus succulenta
+CRATS;U	Crataegus succulenta var. succulenta
+CREPCAP	Crepis capillaris
+CREP-SP	Crepis SPECIES
+CREPTEC	Crepis tectorum
+CROCBIC	Crocanthemum bicknellii
+CROCCAN	Crocanthemum canadense
+CROC-SP	Crocanthemum SPECIES
+CRYT-SP	Cryptogramma SPECIES
+CRYTSTE	Cryptogramma stelleri
+CRYPCAN	Cryptotaenia canadensis
+CRYP-SP	Cryptotaenia SPECIES
+CUCUPEP	Cucurbita pepo
+CUCU-SP	Cucurbita SPECIES
+CUSCCAM	Cuscuta campestris
+CUSCCOR	Cuscuta coryli
+CUSCEPI	Cuscuta epilinum
+CUSCGRO	Cuscuta gronovii
+CUSCG;G	Cuscuta gronovii var. gronovii
+CUSCPOL	Cuscuta polygonorum
+CUSCSAU	Cuscuta saururi
+CUSC-SP	Cuscuta SPECIES
+CYMBMUR	Cymbalaria muralis
+CYMBM-M	Cymbalaria muralis subsp. muralis
+CYMB-SP	Cymbalaria SPECIES
+CYNOOFF	Cynoglossum officinale
+CYNO-SP	Cynoglossum SPECIES
+CYNSCRI	Cynosurus cristatus
+CYNS-SP	Cynosurus SPECIES
+CYPEBIP	Cyperus bipartitus
+CYPEDEN	Cyperus dentatus
+CYPEDIA	Cyperus diandrus
+CYPEESC	Cyperus esculentus
+CYPEFUS	Cyperus fuscus
+CYPEHOU	Cyperus houghtonii
+CYPELUP	Cyperus lupulinus
+CYPEL-M	Cyperus lupulinus subsp. macilentus
+CYPEODO	Cyperus odoratus
+CYPEO-O	Cyperus odoratus subsp. odoratus
+CYPESCH	Cyperus schweinitzii
+CYPE-SP	Cyperus SPECIES
+CYPESQU	Cyperus squarrosus
+CYPES;S	Cyperus squarrosus var. squarrosus
+CYPESTR	Cyperus strigosus
+CYPESUB	Cyperus subsquarrosus
+CYPRACA	Cypripedium acaule
+CYPRARI	Cypripedium arietinum
+CYPRPAR	Cypripedium parviflorum
+CYPRP;M	Cypripedium parviflorum var. makasin
+CYPRP;P	Cypripedium parviflorum var. pubescens
+CYPRPAS	Cypripedium passerinum
+CYPRREG	Cypripedium reginae
+CYPR-SP	Cypripedium SPECIES
+CYSTBUL	Cystopteris bulbifera
+CYSTDIC	Cystopteris dickieana
+CYSTFRA	Cystopteris fragilis
+CYSTF-F	Cystopteris fragilis subsp. fragilis
+CYSTMON	Cystopteris montana
+CYST-SP	Cystopteris SPECIES
+CYSTTEN	Cystopteris tennesseensis
+CYSTT-L	Cystopteris tennesseensis subsp. laurentiana
+CYSTTEU	Cystopteris tenuis
+DACYGLO	Dactylis glomerata
+DACYG-G	Dactylis glomerata subsp. glomerata
+DACY-SP	Dactylis SPECIES
+DACT-SP	Dactylorhiza SPECIES
+DACTVIR	Dactylorhiza viridis
+DACTV;V	Dactylorhiza viridis var. virescens
+DACTV;I	Dactylorhiza viridis var. viridis
+DANTCOM	Danthonia compressa
+DANTINT	Danthonia intermedia
+DANTI-I	Danthonia intermedia subsp. intermedia
+DANT-SP	Danthonia SPECIES
+DANTSPI	Danthonia spicata
+DAPHMEZ	Daphne mezereum
+DAPHM-M	Daphne mezereum subsp. mezereum
+DAPH-SP	Daphne SPECIES
+DASIFRU	Dasiphora fruticosa
+DASIF;F	Dasiphora fruticosa var. fruticosa
+DASI-SP	Dasiphora SPECIES
+DATUINN	Datura innoxia
+DATUMET	Datura metel
+DATU-SP	Datura SPECIES
+DATUSTR	Datura stramonium
+DAUCCAR	Daucus carota
+DAUCC-C	Daucus carota subsp. carota
+DAUC-SP	Daucus SPECIES
+DECO-SP	Decodon SPECIES
+DECOVER	Decodon verticillatus
+DENNPUN	Dennstaedtia punctilobula
+DENN-SP	Dennstaedtia SPECIES
+DEPAACR	Deparia acrostichoides
+DEPA-SP	Deparia SPECIES
+DESCINC	Descurainia incana
+DESCPIN	Descurainia pinnata
+DESCP-B	Descurainia pinnata subsp. brachycarpon
+DESCSOP	Descurainia sophia
+DESCS-S	Descurainia sophia subsp. sophia
+DESC-SP	Descurainia SPECIES
+DESHCES	Deschampsia cespitosa
+DESHC-C	Deschampsia cespitosa subsp. cespitosa
+DESH-SP	Deschampsia SPECIES
+DESMCAN	Desmodium canadense
+DESMPER	Desmodium perplexum
+DESM-SP	Desmodium SPECIES
+DIANAME	Dianthera americana
+DIAN-SP	Dianthera SPECIES
+DIATARM	Dianthus armeria
+DIATBAR	Dianthus barbatus
+DIATB;B	Dianthus barbatus var. barbatus
+DIATDEL	Dianthus deltoides
+DIATD-D	Dianthus deltoides subsp. deltoides
+DIATPLU	Dianthus plumarius
+DIATP-P	Dianthus plumarius subsp. plumarius
+DIAT-SP	Dianthus SPECIES
+DIAPLAP	Diapensia lapponica
+DIAP-SP	Diapensia SPECIES
+DICECAN	Dicentra canadensis
+DICECUC	Dicentra cucullaria
+DICE-SP	Dicentra SPECIES
+DIERLON	Diervilla lonicera
+DIER-SP	Diervilla SPECIES
+DIGILAN	Digitalis lanata
+DIGIL-L	Digitalis lanata subsp. lanata
+DIGILUT	Digitalis lutea
+DIGIL-U	Digitalis lutea subsp. lutea
+DIGIPUR	Digitalis purpurea
+DIGIP;P	Digitalis purpurea var. purpurea
+DIGI-SP	Digitalis SPECIES
+DIGTISC	Digitaria ischaemum
+DIGTSAN	Digitaria sanguinalis
+DIGT-SP	Digitaria SPECIES
+DICABIC	Dichanthelium bicknellii
+DICABOR	Dichanthelium boreale
+DICACLA	Dichanthelium clandestinum
+DICADEP	Dichanthelium depauperatum
+DICAIMP	Dichanthelium implicatum
+DICALAN	Dichanthelium lanuginosum
+DICALAT	Dichanthelium latifolium
+DICALIN	Dichanthelium lindheimeri
+DICALIE	Dichanthelium linearifolium
+DICASCR	Dichanthelium scribnerianum
+DICA-SP	Dichanthelium SPECIES
+DICAXAN	Dichanthelium xanthophysum
+DICHCER	Dichodon cerastoides
+DICH-SP	Dichodon SPECIES
+DIPAFUS	Diplachne fusca
+DIPAF-F	Diplachne fusca subsp. fascicularis
+DIPA-SP	Diplachne SPECIES
+DIPLERU	Diplotaxis erucoides
+DIPLE-E	Diplotaxis erucoides subsp. erucoides
+DIPLMUR	Diplotaxis muralis
+DIPLM-M	Diplotaxis muralis subsp. muralis
+DIPL-SP	Diplotaxis SPECIES
+DIPLTEN	Diplotaxis tenuifolia
+DIPSFUL	Dipsacus fullonum
+DIPS-SP	Dipsacus SPECIES
+DIRCPAL	Dirca palustris
+DIRC-SP	Dirca SPECIES
+DOEL-SP	Doellingeria SPECIES
+DOELUMB	Doellingeria umbellata
+DOELU;P	Doellingeria umbellata var. pubens
+DOELU;U	Doellingeria umbellata var. umbellata
+DRABALP	Draba alpina
+DRABARA	Draba arabisans
+DRABAUR	Draba aurea
+DRABCAN	Draba cana
+DRABC-C	Draba cana subsp. cana
+DRABCAY	Draba cayouettei
+DRABCIN	Draba cinerea
+DRABCRA	Draba crassifolia
+DRABFLA	Draba fladnizensis
+DRABGLA	Draba glabella
+DRABINC	Draba incana
+DRABINE	Draba incerta
+DRABLAC	Draba lactea
+DRABNEM	Draba nemorosa
+DRABNIV	Draba nivalis
+DRABNOR	Draba norvegica
+DRABOBL	Draba oblongata
+DRABPUV	Draba puvirnituqii
+DRABPYC	Draba pycnosperma
+DRAB-SP	Draba SPECIES
+DRABSUB	Draba subcapitata
+DRABVER	Draba verna
+DRABV;V	Draba verna var. verna
+DRACPAR	Dracocephalum parviflorum
+DRAC-SP	Dracocephalum SPECIES
+DROSANG	Drosera anglica
+DROSINT	Drosera intermedia
+DROSLIN	Drosera linearis
+DROSROT	Drosera rotundifolia
+DROS-SP	Drosera SPECIES
+DRYADRU	Dryas drummondii
+DRYAINT	Dryas integrifolia
+DRYAI-I	Dryas integrifolia subsp. integrifolia
+DRYA-SP	Dryas SPECIES
+DRYMARG	Drymocallis arguta
+DRYM-SP	Drymocallis SPECIES
+DRYOCAM	Dryopteris campyloptera
+DRYOCAR	Dryopteris carthusiana
+DRYOC;C	Dryopteris carthusiana var. carthusiana
+DRYOCLI	Dryopteris clintoniana
+DRYOCRI	Dryopteris cristata
+DRYOEXP	Dryopteris expansa
+DRYOE;E	Dryopteris expansa var. expansa
+DRYOFIL	Dryopteris filix-mas
+DRYOF-B	Dryopteris filix-mas subsp. brittonii
+DRYOF-F	Dryopteris filix-mas subsp. filix-mas
+DRYOFRA	Dryopteris fragrans
+DRYOGOL	Dryopteris goldieana
+DRYOINT	Dryopteris intermedia
+DRYOI-I	Dryopteris intermedia subsp. intermedia
+DRYOMAR	Dryopteris marginalis
+DRYO-SP	Dryopteris SPECIES
+DULIARU	Dulichium arundinaceum
+DULIA;A	Dulichium arundinaceum var. arundinaceum
+DULIA;B	Dulichium arundinaceum var. boreale
+DULI-SP	Dulichium SPECIES
+DUPOFIS	Dupontia fisheri
+DUPOFUL	Dupontia fulva
+DUPO-SP	Dupontia SPECIES
+DYSPAMB	Dysphania ambrosioides
+DYSPATR	Dysphania atriplicifolia
+DYSPBOT	Dysphania botrys
+DYSP-SP	Dysphania SPECIES
+ECHNLOB	Echinocystis lobata
+ECHN-SP	Echinocystis SPECIES
+ECHOCRU	Echinochloa crus-galli
+ECHOC-C	Echinochloa crus-galli subsp. crus-galli
+ECHOMUR	Echinochloa muricata
+ECHO-SP	Echinochloa SPECIES
+ECHOWAL	Echinochloa walteri
+ECHIEXA	Echinops exaltatus
+ECHI-SP	Echinops SPECIES
+ECHISPH	Echinops sphaerocephalus
+ECHIS-S	Echinops sphaerocephalus subsp. sphaerocephalus
+ECHU-SP	Echium SPECIES
+ECHUVUL	Echium vulgare
+ECHUV-V	Echium vulgare subsp. vulgare
+ELAEANG	Elaeagnus angustifolia
+ELAECOM	Elaeagnus commutata
+ELAE-SP	Elaeagnus SPECIES
+ELATAME	Elatine americana
+ELATMIN	Elatine minima
+ELATORT	Elatine orthosperma
+ELAT-SP	Elatine SPECIES
+ELATTRI	Elatine triandra
+ELEOACI	Eleocharis acicularis
+ELEOA;A	Eleocharis acicularis var. acicularis
+ELEOCOM	Eleocharis compressa
+ELEOC;C	Eleocharis compressa var. compressa
+ELEOELL	Eleocharis elliptica
+ELEOERY	Eleocharis erythropoda
+ELEOFAL	Eleocharis fallax
+ELEOFLA	Eleocharis flavescens
+ELEOF;O	Eleocharis flavescens var. olivacea
+ELEOINT	Eleocharis intermedia
+ELEOKAM	Eleocharis kamtschatica
+ELEOMAC	Eleocharis macrostachya
+ELEOMAM	Eleocharis mamillata
+ELEOM-M	Eleocharis mamillata subsp. mamillata
+ELEONIT	Eleocharis nitida
+ELEOOBT	Eleocharis obtusa
+ELEOOVA	Eleocharis ovata
+ELEOPAL	Eleocharis palustris
+ELEOP-P	Eleocharis palustris subsp. palustris
+ELEOP;V	Eleocharis palustris var. vigens
+ELEOPAR	Eleocharis parvula
+ELEOQUI	Eleocharis quinqueflora
+ELEOROB	Eleocharis robbinsii
+ELEO-SP	Eleocharis SPECIES
+ELEOTEN	Eleocharis tenuis
+ELEOT;P	Eleocharis tenuis var. pseudoptera
+ELEOT;T	Eleocharis tenuis var. tenuis
+ELEOUNI	Eleocharis uniglumis
+ELEOU-U	Eleocharis uniglumis subsp. uniglumis
+ELEUIND	Eleusine indica
+ELEU-SP	Eleusine SPECIES
+ELODCAN	Elodea canadensis
+ELODNUT	Elodea nuttallii
+ELOD-SP	Elodea SPECIES
+ELSHCIL	Elsholtzia ciliata
+ELSH-SP	Elsholtzia SPECIES
+ELYMCAN	Elymus canadensis
+ELYMCUR	Elymus curvatus
+ELYMREP	Elymus repens
+ELYMR-R	Elymus repens subsp. repens
+ELYMRIP	Elymus riparius
+ELYMSMI	Elymus smithii
+ELYM-SP	Elymus SPECIES
+ELYMVIL	Elymus villosus
+ELYMVIO	Elymus violaceus
+ELYMVIR	Elymus virginicus
+ELYMWIE	Elymus wiegandii
+EMPEATR	Empetrum atropurpureum
+EMPEEAM	Empetrum eamesii
+EMPENIG	Empetrum nigrum
+EMPEN-N	Empetrum nigrum subsp. nigrum
+EMPE-SP	Empetrum SPECIES
+EPIF-SP	Epifagus SPECIES
+EPIFVIR	Epifagus virginiana
+EPILANA	Epilobium anagallidifolium
+EPILANG	Epilobium angustifolium
+EPILA-A	Epilobium angustifolium subsp. angustifolium
+EPILA-C	Epilobium angustifolium subsp. circumvagum
+EPILARC	Epilobium arcticum
+EPILBRA	Epilobium brachycarpum
+EPILCIL	Epilobium ciliatum
+EPILC-C	Epilobium ciliatum subsp. ciliatum
+EPILC-G	Epilobium ciliatum subsp. glandulosum
+EPILCOL	Epilobium coloratum
+EPILDAV	Epilobium davuricum
+EPILDEN	Epilobium densum
+EPILHIR	Epilobium hirsutum
+EPILHOR	Epilobium hornemannii
+EPILH-H	Epilobium hornemannii subsp. hornemannii
+EPILLAC	Epilobium lactiflorum
+EPILLAT	Epilobium latifolium
+EPILLEP	Epilobium leptophyllum
+EPILPAL	Epilobium palustre
+EPILSAX	Epilobium saximontanum
+EPIL-SP	Epilobium SPECIES
+EPIPHEL	Epipactis helleborine
+EPIPH-H	Epipactis helleborine subsp. helleborine
+EPIP-SP	Epipactis SPECIES
+EQUIARV	Equisetum arvense
+EQUIFLU	Equisetum fluviatile
+EQUILAE	Equisetum laevigatum
+EQUIPAL	Equisetum palustre
+EQUIPRA	Equisetum praealtum
+EQUIPRT	Equisetum pratense
+EQUISCI	Equisetum scirpoides
+EQUI-SP	Equisetum SPECIES
+EQUISYL	Equisetum sylvaticum
+EQUIVAR	Equisetum variegatum
+ERAGCAP	Eragrostis capillaris
+ERAGCIL	Eragrostis cilianensis
+ERAGFRA	Eragrostis frankii
+ERAGHYP	Eragrostis hypnoides
+ERAGMIN	Eragrostis minor
+ERAGMUL	Eragrostis multicaulis
+ERAGPEC	Eragrostis pectinacea
+ERAGPIL	Eragrostis pilosa
+ERAG-SP	Eragrostis SPECIES
+ERAGSPE	Eragrostis spectabilis
+ERECHIE	Erechtites hieraciifolius
+EREC-SP	Erechtites SPECIES
+ERIGACR	Erigeron acris
+ERIGA-A	Erigeron acris subsp. acris
+ERIGA-K	Erigeron acris subsp. kamtschaticus
+ERIGANN	Erigeron annuus
+ERIGCAN	Erigeron canadensis
+ERIGCOM	Erigeron compositus
+ERIGELA	Erigeron elatus
+ERIGERI	Erigeron eriocephalus
+ERIGHUM	Erigeron humilis
+ERIGHYS	Erigeron hyssopifolius
+ERIGLON	Erigeron lonchophyllus
+ERIGPHI	Erigeron philadelphicus
+ERIGP;P	Erigeron philadelphicus var. philadelphicus
+ERIGP;R	Erigeron philadelphicus var. provancheri
+ERIGPUL	Erigeron pulchellus
+ERIGP;U	Erigeron pulchellus var. pulchellus
+ERIG-SP	Erigeron SPECIES
+ERIGSTR	Erigeron strigosus
+ERIGS;S	Erigeron strigosus var. septentrionalis
+ERIGS;T	Erigeron strigosus var. strigosus
+ERICAQU	Eriocaulon aquaticum
+ERICPAR	Eriocaulon parkeri
+ERIC-SP	Eriocaulon SPECIES
+ERIOANG	Eriophorum angustifolium
+ERIOA-A	Eriophorum angustifolium subsp. angustifolium
+ERIOBRA	Eriophorum brachyantherum
+ERIOCAL	Eriophorum callitrix
+ERIOGRA	Eriophorum gracile
+ERIOCHA	Eriophorum chamissonis
+ERIOSCH	Eriophorum scheuchzeri
+ERIOS;S	Eriophorum scheuchzeri var. scheuchzeri
+ERIO-SP	Eriophorum SPECIES
+ERIOTEN	Eriophorum tenellum
+ERIOTRI	Eriophorum triste
+ERIOVAG	Eriophorum vaginatum
+ERIOVIR	Eriophorum virginicum
+ERIOVII	Eriophorum viridicarinatum
+ERODCIC	Erodium cicutarium
+ERODMOS	Erodium moschatum
+EROD-SP	Erodium SPECIES
+ERUCSAT	Eruca sativa
+ERUC-SP	Eruca SPECIES
+ERUAGAL	Erucastrum gallicum
+ERUA-SP	Erucastrum SPECIES
+ERYNCAM	Eryngium campestre
+ERYNC;C	Eryngium campestre var. campestre
+ERYNPLA	Eryngium planum
+ERYN-SP	Eryngium SPECIES
+ERYSCOA	Erysimum coarctatum
+ERYSCHE	Erysimum cheiranthoides
+ERYSINC	Erysimum inconspicuum
+ERYSREP	Erysimum repandum
+ERYSR;R	Erysimum repandum var. repandum
+ERYS-SP	Erysimum SPECIES
+ERYSVIR	Erysimum virgatum
+ERYHGEY	Erythranthe geyeri
+ERYHMOS	Erythranthe moschata
+ERYH-SP	Erythranthe SPECIES
+ERYTAME	Erythronium americanum
+ERYTA-A	Erythronium americanum subsp. americanum
+ERYT-SP	Erythronium SPECIES
+EUONEUR	Euonymus europaeus
+EUON-SP	Euonymus SPECIES
+EUPAPER	Eupatorium perfoliatum
+EUPA-SP	Eupatorium SPECIES
+EUPOCYP	Euphorbia cyparissias
+EUPODAV	Euphorbia davidii
+EUPOGLY	Euphorbia glyptosperma
+EUPOHEL	Euphorbia helioscopia
+EUPOH-H	Euphorbia helioscopia subsp. helioscopia
+EUPOLAT	Euphorbia lathyris
+EUPOMAC	Euphorbia maculata
+EUPOMAR	Euphorbia marginata
+EUPONUT	Euphorbia nutans
+EUPOPEP	Euphorbia peplus
+EUPOP;P	Euphorbia peplus var. peplus
+EUPOPOL	Euphorbia polygonifolia
+EUPOSAR	Euphorbia saratoi
+EUPOSER	Euphorbia serpillifolia
+EUPO-SP	Euphorbia SPECIES
+EUPOVER	Euphorbia vermiculata
+EUPOVIR	Euphorbia virgata
+EUPRARC	Euphrasia arctica
+EUPRA-B	Euphrasia arctica subsp. borealis
+EUPRDIS	Euphrasia disjuncta
+EUPRFRI	Euphrasia frigida
+EUPRHUD	Euphrasia hudsoniana
+EUPRNEM	Euphrasia nemorosa
+EUPRN-N	Euphrasia nemorosa subsp. nemorosa
+EUPROAK	Euphrasia oakesii
+EUPRO;O	Euphrasia oakesii var. oakesii
+EUPRO;W	Euphrasia oakesii var. williamsii
+EUPROST	Euphrasia ostenfeldii
+EUPRRAN	Euphrasia randii
+EUPR-SP	Euphrasia SPECIES
+EUPRSTR	Euphrasia stricta
+EUPRSUB	Euphrasia suborbicularis
+EUPRTET	Euphrasia tetraquetra
+EUPRVIN	Euphrasia vinacea
+EUPRWET	Euphrasia wettsteinii
+EUPH-SP	Euphrosyne SPECIES
+EUPHXAN	Euphrosyne xanthiifolia
+EURYDIV	Eurybia divaricata
+EURYMAC	Eurybia macrophylla
+EURYRAD	Eurybia radula
+EURY-SP	Eurybia SPECIES
+EUTHGRA	Euthamia graminifolia
+EUTHLAN	Euthamia lanceolata
+EUTH-SP	Euthamia SPECIES
+EUTEEDW	Eutrema edwardsii
+EUTE-SP	Eutrema SPECIES
+EUTRMAC	Eutrochium maculatum
+EUTRM;F	Eutrochium maculatum var. foliosum
+EUTRM;M	Eutrochium maculatum var. maculatum
+EUTR-SP	Eutrochium SPECIES
+FAGOESC	Fagopyrum esculentum
+FAGO-SP	Fagopyrum SPECIES
+FAGOTAT	Fagopyrum tataricum
+FAGUGRA	Fagus grandifolia
+FAGU-SP	Fagus SPECIES
+FALLCON	Fallopia convolvulus
+FALLDUM	Fallopia dumetorum
+FALLD;D	Fallopia dumetorum var. dumetorum
+FALLSCA	Fallopia scandens
+FALL-SP	Fallopia SPECIES
+FESTALT	Festuca altaica
+FESTBAF	Festuca baffinensis
+FESTBRA	Festuca brachyphylla
+FESTFIL	Festuca filiformis
+FESTFRE	Festuca frederikseniae
+FESTHYP	Festuca hyperborea
+FESTOCT	Festuca octoflora
+FESTPAR	Festuca paradoxa
+FESTPRO	Festuca prolifera
+FESTRIC	Festuca richardsonii
+FESTRUB	Festuca rubra
+FESTSAX	Festuca saximontana
+FESTS;S	Festuca saximontana var. saximontana
+FEST-SP	Festuca SPECIES
+FESTSUB	Festuca subverticillata
+FESTTRA	Festuca trachyphylla
+FESTVIV	Festuca viviparoidea
+FILI-SP	Filipendula SPECIES
+FILIULM	Filipendula ulmaria
+FILIU-U	Filipendula ulmaria subsp. ulmaria
+FIMBAUT	Fimbristylis autumnalis
+FIMB-SP	Fimbristylis SPECIES
+FLOEPRO	Floerkea proserpinacoides
+FLOE-SP	Floerkea SPECIES
+FOEN-SP	Foeniculum SPECIES
+FOENVUL	Foeniculum vulgare
+FRAG-SP	Fragaria SPECIES
+FRAGVES	Fragaria vesca
+FRAGV-A	Fragaria vesca subsp. americana
+FRAGV-V	Fragaria vesca subsp. vesca
+FRAGVIR	Fragaria virginiana
+FRAGV-G	Fragaria virginiana subsp. glauca
+FRAGV-I	Fragaria virginiana subsp. virginiana
+FRANALN	Frangula alnus
+FRANA-A	Frangula alnus subsp. alnus
+FRAN-SP	Frangula SPECIES
+FRAXPEN	Fraxinus pennsylvanica
+FRAX-SP	Fraxinus SPECIES
+FUMAOFF	Fumaria officinalis
+FUMAO-O	Fumaria officinalis subsp. officinalis
+FUMA-SP	Fumaria SPECIES
+GALAROT	Galearis rotundifolia
+GALA-SP	Galearis SPECIES
+GALASPE	Galearis spectabilis
+GALEOFF	Galega officinalis
+GALE-SP	Galega SPECIES
+GALOLAD	Galeopsis ladanum
+GALOL-L	Galeopsis ladanum subsp. ladanum
+GALO-SP	Galeopsis SPECIES
+GALOSPE	Galeopsis speciosa
+GALOTET	Galeopsis tetrahit
+GALIPAR	Galinsoga parviflora
+GALIQUA	Galinsoga quadriradiata
+GALI-SP	Galinsoga SPECIES
+GALUAPA	Galium aparine
+GALUASP	Galium asprellum
+GALUBOR	Galium boreale
+GALUCIR	Galium circaezans
+GALUKAM	Galium kamtschaticum
+GALUK;K	Galium kamtschaticum var. kamtschaticum
+GALULAB	Galium labradoricum
+GALULAN	Galium lanceolatum
+GALUOBT	Galium obtusum
+GALUO-O	Galium obtusum subsp. obtusum
+GALUPAL	Galium palustre
+GALU-SP	Galium SPECIES
+GALUSPU	Galium spurium
+GALUS-S	Galium spurium subsp. spurium
+GALUTIN	Galium tinctorium
+GALUTRI	Galium trifidum
+GALUT-B	Galium trifidum subsp. brevipes
+GALUT-H	Galium trifidum subsp. halophilum
+GALUT-T	Galium trifidum subsp. trifidum
+GALUTRF	Galium triflorum
+GAULHIS	Gaultheria hispidula
+GAULPRO	Gaultheria procumbens
+GAUL-SP	Gaultheria SPECIES
+GAYLBAC	Gaylussacia baccata
+GAYLBIG	Gaylussacia bigeloviana
+GAYL-SP	Gaylussacia SPECIES
+GENTAND	Gentiana andrewsii
+GENTA;A	Gentiana andrewsii var. andrewsii
+GENTCLA	Gentiana clausa
+GENTLIN	Gentiana linearis
+GENTNIV	Gentiana nivalis
+GENT-SP	Gentiana SPECIES
+GENIAMA	Gentianella amarella
+GENIA-A	Gentianella amarella subsp. acuta
+GENIPRO	Gentianella propinqua
+GENIP-P	Gentianella propinqua subsp. propinqua
+GENIQUI	Gentianella quinquefolia
+GENIQ-Q	Gentianella quinquefolia subsp. quinquefolia
+GENI-SP	Gentianella SPECIES
+GENACRI	Gentianopsis crinita
+GENADET	Gentianopsis detonsa
+GENAD-N	Gentianopsis detonsa subsp. nesophila
+GENA-SP	Gentianopsis SPECIES
+GENAVIR	Gentianopsis virgata
+GENAV-M	Gentianopsis virgata subsp. macounii
+GENAV-V	Gentianopsis virgata subsp. victorinii
+GEOCGRO	Geocarpon groenlandicum
+GEOC-SP	Geocarpon SPECIES
+GEOALIV	Geocaulon lividum
+GEOA-SP	Geocaulon SPECIES
+GERABIC	Geranium bicknellii
+GERACAR	Geranium carolinianum
+GERACOL	Geranium columbinum
+GERAMAC	Geranium maculatum
+GERAMOL	Geranium molle
+GERAPRA	Geranium pratense
+GERAPUS	Geranium pusillum
+GERAPYR	Geranium pyrenaicum
+GERAP-P	Geranium pyrenaicum subsp. pyrenaicum
+GERAROB	Geranium robertianum
+GERA-SP	Geranium SPECIES
+GERASYL	Geranium sylvaticum
+GERATHU	Geranium thunbergii
+GEUMALE	Geum aleppicum
+GEUMCAN	Geum canadense
+GEUMLAC	Geum laciniatum
+GEUMMAC	Geum macrophyllum
+GEUMM;M	Geum macrophyllum var. macrophyllum
+GEUMM;P	Geum macrophyllum var. perincisum
+GEUM-SP	Geum SPECIES
+GEUMURB	Geum urbanum
+GLYCBOR	Glyceria borealis
+GLYCCAN	Glyceria canadensis
+GLYCGRA	Glyceria grandis
+GLYCMAX	Glyceria maxima
+GLYCMEL	Glyceria melicaria
+GLYCSEP	Glyceria septentrionalis
+GLYC-SP	Glyceria SPECIES
+GLYCSTR	Glyceria striata
+GNAP-SP	Gnaphalium SPECIES
+GNAPULI	Gnaphalium uliginosum
+GOODOBL	Goodyera oblongifolia
+GOODPUB	Goodyera pubescens
+GOODREP	Goodyera repens
+GOOD-SP	Goodyera SPECIES
+GOODTES	Goodyera tesselata
+GRAPMEL	Graphephorum melicoides
+GRAP-SP	Graphephorum SPECIES
+GRATLUT	Gratiola lutea
+GRATNEG	Gratiola neglecta
+GRAT-SP	Gratiola SPECIES
+GRINHIR	Grindelia hirsutula
+GRIN-SP	Grindelia SPECIES
+GRINSQU	Grindelia squarrosa
+GYMNCON	Gymnocarpium continentale
+GYMNDRY	Gymnocarpium dryopteris
+GYMNROB	Gymnocarpium robertianum
+GYMN-SP	Gymnocarpium SPECIES
+GYMODIO	Gymnocladus dioicus
+GYMO-SP	Gymnocladus SPECIES
+GYPSELE	Gypsophila elegans
+GYPSPAN	Gypsophila paniculata
+GYPSP;P	Gypsophila paniculata var. paniculata
+GYPS-SP	Gypsophila SPECIES
+GYPSVAC	Gypsophila vaccaria
+HACKDEF	Hackelia deflexa
+HACKD;A	Hackelia deflexa var. americana
+HACK-SP	Hackelia SPECIES
+HACKVIR	Hackelia virginiana
+HALEDEF	Halenia deflexa
+HALE-SP	Halenia SPECIES
+HALRCYM	Halerpestes cymbalaria
+HALR-SP	Halerpestes SPECIES
+HAMA-SP	Hamamelis SPECIES
+HAMAVIR	Hamamelis virginiana
+HAMAV;V	Hamamelis virginiana var. virginiana
+HEDEHIS	Hedeoma hispida
+HEDEPUL	Hedeoma pulegioides
+HEDE-SP	Hedeoma SPECIES
+HEDYALP	Hedysarum alpinum
+HEDYA-A	Hedysarum alpinum subsp. alpinum
+HEDYBOR	Hedysarum boreale
+HEDYB-M	Hedysarum boreale subsp. mackenziei
+HEDY-SP	Hedysarum SPECIES
+HELEAUT	Helenium autumnale
+HELEFLE	Helenium flexuosum
+HELE-SP	Helenium SPECIES
+HELIANN	Helianthus annuus
+HELIDEC	Helianthus decapetalus
+HELIDIV	Helianthus divaricatus
+HELIGIG	Helianthus giganteus
+HELIGRO	Helianthus grosseserratus
+HELIMAX	Helianthus maximiliani
+HELINUT	Helianthus nuttallii
+HELIN-R	Helianthus nuttallii subsp. rydbergii
+HELIPAU	Helianthus pauciflorus
+HELIP-P	Helianthus pauciflorus subsp. pauciflorus
+HELIP-S	Helianthus pauciflorus subsp. subrhomboideus
+HELI-SP	Helianthus SPECIES
+HELISTR	Helianthus strumosus
+HELITUB	Helianthus tuberosus
+HELCHOO	Helictochloa hookeri
+HELC-SP	Helictochloa SPECIES
+HELOHEL	Heliopsis helianthoides
+HELOH;S	Heliopsis helianthoides var. scabra
+HELO-SP	Heliopsis SPECIES
+HEMEFUL	Hemerocallis fulva
+HEMEF;F	Hemerocallis fulva var. fulva
+HEMELIL	Hemerocallis lilioasphodelus
+HEME-SP	Hemerocallis SPECIES
+HEMIATR	Hemionitis atropurpurea
+HEMIDEN	Hemionitis densa
+HEMIGLA	Hemionitis glabella
+HEMI-SP	Hemionitis SPECIES
+HEPAAME	Hepatica americana
+HEPAA;A	Hepatica americana var. acuta
+HEPAA;M	Hepatica americana var. americana
+HEPA-SP	Hepatica SPECIES
+HERAMAN	Heracleum mantegazzianum
+HERAMAX	Heracleum maximum
+HERASIB	Heracleum sibiricum
+HERA-SP	Heracleum SPECIES
+HERNGLA	Herniaria glabra
+HERN-SP	Herniaria SPECIES
+HESPMAT	Hesperis matronalis
+HESPM-M	Hesperis matronalis subsp. matronalis
+HESP-SP	Hesperis SPECIES
+HETEDUB	Heteranthera dubia
+HETE-SP	Heteranthera SPECIES
+HIBI-SP	Hibiscus SPECIES
+HIBITRI	Hibiscus trionum
+HIERALB	Hieracium albiflorum
+HIERLAC	Hieracium lachenalii
+HIERL-L	Hieracium lachenalii subsp. lachenalii
+HIERMUR	Hieracium murorum
+HIERM-M	Hieracium murorum subsp. murorum
+HIERPAN	Hieracium paniculatum
+HIERROB	Hieracium robinsonii
+HIERSCA	Hieracium scabrum
+HIER-SP	Hieracium SPECIES
+HIERUMB	Hieracium umbellatum
+HIERU-U	Hieracium umbellatum subsp. umbellatum
+HIPPRHA	Hippophae rhamnoides
+HIPPR-R	Hippophae rhamnoides subsp. rhamnoides
+HIPP-SP	Hippophae SPECIES
+HIPULAN	Hippuris lanceolata
+HIPU-SP	Hippuris SPECIES
+HIPUTET	Hippuris tetraphylla
+HIPUVUL	Hippuris vulgaris
+HOLCLAN	Holcus lanatus
+HOLC-SP	Holcus SPECIES
+HOMAPYC	Homalosorus pycnocarpos
+HOMA-SP	Homalosorus SPECIES
+HONCPEP	Honckenya peploides
+HONCP-D	Honckenya peploides subsp. diffusa
+HONCP-R	Honckenya peploides subsp. robusta
+HONC-SP	Honckenya SPECIES
+HORDBRA	Hordeum brachyantherum
+HORDJUB	Hordeum jubatum
+HORD-SP	Hordeum SPECIES
+HORDVUL	Hordeum vulgare
+HORDV-V	Hordeum vulgare subsp. vulgare
+HOUSCAE	Houstonia caerulea
+HOUS-SP	Houstonia SPECIES
+HUDSERI	Hudsonia ericoides
+HUDS-SP	Hudsonia SPECIES
+HUDSTOM	Hudsonia tomentosa
+HUMUAME	Humulus americanus
+HUMULUP	Humulus lupulus
+HUMUSCA	Humulus scandens
+HUMU-SP	Humulus SPECIES
+HUPEAPP	Huperzia appalachiana
+HUPECON	Huperzia continentalis
+HUPELUC	Huperzia lucidula
+HUPESEL	Huperzia selago
+HUPE-SP	Huperzia SPECIES
+HYDRAME	Hydrocotyle americana
+HYDR-SP	Hydrocotyle SPECIES
+HYDCMOR	Hydrocharis morsus-ranae
+HYDC-SP	Hydrocharis SPECIES
+HYDOCAN	Hydrophyllum canadense
+HYDO-SP	Hydrophyllum SPECIES
+HYDOVIR	Hydrophyllum virginianum
+HYDOV;V	Hydrophyllum virginianum var. virginianum
+HYLDGLU	Hylodesmum glutinosum
+HYLDNUD	Hylodesmum nudiflorum
+HYLD-SP	Hylodesmum SPECIES
+HYLO-SP	Hylotelephium SPECIES
+HYLOTEL	Hylotelephium telephium
+HYOSNIG	Hyoscyamus niger
+HYOS-SP	Hyoscyamus SPECIES
+HYPEASC	Hypericum ascyron
+HYPEA-P	Hypericum ascyron subsp. pyramidatum
+HYPEBOR	Hypericum boreale
+HYPECAN	Hypericum canadense
+HYPEELL	Hypericum ellipticum
+HYPEFRA	Hypericum fraseri
+HYPEKAL	Hypericum kalmianum
+HYPEMAJ	Hypericum majus
+HYPEMUT	Hypericum mutilum
+HYPEM-M	Hypericum mutilum subsp. mutilum
+HYPEPER	Hypericum perforatum
+HYPEP-P	Hypericum perforatum subsp. perforatum
+HYPEPUN	Hypericum punctatum
+HYPE-SP	Hypericum SPECIES
+HYPEVIR	Hypericum virginicum
+CHANMIN	Chaenorhinum minus
+CHANM-M	Chaenorhinum minus subsp. minus
+CHAN-SP	Chaenorhinum SPECIES
+CHAE-SP	Chaerophyllum SPECIES
+CHAETEM	Chaerophyllum temulum
+CHAAPAU	Chamaebuxus paucifolia
+CHAA-SP	Chamaebuxus SPECIES
+CHAMCAL	Chamaedaphne calyculata
+CHAM-SP	Chamaedaphne SPECIES
+CHELMAJ	Chelidonium majus
+CHELM-M	Chelidonium majus subsp. majus
+CHEL-SP	Chelidonium SPECIES
+CHEEGLA	Chelone glabra
+CHEE-SP	Chelone SPECIES
+CHENMUR	Chenopodiastrum murale
+CHENSIM	Chenopodiastrum simplex
+CHEN-SP	Chenopodiastrum SPECIES
+CHEOALB	Chenopodium album
+CHEOA;A	Chenopodium album var. album
+CHEOBER	Chenopodium berlandieri
+CHEOB;B	Chenopodium berlandieri var. bushianum
+CHEOB;Z	Chenopodium berlandieri var. zschackei
+CHEOBET	Chenopodium betaceum
+CHEOFIC	Chenopodium ficifolium
+CHEOFOG	Chenopodium foggii
+CHEO-SP	Chenopodium SPECIES
+CHERBIF	Cherleria biflora
+CHERMAR	Cherleria marcescens
+CHER-SP	Cherleria SPECIES
+CHIMMAC	Chimaphila maculata
+CHIM-SP	Chimaphila SPECIES
+CHIMUMB	Chimaphila umbellata
+CHIMU-U	Chimaphila umbellata subsp. umbellata
+CHRYARC	Chrysanthemum arcticum
+CHRYA-P	Chrysanthemum arcticum subsp. polare
+CHRYINT	Chrysanthemum integrifolium
+CHRY-SP	Chrysanthemum SPECIES
+CHRSAME	Chrysosplenium americanum
+CHRS-SP	Chrysosplenium SPECIES
+CHRSTET	Chrysosplenium tetrandrum
+IBER-SP	Iberis SPECIES
+IBERUMB	Iberis umbellata
+ILEXMUC	Ilex mucronata
+ILEX-SP	Ilex SPECIES
+ILEXVER	Ilex verticillata
+IMPABAL	Impatiens balfourii
+IMPACAP	Impatiens capensis
+IMPAGLA	Impatiens glandulifera
+IMPAPAL	Impatiens pallida
+IMPAPAR	Impatiens parviflora
+IMPA-SP	Impatiens SPECIES
+INULHEL	Inula helenium
+INULH-H	Inula helenium subsp. helenium
+INULRAC	Inula racemosa
+INUL-SP	Inula SPECIES
+IONALIN	Ionactis linariifolia
+IONA-SP	Ionactis SPECIES
+IPOMPUR	Ipomoea purpurea
+IPOM-SP	Ipomoea SPECIES
+IRISHOO	Iris hookeri
+IRISPSE	Iris pseudacorus
+IRIS-SP	Iris SPECIES
+IRISVER	Iris versicolor
+IRISVIR	Iris virginica
+ISAT-SP	Isatis SPECIES
+ISATTIN	Isatis tinctoria
+ISATT-T	Isatis tinctoria subsp. tinctoria
+ISOELAC	Isoetes lacustris
+ISOELAU	Isoetes laurentiana
+ISOESEP	Isoetes septentrionalis
+ISOE-SP	Isoetes SPECIES
+ISOETEN	Isoetes tenella
+ISOETUC	Isoetes tuckermanii
+ISOET-T	Isoetes tuckermanii subsp. tuckermanii
+JACOPSE	Jacobaea pseudoarnica
+JACO-SP	Jacobaea SPECIES
+JACOVUL	Jacobaea vulgaris
+JACOV-V	Jacobaea vulgaris subsp. vulgaris
+JUGLCIN	Juglans cinerea
+JUGL-SP	Juglans SPECIES
+JUNCACU	Juncus acuminatus
+JUNCALP	Juncus alpinoarticulatus
+JUNCA-A	Juncus alpinoarticulatus subsp. americanus
+JUNCANT	Juncus anthelatus
+JUNCARC	Juncus arcticus
+JUNCA-R	Juncus arcticus subsp. arcticus
+JUNCART	Juncus articulatus
+JUNCA-T	Juncus articulatus subsp. articulatus
+JUNCBAL	Juncus balticus
+JUNCB-L	Juncus balticus subsp. littoralis
+JUNCBIG	Juncus biglumis
+JUNCBRA	Juncus brachycephalus
+JUNCBUF	Juncus bufonius
+JUNCCAN	Juncus canadensis
+JUNCCAS	Juncus castaneus
+JUNCC-C	Juncus castaneus subsp. castaneus
+JUNCCOM	Juncus compressus
+JUNCCON	Juncus conglomeratus
+JUNCDUD	Juncus dudleyi
+JUNCEFF	Juncus effusus
+JUNCE-E	Juncus effusus subsp. effusus
+JUNCE-S	Juncus effusus subsp. solutus
+JUNCENS	Juncus ensifolius
+JUNCGER	Juncus gerardi
+JUNCG-G	Juncus gerardi subsp. gerardi
+JUNCGRE	Juncus greenei
+JUNCINF	Juncus inflexus
+JUNCI-I	Juncus inflexus subsp. inflexus
+JUNCLON	Juncus longistylis
+JUNCMAR	Juncus marginatus
+JUNCNOD	Juncus nodosus
+JUNCPEL	Juncus pelocarpus
+JUNCPYL	Juncus pylaei
+JUNCRAN	Juncus ranarius
+JUNC-SP	Juncus SPECIES
+JUNCSTY	Juncus stygius
+JUNCS-A	Juncus stygius subsp. americanus
+JUNCSUB	Juncus subtilis
+JUNCTEN	Juncus tenuis
+JUNCTOR	Juncus torreyi
+JUNCTRI	Juncus triglumis
+JUNCT-A	Juncus triglumis subsp. albescens
+JUNCTWE	Juncus tweedyi
+JUNCVAS	Juncus vaseyi
+JUNICOM	Juniperus communis
+JUNIC;D	Juniperus communis var. depressa
+JUNIC;M	Juniperus communis var. megistocarpa
+JUNIHOR	Juniperus horizontalis
+JUNI-SP	Juniperus SPECIES
+JUNIVIR	Juniperus virginiana
+JUNIV;V	Juniperus virginiana var. virginiana
+KALMANG	Kalmia angustifolia
+KALMA-A	Kalmia angustifolia subsp. angustifolia
+KALMPOL	Kalmia polifolia
+KALMPRO	Kalmia procumbens
+KALM-SP	Kalmia SPECIES
+KNAUARV	Knautia arvensis
+KNAU-SP	Knautia SPECIES
+KOELMAC	Koeleria macrantha
+KOELM-M	Koeleria macrantha subsp. macrantha
+KOEL-SP	Koeleria SPECIES
+KOELSPI	Koeleria spicata
+KOELS-S	Koeleria spicata subsp. spicata
+KOENISL	Koenigia islandica
+KOEN-SP	Koenigia SPECIES
+LACTBIE	Lactuca biennis
+LACTCAN	Lactuca canadensis
+LACTHIR	Lactuca hirsuta
+LACTMUR	Lactuca muralis
+LACTOBL	Lactuca oblongifolia
+LACTSAL	Lactuca saligna
+LACTSER	Lactuca serriola
+LACT-SP	Lactuca SPECIES
+LAGUOVA	Lagurus ovatus
+LAGU-SP	Lagurus SPECIES
+LAMIALB	Lamium album
+LAMIA-A	Lamium album subsp. album
+LAMIAMP	Lamium amplexicaule
+LAMIA-M	Lamium amplexicaule subsp. amplexicaule
+LAMIPUR	Lamium purpureum
+LAMIP;I	Lamium purpureum var. incisum
+LAMIP;P	Lamium purpureum var. purpureum
+LAMI-SP	Lamium SPECIES
+LAPOCAN	Laportea canadensis
+LAPO-SP	Laportea SPECIES
+LAPP-SP	Lappula SPECIES
+LAPPSQU	Lappula squarrosa
+LAPSCOM	Lapsana communis
+LAPSC-C	Lapsana communis subsp. communis
+LAPS-SP	Lapsana SPECIES
+LARILAR	Larix laricina
+LARI-SP	Larix SPECIES
+LATHJAP	Lathyrus japonicus
+LATHJ;J	Lathyrus japonicus var. japonicus
+LATHJ;M	Lathyrus japonicus var. maritimus
+LATHJ;P	Lathyrus japonicus var. pellitus
+LATHLAT	Lathyrus latifolius
+LATHL-L	Lathyrus latifolius subsp. latifolius
+LATHODO	Lathyrus odoratus
+LATHOCH	Lathyrus ochroleucus
+LATHOLE	Lathyrus oleraceus
+LATHPAL	Lathyrus palustris
+LATHP-P	Lathyrus palustris subsp. palustris
+LATHPRA	Lathyrus pratensis
+LATH-SP	Lathyrus SPECIES
+LATHSYL	Lathyrus sylvestris
+LATHTUB	Lathyrus tuberosus
+LATHVEN	Lathyrus venosus
+LATHV;I	Lathyrus venosus var. intonsus
+LEERORY	Leersia oryzoides
+LEER-SP	Leersia SPECIES
+LEERVIR	Leersia virginica
+LECHINT	Lechea intermedia
+LECHI;I	Lechea intermedia var. intermedia
+LECHI;L	Lechea intermedia var. laurentiana
+LECH-SP	Lechea SPECIES
+LEMNMIN	Lemna minor
+LEMNPER	Lemna perpusilla
+LEMN-SP	Lemna SPECIES
+LEMNTRI	Lemna trisulca
+LEMNTUR	Lemna turionifera
+LEONCAR	Leonurus cardiaca
+LEON-SP	Leonurus SPECIES
+LEPICAM	Lepidium campestre
+LEPICOR	Lepidium coronopus
+LEPIDEN	Lepidium densiflorum
+LEPIDID	Lepidium didymum
+LEPILAT	Lepidium latifolium
+LEPIRAM	Lepidium ramosissimum
+LEPIRUD	Lepidium ruderale
+LEPISAT	Lepidium sativum
+LEPI-SP	Lepidium SPECIES
+LEPIVIR	Lepidium virginicum
+LEPIV-V	Lepidium virginicum subsp. virginicum
+LEUCSER	Leucanthemella serotina
+LEUC-SP	Leucanthemella SPECIES
+LEUA-SP	Leucanthemum SPECIES
+LEUAVUL	Leucanthemum vulgare
+LEUAV-V	Leucanthemum vulgare subsp. vulgare
+LEUOGRA	Leucophysalis grandiflora
+LEUO-SP	Leucophysalis SPECIES
+LEVIOFF	Levisticum officinale
+LEVI-SP	Levisticum SPECIES
+LEYMARE	Leymus arenarius
+LEYMMOL	Leymus mollis
+LEYM-SP	Leymus SPECIES
+LIAT-SP	Liatris SPECIES
+LIATSPI	Liatris spicata
+LIATS;S	Liatris spicata var. spicata
+LIGUSCO	Ligusticum scothicum
+LIGUS-S	Ligusticum scothicum subsp. scothicum
+LIGU-SP	Ligusticum SPECIES
+LILICAN	Lilium canadense
+LILILAN	Lilium lancifolium
+LILIMAR	Lilium martagon
+LILIM;M	Lilium martagon var. martagon
+LILIPHI	Lilium philadelphicum
+LILI-SP	Lilium SPECIES
+LIMOCAR	Limonium carolinianum
+LIMO-SP	Limonium SPECIES
+LIMSAQU	Limosella aquatica
+LIMSA;A	Limosella aquatica var. aquatica
+LIMSAUS	Limosella australis
+LIMS-SP	Limosella SPECIES
+LINABIP	Linaria bipartita
+LINACAN	Linaria canadensis
+LINADAL	Linaria dalmatica
+LINAMAR	Linaria maroccana
+LINA-SP	Linaria SPECIES
+LINAVUL	Linaria vulgaris
+LINAV-V	Linaria vulgaris subsp. vulgaris
+LINDDUB	Lindernia dubia
+LINDD;D	Lindernia dubia var. dubia
+LIND-SP	Lindernia SPECIES
+LINNBOR	Linnaea borealis
+LINNB;A	Linnaea borealis var. americana
+LINN-SP	Linnaea SPECIES
+LINUCAT	Linum catharticum
+LINUC;C	Linum catharticum var. catharticum
+LINULEW	Linum lewisii
+LINUL;L	Linum lewisii var. lewisii
+LINU-SP	Linum SPECIES
+LINUSUL	Linum sulcatum
+LINUUSI	Linum usitatissimum
+LINUU;U	Linum usitatissimum var. usitatissimum
+LIPAPOL	Lipandra polysperma
+LIPA-SP	Lipandra SPECIES
+LIPRLOE	Liparis loeselii
+LIPRL-L	Liparis loeselii subsp. loeselii
+LIPR-SP	Liparis SPECIES
+LITHLAT	Lithospermum latifolium
+LITHOFF	Lithospermum officinale
+LITHPAR	Lithospermum parviflorum
+LITH-SP	Lithospermum SPECIES
+LITTAME	Littorella americana
+LITT-SP	Littorella SPECIES
+LOBECAR	Lobelia cardinalis
+LOBEDOR	Lobelia dortmanna
+LOBEINF	Lobelia inflata
+LOBEKAL	Lobelia kalmii
+LOBE-SP	Lobelia SPECIES
+LOBESPI	Lobelia spicata
+LOBUMAR	Lobularia maritima
+LOBUM-M	Lobularia maritima subsp. maritima
+LOBU-SP	Lobularia SPECIES
+LOLIARU	Lolium arundinaceum
+LOLIA-A	Lolium arundinaceum subsp. arundinaceum
+LOLIGIG	Lolium giganteum
+LOLIMUL	Lolium multiflorum
+LOLIPER	Lolium perenne
+LOLIPES	Lolium persicum
+LOLIPRA	Lolium pratense
+LOLI-SP	Lolium SPECIES
+LOLITEM	Lolium temulentum
+LOMAROT	Lomatogonium rotatum
+LOMAR;R	Lomatogonium rotatum var. rotatum
+LOMA-SP	Lomatogonium SPECIES
+LONICAN	Lonicera canadensis
+LONIDIO	Lonicera dioica
+LONIHIR	Lonicera hirsuta
+LONIINV	Lonicera involucrata
+LONII;I	Lonicera involucrata var. involucrata
+LONIMOR	Lonicera morrowii
+LONIOBL	Lonicera oblongifolia
+LONIRET	Lonicera reticulata
+LONISEM	Lonicera sempervirens
+LONI-SP	Lonicera SPECIES
+LONITAT	Lonicera tatarica
+LONIVIL	Lonicera villosa
+LONIV;C	Lonicera villosa var. calvescens
+LONIV;S	Lonicera villosa var. solonis
+LONIV;T	Lonicera villosa var. tonsa
+LONIV;V	Lonicera villosa var. villosa
+LONIXYL	Lonicera xylosteum
+LUDWALT	Ludwigia alternifolia
+LUDWPAL	Ludwigia palustris
+LUDW-SP	Ludwigia SPECIES
+LUNAANN	Lunaria annua
+LUNAA-A	Lunaria annua subsp. annua
+LUNA-SP	Lunaria SPECIES
+LUPIPOL	Lupinus polyphyllus
+LUPIP-P	Lupinus polyphyllus subsp. polyphyllus
+LUPI-SP	Lupinus SPECIES
+LUZUACU	Luzula acuminata
+LUZUA-A	Luzula acuminata subsp. acuminata
+LUZUCON	Luzula confusa
+LUZUGRO	Luzula groenlandica
+LUZUMUL	Luzula multiflora
+LUZUM-F	Luzula multiflora subsp. frigida
+LUZUM-M	Luzula multiflora subsp. multiflora
+LUZUNIV	Luzula nivalis
+LUZUPAL	Luzula pallescens
+LUZUPAR	Luzula parviflora
+LUZUP-M	Luzula parviflora subsp. melanocarpa
+LUZUP-P	Luzula parviflora subsp. parviflora
+LUZU-SP	Luzula SPECIES
+LUZUSPI	Luzula spicata
+LUZUS-S	Luzula spicata subsp. spicata
+LUZUWAH	Luzula wahlenbergii
+LYCIBAR	Lycium barbarum
+LYCI-SP	Lycium SPECIES
+LYCPINU	Lycopodiella inundata
+LYCP-SP	Lycopodiella SPECIES
+LYCDALP	Lycopodium alpinum
+LYCDANN	Lycopodium annotinum
+LYCDCLA	Lycopodium clavatum
+LYCDC-C	Lycopodium clavatum subsp. clavatum
+LYCDCOM	Lycopodium complanatum
+LYCDDEN	Lycopodium dendroideum
+LYCDDIG	Lycopodium digitatum
+LYCDDUB	Lycopodium dubium
+LYCDHIC	Lycopodium hickeyi
+LYCDLAG	Lycopodium lagopus
+LYCDOBS	Lycopodium obscurum
+LYCDSIT	Lycopodium sitchense
+LYCD-SP	Lycopodium SPECIES
+LYCDTRI	Lycopodium tristachyum
+LYCOAME	Lycopus americanus
+LYCOA-A	Lycopus americanus subsp. americanus
+LYCOA-L	Lycopus americanus subsp. laurentianus
+LYCOASP	Lycopus asper
+LYCOEUR	Lycopus europaeus
+LYCO-SP	Lycopus SPECIES
+LYCOUNI	Lycopus uniflorus
+LYSIARV	Lysimachia arvensis
+LYSIBOR	Lysimachia borealis
+LYSICIL	Lysimachia ciliata
+LYSIHYB	Lysimachia hybrida
+LYSIMAR	Lysimachia maritima
+LYSINUM	Lysimachia nummularia
+LYSIPUN	Lysimachia punctata
+LYSIQUA	Lysimachia quadrifolia
+LYSI-SP	Lysimachia SPECIES
+LYSITER	Lysimachia terrestris
+LYSITHY	Lysimachia thyrsiflora
+LYSIVUL	Lysimachia vulgaris
+LYTHSAL	Lythrum salicaria
+LYTH-SP	Lythrum SPECIES
+MACLCOR	Macleaya cordata
+MACL-SP	Macleaya SPECIES
+MADIGLO	Madia glomerata
+MADI-SP	Madia SPECIES
+MAIACAN	Maianthemum canadense
+MAIARAC	Maianthemum racemosum
+MAIAR-R	Maianthemum racemosum subsp. racemosum
+MAIA-SP	Maianthemum SPECIES
+MAIASTE	Maianthemum stellatum
+MAIATRI	Maianthemum trifolium
+MALAMON	Malaxis monophyllos
+MALAM;B	Malaxis monophyllos var. brachypoda
+MALA-SP	Malaxis SPECIES
+MALAUNI	Malaxis unifolia
+MALUDOM	Malus domestica
+MALU-SP	Malus SPECIES
+MALVALC	Malva alcea
+MALVA-A	Malva alcea subsp. alcea
+MALVMOS	Malva moschata
+MALVNEG	Malva neglecta
+MALVPAR	Malva parviflora
+MALVP;P	Malva parviflora var. parviflora
+MALVPUS	Malva pusilla
+MALV-SP	Malva SPECIES
+MALVSYL	Malva sylvestris
+MALVS;S	Malva sylvestris var. sylvestris
+MALVVER	Malva verticillata
+MALVV;V	Malva verticillata var. verticillata
+MARR-SP	Marrubium SPECIES
+MARRVUL	Marrubium vulgare
+MATRDIS	Matricaria discoidea
+MATRCHA	Matricaria chamomilla
+MATR-SP	Matricaria SPECIES
+MEDE-SP	Medeola SPECIES
+MEDEVIR	Medeola virginiana
+MEDIFAL	Medicago falcata
+MEDIF-F	Medicago falcata subsp. falcata
+MEDILUP	Medicago lupulina
+MEDIPOL	Medicago polymorpha
+MEDISAT	Medicago sativa
+MEDIS-S	Medicago sativa subsp. sativa
+MEDI-SP	Medicago SPECIES
+MELMLIN	Melampyrum lineare
+MELM-SP	Melampyrum SPECIES
+MELA-SP	Melanocalyx SPECIES
+MELAUNI	Melanocalyx uniflora
+MELCSMI	Melica smithii
+MELC-SP	Melica SPECIES
+MELIALB	Melilotus albus
+MELIOFF	Melilotus officinalis
+MELI-SP	Melilotus SPECIES
+MELSOFF	Melissa officinalis
+MELSO-O	Melissa officinalis subsp. officinalis
+MELS-SP	Melissa SPECIES
+MENICAN	Menispermum canadense
+MENI-SP	Menispermum SPECIES
+MENTARV	Mentha arvensis
+MENTCAN	Mentha canadensis
+MENT-SP	Mentha SPECIES
+MENTSPI	Mentha spicata
+MENTS-S	Mentha spicata subsp. spicata
+MENY-SP	Menyanthes SPECIES
+MENYTRI	Menyanthes trifoliata
+MERTMAR	Mertensia maritima
+MERTM-M	Mertensia maritima subsp. maritima
+MERTPAN	Mertensia paniculata
+MERTP;P	Mertensia paniculata var. paniculata
+MERT-SP	Mertensia SPECIES
+MERTVIR	Mertensia virginica
+MICRFOL	Micranthes foliolosa
+MICRGAS	Micranthes gaspensis
+MICRNIV	Micranthes nivalis
+MICR-SP	Micranthes SPECIES
+MICRSTE	Micranthes stellaris
+MICRS-S	Micranthes stellaris subsp. stellaris
+MICRTEN	Micranthes tenuis
+MICRVIR	Micranthes virginiensis
+MILIEFF	Milium effusum
+MILI-SP	Milium SPECIES
+MIMURIN	Mimulus ringens
+MIMUR;C	Mimulus ringens var. colpophilus
+MIMUR;R	Mimulus ringens var. ringens
+MIMU-SP	Mimulus SPECIES
+MIRAALB	Mirabilis albida
+MIRANYC	Mirabilis nyctaginea
+MIRA-SP	Mirabilis SPECIES
+MISCSAC	Miscanthus sacchariflorus
+MISC-SP	Miscanthus SPECIES
+MISOORO	Misopates orontium
+MISOO-O	Misopates orontium subsp. orontium
+MISO-SP	Misopates SPECIES
+MITEDIP	Mitella diphylla
+MITENUD	Mitella nuda
+MITE-SP	Mitella SPECIES
+MITCREP	Mitchella repens
+MITC-SP	Mitchella SPECIES
+MOEHLAT	Moehringia lateriflora
+MOEHMAC	Moehringia macrophylla
+MOEH-SP	Moehringia SPECIES
+MOLICAE	Molinia caerulea
+MOLIC-C	Molinia caerulea subsp. caerulea
+MOLI-SP	Molinia SPECIES
+MONAFIS	Monarda fistulosa
+MONAF;F	Monarda fistulosa var. fistulosa
+MONAF;L	Monarda fistulosa var. longepetiolata
+MONAF;M	Monarda fistulosa var. mollis
+MONA-SP	Monarda SPECIES
+MONE-SP	Moneses SPECIES
+MONEUNI	Moneses uniflora
+MONOHYP	Monotropa hypopitys
+MONO-SP	Monotropa SPECIES
+MONOUNI	Monotropa uniflora
+MONTFON	Montia fontana
+MONTF-F	Montia fontana subsp. fontana
+MONT-SP	Montia SPECIES
+MUHLFRO	Muhlenbergia frondosa
+MUHLGLO	Muhlenbergia glomerata
+MUHLMEX	Muhlenbergia mexicana
+MUHLRAC	Muhlenbergia racemosa
+MUHLRIC	Muhlenbergia richardsonis
+MUHL-SP	Muhlenbergia SPECIES
+MUHLSYL	Muhlenbergia sylvatica
+MUHLTEN	Muhlenbergia tenuiflora
+MUHLUNI	Muhlenbergia uniflora
+MUTAARV	Mutarda arvensis
+MUTANIG	Mutarda nigra
+MUTA-SP	Mutarda SPECIES
+MYOSARV	Myosotis arvensis
+MYOSA-A	Myosotis arvensis subsp. arvensis
+MYOSDIS	Myosotis discolor
+MYOSD-D	Myosotis discolor subsp. discolor
+MYOSLAX	Myosotis laxa
+MYOSL-L	Myosotis laxa subsp. laxa
+MYOSSCO	Myosotis scorpioides
+MYOSS-S	Myosotis scorpioides subsp. scorpioides
+MYOS-SP	Myosotis SPECIES
+MYOSSTR	Myosotis stricta
+MYOSSYL	Myosotis sylvatica
+MYOSS-Y	Myosotis sylvatica subsp. sylvatica
+MYOSVER	Myosotis verna
+MYRCGAL	Myrica gale
+MYRCPEN	Myrica pensylvanica
+MYRC-SP	Myrica SPECIES
+MYRIALT	Myriophyllum alterniflorum
+MYRIFAR	Myriophyllum farwellii
+MYRIHET	Myriophyllum heterophyllum
+MYRIHUM	Myriophyllum humile
+MYRISIB	Myriophyllum sibiricum
+MYRI-SP	Myriophyllum SPECIES
+MYRISPI	Myriophyllum spicatum
+MYRITEN	Myriophyllum tenellum
+MYRIVER	Myriophyllum verticillatum
+NABAALB	Nabalus albus
+NABAALT	Nabalus altissimus
+NABARAC	Nabalus racemosus
+NABA-SP	Nabalus SPECIES
+NABATRI	Nabalus trifoliolatus
+NAJACAN	Najas canadensis
+NAJAFLE	Najas flexilis
+NAJAGUA	Najas guadalupensis
+NAJAG-O	Najas guadalupensis subsp. olivacea
+NAJA-SP	Najas SPECIES
+NARCPOE	Narcissus poeticus
+NARCP-P	Narcissus poeticus subsp. poeticus
+NARC-SP	Narcissus SPECIES
+NARD-SP	Nardus SPECIES
+NARDSTR	Nardus stricta
+NASTMIC	Nasturtium microphyllum
+NASTOFF	Nasturtium officinale
+NAST-SP	Nasturtium SPECIES
+NEOTAUR	Neottia auriculata
+NEOTBIF	Neottia bifolia
+NEOTBOR	Neottia borealis
+NEOTCON	Neottia convallarioides
+NEOTCOR	Neottia cordata
+NEOT-SP	Neottia SPECIES
+NEPECAT	Nepeta cataria
+NEPE-SP	Nepeta SPECIES
+NESLPAN	Neslia paniculata
+NESLP-P	Neslia paniculata subsp. paniculata
+NESL-SP	Neslia SPECIES
+NICAPHY	Nicandra physalodes
+NICA-SP	Nicandra SPECIES
+NICOLON	Nicotiana longiflora
+NICO-SP	Nicotiana SPECIES
+NIGEDAM	Nigella damascena
+NIGE-SP	Nigella SPECIES
+NONE-SP	Nonea SPECIES
+NONEVER	Nonea versicolor
+NUPHMIC	Nuphar microphylla
+NUPH-SP	Nuphar SPECIES
+NUPHVAR	Nuphar variegata
+NYMHLEI	Nymphaea leibergii
+NYMHODO	Nymphaea odorata
+NYMHO-O	Nymphaea odorata subsp. odorata
+NYMHO-T	Nymphaea odorata subsp. tuberosa
+NYMH-SP	Nymphaea SPECIES
+NYMPCOR	Nymphoides cordata
+NYMPPEL	Nymphoides peltata
+NYMP-SP	Nymphoides SPECIES
+OCLEACU	Oclemena acuminata
+OCLENEM	Oclemena nemoralis
+OCLE-SP	Oclemena SPECIES
+ODONMUR	Odontarrhena muralis
+ODON-SP	Odontarrhena SPECIES
+ODOT-SP	Odontites SPECIES
+ODOTVUL	Odontites vulgaris
+ODOTV-V	Odontites vulgaris subsp. vulgaris
+OENOBIE	Oenothera biennis
+OENOGAU	Oenothera gaura
+OENOGLA	Oenothera glazioviana
+OENOGRA	Oenothera grandiflora
+OENOOAK	Oenothera oakesiana
+OENOPAR	Oenothera parviflora
+OENOPER	Oenothera perennis
+OENO-SP	Oenothera SPECIES
+OENOTET	Oenothera tetragona
+OENOVIL	Oenothera villosa
+OENOV-V	Oenothera villosa subsp. villosa
+OMALNOR	Omalotheca norvegica
+OMAL-SP	Omalotheca SPECIES
+OMALSUP	Omalotheca supina
+OMALSYL	Omalotheca sylvatica
+OMPH-SP	Omphalodes SPECIES
+OMPHVER	Omphalodes verna
+ONOB-SP	Onobrychis SPECIES
+ONOBVIC	Onobrychis viciifolia
+ONOCPEN	Onoclea pensylvatica
+ONOCSEN	Onoclea sensibilis
+ONOCS;S	Onoclea sensibilis var. sensibilis
+ONOC-SP	Onoclea SPECIES
+ONOPACA	Onopordum acanthium
+ONOPA-A	Onopordum acanthium subsp. acanthium
+ONOP-SP	Onopordum SPECIES
+OPHIPUS	Ophioglossum pusillum
+OPHI-SP	Ophioglossum SPECIES
+OREO-SP	Oreojuncus SPECIES
+OREOTRI	Oreojuncus trifidus
+OREMLAB	Oreomecon labradorica
+OREMLAP	Oreomecon lapponica
+OREML-L	Oreomecon lapponicum subsp. lapponicum
+OREM-SP	Oreomecon SPECIES
+ORIG-SP	Origanum SPECIES
+ORIGVUL	Origanum vulgare
+ORIGV-V	Origanum vulgare subsp. vulgare
+ORNI-SP	Ornithogalum SPECIES
+ORNIUMB	Ornithogalum umbellatum
+ORNIU-U	Ornithogalum umbellatum subsp. umbellatum
+OROB-SP	Orobanche SPECIES
+OROBUNI	Orobanche uniflora
+ORTHSEC	Orthilia secunda
+ORTH-SP	Orthilia SPECIES
+ORYZASP	Oryzopsis asperifolia
+ORYZ-SP	Oryzopsis SPECIES
+OSMOBER	Osmorhiza berteroi
+OSMOCLA	Osmorhiza claytonii
+OSMODEP	Osmorhiza depauperata
+OSMOLON	Osmorhiza longistylis
+OSMO-SP	Osmorhiza SPECIES
+OSMUCLA	Osmunda claytoniana
+OSMU-SP	Osmunda SPECIES
+OSMUSPE	Osmunda spectabilis
+OSMNCIN	Osmundastrum cinnamomeum
+OSMNC-C	Osmundastrum cinnamomeum subsp. cinnamomeum
+OSMN-SP	Osmundastrum SPECIES
+OSTR-SP	Ostrya SPECIES
+OSTRVIR	Ostrya virginiana
+OSTRV-V	Ostrya virginiana subsp. virginiana
+OXALCOR	Oxalis corniculata
+OXALDIL	Oxalis dillenii
+OXALMON	Oxalis montana
+OXAL-SP	Oxalis SPECIES
+OXALSTR	Oxalis stricta
+OXYBGLA	Oxybasis glauca
+OXYBRUB	Oxybasis rubra
+OXYBR;R	Oxybasis rubra var. rubra
+OXYBSAL	Oxybasis salina
+OXYB-SP	Oxybasis SPECIES
+OXYBURB	Oxybasis urbica
+OXYRDIG	Oxyria digyna
+OXYR-SP	Oxyria SPECIES
+OXYTBOR	Oxytropis borealis
+OXYTB;H	Oxytropis borealis var. hudsonica
+OXYTB;V	Oxytropis borealis var. viscida
+OXYTCAM	Oxytropis campestris
+OXYTC;J	Oxytropis campestris var. johannensis
+OXYTC;M	Oxytropis campestris var. minor
+OXYTDEF	Oxytropis deflexa
+OXYTD;F	Oxytropis deflexa var. foliolosa
+OXYTMAY	Oxytropis maydelliana
+OXYTNIG	Oxytropis nigrescens
+OXYTN;U	Oxytropis nigrescens var. uniflora
+OXYTPOD	Oxytropis podocarpa
+OXYT-SP	Oxytropis SPECIES
+PACKAUR	Packera aurea
+PACKCYM	Packera cymbalaria
+PACKIND	Packera indecora
+PACKOBO	Packera obovata
+PACKPAU	Packera pauciflora
+PACKPAP	Packera paupercula
+PACKP;P	Packera paupercula var. paupercula
+PACKSCH	Packera schweinitziana
+PACK-SP	Packera SPECIES
+PALUAPA	Palustricodon aparinoides
+PALU-SP	Palustricodon SPECIES
+PALUULI	Palustricodon uliginosus
+PANAQUI	Panax quinquefolius
+PANA-SP	Panax SPECIES
+PANATRI	Panax trifolius
+PANICAP	Panicum capillare
+PANIDIC	Panicum dichotomiflorum
+PANID-D	Panicum dichotomiflorum subsp. dichotomiflorum
+PANIFLE	Panicum flexile
+PANIGAT	Panicum gattingeri
+PANIMIL	Panicum miliaceum
+PANIPHI	Panicum philadelphicum
+PANI-SP	Panicum SPECIES
+PANIVIR	Panicum virgatum
+PAPADUB	Papaver dubium
+PAPAD-D	Papaver dubium subsp. dubium
+PAPARHO	Papaver rhoeas
+PAPAR-R	Papaver rhoeas subsp. rhoeas
+PAPASOM	Papaver somniferum
+PAPAS-S	Papaver somniferum subsp. somniferum
+PAPA-SP	Papaver SPECIES
+PARIPEN	Parietaria pensylvanica
+PARI-SP	Parietaria SPECIES
+PARNGLA	Parnassia glauca
+PARNKOT	Parnassia kotzebuei
+PARNPAL	Parnassia palustris
+PARNP;P	Parnassia palustris var. palustris
+PARNPAR	Parnassia parviflora
+PARN-SP	Parnassia SPECIES
+PARGCIL	Parogonum ciliinode
+PARG-SP	Parogonum SPECIES
+PAROFAS	Paronychia fastigiata
+PAROF;F	Paronychia fastigiata var. fastigiata
+PARO-SP	Paronychia SPECIES
+PARTINS	Parthenocissus inserta
+PARTQUI	Parthenocissus quinquefolia
+PART-SP	Parthenocissus SPECIES
+PASTSAT	Pastinaca sativa
+PASTS-S	Pastinaca sativa subsp. sativa
+PAST-SP	Pastinaca SPECIES
+PATIRAC	Patis racemosa
+PATI-SP	Patis SPECIES
+PEDICAN	Pedicularis canadensis
+PEDICAP	Pedicularis capitata
+PEDIFLA	Pedicularis flammea
+PEDIGRO	Pedicularis groenlandica
+PEDIHIR	Pedicularis hirsuta
+PEDILAB	Pedicularis labradorica
+PEDILAN	Pedicularis lanata
+PEDILAP	Pedicularis lapponica
+PEDINOV	Pedicularis novaiae-zemliae
+PEDIPAL	Pedicularis palustris
+PEDIP-P	Pedicularis palustris subsp. palustris
+PEDI-SP	Pedicularis SPECIES
+PEDISUD	Pedicularis sudetica
+PEDIS-I	Pedicularis sudetica subsp. interior
+PELT-SP	Peltandra SPECIES
+PELTVIR	Peltandra virginica
+PENSDIG	Penstemon digitalis
+PENSHIR	Penstemon hirsutus
+PENS-SP	Penstemon SPECIES
+PENTBRI	Pentanema britannica
+PENT-SP	Pentanema SPECIES
+PENHSED	Penthorum sedoides
+PENH-SP	Penthorum SPECIES
+PERSAMP	Persicaria amphibia
+PERSARI	Persicaria arifolia
+PERSCAR	Persicaria careyi
+PERSHYD	Persicaria hydropiper
+PERSHYR	Persicaria hydropiperoides
+PERSLAP	Persicaria lapathifolia
+PERSMAC	Persicaria maculosa
+PERSM;M	Persicaria maculosa var. maculosa
+PERSMIN	Persicaria minor
+PERSORI	Persicaria orientalis
+PERSPEN	Persicaria pensylvanica
+PERSPUN	Persicaria punctata
+PERSROB	Persicaria robustior
+PERSSAG	Persicaria sagittata
+PERS-SP	Persicaria SPECIES
+PERSVIR	Persicaria virginiana
+PETAFRI	Petasites frigidus
+PETAF;P	Petasites frigidus var. palmatus
+PETAF;S	Petasites frigidus var. sagittatus
+PETAF;V	Petasites frigidus var. vitifolius
+PETA-SP	Petasites SPECIES
+PETRRUP	Petrosedum rupestre
+PETR-SP	Petrosedum SPECIES
+PHALARU	Phalaris arundinacea
+PHALCAN	Phalaris canariensis
+PHAL-SP	Phalaris SPECIES
+PHEDAIZ	Phedimus aizoon
+PHEDA;A	Phedimus aizoon var. aizoon
+PHEDHYB	Phedimus hybridus
+PHED-SP	Phedimus SPECIES
+PHEDSPU	Phedimus spurius
+PHEGCON	Phegopteris connectilis
+PHEGEXC	Phegopteris excelsior
+PHEGHEX	Phegopteris hexagonoptera
+PHEG-SP	Phegopteris SPECIES
+PHELAMU	Phellodendron amurense
+PHEL-SP	Phellodendron SPECIES
+PHILCOR	Philadelphus coronarius
+PHIL-SP	Philadelphus SPECIES
+PHIPALG	Phippsia algida
+PHIPCON	Phippsia concinna
+PHIP-SP	Phippsia SPECIES
+PHLEALP	Phleum alpinum
+PHLEPRA	Phleum pratense
+PHLE-SP	Phleum SPECIES
+PHLODIV	Phlox divaricata
+PHLOD-D	Phlox divaricata subsp. divaricata
+PHLOMAC	Phlox maculata
+PHLOPAN	Phlox paniculata
+PHLO-SP	Phlox SPECIES
+PHLOSTO	Phlox stolonifera
+PHLOSUB	Phlox subulata
+PHRAAUS	Phragmites australis
+PHRAA-A	Phragmites australis subsp. americanus
+PHRAA-U	Phragmites australis subsp. australis
+PHRA-SP	Phragmites SPECIES
+PHRYLEP	Phryma leptostachya
+PHRY-SP	Phryma SPECIES
+PHYLCAE	Phyllodoce caerulea
+PHYL-SP	Phyllodoce SPECIES
+PHYAHET	Physalis heterophylla
+PHYA-SP	Physalis SPECIES
+PHYSARC	Physaria arctica
+PHYS-SP	Physaria SPECIES
+PHYCOPU	Physocarpus opulifolius
+PHYC-SP	Physocarpus SPECIES
+PHYO-SP	Physostegia SPECIES
+PHYOVIR	Physostegia virginiana
+PHYOV-V	Physostegia virginiana subsp. virginiana
+PHYTAME	Phytolacca americana
+PHYTA;A	Phytolacca americana var. americana
+PHYT-SP	Phytolacca SPECIES
+PICEABI	Picea abies
+PICEA;A	Picea abies var. abies
+PICELAX	Picea laxa
+PICEMAR	Picea mariana
+PICERUB	Picea rubens
+PICE-SP	Picea SPECIES
+PILEPUM	Pilea pumila
+PILE-SP	Pilea SPECIES
+PILOAUR	Pilosella aurantiaca
+PILOA-A	Pilosella aurantiaca subsp. aurantiaca
+PILOCAE	Pilosella caespitosa
+PILOC-C	Pilosella caespitosa subsp. caespitosa
+PILOFLA	Pilosella flagellaris
+PILOF-F	Pilosella flagellaris subsp. flagellaris
+PILOOFF	Pilosella officinarum
+PILOO-O	Pilosella officinarum subsp. officinarum
+PILOPIL	Pilosella piloselloides
+PILOP-P	Pilosella piloselloides subsp. piloselloides
+PILO-SP	Pilosella SPECIES
+PIMPSAX	Pimpinella saxifraga
+PIMPS-S	Pimpinella saxifraga subsp. saxifraga
+PIMP-SP	Pimpinella SPECIES
+PING-SP	Pinguicula SPECIES
+PINGVIL	Pinguicula villosa
+PINGVUL	Pinguicula vulgaris
+PINGV-V	Pinguicula vulgaris subsp. vulgaris
+PINUBAN	Pinus banksiana
+PINURES	Pinus resinosa
+PINURIG	Pinus rigida
+PINU-SP	Pinus SPECIES
+PINUSTR	Pinus strobus
+PIPTCAN	Piptatheropsis canadensis
+PIPTPUN	Piptatheropsis pungens
+PIPT-SP	Piptatheropsis SPECIES
+PLAGSCO	Plagiobothrys scouleri
+PLAGS;H	Plagiobothrys scouleri var. hispidulus
+PLAG-SP	Plagiobothrys SPECIES
+PLANERI	Plantago eriopoda
+PLANIND	Plantago indica
+PLANLAN	Plantago lanceolata
+PLANMAJ	Plantago major
+PLANM-M	Plantago major subsp. major
+PLANMAR	Plantago maritima
+PLANM-A	Plantago maritima subsp. maritima
+PLANMED	Plantago media
+PLANM-E	Plantago media subsp. media
+PLANRUG	Plantago rugelii
+PLAN-SP	Plantago SPECIES
+PLATAQU	Platanthera aquilonis
+PLATBLE	Platanthera blephariglottis
+PLATB;B	Platanthera blephariglottis var. blephariglottis
+PLATCLA	Platanthera clavellata
+PLATDIL	Platanthera dilatata
+PLATD;D	Platanthera dilatata var. dilatata
+PLATFLA	Platanthera flava
+PLATF;H	Platanthera flava var. herbiola
+PLATGRA	Platanthera grandiflora
+PLATHOO	Platanthera hookeri
+PLATHUR	Platanthera huronensis
+PLATLAC	Platanthera lacera
+PLATOBT	Platanthera obtusata
+PLATORB	Platanthera orbiculata
+PLATO;M	Platanthera orbiculata var. macrophylla
+PLATO;O	Platanthera orbiculata var. orbiculata
+PLATPSY	Platanthera psycodes
+PLAT-SP	Platanthera SPECIES
+PLATUNA	Platanthera unalascensis
+PLEUSAB	Pleuropogon sabinei
+PLEU-SP	Pleuropogon SPECIES
+POA ALP	Poa alpigena
+POA ALI	Poa alpina
+POA ALS	Poa alsodes
+POA ANN	Poa annua
+POA ARC	Poa arctica
+POA A-A	Poa arctica subsp. arctica
+POA ARI	Poa arida
+POA AUT	Poa autumnalis
+POA COM	Poa compressa
+POA FLE	Poa flexuosa
+POA F-C	Poa flexuosa subsp. consauliae
+POA F-F	Poa flexuosa subsp. fernaldiana
+POA GLA	Poa glauca
+POA G-G	Poa glauca subsp. glauca
+POA HAR	Poa hartzii
+POA HUM	Poa humilis
+POA CHA	Poa chaixii
+POA INT	Poa interior
+POA NEM	Poa nemoralis
+POA PAL	Poa palustris
+POA PRA	Poa pratensis
+POA P-P	Poa pratensis subsp. pratensis
+POA SEC	Poa secunda
+POA S-S	Poa secunda subsp. secunda
+POA -SP	Poa SPECIES
+POA TOL	Poa tolmatchewii
+POA TRI	Poa trivialis
+PODOPEL	Podophyllum peltatum
+PODO-SP	Podophyllum SPECIES
+PODSCER	Podostemum ceratophyllum
+PODS-SP	Podostemum SPECIES
+POGOOPH	Pogonia ophioglossoides
+POGO-SP	Pogonia SPECIES
+POLECAE	Polemonium caeruleum
+POLEC-C	Polemonium caeruleum subsp. caeruleum
+POLEREP	Polemonium reptans
+POLE-SP	Polemonium SPECIES
+POLEVAN	Polemonium vanbruntiae
+POLYBIF	Polygonatum biflorum
+POLYMUL	Polygonatum multiflorum
+POLYPUB	Polygonatum pubescens
+POLY-SP	Polygonatum SPECIES
+POLGACH	Polygonum achoreum
+POLGA;F	Polygonum alpinum var. frigidum
+POLGARE	Polygonum arenastrum
+POLGART	Polygonum articulatum
+POLGAVI	Polygonum aviculare
+POLGBUX	Polygonum buxiforme
+POLGDOU	Polygonum douglasii
+POLGERE	Polygonum erectum
+POLGFOW	Polygonum fowleri
+POLGF-F	Polygonum fowleri subsp. fowleri
+POLGF-H	Polygonum fowleri subsp. hudsonianum
+POLGNEG	Polygonum neglectum
+POLGRAI	Polygonum raii
+POLGRAM	Polygonum ramosissimum
+POLGR-P	Polygonum ramosissimum subsp. prolificum
+POLGR-R	Polygonum ramosissimum subsp. ramosissimum
+POLGRUR	Polygonum rurivagum
+POLG-SP	Polygonum SPECIES
+POLOAPP	Polypodium appalachianum
+POLOSIB	Polypodium sibiricum
+POLO-SP	Polypodium SPECIES
+POLOVIR	Polypodium virginianum
+POLPMON	Polypogon monspeliensis
+POLP-SP	Polypogon SPECIES
+POLSACR	Polystichum acrostichoides
+POLSA;A	Polystichum acrostichoides var. acrostichoides
+POLSBRA	Polystichum braunii
+POLSLON	Polystichum lonchitis
+POLSSCO	Polystichum scopulinum
+POLS-SP	Polystichum SPECIES
+PONTCOR	Pontederia cordata
+PONT-SP	Pontederia SPECIES
+POPUBAL	Populus balsamifera
+POPUDEL	Populus deltoides
+POPUD-D	Populus deltoides subsp. deltoides
+POPUGRA	Populus grandidentata
+POPU-SP	Populus SPECIES
+POPUTRE	Populus tremuloides
+PORTOLE	Portulaca oleracea
+PORTO;O	Portulaca oleracea var. oleracea
+PORT-SP	Portulaca SPECIES
+POTAALP	Potamogeton alpinus
+POTAA-A	Potamogeton alpinus subsp. alpinus
+POTAAMP	Potamogeton amplifolius
+POTABER	Potamogeton berchtoldii
+POTAB-B	Potamogeton berchtoldii subsp. berchtoldii
+POTAB-G	Potamogeton berchtoldii subsp. gemmiparus
+POTACON	Potamogeton confervoides
+POTACRI	Potamogeton crispus
+POTAEPI	Potamogeton epihydrus
+POTAFOL	Potamogeton foliosus
+POTAF-F	Potamogeton foliosus subsp. foliosus
+POTAFRI	Potamogeton friesii
+POTAGRA	Potamogeton gramineus
+POTAILL	Potamogeton illinoensis
+POTANAT	Potamogeton natans
+POTANOD	Potamogeton nodosus
+POTAOAK	Potamogeton oakesianus
+POTAOBT	Potamogeton obtusifolius
+POTAPER	Potamogeton perfoliatus
+POTAPRA	Potamogeton praelongus
+POTAPUS	Potamogeton pusillus
+POTARIC	Potamogeton richardsonii
+POTAROB	Potamogeton robbinsii
+POTASIB	Potamogeton sibiricus
+POTA-SP	Potamogeton SPECIES
+POTASPI	Potamogeton spirillus
+POTASTR	Potamogeton strictifolius
+POTAVAS	Potamogeton vaseyi
+POTAZOS	Potamogeton zosteriformis
+POTEANG	Potentilla anglica
+POTEARG	Potentilla argentea
+POTEBIM	Potentilla bimundorum
+POTEBIP	Potentilla bipinnatifida
+POTECRA	Potentilla crantzii
+POTEGRA	Potentilla gracilis
+POTEG;F	Potentilla gracilis var. fastigiata
+POTEHIP	Potentilla hippiana
+POTEHYP	Potentilla hyparctica
+POTEH-H	Potentilla hyparctica subsp. hyparctica
+POTECHA	Potentilla chamissonis
+POTEINC	Potentilla inclinata
+POTELIT	Potentilla litoralis
+POTENIV	Potentilla nivea
+POTENOR	Potentilla norvegica
+POTEPEN	Potentilla pensylvanica
+POTEPUL	Potentilla pulchella
+POTEPUC	Potentilla pulcherrima
+POTEREC	Potentilla recta
+POTER-R	Potentilla recta subsp. recta
+POTEREP	Potentilla reptans
+POTER;R	Potentilla reptans var. reptans
+POTESIM	Potentilla simplex
+POTE-SP	Potentilla SPECIES
+POTESUB	Potentilla subvahliana
+POTETHU	Potentilla thuringiaca
+POTEVAH	Potentilla vahliana
+PRIMEGA	Primula egaliksensis
+PRIMLAU	Primula laurentiana
+PRIMMIS	Primula mistassinica
+PRIM-SP	Primula SPECIES
+PRIMSTR	Primula stricta
+PRIMVER	Primula veris
+PRIMV-V	Primula veris subsp. veris
+PROSPAL	Proserpinaca palustris
+PROSP;P	Proserpinaca palustris var. palustris
+PROS-SP	Proserpinaca SPECIES
+PRUN-SP	Prunella SPECIES
+PRUNVUL	Prunella vulgaris
+PRUNV-L	Prunella vulgaris subsp. lanceolata
+PRUNV-V	Prunella vulgaris subsp. vulgaris
+PRUUAME	Prunus americana
+PRUUCER	Prunus cerasus
+PRUUDOM	Prunus domestica
+PRUUNIG	Prunus nigra
+PRUUPEN	Prunus pensylvanica
+PRUUPUM	Prunus pumila
+PRUUP;D	Prunus pumila var. depressa
+PRUUSER	Prunus serotina
+PRUUS;S	Prunus serotina var. serotina
+PRUU-SP	Prunus SPECIES
+PRUUSUS	Prunus susquehanae
+PRUUVIR	Prunus virginiana
+PRUUV;V	Prunus virginiana var. virginiana
+PSAMMUR	Psammophiliella muralis
+PSAM-SP	Psammophiliella SPECIES
+PSEUMAC	Pseudognaphalium macounii
+PSEUOBT	Pseudognaphalium obtusifolium
+PSEU-SP	Pseudognaphalium SPECIES
+PSEDALB	Pseudorchis albida
+PSED-SP	Pseudorchis SPECIES
+PTEL-SP	Ptelea SPECIES
+PTELTRI	Ptelea trifoliata
+PTELT-T	Ptelea trifoliata subsp. trifoliata
+PTERLAT	Pteridium latiusculum
+PTERL-L	Pteridium latiusculum subsp. latiusculum
+PTER-SP	Pteridium SPECIES
+PTEOAND	Pterospora andromedea
+PTEO-SP	Pterospora SPECIES
+PUCCAND	Puccinellia andersonii
+PUCCANG	Puccinellia angustata
+PUCCDIS	Puccinellia distans
+PUCCMAR	Puccinellia maritima
+PUCCNUT	Puccinellia nutkaensis
+PUCCNUA	Puccinellia nuttalliana
+PUCCPHR	Puccinellia phryganodes
+PUCCPUM	Puccinellia pumila
+PUCC-SP	Puccinellia SPECIES
+PUCCTEN	Puccinellia tenella
+PUCCVAG	Puccinellia vaginata
+PUCCVAH	Puccinellia vahliana
+PULMOFF	Pulmonaria officinalis
+PULMO-O	Pulmonaria officinalis subsp. officinalis
+PULM-SP	Pulmonaria SPECIES
+PYCN-SP	Pycnanthemum SPECIES
+PYCNTEN	Pycnanthemum tenuifolium
+PYCNVIR	Pycnanthemum virginianum
+PYROAME	Pyrola americana
+PYROASA	Pyrola asarifolia
+PYROA-A	Pyrola asarifolia subsp. asarifolia
+PYROELL	Pyrola elliptica
+PYROGRA	Pyrola grandiflora
+PYROCHL	Pyrola chlorantha
+PYROMIN	Pyrola minor
+PYRO-SP	Pyrola SPECIES
+QUERALB	Quercus alba
+QUERBIC	Quercus bicolor
+QUERMAC	Quercus macrocarpa
+QUERM;M	Quercus macrocarpa var. macrocarpa
+QUERRUB	Quercus rubra
+QUER-SP	Quercus SPECIES
+RANUABO	Ranunculus abortivus
+RANUACR	Ranunculus acris
+RANUA-A	Ranunculus acris subsp. acris
+RANUALL	Ranunculus allenii
+RANUARC	Ranunculus arcticus
+RANUBUL	Ranunculus bulbosus
+RANUB-B	Ranunculus bulbosus subsp. bulbosus
+RANUCAR	Ranunculus caricetorum
+RANUFIC	Ranunculus ficaria
+RANUF-F	Ranunculus ficaria subsp. ficaria
+RANUFLA	Ranunculus flabellaris
+RANUFLM	Ranunculus flammula
+RANUF;O	Ranunculus flammula var. ovalis
+RANUGME	Ranunculus gmelinii
+RANUHYP	Ranunculus hyperboreus
+RANULAP	Ranunculus lapponicus
+RANUMAC	Ranunculus macounii
+RANUNIV	Ranunculus nivalis
+RANUPAL	Ranunculus pallasii
+RANUPEN	Ranunculus pensylvanicus
+RANUPYG	Ranunculus pygmaeus
+RANUREC	Ranunculus recurvatus
+RANUR;R	Ranunculus recurvatus var. recurvatus
+RANUREP	Ranunculus repens
+RANURET	Ranunculus reptans
+RANUSCE	Ranunculus sceleratus
+RANUS;M	Ranunculus sceleratus var. multifidus
+RANUS;S	Ranunculus sceleratus var. sceleratus
+RANU-SP	Ranunculus SPECIES
+RANUSUB	Ranunculus subrigidus
+RANUSUL	Ranunculus sulphureus
+RANUS-S	Ranunculus sulphureus subsp. sulphureus
+RANUTRI	Ranunculus trichophyllus
+RAPHRAP	Raphanus raphanistrum
+RAPHR-R	Raphanus raphanistrum subsp. raphanistrum
+RAPHR-S	Raphanus raphanistrum subsp. sativus
+RAPH-SP	Raphanus SPECIES
+RAPIRUG	Rapistrum rugosum
+RAPI-SP	Rapistrum SPECIES
+RESEALB	Reseda alba
+RESEA-A	Reseda alba subsp. alba
+RESE-SP	Reseda SPECIES
+REYNJAP	Reynoutria japonica
+REYNSAC	Reynoutria sachalinensis
+REYN-SP	Reynoutria SPECIES
+RHAMALN	Rhamnus alnifolia
+RHAMCAT	Rhamnus cathartica
+RHAMC;C	Rhamnus cathartica var. cathartica
+RHAM-SP	Rhamnus SPECIES
+RHEURHA	Rheum rhabarbarum
+RHEU-SP	Rheum SPECIES
+RHINGRO	Rhinanthus groenlandicus
+RHINMIN	Rhinanthus minor
+RHINM-M	Rhinanthus minor subsp. minor
+RHIN-SP	Rhinanthus SPECIES
+RHODROS	Rhodiola rosea
+RHOD-SP	Rhodiola SPECIES
+RHOOCAN	Rhododendron canadense
+RHOOGRO	Rhododendron groenlandicum
+RHOOLAP	Rhododendron lapponicum
+RHOO-SP	Rhododendron SPECIES
+RHOOTOM	Rhododendron tomentosum
+RHUSARO	Rhus aromatica
+RHUSA;A	Rhus aromatica var. aromatica
+RHUSGLA	Rhus glabra
+RHUS-SP	Rhus SPECIES
+RHUSTYP	Rhus typhina
+RHYNALB	Rhynchospora alba
+RHYNCAP	Rhynchospora capillacea
+RHYNCAI	Rhynchospora capitellata
+RHYNFUS	Rhynchospora fusca
+RHYN-SP	Rhynchospora SPECIES
+RIBEAME	Ribes americanum
+RIBEAUR	Ribes aureum
+RIBEA;A	Ribes aureum var. aureum
+RIBECYN	Ribes cynosbati
+RIBEGLA	Ribes glandulosum
+RIBEHIR	Ribes hirtellum
+RIBEHUD	Ribes hudsonianum
+RIBELAC	Ribes lacustre
+RIBENIG	Ribes nigrum
+RIBEN;N	Ribes nigrum var. nigrum
+RIBEOXY	Ribes oxyacanthoides
+RIBEO;O	Ribes oxyacanthoides var. oxyacanthoides
+RIBERUB	Ribes rubrum
+RIBE-SP	Ribes SPECIES
+RIBETRI	Ribes triste
+RIBEUVA	Ribes uva-crispa
+RIBEU-U	Ribes uva-crispa subsp. uva-crispa
+ROBIPSE	Robinia pseudoacacia
+ROBI-SP	Robinia SPECIES
+ROBIVIS	Robinia viscosa
+RORIAMP	Rorippa amphibia
+RORIAQU	Rorippa aquatica
+RORIHIS	Rorippa hispida
+RORIH-H	Rorippa hispida subsp. hispida
+RORIPAL	Rorippa palustris
+RORI-SP	Rorippa SPECIES
+RORISYL	Rorippa sylvestris
+ROSAACI	Rosa acicularis
+ROSAA-S	Rosa acicularis subsp. sayi
+ROSAARK	Rosa arkansana
+ROSABLA	Rosa blanda
+ROSACAN	Rosa canina
+ROSACAR	Rosa carolina
+ROSAC-C	Rosa carolina subsp. carolina
+ROSACIN	Rosa cinnamomea
+ROSAGAL	Rosa gallica
+ROSAGLA	Rosa glauca
+ROSAMIC	Rosa micrantha
+ROSAMUL	Rosa multiflora
+ROSAM;M	Rosa multiflora var. multiflora
+ROSANIT	Rosa nitida
+ROSAPAL	Rosa palustris
+ROSARUB	Rosa rubiginosa
+ROSARUG	Rosa rugosa
+ROSA-SP	Rosa SPECIES
+ROSASPI	Rosa spinosissima
+ROSAS;S	Rosa spinosissima var. spinosissima
+ROSAVIR	Rosa virginiana
+ROSAV-V	Rosa virginiana subsp. virginiana
+RUBUALL	Rubus allegheniensis
+RUBUALU	Rubus alumnus
+RUBUARC	Rubus arcticus
+RUBUA-A	Rubus arcticus subsp. acaulis
+RUBUCAN	Rubus canadensis
+RUBUDEC	Rubus decumbens
+RUBUFLA	Rubus flagellaris
+RUBUHET	Rubus heterophyllus
+RUBUHIS	Rubus hispidus
+RUBUCHA	Rubus chamaemorus
+RUBUIDA	Rubus idaeus
+RUBUI-I	Rubus idaeus subsp. idaeus
+RUBUI-S	Rubus idaeus subsp. strigosus
+RUBUOCC	Rubus occidentalis
+RUBUODO	Rubus odoratus
+RUBUPEN	Rubus pensilvanicus
+RUBUPUB	Rubus pubescens
+RUBUREP	Rubus repens
+RUBUSET	Rubus setosus
+RUBU-SP	Rubus SPECIES
+RUDBHIR	Rudbeckia hirta
+RUDBH;P	Rudbeckia hirta var. pulcherrima
+RUDBLAC	Rudbeckia laciniata
+RUDBL;L	Rudbeckia laciniata var. laciniata
+RUDB-SP	Rudbeckia SPECIES
+RUDBSPE	Rudbeckia speciosa
+RUDBTRI	Rudbeckia triloba
+RUDBT;T	Rudbeckia triloba var. triloba
+RUMEACE	Rumex acetosa
+RUMEA-A	Rumex acetosa subsp. acetosa
+RUMEACT	Rumex acetosella
+RUMEA-C	Rumex acetosella subsp. acetosella
+RUMEBRI	Rumex britannica
+RUMECRI	Rumex crispus
+RUMEC-C	Rumex crispus subsp. crispus
+RUMEFUE	Rumex fueginus
+RUMELON	Rumex longifolius
+RUMEOBT	Rumex obtusifolius
+RUMEO-O	Rumex obtusifolius subsp. obtusifolius
+RUMEOCC	Rumex occidentalis
+RUMEO;O	Rumex occidentalis var. occidentalis
+RUMEORB	Rumex orbiculatus
+RUMEPAL	Rumex pallidus
+RUMEPAT	Rumex patientia
+RUMEP-P	Rumex patientia subsp. patientia
+RUMEPER	Rumex persicarioides
+RUMESAN	Rumex sanguineus
+RUME-SP	Rumex SPECIES
+RUMESTE	Rumex stenophyllus
+RUMESUB	Rumex subarcticus
+RUMETHY	Rumex thyrsiflorus
+RUMETRI	Rumex triangulivalvis
+RUMEVER	Rumex verticillatus
+RUPPMAR	Ruppia maritima
+RUPP-SP	Ruppia SPECIES
+RUTAGRA	Ruta graveolens
+RUTA-SP	Ruta SPECIES
+SABUDAW	Sabulina dawsonensis
+SABUMIC	Sabulina michauxii
+SABURUB	Sabulina rubella
+SABU-SP	Sabulina SPECIES
+SABUSTR	Sabulina stricta
+SAGNCAE	Sagina caespitosa
+SAGNDEC	Sagina decumbens
+SAGND-D	Sagina decumbens subsp. decumbens
+SAGNJAP	Sagina japonica
+SAGNNIV	Sagina nivalis
+SAGNNOD	Sagina nodosa
+SAGNN-B	Sagina nodosa subsp. borealis
+SAGNPRO	Sagina procumbens
+SAGNP-P	Sagina procumbens subsp. procumbens
+SAGNSAG	Sagina saginoides
+SAGNS-S	Sagina saginoides subsp. saginoides
+SAGN-SP	Sagina SPECIES
+SAGICUN	Sagittaria cuneata
+SAGIGRA	Sagittaria graminea
+SAGILAT	Sagittaria latifolia
+SAGIRIG	Sagittaria rigida
+SAGI-SP	Sagittaria SPECIES
+SALIMAR	Salicornia maritima
+SALIRUB	Salicornia rubra
+SALI-SP	Salicornia SPECIES
+SALIVIR	Salicornia virginica
+SALXALA	Salix alaxensis
+SALXA;A	Salix alaxensis var. alaxensis
+SALXALB	Salix alba
+SALXA-A	Salix alba subsp. alba
+SALXAMY	Salix amygdaloides
+SALXARB	Salix arbusculoides
+SALXARC	Salix arctica
+SALXA-R	Salix arctica subsp. arctica
+SALXART	Salix arctophila
+SALXARG	Salix argyrocarpa
+SALXBAL	Salix ballii
+SALXBEB	Salix bebbiana
+SALXCAL	Salix calcicola
+SALXC;C	Salix calcicola var. calcicola
+SALXCAN	Salix candida
+SALXCOR	Salix cordata
+SALXDAP	Salix daphnoides
+SALXDIS	Salix discolor
+SALXELE	Salix eleagnos
+SALXERI	Salix eriocephala
+SALXGLU	Salix glauca
+SALXGLA	Salix glauca f. cordifolia
+SALXHER	Salix herbacea
+SALXHUM	Salix humilis
+SALXH;H	Salix humilis var. humilis
+SALXCHL	Salix chlorolepis
+SALXINT	Salix interior
+SALXLUC	Salix lucida
+SALXMAC	Salix maccalliana
+SALXMYR	Salix myricoides
+SALXNIG	Salix nigra
+SALXPED	Salix pedicellaris
+SALXPEL	Salix pellita
+SALXPEN	Salix pentandra
+SALXPET	Salix petiolaris
+SALXPLA	Salix planifolia
+SALXPSE	Salix pseudomonticola
+SALXPUR	Salix purpurea
+SALXP-P	Salix purpurea subsp. purpurea
+SALXPYR	Salix pyrifolia
+SALXRET	Salix reticulata
+SALXSER	Salix sericea
+SALXSEI	Salix serissima
+SALX-SP	Salix SPECIES
+SALXUVA	Salix uva-ursi
+SALXVES	Salix vestita
+SALXVIM	Salix viminalis
+SALSKAL	Salsola kali
+SALS-SP	Salsola SPECIES
+SALSTRA	Salsola tragus
+SALVOFF	Salvia officinalis
+SALVO-O	Salvia officinalis subsp. officinalis
+SALV-SP	Salvia SPECIES
+SAMBCAN	Sambucus canadensis
+SAMBEBU	Sambucus ebulus
+SAMBRAC	Sambucus racemosa
+SAMBR-P	Sambucus racemosa subsp. pubens
+SAMB-SP	Sambucus SPECIES
+SAMOPAR	Samolus parviflorus
+SAMO-SP	Samolus SPECIES
+SANGCAN	Sanguinaria canadensis
+SANG-SP	Sanguinaria SPECIES
+SANUCAN	Sanguisorba canadensis
+SANUMIN	Sanguisorba minor
+SANUM-B	Sanguisorba minor subsp. balearica
+SANU-SP	Sanguisorba SPECIES
+SANICAN	Sanicula canadensis
+SANIC;C	Sanicula canadensis var. canadensis
+SANIMAR	Sanicula marilandica
+SANIODO	Sanicula odorata
+SANI-SP	Sanicula SPECIES
+SANITRI	Sanicula trifoliata
+SAPOOFF	Saponaria officinalis
+SAPO-SP	Saponaria SPECIES
+SARRPUR	Sarracenia purpurea
+SARRP-P	Sarracenia purpurea subsp. purpurea
+SARR-SP	Sarracenia SPECIES
+SAURCER	Saururus cernuus
+SAUR-SP	Saururus SPECIES
+SAXIAIZ	Saxifraga aizoides
+SAXICER	Saxifraga cernua
+SAXICES	Saxifraga cespitosa
+SAXIHIR	Saxifraga hirculus
+SAXIHYP	Saxifraga hyperborea
+SAXIOPP	Saxifraga oppositifolia
+SAXIO-O	Saxifraga oppositifolia subsp. oppositifolia
+SAXIPAN	Saxifraga paniculata
+SAXIRIV	Saxifraga rivularis
+SAXIR-R	Saxifraga rivularis subsp. rivularis
+SAXI-SP	Saxifraga SPECIES
+SAXITRI	Saxifraga tricuspidata
+SCILSIB	Scilla siberica
+SCILS-S	Scilla siberica subsp. siberica
+SCIL-SP	Scilla SPECIES
+SCIRANC	Scirpus ancistrochaetus
+SCIRATR	Scirpus atrocinctus
+SCIRATO	Scirpus atrovirens
+SCIRCYP	Scirpus cyperinus
+SCIRHAT	Scirpus hattorianus
+SCIRMIC	Scirpus microcarpus
+SCIRPED	Scirpus pedicellatus
+SCIRPEN	Scirpus pendulus
+SCIR-SP	Scirpus SPECIES
+SCLEPER	Scleranthus perennis
+SCLEP-P	Scleranthus perennis subsp. perennis
+SCLE-SP	Scleranthus SPECIES
+SCORAUT	Scorzoneroides autumnalis
+SCORA-A	Scorzoneroides autumnalis subsp. autumnalis
+SCOR-SP	Scorzoneroides SPECIES
+SCROLAN	Scrophularia lanceolata
+SCRONOD	Scrophularia nodosa
+SCRO-SP	Scrophularia SPECIES
+SCUTGAL	Scutellaria galericulata
+SCUTLAT	Scutellaria lateriflora
+SCUTPAR	Scutellaria parvula
+SCUTP;P	Scutellaria parvula var. parvula
+SCUT-SP	Scutellaria SPECIES
+SECACER	Secale cereale
+SECA-SP	Secale SPECIES
+SEDUACR	Sedum acre
+SEDUALB	Sedum album
+SEDUA-A	Sedum album subsp. album
+SEDUHIS	Sedum hispanicum
+SEDUSAR	Sedum sarmentosum
+SEDUS;S	Sedum sarmentosum var. sarmentosum
+SEDU-SP	Sedum SPECIES
+SEDUVIL	Sedum villosum
+SELAECL	Selaginella eclipes
+SELARUP	Selaginella rupestris
+SELASEL	Selaginella selaginoides
+SELA-SP	Selaginella SPECIES
+SENE-SP	Senecio SPECIES
+SENESYL	Senecio sylvaticus
+SENEVIS	Senecio viscosus
+SENEVUL	Senecio vulgaris
+SENEV-V	Senecio vulgaris subsp. vulgaris
+SENGOFF	Senega officinalis
+SENGPOL	Senega polygama
+SENGSAN	Senega sanguinea
+SENG-SP	Senega SPECIES
+SENGVER	Senega verticillata
+SETAFAB	Setaria faberi
+SETAITA	Setaria italica
+SETAPUM	Setaria pumila
+SETA-SP	Setaria SPECIES
+SETAVER	Setaria verticillata
+SETAVIR	Setaria viridis
+SHEPCAN	Shepherdia canadensis
+SHEP-SP	Shepherdia SPECIES
+SCHUPAL	Scheuchzeria palustris
+SCHU-SP	Scheuchzeria SPECIES
+SCHIPUR	Schizachne purpurascens
+SCHIP-P	Schizachne purpurascens subsp. purpurascens
+SCHI-SP	Schizachne SPECIES
+SCHZSCO	Schizachyrium scoparium
+SCHZ-SP	Schizachyrium SPECIES
+SCHOPUR	Schoenoplectiella purshiana
+SCHOSMI	Schoenoplectiella smithii
+SCHOS;L	Schoenoplectiella smithii var. leviseta
+SCHOS;S	Schoenoplectiella smithii var. setosa
+SCHOS;M	Schoenoplectiella smithii var. smithii
+SCHO-SP	Schoenoplectiella SPECIES
+SCHEACU	Schoenoplectus acutus
+SCHEA;A	Schoenoplectus acutus var. acutus
+SCHEHET	Schoenoplectus heterochaetus
+SCHEPUN	Schoenoplectus pungens
+SCHEP;P	Schoenoplectus pungens var. pungens
+SCHE-SP	Schoenoplectus SPECIES
+SCHESUB	Schoenoplectus subterminalis
+SCHETAB	Schoenoplectus tabernaemontani
+SCHETOR	Schoenoplectus torreyi
+SIBBPRO	Sibbaldia procumbens
+SIBB-SP	Sibbaldia SPECIES
+SIBBTRI	Sibbaldia tridentata
+SICYANG	Sicyos angulatus
+SICY-SP	Sicyos SPECIES
+SILEACA	Silene acaulis
+SILEA-A	Silene acaulis subsp. acaulis
+SILEANT	Silene antirrhina
+SILECOR	Silene coronaria
+SILECSE	Silene csereii
+SILEDIC	Silene dichotoma
+SILEDIO	Silene dioica
+SILED-D	Silene dioica subsp. dioica
+SILEFLO	Silene flos-cuculi
+SILEF-F	Silene flos-cuculi subsp. flos-cuculi
+SILECHA	Silene chalcedonica
+SILEINV	Silene involucrata
+SILEI-I	Silene involucrata subsp. involucrata
+SILELAT	Silene latifolia
+SILEL-L	Silene latifolia subsp. latifolia
+SILENOC	Silene noctiflora
+SILE-SP	Silene SPECIES
+SILEURA	Silene uralensis
+SILEU-O	Silene uralensis subsp. ogilviensis
+SILEU-U	Silene uralensis subsp. uralensis
+SILEVUL	Silene vulgaris
+SILEV-V	Silene vulgaris subsp. vulgaris
+SILYMAR	Silybum marianum
+SILY-SP	Silybum SPECIES
+SINAALB	Sinapis alba
+SINAA-A	Sinapis alba subsp. alba
+SINA-SP	Sinapis SPECIES
+SISYALT	Sisymbrium altissimum
+SISYLOE	Sisymbrium loeselii
+SISYOFF	Sisymbrium officinale
+SISY-SP	Sisymbrium SPECIES
+SISRANG	Sisyrinchium angustifolium
+SISRMON	Sisyrinchium montanum
+SISRM;C	Sisyrinchium montanum var. crebrum
+SISRM;M	Sisyrinchium montanum var. montanum
+SISRMUC	Sisyrinchium mucronatum
+SISR-SP	Sisyrinchium SPECIES
+SIUM-SP	Sium SPECIES
+SIUMSUA	Sium suave
+SMILHER	Smilax herbacea
+SMIL-SP	Smilax SPECIES
+SOLAANG	Solanum angustifolium
+SOLACAR	Solanum carolinense
+SOLAC;C	Solanum carolinense var. carolinense
+SOLADUL	Solanum dulcamara
+SOLAEMU	Solanum emulans
+SOLALYC	Solanum lycopersicum
+SOLANIT	Solanum nitidibaccatum
+SOLAROS	Solanum rostratum
+SOLA-SP	Solanum SPECIES
+SOLIALT	Solidago altissima
+SOLIA-A	Solidago altissima subsp. altissima
+SOLIBAR	Solidago bartramiana
+SOLIBIC	Solidago bicolor
+SOLICAE	Solidago caesia
+SOLICAN	Solidago canadensis
+SOLIC;C	Solidago canadensis var. canadensis
+SOLIFAL	Solidago fallax
+SOLIF;F	Solidago fallax var. fallax
+SOLIF;M	Solidago fallax var. molina
+SOLIFLE	Solidago flexicaulis
+SOLIGIG	Solidago gigantea
+SOLIHIS	Solidago hispida
+SOLICHL	Solidago chlorolepis
+SOLIJUN	Solidago juncea
+SOLILEI	Solidago leiocarpa
+SOLILEP	Solidago lepida
+SOLIMAC	Solidago macrophylla
+SOLIMUL	Solidago multiradiata
+SOLIM-M	Solidago multiradiata subsp. multiradiata
+SOLINEM	Solidago nemoralis
+SOLIN-N	Solidago nemoralis subsp. nemoralis
+SOLIPTA	Solidago ptarmicoides
+SOLIPUB	Solidago puberula
+SOLIP-P	Solidago puberula subsp. puberula
+SOLIRAC	Solidago racemosa
+SOLIRUG	Solidago rugosa
+SOLIR;R	Solidago rugosa var. rugosa
+SOLISEM	Solidago sempervirens
+SOLISIM	Solidago simplex
+SOLIS;M	Solidago simplex var. monticola
+SOLIS;S	Solidago simplex var. simplex
+SOLI-SP	Solidago SPECIES
+SOLISQU	Solidago squarrosa
+SOLIULI	Solidago uliginosa
+SONCARV	Sonchus arvensis
+SONCA-A	Sonchus arvensis subsp. arvensis
+SONCA-U	Sonchus arvensis subsp. uliginosus
+SONCASP	Sonchus asper
+SONCA-S	Sonchus asper subsp. asper
+SONC-SP	Sonchus SPECIES
+SORBSOR	Sorbaria sorbifolia
+SORBS;S	Sorbaria sorbifolia var. sorbifolia
+SORB-SP	Sorbaria SPECIES
+SORUAME	Sorbus americana
+SORUAUC	Sorbus aucuparia
+SORUA-A	Sorbus aucuparia subsp. aucuparia
+SORUDEC	Sorbus decora
+SORU-SP	Sorbus SPECIES
+SORGNUT	Sorghastrum nutans
+SORG-SP	Sorghastrum SPECIES
+SORHBIC	Sorghum bicolor
+SORHB-D	Sorghum bicolor nothosubsp. drummondii
+SORHB-B	Sorghum bicolor subsp. bicolor
+SORH-SP	Sorghum SPECIES
+SPARAME	Sparganium americanum
+SPARAND	Sparganium androcladum
+SPARANG	Sparganium angustifolium
+SPAREME	Sparganium emersum
+SPAREUR	Sparganium eurycarpum
+SPARE-E	Sparganium eurycarpum subsp. eurycarpum
+SPARFLU	Sparganium fluctuans
+SPARGLO	Sparganium glomeratum
+SPARHYP	Sparganium hyperboreum
+SPARNAT	Sparganium natans
+SPAR-SP	Sparganium SPECIES
+SPERARV	Spergula arvensis
+SPERA-A	Spergula arvensis subsp. arvensis
+SPER-SP	Spergula SPECIES
+SPEGCAN	Spergularia canadensis
+SPEGC;C	Spergularia canadensis var. canadensis
+SPEGMAR	Spergularia marina
+SPEGMED	Spergularia media
+SPEGM-M	Spergularia media subsp. media
+SPEGRUB	Spergularia rubra
+SPEG-SP	Spergularia SPECIES
+SPHEINT	Sphenopholis intermedia
+SPHE-SP	Sphenopholis SPECIES
+SPIEALB	Spiraea alba
+SPIEA;A	Spiraea alba var. alba
+SPIEA;L	Spiraea alba var. latifolia
+SPIE-SP	Spiraea SPECIES
+SPIETOM	Spiraea tomentosa
+SPIET;R	Spiraea tomentosa var. rosea
+SPIET;T	Spiraea tomentosa var. tomentosa
+SPIAARC	Spiranthes arcisepala
+SPIACAS	Spiranthes casei
+SPIAC;C	Spiranthes casei var. casei
+SPIAINC	Spiranthes incurva
+SPIALAC	Spiranthes lacera
+SPIAL;L	Spiranthes lacera var. lacera
+SPIALUC	Spiranthes lucida
+SPIAROM	Spiranthes romanzoffiana
+SPIA-SP	Spiranthes SPECIES
+SPIAVER	Spiranthes vernalis
+SPIRPOL	Spirodela polyrhiza
+SPIR-SP	Spirodela SPECIES
+SPORALT	Sporobolus alterniflorus
+SPORCOM	Sporobolus compositus
+SPORCRY	Sporobolus cryptandrus
+SPORHET	Sporobolus heterolepis
+SPORMIC	Sporobolus michauxianus
+SPORNEG	Sporobolus neglectus
+SPORPUM	Sporobolus pumilus
+SPOR-SP	Sporobolus SPECIES
+SPORVAG	Sporobolus vaginiflorus
+STACBYZ	Stachys byzantina
+STACHIS	Stachys hispida
+STACPAL	Stachys palustris
+STAC-SP	Stachys SPECIES
+STACTEN	Stachys tenuifolia
+STELAQU	Stellaria aquatica
+STELBOR	Stellaria borealis
+STELCRA	Stellaria crassifolia
+STELGRA	Stellaria graminea
+STELG;G	Stellaria graminea var. graminea
+STELHUM	Stellaria humifusa
+STELLON	Stellaria longifolia
+STELLOG	Stellaria longipes
+STELL-L	Stellaria longipes subsp. longipes
+STELMED	Stellaria media
+STELM-M	Stellaria media subsp. media
+STELPAL	Stellaria palustris
+STEL-SP	Stellaria SPECIES
+STELUND	Stellaria undulata
+STELU-U	Stellaria undulata subsp. undulata
+STREAMP	Streptopus amplexifolius
+STRELAN	Streptopus lanceolatus
+STRE-SP	Streptopus SPECIES
+STUCFIL	Stuckenia filiformis
+STUCPEC	Stuckenia pectinata
+STUC-SP	Stuckenia SPECIES
+STUCVAG	Stuckenia vaginata
+SUAECAL	Suaeda calceoliformis
+SUAEMAR	Suaeda maritima
+SUAEROL	Suaeda rolandii
+SUAE-SP	Suaeda SPECIES
+SUBUAQU	Subularia aquatica
+SUBUA-A	Subularia aquatica subsp. americana
+SUBU-SP	Subularia SPECIES
+SUCCPRA	Succisa pratensis
+SUCC-SP	Succisa SPECIES
+SUCIINF	Succisella inflexa
+SUCI-SP	Succisella SPECIES
+SYMOALB	Symphoricarpos albus
+SYMOA;A	Symphoricarpos albus var. albus
+SYMOOCC	Symphoricarpos occidentalis
+SYMO-SP	Symphoricarpos SPECIES
+SYMHANT	Symphyotrichum anticostense
+SYMHBOR	Symphyotrichum boreale
+SYMHCIL	Symphyotrichum ciliatum
+SYMHCII	Symphyotrichum ciliolatum
+SYMHCOR	Symphyotrichum cordifolium
+SYMHERI	Symphyotrichum ericoides
+SYMHE;E	Symphyotrichum ericoides var. ericoides
+SYMHLAE	Symphyotrichum laeve
+SYMHL;L	Symphyotrichum laeve var. laeve
+SYMHLAN	Symphyotrichum lanceolatum
+SYMHL-L	Symphyotrichum lanceolatum subsp. lanceolatum
+SYMHL;H	Symphyotrichum lanceolatum var. hesperium
+SYMHL;I	Symphyotrichum lanceolatum var. interior
+SYMHLAT	Symphyotrichum lateriflorum
+SYMHLAU	Symphyotrichum laurentianum
+SYMHNOV	Symphyotrichum novae-angliae
+SYMHNOI	Symphyotrichum novi-belgii
+SYMHN;C	Symphyotrichum novi-belgii var. crenifolium
+SYMHN;N	Symphyotrichum novi-belgii var. novi-belgii
+SYMHN;V	Symphyotrichum novi-belgii var. villicaule
+SYMHONT	Symphyotrichum ontarionis
+SYMHO;G	Symphyotrichum ontarionis var. glabratum
+SYMHO;O	Symphyotrichum ontarionis var. ontarionis
+SYMHPIL	Symphyotrichum pilosum
+SYMHP;P	Symphyotrichum pilosum var. pilosum
+SYMHP;R	Symphyotrichum pilosum var. pringlei
+SYMHPUN	Symphyotrichum puniceum
+SYMHP;U	Symphyotrichum puniceum var. puniceum
+SYMHROB	Symphyotrichum robynsianum
+SYMH-SP	Symphyotrichum SPECIES
+SYMHTRA	Symphyotrichum tradescanti
+SYMYASP	Symphytum asperum
+SYMYOFF	Symphytum officinale
+SYMYO-O	Symphytum officinale subsp. officinale
+SYMY-SP	Symphytum SPECIES
+SYMPFOE	Symplocarpus foetidus
+SYMP-SP	Symplocarpus SPECIES
+SYRI-SP	Syringa SPECIES
+SYRIVUL	Syringa vulgaris
+TAENINT	Taenidia integerrima
+TAEN-SP	Taenidia SPECIES
+TANABAL	Tanacetum balsamita
+TANAB;B	Tanacetum balsamita var. balsamita
+TANABIP	Tanacetum bipinnatum
+TANAB-B	Tanacetum bipinnatum subsp. bipinnatum
+TANA-SP	Tanacetum SPECIES
+TANAVUL	Tanacetum vulgare
+TANAV-V	Tanacetum vulgare subsp. vulgare
+TARACER	Taraxacum ceratophorum
+TARACRO	Taraxacum croceum
+TARAERY	Taraxacum erythrospermum
+TARALAT	Taraxacum latilobum
+TARALAU	Taraxacum laurentianum
+TARAPAL	Taraxacum palustre
+TARASET	Taraxacum sect. Taraxacum
+TARA-SP	Taraxacum SPECIES
+TAXUCAN	Taxus canadensis
+TAXU-SP	Taxus SPECIES
+TEPHPAL	Tephroseris palustris
+TEPH-SP	Tephroseris SPECIES
+TEUCCAN	Teucrium canadense
+TEUCC;C	Teucrium canadense var. canadense
+TEUCSCO	Teucrium scorodonia
+TEUC-SP	Teucrium SPECIES
+THALALP	Thalictrum alpinum
+THALA-A	Thalictrum alpinum subsp. alpinum
+THALAMP	Thalictrum amphibolum
+THALCON	Thalictrum confine
+THALDAS	Thalictrum dasycarpum
+THALDIO	Thalictrum dioicum
+THALPUB	Thalictrum pubescens
+THAL-SP	Thalictrum SPECIES
+THALVEN	Thalictrum venulosum
+THELNOV	Thelypteris noveboracensis
+THELPAL	Thelypteris palustris
+THELP-P	Thelypteris palustris subsp. pubescens
+THELSIM	Thelypteris simulata
+THEL-SP	Thelypteris SPECIES
+THERMON	Thermopsis montana
+THERM;O	Thermopsis montana var. ovata
+THER-SP	Thermopsis SPECIES
+THINELO	Thinopyrum elongatum
+THIN-SP	Thinopyrum SPECIES
+THLDDUB	Thladiantha dubia
+THLD-SP	Thladiantha SPECIES
+THLAARV	Thlaspi arvense
+THLA-SP	Thlaspi SPECIES
+THUJOCC	Thuja occidentalis
+THUJ-SP	Thuja SPECIES
+THYEPAS	Thymelaea passerina
+THYE-SP	Thymelaea SPECIES
+THYMPUL	Thymus pulegioides
+THYMP-P	Thymus pulegioides subsp. pulegioides
+THYM-SP	Thymus SPECIES
+TIAR-SP	Tiarella SPECIES
+TIARSTO	Tiarella stolonifera
+TILIAME	Tilia americana
+TILI-SP	Tilia SPECIES
+TOFICOC	Tofieldia coccinea
+TOFIC-C	Tofieldia coccinea subsp. coccinea
+TOFIPUS	Tofieldia pusilla
+TOFIP-P	Tofieldia pusilla subsp. pusilla
+TOFI-SP	Tofieldia SPECIES
+TORIJAP	Torilis japonica
+TORI-SP	Torilis SPECIES
+TORRPAL	Torreyochloa pallida
+TORRP;F	Torreyochloa pallida var. fernaldii
+TORRP;P	Torreyochloa pallida var. pallida
+TORR-SP	Torreyochloa SPECIES
+TOXIRAD	Toxicodendron radicans
+TOXIR-R	Toxicodendron radicans subsp. radicans
+TOXIR-Y	Toxicodendron radicans subsp. rydbergii
+TOXI-SP	Toxicodendron SPECIES
+TOXIVER	Toxicodendron vernix
+TRAGDUB	Tragopogon dubius
+TRAGD-D	Tragopogon dubius subsp. dubius
+TRAGPOR	Tragopogon porrifolius
+TRAGP-P	Tragopogon porrifolius subsp. porrifolius
+TRAGPRA	Tragopogon pratensis
+TRAG-SP	Tragopogon SPECIES
+TRAPNAT	Trapa natans
+TRAPN;N	Trapa natans var. natans
+TRAP-SP	Trapa SPECIES
+TRIAGLU	Triantha glutinosa
+TRIA-SP	Triantha SPECIES
+TRIFARV	Trifolium arvense
+TRIFAUR	Trifolium aureum
+TRIFCAM	Trifolium campestre
+TRIFC-C	Trifolium campestre subsp. campestre
+TRIFDUB	Trifolium dubium
+TRIFHYB	Trifolium hybridum
+TRIFH-H	Trifolium hybridum subsp. hybridum
+TRIFPRA	Trifolium pratense
+TRIFP-P	Trifolium pratense subsp. pratense
+TRIFREP	Trifolium repens
+TRIFR-R	Trifolium repens subsp. repens
+TRIF-SP	Trifolium SPECIES
+TRIGGAS	Triglochin gaspensis
+TRIGMAR	Triglochin maritima
+TRIGPAL	Triglochin palustris
+TRIG-SP	Triglochin SPECIES
+TRICALP	Trichophorum alpinum
+TRICCES	Trichophorum cespitosum
+TRICC-C	Trichophorum cespitosum subsp. cespitosum
+TRICCLI	Trichophorum clintonii
+TRICPUM	Trichophorum pumilum
+TRICP-P	Trichophorum pumilum subsp. pumilum
+TRICP-R	Trichophorum pumilum subsp. rollandii
+TRIC-SP	Trichophorum SPECIES
+TRIHCOE	Trichostema coeruleum
+TRIH-SP	Trichostema SPECIES
+TRILCER	Trillium cernuum
+TRILERE	Trillium erectum
+TRILGRA	Trillium grandiflorum
+TRIL-SP	Trillium SPECIES
+TRILUND	Trillium undulatum
+TRIOPER	Triodanis perfoliata
+TRIOP-P	Triodanis perfoliata subsp. perfoliata
+TRIO-SP	Triodanis SPECIES
+TRISAUR	Triosteum aurantiacum
+TRISA;A	Triosteum aurantiacum var. aurantiacum
+TRISPER	Triosteum perfoliatum
+TRIS-SP	Triosteum SPECIES
+TRIPHOO	Tripleurospermum hookeri
+TRIPINO	Tripleurospermum inodorum
+TRIPMAR	Tripleurospermum maritimum
+TRIPM-M	Tripleurospermum maritimum subsp. maritimum
+TRIP-SP	Tripleurospermum SPECIES
+TRIEFLA	Trisetum flavescens
+TRIEF-F	Trisetum flavescens subsp. flavescens
+TRIE-SP	Trisetum SPECIES
+TRITAES	Triticum aestivum
+TRITA-A	Triticum aestivum subsp. aestivum
+TRIT-SP	Triticum SPECIES
+TSUGCAN	Tsuga canadensis
+TSUG-SP	Tsuga SPECIES
+TURRGLA	Turritis glabra
+TURR-SP	Turritis SPECIES
+TUSSFAR	Tussilago farfara
+TUSS-SP	Tussilago SPECIES
+TYPHANG	Typha angustifolia
+TYPHLAT	Typha latifolia
+TYPH-SP	Typha SPECIES
+ULMUAME	Ulmus americana
+ULMUPUM	Ulmus pumila
+ULMURUB	Ulmus rubra
+ULMU-SP	Ulmus SPECIES
+URTIDIO	Urtica dioica
+URTID-D	Urtica dioica subsp. dioica
+URTIGRA	Urtica gracilis
+URTIG-G	Urtica gracilis subsp. gracilis
+URTI-SP	Urtica SPECIES
+URTIURE	Urtica urens
+UTRICOR	Utricularia cornuta
+UTRIGEM	Utricularia geminiscapa
+UTRIGIB	Utricularia gibba
+UTRIINT	Utricularia intermedia
+UTRIMAC	Utricularia macrorhiza
+UTRIMIN	Utricularia minor
+UTRIPUR	Utricularia purpurea
+UTRIRES	Utricularia resupinata
+UTRI-SP	Utricularia SPECIES
+UVULGRA	Uvularia grandiflora
+UVULSES	Uvularia sessilifolia
+UVUL-SP	Uvularia SPECIES
+VACCANG	Vaccinium angustifolium
+VACCBOR	Vaccinium boreale
+VACCCES	Vaccinium cespitosum
+VACCCOR	Vaccinium corymbosum
+VACCMAC	Vaccinium macrocarpon
+VACCMYR	Vaccinium myrtilloides
+VACCOVA	Vaccinium ovalifolium
+VACCO;O	Vaccinium ovalifolium var. ovalifolium
+VACCOXY	Vaccinium oxycoccos
+VACC-SP	Vaccinium SPECIES
+VACCULI	Vaccinium uliginosum
+VACCU-U	Vaccinium uliginosum subsp. uliginosum
+VACCVIT	Vaccinium vitis-idaea
+VAHLATR	Vahlodea atropurpurea
+VAHL-SP	Vahlodea SPECIES
+VALEDIO	Valeriana dioica
+VALED;S	Valeriana dioica var. sylvatica
+VALEOFF	Valeriana officinalis
+VALEO-O	Valeriana officinalis subsp. officinalis
+VALE-SP	Valeriana SPECIES
+VALEULI	Valeriana uliginosa
+VALLAME	Vallisneria americana
+VALL-SP	Vallisneria SPECIES
+VENTDUB	Ventenata dubia
+VENT-SP	Ventenata SPECIES
+VERA-SP	Veratrum SPECIES
+VERAVIR	Veratrum viride
+VERAV;V	Veratrum viride var. viride
+VERBBLA	Verbascum blattaria
+VERBPHL	Verbascum phlomoides
+VERB-SP	Verbascum SPECIES
+VERBTHA	Verbascum thapsus
+VERBT-T	Verbascum thapsus subsp. thapsus
+VERBVIR	Verbascum virgatum
+VERBV-V	Verbascum virgatum subsp. virgatum
+VEREHAS	Verbena hastata
+VEREINC	Verbena incompta
+VERESIM	Verbena simplex
+VERES;S	Verbena simplex var. simplex
+VERE-SP	Verbena SPECIES
+VERESTR	Verbena stricta
+VEREURT	Verbena urticifolia
+VEROAGR	Veronica agrestis
+VEROALP	Veronica alpina
+VEROAME	Veronica americana
+VEROARV	Veronica arvensis
+VEROBEC	Veronica beccabunga
+VEROB-B	Veronica beccabunga subsp. beccabunga
+VEROCAT	Veronica catenata
+VEROC-C	Veronica catenata subsp. catenata
+VEROFIL	Veronica filiformis
+VEROCHA	Veronica chamaedrys
+VEROC-H	Veronica chamaedrys subsp. chamaedrys
+VEROLON	Veronica longifolia
+VEROL-L	Veronica longifolia subsp. longifolia
+VEROOFF	Veronica officinalis
+VEROPER	Veronica peregrina
+VEROPES	Veronica persica
+VEROSCU	Veronica scutellata
+VEROSER	Veronica serpyllifolia
+VEROS;H	Veronica serpyllifolia var. humifusa
+VERO-SP	Veronica SPECIES
+VEROSPI	Veronica spicata
+VEROS-S	Veronica spicata subsp. spicata
+VEROTEU	Veronica teucrium
+VEROWOR	Veronica wormskjoldii
+VEROW-W	Veronica wormskjoldii subsp. wormskjoldii
+VIBUACE	Viburnum acerifolium
+VIBUCAS	Viburnum cassinoides
+VIBUEDU	Viburnum edule
+VIBULAN	Viburnum lantana
+VIBULAT	Viburnum lantanoides
+VIBULEN	Viburnum lentago
+VIBURAF	Viburnum rafinesqueanum
+VIBUR;R	Viburnum rafinesqueanum var. rafinesqueanum
+VIBUREC	Viburnum recognitum
+VIBU-SP	Viburnum SPECIES
+VIBUTRI	Viburnum trilobum
+VICIAME	Vicia americana
+VICIA;A	Vicia americana var. americana
+VICICRA	Vicia cracca
+VICIHIR	Vicia hirsuta
+VICILEN	Vicia lens
+VICIL-L	Vicia lens subsp. lens
+VICISAT	Vicia sativa
+VICIS-N	Vicia sativa subsp. nigra
+VICIS-S	Vicia sativa subsp. sativa
+VICISEP	Vicia sepium
+VICI-SP	Vicia SPECIES
+VICITET	Vicia tetrasperma
+VICIVIL	Vicia villosa
+VICIV-V	Vicia villosa subsp. villosa
+VINCMIN	Vinca minor
+VINC-SP	Vinca SPECIES
+VINENIG	Vincetoxicum nigrum
+VINEROS	Vincetoxicum rossicum
+VINE-SP	Vincetoxicum SPECIES
+VIOLADU	Viola adunca
+VIOLAFF	Viola affinis
+VIOLARV	Viola arvensis
+VIOLA-A	Viola arvensis subsp. arvensis
+VIOLCAN	Viola canadensis
+VIOLCUC	Viola cucullata
+VIOLERI	Viola eriocarpa
+VIOLFIM	Viola fimbriatula
+VIOLINC	Viola incognita
+VIOLLAB	Viola labradorica
+VIOLLAN	Viola lanceolata
+VIOLMAC	Viola macloskeyi
+VIOLMIN	Viola minuscula
+VIOLNEP	Viola nephrophylla
+VIOLODO	Viola odorata
+VIOLO-O	Viola odorata subsp. odorata
+VIOLPAL	Viola palustris
+VIOLP-P	Viola palustris subsp. palustris
+VIOLPUB	Viola pubescens
+VIOLREN	Viola renifolia
+VIOLROS	Viola rostrata
+VIOLR;R	Viola rostrata var. rostrata
+VIOLROT	Viola rotundifolia
+VIOLSAG	Viola sagittata
+VIOLSEL	Viola selkirkii
+VIOLSEP	Viola septentrionalis
+VIOLSOR	Viola sororia
+VIOL-SP	Viola SPECIES
+VIOLSTR	Viola striata
+VIOLTRI	Viola tricolor
+VIOLT-T	Viola tricolor subsp. tricolor
+VISCALP	Viscaria alpina
+VISC-SP	Viscaria SPECIES
+VITIRIP	Vitis riparia
+VITI-SP	Vitis SPECIES
+WALDFRA	Waldsteinia fragarioides
+WALD-SP	Waldsteinia SPECIES
+WOLFBOR	Wolffia borealis
+WOLFCOL	Wolffia columbiana
+WOLF-SP	Wolffia SPECIES
+WOODALP	Woodsia alpina
+WOODGLA	Woodsia glabella
+WOODG-G	Woodsia glabella subsp. glabella
+WOODILV	Woodsia ilvensis
+WOODOBT	Woodsia obtusa
+WOODO-O	Woodsia obtusa subsp. obtusa
+WOODORE	Woodsia oregana
+WOODO-C	Woodsia oregana subsp. cathcartiana
+WOODSCO	Woodsia scopulina
+WOODS-L	Woodsia scopulina subsp. laurentiana
+WOOD-SP	Woodsia SPECIES
+WOOW-SP	Woodwardia SPECIES
+WOOWVIR	Woodwardia virginica
+XANTCHI	Xanthium chinense
+XANTORI	Xanthium orientale
+XANT-SP	Xanthium SPECIES
+XANTSPI	Xanthium spinosum
+XANTS-S	Xanthium spinosum subsp. spinosum
+XYRIMON	Xyris montana
+XYRI-SP	Xyris SPECIES
+ZANNPAL	Zannichellia palustris
+ZANNP-P	Zannichellia palustris subsp. palustris
+ZANN-SP	Zannichellia SPECIES
+ZANTAME	Zanthoxylum americanum
+ZANT-SP	Zanthoxylum SPECIES
+ZEA MAY	Zea mays
+ZEA M-M	Zea mays subsp. mays
+ZEA -SP	Zea SPECIES
+ZIZAAQU	Zizania aquatica
+ZIZAA;A	Zizania aquatica var. aquatica
+ZIZAA;I	Zizania aquatica var. interior
+ZIZAPAL	Zizania palustris
+ZIZA-SP	Zizania SPECIES
+ZIZIAPT	Zizia aptera
+ZIZIAUR	Zizia aurea
+ZIZI-SP	Zizia SPECIES
+ZOSTMAR	Zostera marina
+ZOST-SP	Zostera SPECIES

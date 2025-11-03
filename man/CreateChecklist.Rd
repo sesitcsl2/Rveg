@@ -20,8 +20,15 @@ Create a custom checklist with species ShortNames
 \examples{
 ## NOT RUN
 if (interactive()) {
+# using txt file
 CreateChecklist(specieslist = paste0(path.package("Rveg"),
 "/extdata/SpeciesList"))
+
+# creating from wcvp using rWCVP package
+stopifnot(requireNamespace("rWCVP"))
+a <- wcvp_checklist(area_codes = "QUE")
+a <- unique(a$taxon_name)
+CreateChecklist(a,export = "wcvp_que")
 }
 
 }
