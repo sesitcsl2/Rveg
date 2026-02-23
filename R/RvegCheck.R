@@ -1,88 +1,120 @@
+#' RvegCheck: Inspect, Validate, Edit and Repair an Rveg Database
 #'
-#' RvegCheck
+#' @description
+#' A diagnostic and managing utility to verify the health and integrity of an `Rveg` database.
+#' `RvegCheck()` reads your database, checks for missing or corrupted data,
+#' and outputs a summary of the database's current state.
 #'
-#' Checking your DATABASE for duplicity and allowing to export table with full species name (not Rveg editable anymore).
+#' @details
+#' *Note: This function is currently under active development.* #'
+#' At present, the function serves primarily as a diagnostic and metadata-repair tool.
+#' When run, it checks the database for a `project_name` and `project_description`.
+#' If these are missing, it will interactively prompt the user to supply them. It also
+#' prints vital database statistics, including the internal ID, creation date, last
+#' modification date, and any custom species added to the checklist.
 #'
-#' @param DATABASE name of csv files for releve table and header - database
-#' @param fullnames logical value if you want to add fullnames to the database
-#' @param export name of exporting database
-#' @param checklist checklist used to match shortnames with species name
+#' In future updates, this function will also allow users to modify core database
+#' parameters, such as swapping the underlying species checklist or altering the
+#' header schema.
 #'
-#' @returns Export csv file releve table
+#' @param database Character. The path and name of the existing `Rveg` database
+#' to inspect (e.g., `"path/to/my_db"`).
+#' @param export Character. The output path and name where the modified
+#' database will be saved. Defaults to a temporary directory.
+#' @param checklist Character. The species checklist to validate the database against.
+#' By default, it uses the checklist defined in the database's metadata.
+#'
+#' @return Currently prints diagnostic information directly to the R console.
+#'   If modifications are made, it exports the updated database files (`*HEAD.csv`
+#'   and `*REL.csv`) to the path specified by `export`.
+#'
+#' @seealso \code{\link{RvegMerge}} for combining databases, \code{\link{RvegCombine}} for manipulating data within a database.
 #'
 #' @examples
-#' ## NOT RUN
 #' if (interactive()) {
-#'   RvegCheck(DATABASE = paste0(
-#'     path.package("Rveg"),
-#'     "/extdata/example_db"
-#'   ))
+#'   # Inspect the built-in example database
+#'   RvegCheck(
+#'     database = system.file("extdata", "example_db", package = "Rveg"),
+#'     export = file.path(tempdir(), "checked_db")
+#'   )
 #' }
 #'
 #' @export
-#'
 
-RvegCheck <- function(DATABASE, fullnames = FALSE, export = "export", checklist = "default") {
+RvegCheck <- function(database, export = "export", checklist = "default") {
+
   if (export == "export") {
     export <- file.path(tempdir(), "export")
   }
-  db <- read_db(DATABASE)
-  DATA <- db$RelDATA
 
-  if (checklist == "default") {
-    checklist <- db$meta$checklist
-    if (checklist %in% c("wcvp_por","wcvp_que","cz_dh2012")) {
-      checklist <- system.file("extdata",paste0(checklist,".txt"),package="Rveg",mustWork = TRUE)
-    }
+  db <- rv_read_db(database)
+  DATA <- db$RelDATA; HeaderDATA <- db$HeaderDATA; metadata <- db$meta
+
+  meta_checklist <- rv_get_checklist(db$meta$checklist)
+  if (file.exists(meta_checklist)) {
+    Splist <- rv_make_sp_list(meta_checklist, db$meta)
+    message(paste0("Provided checklist: ", db$meta$checklist))
+  } else  {
+    Splist <- rv_make_sp_list(checklist, db$meta)
+    message(paste0("Custom checklist: ", checklist))
   }
 
-  SpLIST <- makeSpLIST(checklist,db$meta)
-  fullName <- c(rep("", nrow(DATA)))
-  DATA <- cbind(fullName, DATA)
-  for (i in 1:length(DATA$ShortName)) {
-    DATA$fullName[i] <- SpLIST$FullName[SpLIST$ShortName == substr(DATA$ShortName[i], 1, 9)]
-  }
-
-  for (i in 1:length(DATA$fullName)) {
-    if (length(unique(substr(DATA$ShortName[DATA$fullName == DATA$fullName[i]], 1, 7))) > 1) {
-      message(paste0("found duplicate codes for ", DATA$fullName[i], "\n"))
-      message(unique(substr(DATA$ShortName[DATA$fullName == DATA$fullName[i]], 1, 7)))
-      message("\n")
-      print(DATA[DATA$fullName == DATA$fullName[i], ])
-      while (TRUE) {
-        met <- toupper(readline("select merging method?(M - merge, N - none) "))
-        if (met == "M") {
-          message("This merging method will keep the higher value")
-          while (TRUE) {
-            l1 <- as.numeric(readline("select first row (with correct code) "))
-            l2 <- as.numeric(readline("select second row "))
-            if (is.na(l1) != TRUE & is.na(l2) != TRUE & isTRUE(l1 %in% as.numeric(row.names(DATA))) & isTRUE(l2 %in% as.numeric(row.names(DATA)))) {
-              break
-            }
-          }
 
 
-          for (i in 1:length(DATA[row.names(DATA) == l1, ])) {
-            if (is.numeric(DATA[l1, i])) {
-              DATA[row.names(DATA) == l1, i] <- max(c(DATA[row.names(DATA) == l1, i], DATA[row.names(DATA) == l2, i]))
-            }
-          }
-          DATA <- DATA[!(row.names(DATA) == l2), ]
+  # metainfo
+  # "project_name"        "project_description" "n_releves"           "checklist"           "rveg_version"
+  # "extra_spec"          "created"             "last_change"         "db_id"
 
-
-          break
-        }
-
-        if (met == "N") {
-          break
-        }
-      }
-    }
-  }
-
-  if (fullnames) {
-    write.csv(DATA, paste0(export, ".csv"))
+  # project name
+  if (nzchar(db$meta$project_name)) {
+    message(paste0("Project: ", db$meta$project_name))
   } else {
-    write.csv(DATA[-1, ], paste0(export, ".csv"))
-  }
+    v <- readline("No project name found. Enter? (Y/N) ")
+    if(toupper(v) %in% c("Y","YES"))
+    metadata$project_name <- readline("Project name: ")
+    }
+
+  # project info
+  if (nzchar(db$meta$project_description)) {
+    message(paste0("Project info: ", metadata$project_description))
+  } else {
+    v <- readline("No project info found. Enter? (Y/N) ")
+    if(toupper(v) %in% c("Y","YES"))
+      metadata$project_description <- readline("Project info: ")
+    }
+
+  # project id
+  message(paste0("id: ",metadata$db_id))
+
+  # Rveg version
+  message(paste0("Rveg built version: ", metadata$rveg_version))
+
+  # Extra species
+  if (nzchar(metadata$extra)) {
+    message("No Custom species")
+  } else {
+
+    entries <- strsplit(metadata$extra, "\\|")[[1]]
+    entries <- entries[nzchar(entries)]
+    parts <- strsplit(entries, "::", fixed = TRUE)
+
+    for (p in parts) {
+      cat(sprintf("%s - %s\n", p[1], p[2]))
+    }
+
+
+    }
+
+  # Creation
+  message(paste0("Database created: ", metadata$created))
+  message(paste0("Last change: ",metadata$last_change))
+
+  #
+  message()
+
+  # export
+  rv_write_db(DATA,HeaderDATA,metadata)
+
+
 }
+

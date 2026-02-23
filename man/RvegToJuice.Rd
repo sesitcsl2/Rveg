@@ -2,30 +2,47 @@
 % Please edit documentation in R/RvegToJuice.R
 \name{RvegToJuice}
 \alias{RvegToJuice}
-\title{RvegToJuice}
+\title{RvegToJuice:
+Export an Rveg Database to JUICE compatible format}
 \usage{
-RvegToJuice(Data, checklist = "default", export = "export")
+RvegToJuice(database, export = "export", checklist = "default")
 }
 \arguments{
-\item{Data}{name of your Rveg database}
-
-\item{checklist}{path to your custom species checklist}
+\item{database}{Character. The path and name of an existing Rveg database
+to be exported (e.g., \code{"path/to/my_db"}).}
 
 \item{export}{name of your exported csv file}
+
+\item{checklist}{Character. The species checklist to use. By default, the function
+attempts to read the checklist specified in the database's metadata. You can
+override this by providing a custom file path or a built-in dictionary string.}
 }
 \value{
-csv file which is readible by Juice
+Writes two text-based CSV files to the location specified by \code{export}:
+one containing the header data (\verb{*H.csv}) and one containing the relevé
+species data formatted with JUICE headers (\verb{*R.csv}).
 }
 \description{
-Export Rveg database to Juice software compatible format
+Exports an existing \code{Rveg} database into a format directly compatible with
+JUICE, a comprehensive software for vegetation classification. This function
+processes both the species composition data and the header data, formatting
+them to meet JUICE's import requirements.
+}
+\details{
+To ensure seamless compatibility with JUICE, this function performs several
+background transformations:
+\itemize{
+\item \strong{Layer Mapping:} Rveg layers are automatically converted to JUICE's numeric layer representations (e.g., Tree layer "3" becomes "2", Shrub "2" becomes "4", Herb "1" becomes "6", etc.).
+\item \strong{Absence Encoding:} Zero values (\code{0}) are converted to \code{.}.
+\item \strong{Encoding:} Files are written using \code{ISO-8859-15} encoding, which is the standard expected by JUICE for proper character rendering.
+}
+
+For JUICE import first import relevé data as Spreadsheet file and follow with Header data as Tab delimineted file.
 }
 \examples{
-## NOT RUN
-if (interactive()) {
-  RvegToJuice(Data = paste0(
-    path.package("Rveg"),
-    "/extdata/example_db"
-  ))
-}
+# Example: Exporting the built-in example Rveg database to JUICE format
+RvegToJuice(
+  database = file.path(path.package("Rveg"), "extdata", "example_db")
+)
 
 }

@@ -1,39 +1,56 @@
+#' RvegCombine: Merge Species or Vegetation Layers in an Rveg Database
 #'
-#' RvegCombine
+#' @description
+#' An interactive utility that allows users to merge the abundance covers of
+#' specific species or entire vegetation layers within an existing `Rveg` database.
 #'
-#' Merging species or layers in the database
+#' @details
+#' `RvegCombine()` operates via a console menu with two primary modes:
+#' * **Layer Merging (`LAYER`):** Moves all species recorded in one specific layer (e.g., shrub layer `2`) into another layer (e.g., tree layer `3`).
+#' * **Species Merging (`SPEC`):** Merges the records of one specific taxon into another across the entire database, which is highly useful for resolving taxonomic aggregates or correcting identification errors after data entry.
 #'
-#' @param database name of the loading database
-#' @param export name of the exported database
-#' @param checklist checklist to be used
+#' **Mathematical Consolidation:** #' When merging entities that both have non-zero percentage covers in the same relevé,
+#' the function does not simply add them together (which could exceed 100%). Instead,
+#' it uses a probabilistic sum formula to estimate the combined cover:
+#' \deqn{Combined = C_1 + C_2 \times (1 - \frac{C_1}{100})}{Combined = C1 + C2 * (1 - C1/100)}
 #'
-#' @returns export two csv files, one for releve and one for header
+#' @param database Character. The path and name of the existing `Rveg` database
+#' to be modified (e.g., `"path/to/my_db"`).
+#' @param export Character. The output path and name where the modified database
+#' files (`*HEAD.csv` and `*REL.csv`) will be saved. Defaults to a temporary directory.
+#' @param checklist Character. The species checklist to be used. By default, it uses
+#' the checklist defined in the database's metadata.
+#'
+#' @return Writes two linked CSV files to the location specified by `export`,
+#' representing the modified Rveg database.
+#'
+#' @seealso \code{\link{addReleve}} for data entry, \code{\link{RvegMerge}} for merging entire databases.
 #'
 #' @examples
-#' ## NOT RUN
 #' if (interactive()) {
-#'   RvegCombine(database = paste0(
-#'     path.package("Rveg"),
-#'     "/extdata/example_db"
-#'   ))
+#'   RvegCombine(
+#'     database = system.file("extdata", "example_db", package = "Rveg"))
+#'   )
 #' }
 #'
 #' @export
-#'
-
-
-
 
 RvegCombine <- function(database, export = "export", checklist = "default") {
   if (export == "export") {
     export <- file.path(tempdir(), "export")
   }
-  if (checklist == "default") {
-    checklist <- paste0(path.package("Rveg"), "/extdata/DANIHELKA2012rko.txt")
-  }
 
-  db <- read_db(database)
-  print(db$HeaderDATA); print(db$RelDATA)
+
+  db <- rv_read_db(database)
+  DATA <- db$RelDATA; HeaderDATA <- db$HeaderDATA; metadata <- db$meta
+
+
+  meta_checklist <- rv_get_checklist(db$meta$checklist)
+  if (file.exists(meta_checklist)) {
+    Splist <- rv_make_sp_list(meta_checklist, db$meta)
+  } else  {
+    Splist <- rv_make_sp_list(checklist, db$meta)
+  }
 
   while (TRUE) {
     a <- toupper(readline("Combine?(LAYER/SPEC/PRINTREL/N) ")) # layer selection
@@ -41,30 +58,27 @@ RvegCombine <- function(database, export = "export", checklist = "default") {
       while (TRUE) {
         b <- toupper(readline("Which layer?(3/2/1/0/J) "))
         c <- toupper(readline("To which layer?(3/2/1/0/J) "))
-        if (any(c(b, c) %in% c(1, 2, 3, "J", 0))) {
-          for (i in db$RelDATA$ShortName) {
-            if (i == paste0(substr(i, 1, 7), "_", b) && any(db$RelDATA$ShortName == paste0(substr(i, 1, 7), "_", c))) {
-              l1 <- as.numeric(db$RelDATA[db$RelDATA$ShortName == i, -1])
-              l2 <- as.numeric(db$RelDATA[db$RelDATA$ShortName == paste0(substr(i, 1, 7), "_", c), -1])
+        if (all(c(b, c) %in% c(1, 2, 3, "J", 0))) {
+          for (i in DATA$ShortName) {
+            if (i == paste0(substr(i, 1, 7), "_", b) && any(DATA$ShortName == paste0(substr(i, 1, 7), "_", c))) {
+              l1 <- as.numeric(DATA[DATA$ShortName == i, -1])
+              l2 <- as.numeric(DATA[DATA$ShortName == paste0(substr(i, 1, 7), "_", c), -1])
               l3 <- round(l1 + (l2 * (1 - (l1 / 100))))
 
-              db$RelDATA <- db$RelDATA[db$RelDATA$ShortName != paste0(substr(i, 1, 7), "_", b), ]
-              db$RelDATA[db$RelDATA$ShortName == paste0(substr(i, 1, 7), "_", c), -1] <- l3
+              DATA <- DATA[DATA$ShortName != paste0(substr(i, 1, 7), "_", b), ]
+              DATA[DATA$ShortName == paste0(substr(i, 1, 7), "_", c), -1] <- l3
 
-              write_db(db$RelDATA, db$HeaderDATA, SAVE = export, meta = db$meta)
+            } else if (i == paste0(substr(i, 1, 7), "_", b) && !any(DATA$ShortName == paste0(substr(i, 1, 7), "_", c))) {
 
-            } else if (i == paste0(substr(i, 1, 7), "_", b) && !any(db$RelDATA$ShortName == paste0(substr(i, 1, 7), "_", c))) {
-
-              db$RelDATA <- db$RelDATA
-              db$RelDATA[db$RelDATA$ShortName == i, 1] <- paste0(substr(i,1,7),"_", c) # changing single layer
-
-              SpLIST <- makeSpLIST(checklist,metadata = db$meta)
+              DATA[DATA$ShortName == i, 1] <- paste0(substr(i,1,7),"_", c) # changing single layer
               }
           }
 
+          rv_write_db(DATA, HeaderDATA, save = export, meta = db$meta)
           break
+
         } else {
-          warning("wrong layers input")
+          message("wrong layers input")
         }
       }
     } else if (a == "SPEC") {
@@ -72,14 +86,20 @@ RvegCombine <- function(database, export = "export", checklist = "default") {
         b <- toupper(readline("Which specie?(GenuSpe_L) "))
         c <- toupper(readline("To which layer?(GenuSpe_L) "))
         if (nchar(b) == 9 & nchar(c) == 9) {
-          l1 <- as.numeric(db$RelDATA[db$RelDATA$ShortName == b, -1])
-          l2 <- as.numeric(db$RelDATA[db$RelDATA$ShortName == c, -1])
+
+          if (!(b %in% DATA$ShortName) || !(c %in% DATA$ShortName)) {
+            message("One or both species not found in data. Please try again.")
+            next
+          }
+
+          l1 <- as.numeric(DATA[DATA$ShortName == b, -1])
+          l2 <- as.numeric(DATA[DATA$ShortName == c, -1])
           l3 <- round(l1 + (l2 * (1 - (l1 / 100)))) # propability shared cover
 
-          db$RelDATA <- db$RelDATA[db$RelDATA$ShortName != b, ]
-          db$RelDATA[db$RelDATA$ShortName == c, -1] <- l3
+          DATA <- DATA[DATA$ShortName != b, ]
+          DATA[DATA$ShortName == c, -1] <- l3
 
-          write_db(db$RelDATA, db$HeaderDATA, SAVE = export, meta = db$meta)
+          rv_write_db(DATA, HeaderDATA, save = export, meta = db$meta)
 
 
           break
@@ -88,7 +108,7 @@ RvegCombine <- function(database, export = "export", checklist = "default") {
         }
       }
     } else if (a == "PRINTREL") {
-      print(db$RelDATA)
+      print(DATA)
     } else if (a == "N") {
       break
     }

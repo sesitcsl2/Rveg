@@ -2,33 +2,66 @@
 % Please edit documentation in R/CreateChecklist.R
 \name{CreateChecklist}
 \alias{CreateChecklist}
-\title{CreateChecklist}
+\title{CreateChecklist:
+Create a custom checklist for Rveg}
 \usage{
 CreateChecklist(specieslist, export = "export")
 }
 \arguments{
-\item{specieslist}{path to list of species}
+\item{specieslist}{Character vector OR Character. Either a vector
+of full botanical names in your R environment, or a path to a \code{.txt} file
+containing a single column named "FullName".}
 
-\item{export}{name of your exported checklist file}
+\item{export}{Character. The output path and name for the exported checklist.
+Defaults to a temporary directory.}
 }
 \value{
-txt file used as checklist in Rveg functions
+Writes a \code{.txt} file containing two columns (\code{ShortName} and \code{FullName})
+to the location specified by \code{export}.  The output can be then used
+inside \code{\link{addReleve}} and other functions.
 }
 \description{
-Create a custom checklist with species ShortNames
+Generates a custom species checklist formatted for use within the \code{Rveg} package.
+This function takes a list of full botanical names and deterministically converts
+them into unique, 7-character \code{ShortName} codes.
+
+\code{Rveg} includes the following
+built-in checklists:
+\itemize{
+\item \code{cz_dh2012} (Default: Checklist of vascular plants of the Czech Republic)
+\item \code{Czechia_slovakia_2015} (Turboveg compatible checklist)
+\item \code{wcvp_que} (example WCVP subset for Quebec)
+\item \code{wcvp_por} (example WCVP subset for Portugal)
+}
+}
+\details{
+\strong{ShortName Generation Rules:}
+The function guarantees a unique 7-character code for every species. The first
+4 characters always represent a unique Genus code. The remaining 3 characters
+depend on the taxonomic rank:
+\itemize{
+\item \strong{Standard Species:} Genus (4) + first 3 letters of the specific epithet (e.g., \code{GENUEPI}).
+\item \strong{Species (sp.):} Genus (4) + \code{-SP} (e.g., \code{GENU-SP}).
+\item \strong{Hybrids (x):} Genus (4) + \code{*} + first 2 letters of hybrid epithet (e.g., \code{GENU*HY}).
+\item \strong{Aggregates (agg.):} Genus (4) + \verb{#} + first 2 letters of main epithet (e.g., \code{GENU#EP}).
+\item \strong{Subspecies (ssp.):} Genus (4) + first letter of main epithet + \code{-} + first letter of infra epithet (e.g., \code{GENUE-I}).
+\item \strong{Varieties/Forms (var./f.):} Genus (4) + first letter of main epithet + \verb{;} + first letter of infra epithet (e.g., \verb{GENUE;I}).
+\item \strong{Sections (sect.):} Genus (4) + \code{SE} + first letter of section epithet (e.g., \code{GENUSEE}).
+}
+
+\emph{Note: If a 7-character code clash occurs, the 7th character is automatically adjusted using trailing letters or alphanumeric fallbacks to ensure absolute uniqueness.}
 }
 \examples{
-## NOT RUN
-if (interactive()) {
-# using txt file
-CreateChecklist(specieslist = paste0(path.package("Rveg"),
-"/extdata/SpeciesList"))
+  # Example 1: Creating a checklist from a local txt file
+  CreateChecklist(
+    specieslist = paste0(path.package("Rveg"), "/extdata/SpeciesList"),
+  )
 
-# creating from wcvp using rWCVP package
-stopifnot(requireNamespace("rWCVP"))
-a <- wcvp_checklist(area_codes = "QUE")
-a <- unique(a$taxon_name)
-CreateChecklist(a,export = "wcvp_que")
-}
+  # Example 2: Creating a checklist dynamically using the rWCVP package
+  if (requireNamespace("rWCVP", quietly = TRUE)) {
+    wcvp_data <- rWCVP::wcvp_checklist(area_codes = "QUE")
+    unique_taxa <- unique(wcvp_data$taxon_name)
+    CreateChecklist(specieslist = unique_taxa, export = "wcvp_que")
+  }
 
 }

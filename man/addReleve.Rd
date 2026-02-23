@@ -2,11 +2,12 @@
 % Please edit documentation in R/addReleve.R
 \name{addReleve}
 \alias{addReleve}
-\title{addReleve}
+\title{addReleve:
+Digitize and Edit Relevés in an Rveg Database}
 \usage{
 addReleve(
-  DATABASE = "NEW",
-  SAVE = "default",
+  database = "NEW",
+  save = "default",
   checklist = "default",
   customhead = NULL,
   extrahead = NULL,
@@ -15,26 +16,47 @@ addReleve(
 )
 }
 \arguments{
-\item{DATABASE}{name of csv files for releve table and header - database}
+\item{database}{Character. The path and name of an existing Rveg database
+(e.g., \code{"path/to/my_db"}). Defaults to \code{"NEW"} which creates a fresh database.}
 
-\item{SAVE}{name of exporting database}
+\item{save}{Character. The output path and name where the resulting database
+files (\verb{*HEAD.csv} and \verb{*REL.csv}) will be exported. Defaults to a temporary directory.}
 
-\item{checklist}{custom checklist}
+\item{checklist}{Character. The species checklist to use. Can be a built-in
+checklist (at this moment: \code{cz_dh2012}, \code{Czechia_slovakia_2015}, \code{wcvp_que},
+\code{wcvp_por}) or a file path to a custom \code{txt} checklist. Default use \code{cz_dh2012}.
+see function \code{\link{CreateChecklist}}.}
 
-\item{extrahead}{extra rows in header}
+\item{customhead}{Character vector. A vector of strings defining completely
+custom header fields. Overrides the default schema.}
 
-\item{start}{Boolean to start immediately digitizing first releve}
+\item{extrahead}{Character vector. Additional header fields to append to the
+end of the default or existing header schema.}
+
+\item{metadata}{Character vector of length 2. Used to store the Project Title
+and Project Description (e.g., \code{c("Alpine Flora", "Summer 2024 survey")}).}
+
+\item{start}{Logical. If \code{TRUE}, the function skips the main menu upon creating
+a \code{"NEW"} database and immediately prompts the user to digitize the first relevé.}
 }
 \value{
-export two csv files, one for releve and one for header (Rveg database)
+Writes two linked CSV files (Rveg database) to the location specified by \code{save}: one
+containing the relev\u00e9 species data (\verb{*REL.csv}) and one containing the header data (\verb{*HEAD.csv}).
 }
 \description{
-Digitizing and editing your releves - Rveg database
+The core interactive function of the \code{Rveg} package. \code{addReleve()} launches a
+console-based menu system that allows users to create new vegetation databases,
+digitize new relevés, and edit existing ones. It seamlessly manages both the
+species composition data (REL) and the environmental plot header data (HEAD).
 }
 \examples{
-## NOT RUN
 if (interactive()) {
-  addReleve()
+  # Launch the interactive menu for a new database
+  addReleve(
+    database = "NEW",
+    save = "my_new_project",
+    metadata = c("Project Title", "Project Description")
+  )
 }
 
 }

@@ -25,6 +25,8 @@
 #' @importFrom utils read.table
 #' @importFrom utils write.csv
 #' @importFrom utils write.table
+#' @importFrom stats aggregate reshape setNames
+#' @importFrom utils strcapture tail
 ## usethis namespace: end
 NULL
 

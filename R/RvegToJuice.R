@@ -1,421 +1,560 @@
+#' RvegToJuice:
+#' Export an Rveg Database to JUICE compatible format
 #'
-#' RvegToJuice
+#' @description
+#' Exports an existing `Rveg` database into a format directly compatible with
+#' JUICE, a comprehensive software for vegetation classification. This function
+#' processes both the species composition data and the header data, formatting
+#' them to meet JUICE's import requirements.
 #'
-#' Export Rveg database to Juice software compatible format
+#' @details
+#' To ensure seamless compatibility with JUICE, this function performs several
+#' background transformations:
+#' * **Layer Mapping:** Rveg layers are automatically converted to JUICE's numeric layer representations (e.g., Tree layer "3" becomes "2", Shrub "2" becomes "4", Herb "1" becomes "6", etc.).
+#' * **Absence Encoding:** Zero values (`0`) are converted to `.`.
+#' * **Encoding:** Files are written using `ISO-8859-15` encoding, which is the standard expected by JUICE for proper character rendering.
 #'
-#' @param Data name of your Rveg database
-#' @param checklist path to your custom species checklist
+#' For JUICE import first import relevé data as Spreadsheet file and follow with Header data as Tab delimineted file.
+#'
+#'
+#' @param database Character. The path and name of an existing Rveg database
+#' to be exported (e.g., `"path/to/my_db"`).
+#' @param export Character. The output path and name where the resulting JUICE-compatible
+#' files will be saved. Defaults to a temporary directory.
 #' @param export name of your exported csv file
+#' @param checklist Character. The species checklist to use. By default, the function
+#' attempts to read the checklist specified in the database's metadata. You can
+#' override this by providing a custom file path or a built-in dictionary string.
 #'
-#' @returns csv file which is readible by Juice
+#'
+#' @return Writes two text-based CSV files to the location specified by `export`:
+#' one containing the header data (`*H.csv`) and one containing the relevé
+#' species data formatted with JUICE headers (`*R.csv`).
 #'
 #' @examples
-#' ## NOT RUN
-#' if (interactive()) {
-#'   RvegToJuice(Data = paste0(
-#'     path.package("Rveg"),
-#'     "/extdata/example_db"
-#'   ))
-#' }
+#' # Example: Exporting the built-in example Rveg database to JUICE format
+#' RvegToJuice(
+#'   database = file.path(path.package("Rveg"), "extdata", "example_db")
+#' )
 #'
 #' @export
-#'
 
-RvegToJuice <- function(Data, checklist = "default", export = "export") {
+RvegToJuice <- function(database,  export = "export", checklist = "default") {
+
+  # --- export target ---- ####
   if (export == "export") {
     export <- file.path(tempdir(), "export")
   }
 
-  Data_rel <- read.csv(paste0(Data, "REL.csv"), row.names = 1)
-  Data_head <- read.csv(paste0(Data, "HEAD.csv"), row.names = 1)
-  if (checklist == "default") {
-    checklist <- paste0(path.package("Rveg"), "/extdata/DANIHELKA2012rko.txt")
-  }
-  Splist <- read.delim(checklist, sep = "\t")
+  # --- read DB ---- ####
+  db <- rv_read_db(database)
+  DATA <- db$RelDATA
+  HeaderDATA <- db$HeaderDATA
 
-  # header
+  meta_checklist <- rv_get_checklist(db$meta$checklist)
+  if (file.exists(meta_checklist)) {
+    Splist <- rv_make_sp_list(meta_checklist, db$meta)
+    } else  {
+      Splist <- rv_make_sp_list(checklist, db$meta)
+    }
 
-  Data_head <- as.data.frame(t(Data_head))
-  colnames(Data_head) <- Data_head[1,]
-  colnames(Data_head) <- iconv(colnames(Data_head), from = "UTF-8", to = "ASCII//TRANSLIT")
-  Data_head <- Data_head[-1,]
+  sp_map <- setNames(Splist[[2]], Splist$ShortName)
 
-  Data_head <- cbind(c(1:nrow(Data_head)),Data_head)
-  colnames(Data_head)[1] <- "Relev\u00e9 number"
+  # --- JUICE matrix ---- ####
+  code <- as.character(DATA[[1]])
+  short <- substr(code, 1, 7)
+  layer_raw <- substr(code, 9, 9)
 
+  layer_map <- c("3" = "2", "2" = "4", "1" = "6", "0" = "9", "J" = "7")
+  layer <- unname(layer_map[layer_raw])
+  layer[is.na(layer)] <- layer_raw[is.na(layer)]
 
+  species <- unname(sp_map[short])
+  species[is.na(species)] <- short
 
-  # rel
+  cover <- as.matrix(DATA[, -1, drop = FALSE])
+  cover[cover == 0] <- "."
+  cover <- apply(cover, 2, as.character)
 
-
-  x <- NULL
-  y <- NULL
-  z <- NULL
-
-  for (i in 1:nrow(Data_rel)) {
-    n <- substr(Data_rel[i, 1], 9, 9)
-    if (n == 3) {
-      n <- 2
-    } else if (n == 2) {
-      n <- 4
-    } else if (n == 1) {
-      n <- 6
-    } else if (n == 0) {
-      n <- 9
-    } else if (n == "J") {
-      n <- 7
-    } # Juice codes for layers
-    y <- c(y, n) # layer column
-    x <- c(x, Splist[Splist[, 2] == substr(Data_rel[i, 1], 1, 7), 3]) # species names
-    z[[i]] <- as.vector(Data_rel[i, 2:ncol(Data_rel)]) # cover
-  }
-
-  tt <- data.frame(matrix(unlist(z), nrow = length(z), byrow = TRUE))
-  ttt <- data.frame(x, y)
-  tt[tt == 0] <- "."
-  tzt <- c(NA, NA, 1:ncol(tt))
-  tttt <- cbind(ttt, tt)
-  tttt <- rbind(tzt, tttt)
-  tty <- paste0("Export from ", Data)
-  ttz <- paste0("Number of relev\u00e9s:", ncol(tt)) # way to export Juice format
-
-  write.csv(Data_head,file = paste0(export, "H.csv"),row.names = F)
-  write(x = paste0(tty, "\n", ttz, "\n"), file = paste0(export, "R.csv")) # possible encoding problem?
-  write.table(tttt, file = paste0(export, "R.csv"), row.names = FALSE, col.names = FALSE, na = "", sep = ",", quote = FALSE, append = TRUE) # fileEncoding = "Windows-1252"?
-}
-
-
-#'
-#' TvToRveg
-#'
-#' Export Turboveg csv file to Rveg database compatible format
-#'
-#' @param tv path to Turboveg csv export
-#' @param export name of your exported database
-#' @param checklist checklist used to match shortnames with species name
-#'
-#' @returns csv file
-#'
-#' @examples
-#' ## NOT RUN
-#' if (interactive()) {
-#'   TvToRveg(tv = paste0(
-#'     path.package("Rveg"),
-#'     "/extdata/tvexport.csv"
-#'   ))
-#' }
-#'
-#' @export
-#'
-#'
-
-TvToRveg <- function(tv, export = "export", checklist = "default") {
-  if (export == "export") {
-    export <- file.path(tempdir(), "export")
-  }
-
-  data <- read.csv(tv)
-  lim <- as.numeric(rownames(data[data[, 1] == "", ])) # blank separator of header and releves
-
-  tvhead <- data[1:(lim - 1), -(ncol(data))]
-  tvrel <- data[(lim + 2):nrow(data), -(ncol(data))]
-
-  rvrel <- data.frame(ShortName = character(), stringsAsFactors = FALSE)
-  rvhead <- data.frame(
-    ShortName = c(
-      "ID", "DATE", "SpringDATE", "LOCALITY", "FieldCODE", "Authors",
-      "PlotSize", "Latitude", "Longitude", "Accuracy", "CRS", "Slope", "Exposure",
-      "E3", "E2", "E1", "Ejuv", "E0", "Note", data[1:lim - 1, 1]
-    ),
-    stringsAsFactors = FALSE
+  rel_out <- rbind(
+    c(NA, NA, seq_len(ncol(cover))),
+    cbind(species, layer, cover)
   )
 
-  # header
-  get_tvhead_value <- function(key, i) {
-    idx <- which(tvhead[, 1] == key)
-    if (length(idx) > 0) {
-      return(tvhead[idx, i])
-    } else {
-      return(NA)  # Assign NA or any default value you prefer
-    }
-  } # Function to retrieve values from tvhead
+  # --- JUICE header ---- ####
+  HeaderDATA <- as.data.frame(t(HeaderDATA), stringsAsFactors = FALSE)
+  names(HeaderDATA) <- iconv(HeaderDATA[1, ], from = "UTF-8", to = "ASCII//TRANSLIT")
+  HeaderDATA <- HeaderDATA[-1, , drop = FALSE]
+  HeaderDATA <- cbind("Relev\u00e9 number" = seq_len(nrow(HeaderDATA)), HeaderDATA)
 
-  # for (i in 3:ncol(data)) {
-  #   rvhead[rvhead$ShortName == "ID", i - 1] <- tvhead[tvhead[, 1] == "Releve number", i]
-  #   rvhead[rvhead$ShortName == "DATE", i - 1] <- tvhead[tvhead[, 1] == "Date (year/month/day)", i]
-  #   rvhead[rvhead$ShortName == "LOCALITY", i - 1] <- tvhead[tvhead[, 1] == "Releve number", i]
-  #   rvhead[rvhead$ShortName == "FieldCODE", i - 1] <- tvhead[tvhead[, 1] == "Releve number", i]
-  #   rvhead[rvhead$ShortName == "Authors", i - 1] <- "unknown"
-  #   rvhead[rvhead$ShortName == "PlotSize", i - 1] <- tvhead[tvhead[, 1] == "Releve area (m2)", i]
-  #   rvhead[rvhead$ShortName == "Latitude", i - 1] <- "unknown"
-  #   rvhead[rvhead$ShortName == "Longitude", i - 1] <- "unknown"
-  #   rvhead[rvhead$ShortName == "E3", i - 1] <- tvhead[tvhead[, 1] == "Cover tree layer (%)", i]
-  #   rvhead[rvhead$ShortName == "E2", i - 1] <- tvhead[tvhead[, 1] == "Cover shrub layer (%)", i]
-  #   rvhead[rvhead$ShortName == "E1", i - 1] <- tvhead[tvhead[, 1] == "Cover herb layer (%)", i]
-  #   rvhead[rvhead$ShortName == "Note", i - 1] <- tvhead[tvhead[, 1] == "Remarks", i]
-  #   rvhead[17:(17 + lim - 22), i - 1] <- tvhead[22:lim - 1, i] # matching consistent header characteristics
-  #
-  #
-  # }
+  # --- write files ---
+  header_file <- paste0(export, "H.csv")
+  rel_file <- paste0(export, "R.csv")
 
-  rvhead_original <- rvhead
-  rvhead_original[20:nrow(rvhead),] <- "neverusedvalues2"
-  for (i in 3:(ncol(data)-1)) {
-    rvhead[rvhead_original$ShortName == "ID", i - 1] <- get_tvhead_value("Releve number", i)
-    rvhead[rvhead_original$ShortName == "DATE", i - 1] <- get_tvhead_value("Date (year/month/day)", i)
-    rvhead[rvhead_original$ShortName == "LOCALITY", i - 1] <- get_tvhead_value("Releve number", i)
-    rvhead[rvhead_original$ShortName == "FieldCODE", i - 1] <- get_tvhead_value("Releve number", i)
-    rvhead[rvhead_original$ShortName == "Authors", i - 1] <- get_tvhead_value("Releve area (m2)", i) #sc
-    rvhead[rvhead_original$ShortName == "PlotSize", i - 1] <- get_tvhead_value("Releve area (m2)", i)
-    rvhead[rvhead_original$ShortName == "Latitude", i - 1] <- get_tvhead_value("Releve area (m2)", i) #sc
-    rvhead[rvhead_original$ShortName == "Longitude", i - 1] <- get_tvhead_value("Releve area (m2)", i) #sc
-    rvhead[rvhead_original$ShortName == "E3", i - 1] <- get_tvhead_value("Cover tree layer (%)", i)
-    rvhead[rvhead_original$ShortName == "E2", i - 1] <- get_tvhead_value("Cover shrub layer (%)", i)
-    rvhead[rvhead_original$ShortName == "E1", i - 1] <- get_tvhead_value("Cover herb layer (%)", i)
-    rvhead[rvhead_original$ShortName == "Note", i - 1] <- get_tvhead_value("Remarks", i)
-    #rvhead[17:(17 + lim - 22), i - 1] <- tvhead[22:lim - 1, i] # matching consistent header characteristics
+  write.table(
+    HeaderDATA,
+    file = header_file,
+    sep = "\t",
+    eol = "\r\n",
+    row.names = FALSE,
+    quote = FALSE,
+    fileEncoding = "ISO-8859-15"
+  )
 
-    #   # Adjust the indices for the range and ensure it doesn't cause errors
-    #   if (lim > 22) {
-    #     rvhead[17:(17 + lim - 22), i - 1] <- tvhead[22:(lim - 1), i]
-    #   } else {
-    #     rvhead[17:(17 + lim - 22), i - 1] <- NA  # Or handle as needed
-    #   }
-  }
-  rvhead[20:nrow(rvhead),] <- tvhead[,-2]
+  tty <- paste0("Export from ", database)
+  ttz <- paste0("Number of relev\u00e9s:", ncol(cover))
 
-  colnames(rvhead) <- c("ShortName", paste0("X", c(1:(ncol(rvhead) - 1))))
-  # header end
+  con <- file(rel_file, open = "w", encoding = "ISO-8859-15")
+  writeLines(c(tty, ttz, ""), con = con, sep = "\r\n")
+  close(con)
 
-  if (checklist == "default") {
-    checklist <- paste0(path.package("Rveg"), "/extdata/DANIHELKA2012rko.txt")
-  }
+  write.table(
+    rel_out,
+    file = rel_file,
+    sep = ",",
+    eol = "\r\n",
+    row.names = FALSE,
+    col.names = FALSE,
+    na = "",
+    quote = FALSE,
+    append = TRUE,
+    fileEncoding = "ISO-8859-15"
+  )
 
-  SpLIST1 <- read.delim(checklist, sep = "\t")
-  SpLIST <- makeSpLIST(checklist)
-
-  for (i in 1:nrow(tvrel)) {
-    if (substr(tvrel[i, 2], 1, 1) == "h") {
-      abc <- 1
-    } else if (substr(tvrel[i, 2], 1, 1) == "s") {
-      abc <- 2
-    } else if (substr(tvrel[i, 2], 1, 1) == "t") {
-      abc <- 3
-    } else if (substr(tvrel[i, 2], 1, 1) == "m") {
-      abc <- 0
-    } else if (substr(tvrel[i, 2], 1, 1) == "j") {
-      abc <- "J"
-    }
-    tvrel[i, 2] <- abc
-  } # converting TV layer codes
-
-  tvrel[tvrel == ""] <- 0
-
-  while (TRUE) {
-    cla <- readline("Data in Bran blanquet or percentage? (B/%)") # converting to percentage
-    if (cla == "B") {
-      for (i in 1:ncol(tvrel[, c(-1, -2)])) {
-        for (l in 1:nrow(tvrel[, c(-1, -2)])) {
-          if (tvrel[, c(-1, -2)][l, i] == 1) {
-            tvrel[, c(-1, -2)][l, i] <- 3
-          } else if (tvrel[, c(-1, -2)][l, i] == 2) {
-            tvrel[, c(-1, -2)][l, i] <- 15
-          } else if (tvrel[, c(-1, -2)][l, i] == 3) {
-            tvrel[, c(-1, -2)][l, i] <- 38
-          } else if (tvrel[, c(-1, -2)][l, i] == 4) {
-            tvrel[, c(-1, -2)][l, i] <- 63
-          } else if (tvrel[, c(-1, -2)][l, i] == 5) {
-            tvrel[, c(-1, -2)][l, i] <- 88
-          } else if (tvrel[, c(-1, -2)][l, i] == "+") {
-            tvrel[, c(-1, -2)][l, i] <- 2
-          } else if (tvrel[, c(-1, -2)][l, i] == "r") {
-            tvrel[, c(-1, -2)][l, i] <- 1
-          } else if (tvrel[, c(-1, -2)][l, i] == "2a") {
-            tvrel[, c(-1, -2)][l, i] <- 8
-          } else if (tvrel[, c(-1, -2)][l, i] == "2b") {
-            tvrel[, c(-1, -2)][l, i] <- 18
-          } else if (tvrel[, c(-1, -2)][l, i] == "2m") {
-            tvrel[, c(-1, -2)][l, i] <- 4
-          }
-        }
-      }
-      break
-    } else if (cla == "%") {
-      break
-    }
-  }
-
-  for (s in tvrel[, 1]) {
-    if (length((s == tvrel[, 1])[(s == tvrel[, 1]) == TRUE]) > 1) {
-      l1 <- as.numeric(tvrel[s == tvrel[, 1], ][1, c(-1, -2)])
-      l1[is.na(l1)] <- 0
-
-      l2 <- as.numeric(tvrel[s == tvrel[, 1], ][2, c(-1, -2)])
-      l2[is.na(l2)] <- 0
-      r1 <- rownames(tvrel[s == tvrel[, 1], ][2, c(-1, -2)])
-
-      l3 <- round(l1 + (l2 * (1 - (l1 / 100))))
-
-      tvrel[tvrel[, 1] == s, ][1, c(-1, -2)] <- l3
-      tvrel <- tvrel[!(rownames(tvrel) %in% r1), ] # merginng more detailed TV layers (eg t1 with t2 etc.)
-    }
-  }
-
-  for (i in 1:nrow(tvrel)) {
-    sp <- SpLIST[SpLIST$FullName == tvrel[i, 1], 2][substr(SpLIST[SpLIST$FullName == tvrel[i, 1], 2], 9, 9) == tvrel[i, 2]][1]
-    rvrel[i, 1] <- sp
-    rrn <- rownames(SpLIST[SpLIST$ShortName == sp, ])
-    if (!is.na(sp)) {
-      rownames(rvrel)[i] <- rownames(SpLIST[SpLIST$ShortName == sp, ])
-    } # writing fullnames
-
-    print(tvrel[i, 1])
-    print(rvrel[i, 1])
-
-    while (TRUE) {
-      check <- toupper(readline("correct name?(blank/N/GenuSpe) ")) # doublecheck for correct code
-      if (check == "" & !is.na(rvrel[i, 1])) {
-        break
-      }
-
-      if (nchar(check) == 7) {
-        nana <- paste(check, abc, sep = "_")
-        specie_check <- SpLIST[SpLIST[, 2] == substr(nana, 1, 9), ]
-        print(specie_check[3])
-        ttcheck <- toupper(readline("Correct 7lettersGenuSpe Y/N  "))
-        if ((ttcheck == "Y") & !is.na(specie_check[1, 3])) {
-          rvrel[i, 1] <- nana
-          rownames(rvrel)[i] <- rownames(specie_check)
-          break
-        }
-        }
-
-      if (check == "N") {
-        while (TRUE) {
-          k <- readline("AddSpeciesFirst3letters(eg.Che)? ")
-          tt <- toupper(readline("Correct 3 letters? Y/N  "))
-
-          if (tt == "Y") {
-            break
-          }
-        }
-
-        k <- paste0(toupper(substr(k, 1, 1)), tolower(substr(k, 2, 3)))
-        print(SpLIST1[grep(paste0("^", k), SpLIST1[, 3]), ])
-        while (TRUE) {
-          while (TRUE) {
-            s <- toupper(readline("SpeciesName?(7lettersGenuSpe) "))
-            if (nchar(s) == 7) {
-              nana <- paste(s, abc, sep = "_")
-              specie_check <- SpLIST[SpLIST[, 2] == substr(nana, 1, 9), ]
-              print(specie_check[3])
-              break
-            }
-          }
-          tt <- toupper(readline("Correct 7lettersGenuSpe Y/N  "))
-          if ((tt == "Y") & !is.na(specie_check[1, 3])) {
-            rvrel[i, 1] <- nana
-            rownames(rvrel)[i] <- rownames(specie_check)
-            break
-          }
-          #break
-        }
-        break
-      }
-    }
-  }
-
-  DATA <- cbind(rvrel, tvrel[, c(-1, -2)])
-  colnames(DATA) <- c("ShortName", paste0("X", c(1:(ncol(DATA) - 1))))
-
-  write.csv(DATA, paste0(export, "REL.csv"))
-  write.csv(rvhead, paste0(export, "HEAD.csv"))
 }
 
+#' TvToRveg:
+#' Import Turboveg Data into an Rveg Database
 #'
-#' RvegToTv
+#' @description
+#' Converts a Turboveg export file into a fully functional `Rveg` database.
+#' The function parses plot headers, standardizes species nomenclature against a
+#' specified checklist, and maps vegetation layers.
 #'
-#' Export Turboveg csv compatible file
+#' @details
+#' This function natively supports both `.csv` and `.xml` Turboveg export formats.
+#' In Turboveg, either selecet `Standard XML file` or `Spreadsheet table`. In the case
+#' of spreadsheet table, select format `semicolon delimited and requested header data.
 #'
-#' @param database path to Rveg database
-#' @param export name of your exported Tv file
-#' @param ver version of TURBOVEG
-#' @param checklist checklist to match Fullnames
+#' During the import process, the function operates interactively:
+#' * **Species Resolution:** If a species in the Turboveg file cannot be automatically matched to the provided checklist, the function will pause and prompt the user to manually resolve the unknown species using a search interface.
+#' * **Scale Selection:** The user will be prompted to specify whether the imported abundance data uses percentages ("P") or the Braun-Blanquet scale ("BB").
 #'
-#' @returns csv file
+#'
+#'
+#' @param tv Character. The file path to the Turboveg export file (`.csv` or `.xml`).
+#' @param export Character. The output path and name of the new `Rveg` database
+#' Defaults to a temporary directory.
+#' @param checklist Character. The species checklist used to match Turboveg full
+#' names to Rveg's 7-character `ShortName` codes. Defaults to `"default"`. Select one you
+#' want to use in your `Rveg` database or the one most similar to the one used in `Turboveg`.
+#' @param Rveglayers Logical. If `TRUE` (the default), Turboveg layer codes
+#' (e.g., 't', 's', 'h', 'm', 'j') are automatically translated into standard
+#'  Rveg numeric/character layers (`3`, `2`, `1`, `0`, `J`).
+#'
+#' @return Writes two linked CSV files (`*REL.csv` and `*HEAD.csv` = `Rveg database`) to the location
+#' specified by `export`.
+#'
+#' @importFrom xml2 read_xml xml_find_all xml_find_first xml_attrs xml_attr
 #'
 #' @examples
-#' ## NOT RUN
 #' if (interactive()) {
-#'   RvegToTv(database = paste0(
-#'     path.package("Rveg"),
-#'     "/extdata/example_db"
-#'   ))
+#'   # Example: Importing a Turboveg CSV export
+#'   TvToRveg(
+#'     tv = system.file("extdata", "tvexport.csv", package = "Rveg"),
+#'     export = file.path(tempdir(), "imported_tv_db"),
+#'     Rveglayers = TRUE
+#'   )
 #' }
 #'
 #' @export
-#'
-#'
-#'
+TvToRveg <- function(tv, export = "export", checklist = "default", Rveglayers = TRUE) {
 
-RvegToTv <- function(database, export = "export", ver = 3, checklist = "default") {
   if (export == "export") {
     export <- file.path(tempdir(), "export")
   }
 
-  if (checklist == "default") {
-    checklist <- paste0(path.package("Rveg"), "/extdata/DANIHELKA2012rko.txt")
+  checklist <- rv_get_checklist(checklist)
+
+  SpList <- read.delim(checklist, sep = "\t")
+  #SpList <- rv_make_sp_list(checklist, db$meta) # creating Species checklist
+
+  file_end <- tolower(tools::file_ext(trimws(tv)))
+
+  if (file_end == "xml" ) {
+    tvdata <- read_xml(tv)
+
+    plot_nodes <- xml_find_all(tvdata, "/Plot_package/Plots/Plot")
+
+    header_list <- list()
+    species_list <- list()
+
+    # Iterate through plot nodes
+    for (i in seq_along(plot_nodes)) {
+
+      plot_node <- plot_nodes[[i]]
+
+      # --- Header Extraction ---
+
+      # Standard Record
+      header_std_node <- xml_find_first(plot_node, "./header_data/standard_record")
+      if (!is.na(header_std_node)) {
+        std_vec <- xml_attrs(header_std_node)
+      } else {
+        std_vec <- character()
+      }
+
+      # UDF Records (The Fix for multiple fields)
+      udf_nodes <- xml_find_all(plot_node, "./header_data/udf_record")
+
+      if (length(udf_nodes) > 0) {
+        udf_names <- xml_attr(udf_nodes, "name")
+        udf_values <- xml_attr(udf_nodes, "value")
+        udf_vec <- setNames(udf_values, udf_names)
+      } else {
+        udf_vec <- character()
+      }
+
+      # Combine and Store Header
+      combined_vec <- c(std_vec, udf_vec)
+      header_list[[i]] <- as.data.frame(as.list(combined_vec), stringsAsFactors = FALSE)
+
+#       if ("releve_nr" %in% names(std_vec)) {
+#         #rel_id <- std_vec[["releve_nr"]]
+#         rel_id <- combined_vec[["releve_nr"]]
+#       } else {
+#         rel_id <- NA_character_
+#       }
+
+      rel_id <- combined_vec[["releve_nr"]]
+      if (is.null(rel_id) || is.na(rel_id) || !nzchar(rel_id)) rel_id <- as.character(i)
+
+      # --- 2. Species Extraction ---
+
+      sp_nodes <- xml_find_all(plot_node, "./species_data/species/standard_record")
+
+      if (length(sp_nodes) > 0) {
+
+        temp_sp_rows <- list()
+
+        # Inner loop for species attributes
+        for (j in seq_along(sp_nodes)) {
+          attrs <- xml_attrs(sp_nodes[[j]])
+          temp_sp_rows[[j]] <- as.data.frame(as.list(attrs), stringsAsFactors = FALSE)
+        }
+
+        # Combine species rows for this specific plot
+        df_species <- rv_bind_rows(temp_sp_rows)
+
+        # Add the Releve ID column (Using the variable we captured above)
+        df_species$releve_nr <- rel_id
+
+        # Store in the main species list
+        species_list[[i]] <- df_species
+      }
+    }
+
+    # Combine all lists into master Data Frames
+    final_header <- rv_bind_rows(header_list)
+    final_species_long <- rv_bind_rows(species_list)
+
+    species_subset <- final_species_long[, c("nr","layer","releve_nr","cover")]
+    species_subset$unique_id <- paste(species_subset$nr, species_subset$layer, sep = "_")
+
+    # 1. Add an index to track the original order
+    # Use seq_len() instead of 1:nrow() as it handles empty data frames safely
+    species_subset$original_order <- seq_len(nrow(species_subset))
+
+    # # 2. Group by your variables
+    # grouped_species <- dplyr::group_by(species_subset, unique_id, releve_nr)
+    #
+    # # 3. Summarise
+    # # We calculate 'sort_idx' by taking the minimum original_order in each group.
+    # # We set .groups = "drop" to ensure the output is a standard tibble/data.frame, not grouped.
+    # species_deduplicated <- dplyr::summarise(grouped_species,
+    #                                          cover = paste(cover, collapse = ", "),
+    #                                          nr = dplyr::first(nr),
+    #                                          layer = dplyr::first(layer),
+    #                                          sort_idx = min(original_order),
+    #                                          .groups = "drop")
+
+    species_deduplicated <- aggregate(
+      cover ~ unique_id + releve_nr + nr + layer,
+      data = species_subset,
+      FUN = function(x) paste(x, collapse = ", ")
+    )
+
+    # 4. Arrange back to the original order using the captured index
+    species_deduplicated <- species_deduplicated[order(species_deduplicated$sort_idx), ]
+
+    # 5. Remove the temporary index column
+    species_deduplicated$sort_idx <- NULL
+
+
+
+    df_ready <- species_deduplicated[, c("nr", "layer", "releve_nr", "cover"), drop = FALSE]
+
+    # Reshape
+    final_species_wide <- reshape(
+      data = as.data.frame(df_ready),
+      idvar = c("nr", "layer"),      # Use these two columns to identify rows
+      timevar = "releve_nr",         # This column becomes the headers
+      v.names = "cover",             # This is the value that goes in the cells
+      direction = "wide"
+    )
+
+    # Clean up column names
+    names(final_species_wide) <- gsub("^cover\\.", "", names(final_species_wide))
+
+    # Fill NAs with "0"
+    final_species_wide[is.na(final_species_wide)] <- "0"
+
+
+    ### Lookup Dictionary
+    lookup_nodes <- xml_find_all(tvdata, "/Plot_package/Lookup_tables/Species_list/species_record")
+    dictionary_list <- list()
+
+    if (length(lookup_nodes) > 0) {
+      for (k in seq_along(lookup_nodes)) {
+        l_attrs <- xml_attrs(lookup_nodes[[k]])
+        dictionary_list[[k]] <- as.data.frame(as.list(l_attrs), stringsAsFactors = FALSE)
+      }
+      final_dictionary <- rv_bind_rows(dictionary_list)
+    }
+
+    # CSV table alike
+    final_species_wide$nr <- as.character(final_species_wide$nr)
+    final_dictionary$nr <- as.character(final_dictionary$nr)
+    final_dictionary <- final_dictionary[!duplicated(final_dictionary$nr), ]
+
+    result_df <- merge(
+      x = final_species_wide,
+      y = final_dictionary[, c("nr", "name")], # We only pick the 'nr' and 'name' columns
+      by = "nr",
+      all.x = TRUE,
+      sort = FALSE
+    )
+
+    result_df$nr <- NULL
+
+    all_cols <- names(result_df)
+
+    data_cols <- setdiff(all_cols, c("name", "layer"))
+
+    new_order <- c("name", "layer", data_cols)
+
+    tvrel <- result_df[, new_order]
+    tvhead <- as.data.frame(t(final_header))
+    tvhead <- cbind(table=rownames(tvhead),Spacer = "",tvhead)
+    tvsplist <- final_dictionary
+
   }
 
-  # splist
+  if (file_end == "csv") {
+    tvdata <- read.csv(tv,fileEncoding = "ISO-8859-2")
 
-  SpLIST1 <- read.delim(checklist, sep = "\t")
-  SpLIST <- makeSpLIST(checklist)
+    lim <- as.numeric(rownames(tvdata[tvdata[, 1] == "", ])) # blank separator of header and releves
 
-  ### Header
-  header <- read.csv(paste0(database, "HEAD.csv"))
-  header[, 1] <- header[, 2]
-  header[, 2] <- ""
-  ### Rel
-  rel <- read.csv(paste0(database, "REL.csv"))
+    tvhead <- tvdata[1:(lim - 1), -(ncol(tvdata))]
+    tvrel <- tvdata[(lim + 2):nrow(tvdata), -(ncol(tvdata))]
+    tvsplist <- NULL
 
-  ## fullnames
-  rel$Fullname <- substr(rel$ShortName, 1, 7)
-  for (i in 1:nrow(rel)) {
-    rel$Fullname[i] <- SpLIST1[SpLIST1[, 2] == rel$Fullname[i], 3]
   }
-  ## layers
-  rel$Layer <- substr(rel$ShortName, 9, 9)
-  for (i in 1:nrow(rel)) {
-    if (rel$Layer[i] == 1) {
-      rel$Layer[i] <- "hl"
-    } else if (rel$Layer[i] == 2) {
-      rel$Layer[i] <- "s1"
-    } else if (rel$Layer[i] == 3) {
-      rel$Layer[i] <- "t1"
-    } else if (rel$Layer[i] == 0) {
-      rel$Layer[i] <- "ml"
-    } else if (rel$Layer[i] == "J") {
-      rel$Layer[i] <- "jl"
+
+  colnames(tvhead)[3:ncol(tvhead)] <- paste0("X", 1:(ncol(tvhead)-2))
+  colnames(tvrel)[3:ncol(tvrel)] <- paste0("X", 1:(ncol(tvrel)-2))
+
+  rv_create_new_db(export,labs = tvhead[,1],checklist = checklist,meta = NULL)
+  db <- rv_read_db(export)
+  DATA <- db$RelDATA; HeaderDATA <- db$HeaderDATA; metadata <- db$meta
+
+  HeaderDATA <- cbind(HeaderDATA,tvhead[,3:ncol(tvhead)]) # Vyresit cislovani sloupcu
+
+  species_names <- tvrel[, 1]
+  raw_layers <- tvrel[, 2]
+  first_letter <- substr(raw_layers, 1, 1)
+
+  unique_import_names <- unique(species_names)
+  unknown_mask <- !(unique_import_names %in% SpList$FullName)
+  unknown_species <- unique_import_names[unknown_mask]
+
+  # Create a lookup vector (Name -> BaseCode)
+  # Start by filling knowns
+  name_map <- character(length(unique_import_names))
+  names(name_map) <- unique_import_names
+
+  # Fill knowns from SpList
+  known_names <- unique_import_names[!unknown_mask]
+  match_idx <- match(known_names, SpList$FullName)
+  raw_codes <- SpList$ShortName[match_idx]
+  name_map[known_names] <- raw_codes
+
+  # --- Interactive Resolution Loop ---
+  if (length(unknown_species) > 0) {
+    message(paste("Found", length(unknown_species), "unknown species."))
+
+    for (bad_name in unknown_species) {
+
+      # Run the helper function
+      res <- rv_species_not_found(bad_name, SpList, metadata, orig_SpList = tvsplist)
+
+      # Store result in our map
+      name_map[bad_name] <- res$code
+
+      # Update metadata object for the next iteration/final return
+      metadata <- res$meta
     }
   }
 
+
+  base_codes_col <- name_map[species_names]
+
+  raw_layers <- tvrel[, 2]
+  first_letter <- substr(raw_layers, 1, 1)
+  layer_code <- raw_layers
+
+  if (Rveglayers) {
+    # Map letters to your numeric codes
+    layer_code <- character(length(first_letter))
+    layer_code[first_letter == "h"] <- "1"
+    layer_code[first_letter == "s"] <- "2"
+    layer_code[first_letter == "t"] <- "3"
+    layer_code[first_letter == "m"] <- "0"
+    layer_code[first_letter == "j"] <- "J"
+
+    layer_code[first_letter %in% c("6")] <- "1"
+    layer_code[first_letter %in% c("4","5")] <- "2"
+    layer_code[first_letter %in% c("1","2","3")] <- "3"
+    layer_code[first_letter %in% c("9","0")] <- "0"
+    layer_code[first_letter %in% c("7","8")] <- "J"
+
+  }
+
+  data_only <- tvrel[, 3:ncol(tvrel)]
+  while(TRUE){
+    m <- toupper(readline("Abundance in percentage or Braun-blanquet?"))
+    if (m %in% c("P","BB","B")) {
+      break
+    }
+  }
+
+  if (m %in% c("B","BB") & Rveglayers) {
+    transform <- Vectorize(rv_bb_to_pct)
+    data_only[] <- lapply(data_only, function(col) transform(col))
+  }
+
+  # Aggregate using the Mapped Base Code + Layer Code
+  condensed_data <- aggregate(
+    x = data_only,
+    by = list(BaseCode = base_codes_col, LayerCode = layer_code),
+    FUN = Merge_layers
+  )
+
+
+  final_ids <- paste0(condensed_data$BaseCode,"_", condensed_data$LayerCode)
+
+  result_df <- data.frame(ShortName = final_ids, stringsAsFactors = FALSE)
+  result_df <- cbind(result_df, condensed_data[, -c(1, 2)])
+
+
+
+  rv_write_db(rel = result_df, head = HeaderDATA, save = export, meta = metadata)
+
+
+}
+
+#' RvegToTv:
+#' Export an Rveg Database to Turboveg Compatible Format
+#'
+#' @description
+#' Exports an existing `Rveg` database into a CSV format compatible with the
+#' Turboveg vegetation database management system. The function automatically
+#' reconstructs full botanical names from the internal `ShortName` codes and
+#' maps vegetation layers to standard Turboveg abbreviations.
+#'
+#' @details
+#' During export, Rveg's alphanumeric layers are translated into Turboveg's
+#' specific layer codes (e.g., `0` becomes `ml`, `1` becomes `hl`, `2` becomes `s1`,
+#' `3` becomes `t1`, and `J` becomes `jl`).
+#'
+#' The output structure changes depending on the target Turboveg version specified
+#' by the `ver` parameter:
+#' * **Turboveg v3 (`ver = 3`):** Writes a single, combined `.csv` file containing both header and species data.
+#' * **Turboveg v2 (`ver = 2`):** Writes two separate files: `*R.csv` for relevé species data and `*H.csv` for header data.
+#'
+#' @param database Character. The path and name of the existing `Rveg` database
+#' to be exported (e.g., `"path/to/my_db"`).
+#' @param export Character. The output path and name where the resulting Turboveg
+#' CSV file(s) will be saved. Defaults to a temporary directory.
+#' @param checklist Character. The species checklist used to match Rveg's 7-character
+#' `ShortName` codes back to their full botanical names. Defaults to `"default"`.
+#' @param ver Numeric. The target Turboveg version format to export to (either `2` or `3`).
+#' Defaults to `3`.
+#'
+#' @return Writes one or two CSV files to the location specified by `export`,
+#' depending on the chosen Turboveg version.
+#'
+#' @examples
+#' # Example: Exporting the built-in Rveg database to Turboveg v3 format
+#' RvegToTv(
+#'   database = system.file("extdata", "example_db", package = "Rveg"),
+#'   export = file.path(tempdir(), "tv_export"),
+#'   ver = 3
+#' )
+#'
+#' @export
+RvegToTv <- function(database, export = "export", checklist = "default", ver = 3) {
+
+  if (export == "export") {
+    export <- file.path(tempdir(), "export")
+  }
+
+  db <- rv_read_db(database)
+  DATA <- db$RelDATA; HeaderDATA <- db$HeaderDATA; metadata <- db$meta
+
+  checklist <- rv_get_checklist(checklist)
+  #SpList <- read.delim(checklist, sep = "\t")
+
+  SpList <- rv_make_sp_list(checklist, db$meta) # creating Species checklist
+
+
+  ### Header
+  HeaderDATA <- cbind(HeaderDATA[1], Layer = "", HeaderDATA[-1])
+
+  ## fullnames
+  DATA$Fullname <- substr(DATA$ShortName, 1, 7)
+  key <- DATA$Fullname
+
+  DATA$Fullname <- SpList$FullName[ match(DATA$Fullname, SpList$ShortName) ]
+
+  miss <- is.na(match(key, SpList$ShortName))
+  if (any(miss)) warning("Unmatched ShortName codes: ", paste(unique(key[miss]), collapse = ", "))
+
+  ## layers
+  DATA$Layer <- substr(DATA$ShortName, 9, 9)
+  map <- c("0"="ml", "1"="hl", "2"="s1", "3"="t1", "J"="jl")
+  x <- as.character(DATA$Layer)
+  DATA$Layer <- ifelse(x %in% names(map), unname(map[x]), DATA$Layer)
+
+
   if (ver == 3) {
-    rel <- cbind(rel$Fullname, rel$Layer, rel[, -c(1, 2, ncol(rel), ncol(rel) - 1)])
-    names(rel) <- 1:ncol(rel)
-    names(header) <- 1:ncol(header)
-    out <- rbind(header, c(rep("", ncol(header))), rel)
+    DATA <- cbind(DATA$Fullname, DATA$Layer, DATA[, -c(1, ncol(DATA), ncol(DATA) - 1)])
+    names(DATA) <- 1:ncol(DATA)
+    names(HeaderDATA) <- 1:ncol(HeaderDATA)
+    out <- rbind(HeaderDATA, c(rep("", ncol(HeaderDATA))), DATA)
     colnames(out)<-out[1,]
     write.csv(out[-1,], paste0(export,".csv"), row.names = F)
+
   } else if (ver == 2) {
     # rel
-    rel <- cbind(rel$Fullname, rel$Layer, rel[, -c(1, 2, ncol(rel), ncol(rel) - 1)])
-    names(rel) <- rel[1,]
-    write.csv(rel[-1,], paste0(export,"R.csv"), row.names = F)
+    DATA <- cbind(DATA$Fullname, DATA$Layer, DATA[, -c(1, ncol(DATA), ncol(DATA) - 1)])
+    names(DATA) <- DATA[1,]
+    write.csv(DATA[-1,], paste0(export,"R.csv"), row.names = F)
     # head
-    header<-as.data.frame(t(header))
-    colnames(header) <- header[1,]
-    write.csv(header[-1,],paste0(export,"H.csv"), row.names = F)
+    HeaderDATA<-as.data.frame(t(HeaderDATA))
+    colnames(HeaderDATA) <- HeaderDATA[1,]
+    HeaderDATA <- cbind(table_nr = seq(1:(nrow(HeaderDATA)-2)),HeaderDATA[-c(1,2),])
+    write.csv(HeaderDATA,paste0(export,"H.csv"), row.names = F)
   }
 
 }

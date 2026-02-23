@@ -2,37 +2,52 @@
 % Please edit documentation in R/RvegCheck.R
 \name{RvegCheck}
 \alias{RvegCheck}
-\title{RvegCheck}
+\title{RvegCheck: Inspect, Validate, Edit and Repair an Rveg Database}
 \usage{
-RvegCheck(
-  DATABASE,
-  fullnames = FALSE,
-  export = "export",
-  checklist = "default"
-)
+RvegCheck(database, export = "export", checklist = "default")
 }
 \arguments{
-\item{DATABASE}{name of csv files for releve table and header - database}
+\item{database}{Character. The path and name of the existing \code{Rveg} database
+to inspect (e.g., \code{"path/to/my_db"}).}
 
-\item{fullnames}{logical value if you want to add fullnames to the database}
+\item{export}{Character. The output path and name where the modified
+database will be saved. Defaults to a temporary directory.}
 
-\item{export}{name of exporting database}
-
-\item{checklist}{checklist used to match shortnames with species name}
+\item{checklist}{Character. The species checklist to validate the database against.
+By default, it uses the checklist defined in the database's metadata.}
 }
 \value{
-Export csv file releve table
+Currently prints diagnostic information directly to the R console.
+If modifications are made, it exports the updated database files (\verb{*HEAD.csv}
+and \verb{*REL.csv}) to the path specified by \code{export}.
 }
 \description{
-Checking your DATABASE for duplicity and allowing to export table with full species name (not Rveg editable anymore).
+A diagnostic and managing utility to verify the health and integrity of an \code{Rveg} database.
+\code{RvegCheck()} reads your database, checks for missing or corrupted data,
+and outputs a summary of the database's current state.
+}
+\details{
+\emph{Note: This function is currently under active development.} #'
+At present, the function serves primarily as a diagnostic and metadata-repair tool.
+When run, it checks the database for a \code{project_name} and \code{project_description}.
+If these are missing, it will interactively prompt the user to supply them. It also
+prints vital database statistics, including the internal ID, creation date, last
+modification date, and any custom species added to the checklist.
+
+In future updates, this function will also allow users to modify core database
+parameters, such as swapping the underlying species checklist or altering the
+header schema.
 }
 \examples{
-## NOT RUN
 if (interactive()) {
-  RvegCheck(DATABASE = paste0(
-    path.package("Rveg"),
-    "/extdata/example_db"
-  ))
+  # Inspect the built-in example database
+  RvegCheck(
+    database = system.file("extdata", "example_db", package = "Rveg"),
+    export = file.path(tempdir(), "checked_db")
+  )
 }
 
+}
+\seealso{
+\code{\link{RvegMerge}} for combining databases, \code{\link{RvegCombine}} for manipulating data within a database.
 }

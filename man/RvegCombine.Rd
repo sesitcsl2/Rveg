@@ -2,30 +2,48 @@
 % Please edit documentation in R/RvegCombine.R
 \name{RvegCombine}
 \alias{RvegCombine}
-\title{RvegCombine}
+\title{RvegCombine: Merge Species or Vegetation Layers in an Rveg Database}
 \usage{
 RvegCombine(database, export = "export", checklist = "default")
 }
 \arguments{
-\item{database}{name of the loading database}
+\item{database}{Character. The path and name of the existing \code{Rveg} database
+to be modified (e.g., \code{"path/to/my_db"}).}
 
-\item{export}{name of the exported database}
+\item{export}{Character. The output path and name where the modified database
+files (\verb{*HEAD.csv} and \verb{*REL.csv}) will be saved. Defaults to a temporary directory.}
 
-\item{checklist}{checklist to be used}
+\item{checklist}{Character. The species checklist to be used. By default, it uses
+the checklist defined in the database's metadata.}
 }
 \value{
-export two csv files, one for releve and one for header
+Writes two linked CSV files to the location specified by \code{export},
+representing the modified Rveg database.
 }
 \description{
-Merging species or layers in the database
+An interactive utility that allows users to merge the abundance covers of
+specific species or entire vegetation layers within an existing \code{Rveg} database.
 }
-\examples{
-## NOT RUN
-if (interactive()) {
-  RvegCombine(database = paste0(
-    path.package("Rveg"),
-    "/extdata/example_db"
-  ))
+\details{
+\code{RvegCombine()} operates via a console menu with two primary modes:
+\itemize{
+\item \strong{Layer Merging (\code{LAYER}):} Moves all species recorded in one specific layer (e.g., shrub layer \code{2}) into another layer (e.g., tree layer \code{3}).
+\item \strong{Species Merging (\code{SPEC}):} Merges the records of one specific taxon into another across the entire database, which is highly useful for resolving taxonomic aggregates or correcting identification errors after data entry.
 }
 
+\strong{Mathematical Consolidation:} #' When merging entities that both have non-zero percentage covers in the same relevé,
+the function does not simply add them together (which could exceed 100\%). Instead,
+it uses a probabilistic sum formula to estimate the combined cover:
+\deqn{Combined = C_1 + C_2 \times (1 - \frac{C_1}{100})}{Combined = C1 + C2 * (1 - C1/100)}
+}
+\examples{
+if (interactive()) {
+  RvegCombine(
+    database = system.file("extdata", "example_db", package = "Rveg"))
+  )
+}
+
+}
+\seealso{
+\code{\link{addReleve}} for data entry, \code{\link{RvegMerge}} for merging entire databases.
 }

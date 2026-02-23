@@ -2,30 +2,49 @@
 % Please edit documentation in R/RvegLoad.R
 \name{RvegLoad}
 \alias{RvegLoad}
-\title{RvegLoad}
+\title{RvegLoad: Load an Rveg Database into the R Environment}
 \usage{
 RvegLoad(
-  DATABASE = "default",
+  database = "default",
   checklist = "default",
-  CustomScale = FALSE,
+  customscale = FALSE,
   variation = 1
 )
 }
 \arguments{
-\item{DATABASE}{name of Rveg database}
+\item{database}{Character. The path and name of the \code{Rveg} database to load (e.g., \code{"path/to/my_db"}).
+Defaults to \code{"default"}, which loads the package's built-in example database.}
 
-\item{checklist}{used checklist}
+\item{checklist}{Character. The species checklist to use for taxonomy translation.
+By default, the function uses the checklist specified in the database's metadata.}
 
-\item{CustomScale}{logical values if different than predefined scale was used during the database creation}
+\item{customscale}{Logical. If \code{TRUE}, launches an interactive prompt to convert custom abundance scales into numeric percentages. Defaults to \code{FALSE}.}
+
+\item{variation}{Numeric. Determines the format of the returned object (\code{1}, \code{2}, or \code{3}). Defaults to \code{1}.}
 }
 \value{
-read the database in one object
+A data frame (if \code{variation = 1}) or a list containing data frames and metadata (if \code{variation = 2} or \code{3}).
 }
 \description{
-Reading your Rveg database
+Reads an existing \code{Rveg} database (containing relevé data, header data, and metadata)
+into R for analysis. By default, it automatically translates the internal 7-character
+\code{ShortName} codes back into full botanical names and extracts the layer information.
+}
+\details{
+The structure of the imported data is controlled by the \code{variation} parameter:
+\itemize{
+\item \strong{\code{variation = 1} (Default):} Returns a single, large data frame. The header data (HEAD) is bound to the top of the species composition data (REL), with new columns added for \code{FullName} and \code{layer}.
+\item \strong{\code{variation = 2}:} Returns the raw database as a list of three elements: \verb{$HeaderDATA}, \verb{$RelDATA}, and \verb{$meta} (metadata) without any taxonomic translation.
+\item \strong{\code{variation = 3}:} Returns the database as a list of three elements, but \verb{$RelDATA} is processed to include the translated \code{FullName} and \code{layer} columns.
+}
+
+\strong{Custom Scales:} If \code{customscale = TRUE}, the function operates interactively. It will pause and prompt the user to manually define percentage replacements for any custom abundance symbols found in the data.
 }
 \examples{
+# Example 1: Load the built-in Rveg database into a single data frame
+my_data <- RvegLoad()
 
-  RvegLoad()
+# Example 2: Load the database as a list with separated Header and Releve tables
+my_list <- RvegLoad(variation = 3)
 
 }

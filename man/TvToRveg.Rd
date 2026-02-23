@@ -2,30 +2,53 @@
 % Please edit documentation in R/RvegToJuice.R
 \name{TvToRveg}
 \alias{TvToRveg}
-\title{TvToRveg}
+\title{TvToRveg:
+Import Turboveg Data into an Rveg Database}
 \usage{
-TvToRveg(tv, export = "export", checklist = "default")
+TvToRveg(tv, export = "export", checklist = "default", Rveglayers = TRUE)
 }
 \arguments{
-\item{tv}{path to Turboveg csv export}
+\item{tv}{Character. The file path to the Turboveg export file (\code{.csv} or \code{.xml}).}
 
-\item{export}{name of your exported database}
+\item{export}{Character. The output path and name of the new \code{Rveg} database
+Defaults to a temporary directory.}
 
-\item{checklist}{checklist used to match shortnames with species name}
+\item{checklist}{Character. The species checklist used to match Turboveg full
+names to Rveg's 7-character \code{ShortName} codes. Defaults to \code{"default"}. Select one you
+want to use in your \code{Rveg} database or the one most similar to the one used in \code{Turboveg}.}
+
+\item{Rveglayers}{Logical. If \code{TRUE} (the default), Turboveg layer codes
+(e.g., 't', 's', 'h', 'm', 'j') are automatically translated into standard
+Rveg numeric/character layers (\code{3}, \code{2}, \code{1}, \code{0}, \code{J}).}
 }
 \value{
-csv file
+Writes two linked CSV files (\verb{*REL.csv} and \verb{*HEAD.csv} = \verb{Rveg database}) to the location
+specified by \code{export}.
 }
 \description{
-Export Turboveg csv file to Rveg database compatible format
+Converts a Turboveg export file into a fully functional \code{Rveg} database.
+The function parses plot headers, standardizes species nomenclature against a
+specified checklist, and maps vegetation layers.
+}
+\details{
+This function natively supports both \code{.csv} and \code{.xml} Turboveg export formats.
+In Turboveg, either selecet \verb{Standard XML file} or \verb{Spreadsheet table}. In the case
+of spreadsheet table, select format `semicolon delimited and requested header data.
+
+During the import process, the function operates interactively:
+\itemize{
+\item \strong{Species Resolution:} If a species in the Turboveg file cannot be automatically matched to the provided checklist, the function will pause and prompt the user to manually resolve the unknown species using a search interface.
+\item \strong{Scale Selection:} The user will be prompted to specify whether the imported abundance data uses percentages ("P") or the Braun-Blanquet scale ("BB").
+}
 }
 \examples{
-## NOT RUN
 if (interactive()) {
-  TvToRveg(tv = paste0(
-    path.package("Rveg"),
-    "/extdata/tvexport.csv"
-  ))
+  # Example: Importing a Turboveg CSV export
+  TvToRveg(
+    tv = system.file("extdata", "tvexport.csv", package = "Rveg"),
+    export = file.path(tempdir(), "imported_tv_db"),
+    Rveglayers = TRUE
+  )
 }
 
 }

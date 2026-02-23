@@ -2,32 +2,52 @@
 % Please edit documentation in R/RvegToJuice.R
 \name{RvegToTv}
 \alias{RvegToTv}
-\title{RvegToTv}
+\title{RvegToTv:
+Export an Rveg Database to Turboveg Compatible Format}
 \usage{
-RvegToTv(database, export = "export", ver = 3, checklist = "default")
+RvegToTv(database, export = "export", checklist = "default", ver = 3)
 }
 \arguments{
-\item{database}{path to Rveg database}
+\item{database}{Character. The path and name of the existing \code{Rveg} database
+to be exported (e.g., \code{"path/to/my_db"}).}
 
-\item{export}{name of your exported Tv file}
+\item{export}{Character. The output path and name where the resulting Turboveg
+CSV file(s) will be saved. Defaults to a temporary directory.}
 
-\item{ver}{version of TURBOVEG}
+\item{checklist}{Character. The species checklist used to match Rveg's 7-character
+\code{ShortName} codes back to their full botanical names. Defaults to \code{"default"}.}
 
-\item{checklist}{checklist to match Fullnames}
+\item{ver}{Numeric. The target Turboveg version format to export to (either \code{2} or \code{3}).
+Defaults to \code{3}.}
 }
 \value{
-csv file
+Writes one or two CSV files to the location specified by \code{export},
+depending on the chosen Turboveg version.
 }
 \description{
-Export Turboveg csv compatible file
+Exports an existing \code{Rveg} database into a CSV format compatible with the
+Turboveg vegetation database management system. The function automatically
+reconstructs full botanical names from the internal \code{ShortName} codes and
+maps vegetation layers to standard Turboveg abbreviations.
+}
+\details{
+During export, Rveg's alphanumeric layers are translated into Turboveg's
+specific layer codes (e.g., \code{0} becomes \code{ml}, \code{1} becomes \code{hl}, \code{2} becomes \code{s1},
+\code{3} becomes \code{t1}, and \code{J} becomes \code{jl}).
+
+The output structure changes depending on the target Turboveg version specified
+by the \code{ver} parameter:
+\itemize{
+\item \strong{Turboveg v3 (\code{ver = 3}):} Writes a single, combined \code{.csv} file containing both header and species data.
+\item \strong{Turboveg v2 (\code{ver = 2}):} Writes two separate files: \verb{*R.csv} for relevé species data and \verb{*H.csv} for header data.
+}
 }
 \examples{
-## NOT RUN
-if (interactive()) {
-  RvegToTv(database = paste0(
-    path.package("Rveg"),
-    "/extdata/example_db"
-  ))
-}
+# Example: Exporting the built-in Rveg database to Turboveg v3 format
+RvegToTv(
+  database = system.file("extdata", "example_db", package = "Rveg"),
+  export = file.path(tempdir(), "tv_export"),
+  ver = 3
+)
 
 }
