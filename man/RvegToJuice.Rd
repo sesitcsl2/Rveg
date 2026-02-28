@@ -42,7 +42,7 @@ For JUICE import first import relevé data as Spreadsheet file and follow with H
 \examples{
 # Example: Exporting the built-in example Rveg database to JUICE format
 RvegToJuice(
-  database = file.path(path.package("Rveg"), "extdata", "example_db")
+  database = file.path(path.package("Rveg"), "extdata/ExampleDB", "example_1")
 )
 
 }

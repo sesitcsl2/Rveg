@@ -1,0 +1,26 @@
+# project_name: 
+# project_description: 
+# n_releves: 3
+# checklist: cz_kaplan2019
+# rveg_version: 0.1.7
+# extra_spec: Imaginary speciesone::IMAGSPE|Imaginary speciestwo::IMAGSPT|
+# created: 2026-02-28 11:20:17
+# last_change: 2026-02-28 11:47:37
+# db_id: 52e9-d3d9-d730
+"ShortName","X1","X2","X3"
+"ATHYFIL_1","0","5","0"
+"CALLPAL_1","0","2","0"
+"CARDDEN_1","1","0","0"
+"CAREELA_1","45","65","10"
+"CAREELO_1","5","0","5"
+"CAREPSU_1","1","0","0"
+"DESHCES_1","3","10","1"
+"DRYOCAR_1","4","0","0"
+"DRYODIL_1","0","5","0"
+"IMAGSPE_1","0","0","45"
+"IMAGSPT_1","0","0","34"
+"LYSIVUL_1","2","0","0"
+"LYTHSAL_1","1","0","0"
+"PHRAAUS_1","10","25","0"
+"POA PAL_1","1","0","0"
+"ALNUGLU_3","88","0","0"

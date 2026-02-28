@@ -39,7 +39,7 @@ it uses a probabilistic sum formula to estimate the combined cover:
 \examples{
 if (interactive()) {
   RvegCombine(
-    database = system.file("extdata", "example_db", package = "Rveg"))
+    database = file.path(path.package("Rveg"), "extdata/ExampleDB", "example_1")
   )
 }
 

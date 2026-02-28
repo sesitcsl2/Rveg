@@ -34,7 +34,7 @@
 #' @examples
 #' # Example: Exporting the built-in example Rveg database to JUICE format
 #' RvegToJuice(
-#'   database = file.path(path.package("Rveg"), "extdata", "example_db")
+#'   database = file.path(path.package("Rveg"), "extdata/ExampleDB", "example_1")
 #' )
 #'
 #' @export
@@ -51,14 +51,15 @@ RvegToJuice <- function(database,  export = "export", checklist = "default") {
   DATA <- db$RelDATA
   HeaderDATA <- db$HeaderDATA
 
-  meta_checklist <- rv_get_checklist(db$meta$checklist)
-  if (file.exists(meta_checklist)) {
-    Splist <- rv_make_sp_list(meta_checklist, db$meta)
-    } else  {
-      Splist <- rv_make_sp_list(checklist, db$meta)
-    }
+  meta_checklist <- db$meta$checklist # ignore checklists prompt on existing
+  if (file.exists(rv_get_checklist(meta_checklist))) {
+    checklist <- rv_get_checklist(meta_checklist)
+  }
 
-  sp_map <- setNames(Splist[[2]], Splist$ShortName)
+  SpLIST <- rv_make_sp_list(checklist,db$meta)
+
+
+  sp_map <- setNames(SpLIST$FullName, SpLIST$ShortName)
 
   # --- JUICE matrix ---- ####
   code <- as.character(DATA[[1]])
@@ -159,10 +160,9 @@ RvegToJuice <- function(database,  export = "export", checklist = "default") {
 #'
 #' @examples
 #' if (interactive()) {
-#'   # Example: Importing a Turboveg CSV export
+#'   # Example: Importing a Turboveg CSV export (or use tvexport.xml)
 #'   TvToRveg(
-#'     tv = system.file("extdata", "tvexport.csv", package = "Rveg"),
-#'     export = file.path(tempdir(), "imported_tv_db"),
+#'     tv = file.path(path.package("Rveg"), "extdata/ExampleDB", "tvexport.csv"),
 #'     Rveglayers = TRUE
 #'   )
 #' }
@@ -174,11 +174,8 @@ TvToRveg <- function(tv, export = "export", checklist = "default", Rveglayers = 
     export <- file.path(tempdir(), "export")
   }
 
-  checklist <- rv_get_checklist(checklist)
-
-  SpList <- read.delim(checklist, sep = "\t")
-  #SpList <- rv_make_sp_list(checklist, db$meta) # creating Species checklist
-
+  #SpLIST <- rv_make_sp_list(checklist)
+  SpLIST <- read.delim(rv_get_checklist(checklist), sep = "\t", stringsAsFactors = FALSE, check.names = FALSE)
   file_end <- tolower(tools::file_ext(trimws(tv)))
 
   if (file_end == "xml" ) {
@@ -188,6 +185,8 @@ TvToRveg <- function(tv, export = "export", checklist = "default", Rveglayers = 
 
     header_list <- list()
     species_list <- list()
+
+    releve_order <- character(length(plot_nodes))
 
     # Iterate through plot nodes
     for (i in seq_along(plot_nodes)) {
@@ -231,6 +230,9 @@ TvToRveg <- function(tv, export = "export", checklist = "default", Rveglayers = 
 
       # --- 2. Species Extraction ---
 
+      combined_vec[["releve_nr"]] <- rel_id
+      releve_order[i] <- rel_id
+
       sp_nodes <- xml_find_all(plot_node, "./species_data/species/standard_record")
 
       if (length(sp_nodes) > 0) {
@@ -265,6 +267,7 @@ TvToRveg <- function(tv, export = "export", checklist = "default", Rveglayers = 
     # Use seq_len() instead of 1:nrow() as it handles empty data frames safely
     species_subset$original_order <- seq_len(nrow(species_subset))
 
+
     # # 2. Group by your variables
     # grouped_species <- dplyr::group_by(species_subset, unique_id, releve_nr)
     #
@@ -278,10 +281,15 @@ TvToRveg <- function(tv, export = "export", checklist = "default", Rveglayers = 
     #                                          sort_idx = min(original_order),
     #                                          .groups = "drop")
 
+    # 2) Aggregate cover and sort_idx together
     species_deduplicated <- aggregate(
-      cover ~ unique_id + releve_nr + nr + layer,
+      cbind(cover, sort_idx = original_order) ~ unique_id + releve_nr + nr + layer,
       data = species_subset,
-      FUN = function(x) paste(x, collapse = ", ")
+      FUN = function(x) {
+        # This FUN is applied column-wise; handle each by type
+        if (is.character(x)) paste(x, collapse = ", ")
+        else min(x)
+      }
     )
 
     # 4. Arrange back to the original order using the captured index
@@ -305,6 +313,19 @@ TvToRveg <- function(tv, export = "export", checklist = "default", Rveglayers = 
 
     # Clean up column names
     names(final_species_wide) <- gsub("^cover\\.", "", names(final_species_wide))
+
+    # Enforce XML plot order for relevé columns
+    releve_order <- releve_order[!is.na(releve_order) & nzchar(releve_order)]
+    #releve_order <- unique(releve_order)
+    if (rel_id %in% releve_order[seq_len(i - 1)]) rel_id <- paste0(rel_id, "_", i)
+
+    missing_cols <- setdiff(releve_order, names(final_species_wide))
+    if (length(missing_cols) > 0) {
+      # create missing columns as "0" so alignment is preserved
+      for (cc in missing_cols) final_species_wide[[cc]] <- "0"
+    }
+
+    final_species_wide <- final_species_wide[, c("nr", "layer", releve_order), drop = FALSE]
 
     # Fill NAs with "0"
     final_species_wide[is.na(final_species_wide)] <- "0"
@@ -375,7 +396,7 @@ TvToRveg <- function(tv, export = "export", checklist = "default", Rveglayers = 
   first_letter <- substr(raw_layers, 1, 1)
 
   unique_import_names <- unique(species_names)
-  unknown_mask <- !(unique_import_names %in% SpList$FullName)
+  unknown_mask <- !(unique_import_names %in% SpLIST$FullName)
   unknown_species <- unique_import_names[unknown_mask]
 
   # Create a lookup vector (Name -> BaseCode)
@@ -385,8 +406,8 @@ TvToRveg <- function(tv, export = "export", checklist = "default", Rveglayers = 
 
   # Fill knowns from SpList
   known_names <- unique_import_names[!unknown_mask]
-  match_idx <- match(known_names, SpList$FullName)
-  raw_codes <- SpList$ShortName[match_idx]
+  match_idx <- match(known_names, SpLIST$FullName)
+  raw_codes <- SpLIST$ShortName[match_idx]
   name_map[known_names] <- raw_codes
 
   # --- Interactive Resolution Loop ---
@@ -396,7 +417,7 @@ TvToRveg <- function(tv, export = "export", checklist = "default", Rveglayers = 
     for (bad_name in unknown_species) {
 
       # Run the helper function
-      res <- rv_species_not_found(bad_name, SpList, metadata, orig_SpList = tvsplist)
+      res <- rv_species_not_found(bad_name, SpLIST, metadata, orig_SpList = tvsplist)
 
       # Store result in our map
       name_map[bad_name] <- res$code
@@ -497,8 +518,7 @@ TvToRveg <- function(tv, export = "export", checklist = "default", Rveglayers = 
 #' @examples
 #' # Example: Exporting the built-in Rveg database to Turboveg v3 format
 #' RvegToTv(
-#'   database = system.file("extdata", "example_db", package = "Rveg"),
-#'   export = file.path(tempdir(), "tv_export"),
+#'   database = file.path(path.package("Rveg"), "extdata/ExampleDB", "example_1"),
 #'   ver = 3
 #' )
 #'
@@ -512,10 +532,12 @@ RvegToTv <- function(database, export = "export", checklist = "default", ver = 3
   db <- rv_read_db(database)
   DATA <- db$RelDATA; HeaderDATA <- db$HeaderDATA; metadata <- db$meta
 
-  checklist <- rv_get_checklist(checklist)
-  #SpList <- read.delim(checklist, sep = "\t")
+  meta_checklist <- db$meta$checklist # ignore checklists prompt on existing
+  if (file.exists(rv_get_checklist(meta_checklist))) {
+    checklist <- rv_get_checklist(meta_checklist)
+  }
 
-  SpList <- rv_make_sp_list(checklist, db$meta) # creating Species checklist
+  SpLIST <- rv_make_sp_list(checklist,db$meta)
 
 
   ### Header
@@ -525,9 +547,9 @@ RvegToTv <- function(database, export = "export", checklist = "default", ver = 3
   DATA$Fullname <- substr(DATA$ShortName, 1, 7)
   key <- DATA$Fullname
 
-  DATA$Fullname <- SpList$FullName[ match(DATA$Fullname, SpList$ShortName) ]
+  DATA$Fullname <- SpLIST$FullName[ match(DATA$Fullname, SpLIST$ShortName) ]
 
-  miss <- is.na(match(key, SpList$ShortName))
+  miss <- is.na(match(key, SpLIST$ShortName))
   if (any(miss)) warning("Unmatched ShortName codes: ", paste(unique(key[miss]), collapse = ", "))
 
   ## layers

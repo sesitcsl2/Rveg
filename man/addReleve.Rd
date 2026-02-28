@@ -23,7 +23,7 @@ addReleve(
 files (\verb{*HEAD.csv} and \verb{*REL.csv}) will be exported. Defaults to a temporary directory.}
 
 \item{checklist}{Character. The species checklist to use. Can be a built-in
-checklist (at this moment: \code{cz_dh2012}, \code{Czechia_slovakia_2015}, \code{wcvp_que},
+checklist (atm: \code{cz_dh2012}, \code{Czechia_slovakia_2015}, \code{cz_kaplan2019}, \code{wcvp_que},
 \code{wcvp_por}) or a file path to a custom \code{txt} checklist. Default use \code{cz_dh2012}.
 see function \code{\link{CreateChecklist}}.}
 
@@ -41,7 +41,7 @@ a \code{"NEW"} database and immediately prompts the user to digitize the first r
 }
 \value{
 Writes two linked CSV files (Rveg database) to the location specified by \code{save}: one
-containing the relev\u00e9 species data (\verb{*REL.csv}) and one containing the header data (\verb{*HEAD.csv}).
+containing the relevé species data (\verb{*REL.csv}) and one containing the header data (\verb{*HEAD.csv}).
 }
 \description{
 The core interactive function of the \code{Rveg} package. \code{addReleve()} launches a

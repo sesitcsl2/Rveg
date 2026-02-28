@@ -1,37 +1,37 @@
-# Rveg 0.1.7
+# Rveg 0.1.8
 
-Big release increase the accesibility of package and simplify the use in broader area. Also a new level of stability is added within metadata.
+# Rveg 0.1.8 
 
-## summary
+**This release focuses on ensuring systemic stability and comprehensive documentation following the structural transitions of version 0.1.7.**
 
-- updated addReleve() interface
-- change of the database files structure, now including metadata marked by hashtag symbol `#`
-- Inclusion of several checklist created by `CreateChecklist()` for easier broader use. -> Canada (Quebec), Portugal. You can simply recreate checklist for any area with the same process as shown in example at `help(CreateChecklist)`
-- Option to add a new species during the writing process of `addReleve()`
-- Improved efficiency
-- Added a `NEWS.md` file to track changes to the package.
+## System Stability and Dependency Optimization
+The package core logic has been refactored to prioritize base R `stats` and `utils` dependencies, reducing external overhead and ensuring long-term maintainability. Integration with the `xml2` library has been established to facilitate the import of TURBOVEG datasets via the XML schema. Furthermore, internal utility logic has been centralized within `RvegUtils.R` to standardize shared computational tasks across the package.
 
+## Functional Enhancements to Data Transformation
+The format transfer suite—comprising `RvegToJuice`, `RvegToTv`, and `TvToRveg` has been updated to ensure full compatibility with the metadata-inclusive database format. These functions now provide more robust data exchange protocols for phytosociological analysis software.
 
-## Metadata
+## Refocusing of Database Management Tools
+The operational scope of `RvegCheck` has been redefined. While previously utilized for resolving nomenclature code conflicts, it now serves as a database management utility. It allows users to modify project-level attributes, such as titles and descriptions, and in future updates will facilitate the repair of structural inconsistencies and other attributes, like Header fields and Used checklist. Existing functions `RvegLoad` and `RvegCombine` were updated to parse the new metadata headers while maintaining their original utility in data ingestion and table construction.
 
-Metadata are inserted at the start of both Releve & Header files and are recognizable by hashtag symbol `#`. They serve multiple purpose such us to distinguish several databases, store informations a recycle them in Rveg functions and ensuring compatibility. In future they might serve as important part for projects sharing.  At this moment they consist of:
-- Project name & Project description. These are optional informations to characterize and sort project.
-- Number of Releves. 
-- Used checklist. Rveg can recognize used checklist and user doesnt need to remember which checklist was used.
-- Rveg version. For compatibility purposes, with the future updates, this can be used for `updating` old databases or to track changes in package functions. 
-- Extra species. Now there is option to use species that are not part of the original checklist. These extra species are stored here, therefore they are not directly changing the original checklist, but only expand it for certain project.
-- Time of creation
-- Time of last change
-- Database ID. Database ID are randomly generated tag to connect releve and header.
+## Formal Documentation Standards
+A complete overhaul of the package documentation has been executed. Every exported function now includes CRAN-compliant help pages with detailed `@details` sections. These sections provide shorter and more up-to-date function description compared to Rveg manual (`vignette(“Rveg”)`). They include formal specifications for the mathematical algorithms utilized in `RvegCombine` and the deterministic string-processing rules employed for `ShortName` generation in `CreateChecklist`.
 
-## CreateChecklist()
+---
 
-Function createchecklist now work directly with R object, additionaly to the txt files. Therefore you are able to input vector of characters (species) to create a checklist. This can be easily utilized with use of other sourcing packages like `rWCVP`, that source species lists from databases. This way, we created a few checklists and included them in default Rveg (Quebec: wcvp_que, Portugal: wcvp_por). Small changes with the rules of creating ShortNames.
+# Rveg 0.1.7 
+**Version 0.1.7 introduces a standardized metadata framework designed to ensure data integrity and facilitate easier and broader application.**
 
-## Menu interface
+## Metadata Architecture and Data Integrity
+Both Relevé and Header files now utilize a standardized metadata block, denoted by the `#` prefix. This architecture enables the persistence of project-specific variables, including a unique Database ID that ensures a deterministic link between species data and header attributes. The system automatically logs the `Rveg` version, relevé counts, and temporal metadata (creation and modification timestamps), ensuring compatibility for future schema migrations.
 
-QOL update to the addReleve interface. Showing project informations. For command use help in addReleve dialogue.
+## Dynamic Taxonomic Extension
+A significant advancement is the introduction of the "Extra Species" protocol. Users may now define and insert unique taxa or high-precision nomenclature (subspecies, hybrids) directly during the `addReleve()` execution. These records are stored within the project’s local metadata, preserving the integrity of the primary checklist while allowing for project-specific taxonomic flexibility.
 
-## Extra species
+## Advances in Checklist Generation
+The `CreateChecklist()` function has been expanded to support the direct processing of R character vectors, enabling seamless integration with taxonomic databases via packages such as `rWCVP`. To demonstrate this capability, default checklists for Canada (Quebec) and Portugal have been integrated, alongside a TURBOVEG-compatible checklist for Czechia and Slovakia.
 
-This function is designed for use in case of unexpected species occurence, or in case of higher taxonomic precision (eg subspecies, hybrids etc.). Therefore it serves as unique taxon addition to the base checklist, not as tool for creating or merging checklist. During digitalization, when you finds out the desired taxon is not part of the checklist, you can `insert` new species by creating original ShortName code and species name, which will be stored in the database metadata, and are not usable outside the current project.
+## User Interface and Operational Efficiency
+The `addReleve()` function has been updated with a menu-driven console interface to improve the digitization workflow. This interface provides real-time access to project metadata and includes an integrated help command for on-the-fly documentation access. Additionally, low-level data processing routines were optimized to increase the efficiency of I/O operations for larger-scale phytosociological databases.
+
+## Version Tracking and Documentation
+Starting with version 0.1.7, all package developments are formally documented in the NEWS.md file. Furthermore, the database metadata now captures the active Rveg version at the time of creation, ensuring robust backward compatibility and facilitating schema migrations in future releases.

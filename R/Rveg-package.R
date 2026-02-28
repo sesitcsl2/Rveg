@@ -14,6 +14,11 @@
 #'
 #'  Wickham, François, Henry, Müller (2022) <https://CRAN.R-project.org/package=dplyr>, "dplyr: A Grammar of Data Manipulation".
 #'
+#'  Višňák (1986, ISSN:00327786) <https://www.preslia.cz/archive/Preslia_58_1986_353-368.pdf>, "Příspěvek k poznání antropogenní vegetace v severních Čechách, zvláště v městě Liberci. Preslia".
+#'
+#'  Kaplan, Danihelka, Chrtek, Kirschner, Kubát, Štech, and Štěpánek (eds) (2019, ISBN:9788020026606) <https://botanospol.cz/cs/node/2681>, "Key to the flora of the Czech Republic, Ed. 2., Academia, Praha".
+#'
+#'
 #' @keywords internal
 
 

@@ -34,34 +34,26 @@
 RvegLoad <- function(database = "default",checklist = "default", customscale = FALSE, variation = 1) {
 
   if (database == "default") {
-    #database = paste0(path.package("Rveg"), "/extdata/example_db")
     database <- system.file("extdata", package = "Rveg", mustWork = TRUE)
-    database <- paste0(database,"/example")
+    database <- paste0(database,"/ExampleDB/example_1")
   }
 
   db <- rv_read_db(database)
 
   if (customscale) {
-
-    rele <- db$RelDATA[,-1]
-    releorig <- rele
-    uniq <- unique(unlist(rele))
-
-    for (val in uniq) {
-      replace <- readline(paste0("Percentage value for (",val,") "))
-      rele[releorig==val] <- replace
-    }
-
-    db$RelDATA[,-1] <- rele
+    db$RelDATA <- rv_cs_to_pct(db$RelDATA)
   }
 
-  checklist <- db$meta$checklist
-  checklist <- rv_get_checklist(checklist)
+  meta_checklist <- db$meta$checklist # ignore checklists prompt on existing
+  if (file.exists(rv_get_checklist(meta_checklist))) {
+    checklist <- rv_get_checklist(meta_checklist)
+  }
 
-  SpLIST <- rv_make_sp_list(checklist, db$meta) # creating Species checklist
+  if (!file.exists(checklist)) {
+    stop("Provide used checklist")
+  }
 
-  #fullName <- c(rep("", nrow(db$RelDATA)))
-  #layer <- c(rep("", nrow(db$RelDATA)))
+  SpLIST <- rv_make_sp_list(checklist,db$meta)
 
   layer <- data.frame(fullName = character(nrow(db$RelDATA)),
                       layer = character(nrow(db$RelDATA)),
@@ -69,7 +61,7 @@ RvegLoad <- function(database = "default",checklist = "default", customscale = F
 
   DATArele <- cbind(layer, db$RelDATA) # pro vrstvu
   for (i in 1:length(DATArele$ShortName)) {
-    DATArele$fullName[i] <- SpLIST$FullName[SpLIST$ShortName == substr(DATArele$ShortName[i], 1, 9)]
+    DATArele$fullName[i] <- SpLIST$FullName[SpLIST$ShortName == substr(DATArele$ShortName[i], 1, 7)]
     DATArele$layer[i] <- substr(DATArele$ShortName[i], 9, 9)
     DATArele$ShortName[i] <- substr(DATArele$ShortName[i], 1, 7)
   }

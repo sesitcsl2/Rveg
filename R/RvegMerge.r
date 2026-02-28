@@ -25,7 +25,7 @@
 #'
 #' @examples
 #' # Example: Merging the built-in database with itself
-#' db_path <- system.file("extdata", "example_db", package = "Rveg")
+#' db_path <- file.path(path.package("Rveg"), "extdata/ExampleDB", "example_1")
 #'
 #' RvegMerge(
 #'   database_1 = db_path,
@@ -47,8 +47,8 @@ RvegMerge <- function(database_1, database_2, export = "export") {
   }
 
   # rel
-  jointab <- merge(rel1, rel2, by = c("ShortName"))
-  jointab[is.na(jointab)] <- 0
+  jointab <- merge(rel1, rel2, by = c("ShortName"),all = TRUE)
+  jointab[is.na(jointab)] <- "0"
   jointab <- jointab[order(jointab$ShortName), ]
 
 
@@ -58,14 +58,24 @@ RvegMerge <- function(database_1, database_2, export = "export") {
   }
 
   # head
-  joinhead <- merge(head1, head2, by = c("ShortName"))
+  joinhead <- merge(head1, head2, by = c("ShortName"), all = TRUE, sort = FALSE)
   colnames(joinhead) <- colnames(jointab)
+  joinhead[is.na(joinhead)] <- ""
 
   # metadata
   joinmeta <- meta1
   joinmeta$n_releves <- as.numeric(meta1$n_releves) + as.numeric(meta2$n_releves)
   #joinmeta$checklist <- selection?
-  joinmeta$extra_spec <- paste0(meta1$extra_spec, meta2$extra_spec)
+  #joinmeta$extra_spec <- paste0(meta1$extra_spec, meta2$extra_spec)
+
+  joinmeta$extra_spec <- mapply(function(a, b) {
+    v <- Filter(nzchar, unlist(strsplit(paste0(ifelse(is.na(a), "", a),
+                                               ifelse(is.na(b), "", b)), "\\|")))
+    sc <- tolower(trimws(ifelse(grepl("::", v, fixed = TRUE), sub("^.*::", "", v), v)))
+    v <- v[!duplicated(sc)]
+    if (length(v)) paste0(paste(v, collapse = "|"), "|") else ""
+  }, meta1$extra_spec, meta2$extra_spec, USE.NAMES = FALSE)
+
   # new id?
 
   # save

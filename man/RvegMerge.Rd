@@ -34,7 +34,7 @@ During the merge process:
 }
 \examples{
 # Example: Merging the built-in database with itself
-db_path <- system.file("extdata", "example_db", package = "Rveg")
+db_path <- file.path(path.package("Rveg"), "extdata/ExampleDB", "example_1")
 
 RvegMerge(
   database_1 = db_path,

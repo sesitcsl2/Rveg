@@ -29,13 +29,14 @@
 #' @examples
 #' if (interactive()) {
 #'   RvegCombine(
-#'     database = system.file("extdata", "example_db", package = "Rveg"))
+#'     database = file.path(path.package("Rveg"), "extdata/ExampleDB", "example_1")
 #'   )
 #' }
 #'
 #' @export
 
 RvegCombine <- function(database, export = "export", checklist = "default") {
+  message("Only call this function on databases with percentage cover, if you have different scales, call RvegCheck first.")
   if (export == "export") {
     export <- file.path(tempdir(), "export")
   }
@@ -44,13 +45,11 @@ RvegCombine <- function(database, export = "export", checklist = "default") {
   db <- rv_read_db(database)
   DATA <- db$RelDATA; HeaderDATA <- db$HeaderDATA; metadata <- db$meta
 
-
-  meta_checklist <- rv_get_checklist(db$meta$checklist)
-  if (file.exists(meta_checklist)) {
-    Splist <- rv_make_sp_list(meta_checklist, db$meta)
-  } else  {
-    Splist <- rv_make_sp_list(checklist, db$meta)
+  meta_checklist <- db$meta$checklist # ignore checklists prompt on existing
+  if (file.exists(rv_get_checklist(meta_checklist))) {
+    checklist <- rv_get_checklist(meta_checklist)
   }
+
 
   while (TRUE) {
     a <- toupper(readline("Combine?(LAYER/SPEC/PRINTREL/N) ")) # layer selection
@@ -84,7 +83,7 @@ RvegCombine <- function(database, export = "export", checklist = "default") {
     } else if (a == "SPEC") {
       while (TRUE) {
         b <- toupper(readline("Which specie?(GenuSpe_L) "))
-        c <- toupper(readline("To which layer?(GenuSpe_L) "))
+        c <- toupper(readline("With which specie?(GenuSpe_L) "))
         if (nchar(b) == 9 & nchar(c) == 9) {
 
           if (!(b %in% DATA$ShortName) || !(c %in% DATA$ShortName)) {

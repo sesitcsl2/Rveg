@@ -11,6 +11,7 @@
 #' built-in checklists:
 #' * `cz_dh2012` (Default: Checklist of vascular plants of the Czech Republic)
 #' * `Czechia_slovakia_2015` (Turboveg compatible checklist)
+#' * `cz_kaplan2019` (Rveg generated - Kaplan et al. 2019)
 #' * `wcvp_que` (example WCVP subset for Quebec)
 #' * `wcvp_por` (example WCVP subset for Portugal)
 #'
@@ -46,10 +47,10 @@
 #'   )
 #'
 #'   # Example 2: Creating a checklist dynamically using the rWCVP package
-#'   if (requireNamespace("rWCVP", quietly = TRUE)) {
+#'   if (requireNamespace("rWCVP", quietly = TRUE) & requireNamespace("rWCVPdata", quietly = TRUE)) {
 #'     wcvp_data <- rWCVP::wcvp_checklist(area_codes = "QUE")
 #'     unique_taxa <- unique(wcvp_data$taxon_name)
-#'     CreateChecklist(specieslist = unique_taxa, export = "wcvp_que")
+#'     CreateChecklist(specieslist = unique_taxa)
 #'   }
 #'
 #' @export

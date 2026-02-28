@@ -18,6 +18,10 @@ Hennekens, and Schaminée (2001) \url{doi:10.2307/3237010}, "TURBOVEG, a compreh
 Tichý (2002) \url{doi:10.1111/j.1654-1103.2002.tb02069.x}, "JUICE, software for vegetation classification. Journal of Vegetation Science".
 
 Wickham, François, Henry, Müller (2022) \url{https://CRAN.R-project.org/package=dplyr}, "dplyr: A Grammar of Data Manipulation".
+
+Višňák (1986, ISSN:00327786) \url{https://www.preslia.cz/archive/Preslia_58_1986_353-368.pdf}, "Příspěvek k poznání antropogenní vegetace v severních Čechách, zvláště v městě Liberci. Preslia".
+
+Kaplan, Danihelka, Chrtek, Kirschner, Kubát, Štech, and Štěpánek (eds) (2019, ISBN:9788020026606) \url{https://botanospol.cz/cs/node/2681}, "Key to the flora of the Czech Republic, Ed. 2., Academia, Praha".
 }
 \seealso{
 Useful links:

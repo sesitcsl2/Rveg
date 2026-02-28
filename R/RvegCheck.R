@@ -34,8 +34,7 @@
 #' if (interactive()) {
 #'   # Inspect the built-in example database
 #'   RvegCheck(
-#'     database = system.file("extdata", "example_db", package = "Rveg"),
-#'     export = file.path(tempdir(), "checked_db")
+#'     database = file.path(path.package("Rveg"), "extdata/ExampleDB", "example_1")
 #'   )
 #' }
 #'
@@ -50,20 +49,17 @@ RvegCheck <- function(database, export = "export", checklist = "default") {
   db <- rv_read_db(database)
   DATA <- db$RelDATA; HeaderDATA <- db$HeaderDATA; metadata <- db$meta
 
-  meta_checklist <- rv_get_checklist(db$meta$checklist)
-  if (file.exists(meta_checklist)) {
-    Splist <- rv_make_sp_list(meta_checklist, db$meta)
-    message(paste0("Provided checklist: ", db$meta$checklist))
-  } else  {
-    Splist <- rv_make_sp_list(checklist, db$meta)
-    message(paste0("Custom checklist: ", checklist))
+  meta_checklist <- db$meta$checklist # ignore checklists prompt on existing
+  if (file.exists(rv_get_checklist(meta_checklist))) {
+    checklist <- rv_get_checklist(meta_checklist)
   }
+  SpLIST <- rv_make_sp_list(checklist,db$meta)
 
-
-
-  # metainfo
-  # "project_name"        "project_description" "n_releves"           "checklist"           "rveg_version"
-  # "extra_spec"          "created"             "last_change"         "db_id"
+  # custom scale
+  customscale <- rv_ask_choice("Do you want transfer cover to percentage values? (Y/N)",c("Y","N"))
+  if (customscale == "Y") {
+    DATA <- rv_cs_to_pct(db$RelDATA)
+  }
 
   # project name
   if (nzchar(db$meta$project_name)) {
@@ -109,12 +105,8 @@ RvegCheck <- function(database, export = "export", checklist = "default") {
   message(paste0("Database created: ", metadata$created))
   message(paste0("Last change: ",metadata$last_change))
 
-  #
-  message()
-
   # export
-  rv_write_db(DATA,HeaderDATA,metadata)
-
+  rv_write_db(rel = DATA,head = HeaderDATA,meta = metadata,save = export)
 
 }
 

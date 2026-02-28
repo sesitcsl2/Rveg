@@ -4,355 +4,22 @@
 
 #' @keywords internal
 #' @noRd
-rv_add_rel_new <- function(RelNew,nana,o) {
-  if (nana %in% RelNew$ShortName) {
-    RelNew[RelNew$ShortName == nana, 2] <- o
-  } else {
-    new_row <- RelNew[1, ]
-    is.na(new_row) <- TRUE
+rv_cs_to_pct <- function(releve) {
 
-    new_row$ShortName <- nana
-    new_row[, 2] <- o
+  rele <- releve[,-1]
+  releorig <- rele
+  uniq <- unique(unlist(rele))
 
-    RelNew <- rbind(RelNew, new_row)
-    RelNew <- RelNew[order(RelNew$ShortName), ]
-  }
-  rownames(RelNew) <- NULL
-  return(RelNew)
+  for (val in uniq) {
+    replace <- rv_ask_text(paste0("Percentage value for (",val,") "))
+    rele[releorig==val] <- replace
   }
 
-#----- releve making --------
-
-#' Dialogue loop for writing releves, var 1 for classic, var 2 for batch
-#' @keywords internal
-#' @noRd
-rv_releve_dialogue <- function(SpLIST,RelNew,metadata, SAVE=NULL,HeaderDATA2=NULL,variation = 1) {
-  out <- list()
-  if (variation == 1) {
-
-    while(TRUE) {
-
-      m <- toupper(readline("AddNewLayer?(Y/N) "))
-
-      if (m == "Y") {
-        while (TRUE) {
-          most <- toupper(readline("Select Layer (3,2,1,J,0) "))
-          if (most %in% c("3","2","1","J","0")) {
-            break
-          }
-        } # Select layer
-        while (TRUE) {
-          oo <- toupper(readline("P - percentage, BB - Braun B. scale, CS - custom scale "))
-
-          if (oo %in% c("P","BB","B","CS")) {
-            break
-          }
-        } # Select scale
-        while (TRUE) {
-          m <- toupper(readline("AddSpecies?(GenuSpe/N) "))
-
-          if (nchar(m) == 7) {
-            n <- m
-
-            if (oo == "P") {
-              while (TRUE) {
-                o <- suppressWarnings(as.numeric(readline("Abundance?(%) ")))
-                if (!is.na(o) && o >= 0 && o <= 100) {break}
-              }
-            }
-            if (oo == "CS") {
-              o <-
-                as.character(readline("Abundance? "))
-            }
-            if (oo == "BB" | oo == "B") {
-              while (TRUE) {
-                o <- toupper(readline("Abundance?(0,R,+,1,2,M,A,B,3,4,5) "))
-                if (o %in% c("R", "+", "0", "1", "2", "M", "A", "B", "3", "4", "5")) {
-                  break
-                }
-              }
-              o <- rv_bb_to_pct(o)
-            }
-
-            nana <- paste(n, most, sep = "_") # creating the species + layer
-            #specie_check <- SpLIST[SpLIST$ShortName==nana,] # double check
-            specie_check <- SpLIST[SpLIST$ShortName==n,]
-            if (length(specie_check$FullName)==0) {
-              message("Species not found in the checklist")
-            } else {
-              print(specie_check$FullName)
-            }
-
-
-            while (TRUE) {
-              tt <- toupper(readline("CorrectName?(Y/F(search for name)) ")) # double check
-              if (tt == "Y" && !is.na(specie_check$FullName[1]) | tt == "F") {
-                break
-              }
-            }
-
-            if (tt == "F") {
-              while (TRUE) {
-                k <- readline("SpeciesFirst3letters?(eg.Che) ") # search correct name in original list
-                if (nchar(k) >= 3) {
-                  k <- paste0(toupper(substr(k, 1, 1)), tolower(substr(k, 2, 3)))
-                  #searchlist <- SpLIST1[grep(paste0("^", k), SpLIST1$FullName),]
-                  searchlist <- SpLIST[grep(paste0("^", k), SpLIST$FullName),]
-                  print(searchlist[order(searchlist$FullName), ])
-                  while (TRUE) {
-                    while (TRUE) {
-                      s <- toupper(readline("SpeciesName?(GenuSpe / search / insert) "))
-                      if (nchar(s) == 7) {
-                        nana <- paste(s, most, sep = "_")
-                        #specie_check <- SpLIST[SpLIST$ShortName == nana, ]
-                        specie_check <- SpLIST[SpLIST$ShortName == s, ]
-                        print(specie_check$FullName)
-                        break
-                      }
-                      if (s == "SEARCH") {
-                        break
-                      }
-
-                      if (s == "INSERT") {
-                        while(TRUE) {
-                          sn <- (readline("Full species name?: "))
-                          snc <- toupper(readline(paste0(sn, ": correct?(y/f) ")))
-                          if (snc == "Y") {
-                            while(TRUE) {
-                              s <- toupper(readline("ShortCode?: "))
-                              if (rv_check_short_name(s,SpLIST,metadata)) { #SpLIST1
-                                okay <- toupper(readline((paste0(sn,"; ",s,"? (y/f) "))))
-                                if (okay == "Y") {
-                                  # pridat do newrel
-                                  # RelNewNs <- data.frame(ShortName = paste0(s,"_",c("J",0:3)),
-                                                         # value = 0)
-                                  RelNewNs <- data.frame(ShortName = s,value = 0)
-                                  RelNew <- rbind(RelNew,RelNewNs)
-
-                                  #SpLISTNs <- data.frame(ShortName = paste0(s,"_",c("J",0:3)),
-                                  SpLISTNs <- data.frame(ShortName = s,
-                                                         FullName = sn)
-
-                                  SpLIST <- rbind(SpLIST,SpLISTNs)
-
-                                  #SpLIST1Ns <- data.frame(ShortName = s,
-                                  #                        FullName = sn)
-
-                                  #SpLIST1 <- rbind(SpLIST1,SpLIST1Ns)
-
-                                  # pridat do metadata
-                                  metadata$extra_spec <- paste0(metadata$extra_spec,paste0(sn,"::",s,"|"))
-                                  break
-                                }
-                              }
-                            }
-                            break
-                          }
-                        }
-                        break
-                      } # Importing a new species code
-                    }
-
-                    if (nchar(s) == 7){
-                      tt <- toupper(readline("CorrectSpecies?(Y/N)  "))
-                      if ((tt == "Y") & !is.na(specie_check$FullName[1])) {
-                        break
-                      }
-                    }
-                    break
-                  }
-                  if(nchar(s) == 7){
-                    break
-                  }
-                }
-              }
-
-              nanas <- paste(s, most, sep = "_")
-
-              #RelNew[which(RelNew$ShortName == substr(nanas, 1, 9)), ][, 2] <- o
-              #RelNew[which(RelNew$ShortName == nanas), ][, 2] <- o
-              RelNew <- rv_add_rel_new(RelNew,nanas,o)
-
-              print(RelNew[(RelNew[, 2] > 0), ])
-            } else {
-              #RelNew[which(RelNew$ShortName == substr(nana, 1, 9)), ][, 2] <- o
-              #RelNew[which(RelNew$ShortName == nana), ][, 2] <- o
-              RelNew <- rv_add_rel_new(RelNew,nana,o)
-              print(RelNew[(RelNew[, 2] > 0), ])
-            }
-          } else if (m == "N") {
-            break
-          }
-
-        } # Add species
-      } else if (m == "N") {
-        message("Species_richness")
-        print(nrow(RelNew[(RelNew[, 2] > 0), ]))
-        break
-      }
-
-    }
-    out$RelNew <- RelNew; out$SpLIST <- SpLIST; out$meta <- metadata #out$SpLIST1 <- SpLIST1;
-    return(out)
-  }
-
-
-  if (variation == 2) {
-
-    while (TRUE) {
-      m <- suppressWarnings(as.numeric(readline("How many releves? ")))
-      if (!is.na(m) & m>0) {
-
-        Rels <- list()
-        DATAtemp <- rv_read_db(SAVE)$RelDATA
-        for (i in 1:m) {
-          Rels[[paste0("r",i)]] <- data.frame(ShortName = SpLIST[, 1],value = 0)
-        } # new releves
-
-        break
-      }
-
-    } ## how many releves
-
-    while (TRUE) {
-      oo <- toupper(readline("P - percentage, BB - Braun B. scale, CS - custom scale "))
-
-      if (oo == "P" | oo == "BB" | oo == "B" | oo == "CS") {
-        break
-      }
-    } ## Scale
-
-    while (TRUE) {
-      n <-toupper(readline("Add new species (GenuSpe)/N?  "))
-      if (nchar(n) == 7) {
-
-        while (TRUE){
-          l <- toupper(readline("Select Layer (3,2,1,J,0) " ))
-          if (l %in% c("1","2","3","J","0")) {
-            break
-          }
-
-        } ## what layer
-
-        nana <- paste(n, l, sep = "_") # creating the species name
-        specie_check <- SpLIST[SpLIST[, "ShortName"] == substr(nana, 1, 9), ] # double check
-        print(specie_check[2])
-
-        while (TRUE) {
-          tt <- toupper(readline("CorrectName?(Y/F(search for name)) ")) # double check
-          if (tt == "Y" && !is.na(specie_check[1, 2])) {
-            break
-          } else if (tt == "F") {
-            while (TRUE) {
-              k <- readline("SpeciesFirst3letters?(eg.Che) ") # search correct name in original list
-              if (nchar(k) >= 3) {
-                k <- paste0(toupper(substr(k, 1, 1)), tolower(substr(k, 2, 3)))
-                searchlist <- SpLIST[grep(paste0("^", k), SpLIST[, 2]), ] # SpLIST1 prior
-                print(searchlist[order(searchlist$FullName), ])
-                while (TRUE) {
-                  while (TRUE) {
-                    s <- toupper(readline("SpeciesName?(GenuSpe) "))
-                    if (nchar(s) == 7) {
-                      nana <- paste(s, l, sep = "_")
-                      specie_check <- SpLIST[SpLIST[, "ShortName"] == substr(nana, 1, 9), ]
-                      print(specie_check[2])
-                      break
-                    }
-                  }
-
-                  tt <- toupper(readline("CorrectSpecies?(Y/N)  "))
-                  if ((tt == "Y") & !is.na(specie_check[1, 2])) {
-                    break
-                  }
-                }
-                break
-              }
-            }
-          }
-        } # correct name
-
-        RelFake <- data.frame(ShortName = SpLIST[, 1])
-        for (i in 1:m) {
-          RelFake[[paste0("r",i)]] <- 0
-        }
-
-        for (i in 1:m) {
-          message(paste0("Relev\u00e9 ",i))
-
-          if (oo == "P") {
-            while (TRUE) {
-              o <- suppressWarnings(as.numeric(readline("Abundance?(%) ")))
-              if (!is.na(o) && o >= 0 && o <= 100) {break}
-            }
-          } else if (oo == "CS") {
-            o <- as.character(readline("Abundance? "))
-          } else if (oo == "BB" | oo == "B") {
-            while (TRUE) {
-              o <- toupper(readline("Abundance?(0,R,+,1,2,M,A,B,3,4,5) "))
-              if (o %in% c("R", "+", "0", "1", "2", "M", "A", "B", "3", "4", "5")) {
-                break
-              }
-            }
-            o <- rv_bb_to_pct(o)
-          }
-
-          Rels[[paste0("r",i)]][which(Rels[[paste0("r",i)]]$ShortName == substr(nana, 1, 9)), ][, 2] <- o
-          RelFake[which(RelFake$ShortName == substr(nana, 1, 9)), ][, i+1] <- o
-          print(RelFake[(RelFake[,i+1] > 0), ])
-
-        }
-        DATA2 <- DATAtemp
-        DATA2 <- rv_create_table(Rels, DATA2,variation = 2)
-        print(DATA2)
-        colnames(DATA2)[-1] <- paste0("X",1:(length(colnames(DATA2))-1))
-        rv_write_db(rel = DATA2,save = SAVE,meta = metadata)
-        # outside function set start = TRUE, database = ""
-
-
-      } else if (n == "N") {
-        while (TRUE) {
-          rs <- toupper(readline("Add headers?(Y/N) "))
-          if (rs == "Y") {
-            for (i in 1:m) {
-              message(paste0("Relev\u00e9 ",i))
-
-              k <- rv_existing_k(HeaderDATA2)
-              nextcol <- paste0("X", k + 1L)
-              lastcol <- rv_last_x_col(HeaderDATA2)
-
-              FIELD_LABELS <- rv_schema_from_head(HeaderDATA2)
-
-              non_id <- rv_prompt_header_values(FIELD_LABELS, HeaderDATA2, prev_col = lastcol, skip = "ID")
-              id_val <- as.character(k + 1L)
-
-              vals <- vapply(FIELD_LABELS, function(lab) {
-                if (tolower(lab) == "id") id_val else non_id[[lab]]
-              }, FUN.VALUE = character(1))
-
-
-              HeaderDATA2[[nextcol]] <- vals
-              rv_write_db(head = HeaderDATA2, save = SAVE, meta = metadata)
-
-            }
-
-
-            break
-          } else if (rs == "N") {
-
-            break
-          }
-
-        }
-        break
-
-      }
-
-    } ## add new species
-
+  releve[,-1] <- rele
+  return(releve)
 
   }
 
-}
 
 #' @keywords internal
 #' @noRd
@@ -368,20 +35,20 @@ rv_species_not_found <- function(bad_name, SpList, metadata, orig_SpList = NULL)
       code_name <- SpList[which(SpList$ShortName == bad_code),]$FullName
       if (length(code_name)>0) {
 
-      while(TRUE) {
+        while(TRUE) {
 
 
 
-        message(paste0("suggest from the original list:", bad_name, " -> ", code_name, " ? (Y/N)" ))
-        m <- toupper(readline("Accept? (Y/N)" ))
-        if (m == "N") {
-          break
+          message(paste0("suggest from the original list:", bad_name, " -> ", code_name, " ? (Y/N)" ))
+          m <- toupper(readline("Accept? (Y/N)" ))
+          if (m == "N") {
+            break
+          }
+          if (m == "Y" ) {
+            new_code <- SpList[which(SpList$FullName == code_name),]$ShortName
+            return(list(code = new_code, meta = metadata))
+          }
         }
-        if (m == "Y" ) {
-          new_code <- SpList[which(SpList$FullName == code_name),]$ShortName
-          return(list(code = new_code, meta = metadata))
-        }
-      }
 
 
       }
@@ -390,24 +57,24 @@ rv_species_not_found <- function(bad_name, SpList, metadata, orig_SpList = NULL)
     m <- toupper(readline("Seach with 3 letters + or (I)nsert new code:"))
 
     if (nchar(m) > 2) {
-        # Case-insensitive grep
-        hits <- SpList[grep(paste0("^",m), SpList$FullName, ignore.case = TRUE), ]
-        if (nrow(hits) == 0) {
-          message("No matches found.")
-        } else {
-          # Show hits with index numbers
-          print(hits[, c("ShortName", "FullName")])
+      # Case-insensitive grep
+      hits <- SpList[grep(paste0("^",m), SpList$FullName, ignore.case = TRUE), ]
+      if (nrow(hits) == 0) {
+        message("No matches found.")
+      } else {
+        # Show hits with index numbers
+        print(hits[, c("ShortName", "FullName")])
 
-          # Ask user to pick one
-          sel <- toupper(readline("Enter species shortcode to select: "))
-          if (sel %in% hits$ShortName) {
-            base_code <- sel
-            conf <- toupper(readline(paste0("Map '", bad_name, "' -> '", hits$FullName[which(hits$ShortName == sel)], "'? (Y/N): ")))
-            if (conf == "Y") {
-              return(list(code = base_code, meta = metadata))
-            }
+        # Ask user to pick one
+        sel <- toupper(readline("Enter species shortcode to select: "))
+        if (sel %in% hits$ShortName) {
+          base_code <- sel
+          conf <- toupper(readline(paste0("Map '", bad_name, "' -> '", hits$FullName[which(hits$ShortName == sel)], "'? (Y/N): ")))
+          if (conf == "Y") {
+            return(list(code = base_code, meta = metadata))
           }
         }
+      }
 
 
 
@@ -435,6 +102,313 @@ rv_species_not_found <- function(bad_name, SpList, metadata, orig_SpList = NULL)
     }
   }
 }
+
+
+#' @keywords internal
+#' @noRd
+rv_add_rel_new <- function(RelNew,nana,o) {
+  if (nana %in% RelNew$ShortName) {
+    RelNew[RelNew$ShortName == nana, 2] <- o
+  } else {
+    new_row <- RelNew[1, ]
+    is.na(new_row) <- TRUE
+
+    new_row$ShortName <- nana
+    new_row[, 2] <- o
+
+    RelNew <- rbind(RelNew, new_row)
+    RelNew <- RelNew[order(RelNew$ShortName), ]
+  }
+  rownames(RelNew) <- NULL
+  return(RelNew)
+}
+
+#' @keywords internal
+#' @noRd
+rv_ask_abundance <- function(scale) {
+  scale <- toupper(trimws(scale))
+
+  if (scale == "P") {
+    repeat {
+      x <- trimws(readline("Abundance?(%) "))
+      if (x == "") next
+      o <- suppressWarnings(as.numeric(x))
+      if (!is.na(o) && o >= 0 && o <= 100) return(o)
+    }
+  }
+
+  if (scale == "CS") {
+    repeat {
+      x <- trimws(readline("Abundance? "))
+      if (x == "") next
+      return(as.character(x))
+    }
+  }
+
+  if (scale %in% c("BB", "B")) {
+    bb <- rv_ask_choice(
+      "Abundance?(0,R,+,1,2,M,A,B,3,4,5) ",
+      c("0","R","+","1","2","M","A","B","3","4","5")
+    )
+    return(rv_bb_to_pct(bb))
+  }
+}
+
+#' @keywords internal
+#' @noRd
+rv_resolve_species_code <- function(code, SpLIST, metadata, RelNew = NULL) {
+
+  if (is.null(metadata$extra_spec) || is.na(metadata$extra_spec)) {
+    metadata$extra_spec <- ""
+  }
+
+  code <- toupper(trimws(code))
+
+  repeat {
+    chk <- SpLIST[SpLIST$ShortName == code, , drop = FALSE]
+
+    if (nrow(chk) == 0 || is.na(chk$FullName[1])) {
+      message("Species not found in the checklist")
+    } else {
+      print(chk$FullName[1])
+    }
+
+    ynf <- rv_ask_choice("CorrectName? (Y=accept / F=find) ", c("Y", "F"))
+
+    if (ynf == "Y") {
+      if (nrow(chk) > 0 && !is.na(chk$FullName[1])) {
+        return(list(code = code, SpLIST = SpLIST, metadata = metadata, RelNew = RelNew))
+      }
+      next
+    }
+
+    # -------- FIND ----------
+    repeat {
+      k <- rv_ask_text("SpeciesFirst3letters? (eg.Che) ", min_nchar = 3)
+
+      searchlist <- SpLIST[grep(paste0("^", k), SpLIST$FullName, ignore.case = TRUE), , drop = FALSE]
+      if (nrow(searchlist) == 0) {
+        message("No matches")
+      } else {
+        print(searchlist[order(searchlist$FullName), ])
+      }
+
+      repeat {
+        s <- rv_ask_text("SpeciesCode? (GenuSpe / SEARCH / INSERT) ",
+                         min_nchar = 1, allow_cmd = c("SEARCH", "INSERT"))
+        sU <- toupper(trimws(s))
+
+        if (sU == "SEARCH") break
+
+        if (sU == "INSERT") {
+
+          repeat {
+            sn <- rv_ask_text("Full species name?: ", min_nchar = 1)
+            if (rv_ask_choice(paste0(sn, ": correct? (Y/N) "), c("Y", "N")) == "Y") break
+          }
+
+          repeat {
+            sc <- toupper(rv_ask_text("ShortCode? (GenuSpe): ", min_nchar = 1))
+            if (nchar(sc) != 7) next
+            if (!rv_check_short_name(sc, SpLIST, metadata)) next
+
+            if (rv_ask_choice(paste0(sn, "; ", sc, "? (Y/N) "), c("Y", "N")) != "Y") next
+
+            SpLIST <- rbind(SpLIST, data.frame(ShortName = sc, FullName = sn, stringsAsFactors = FALSE))
+            metadata$extra_spec <- paste0(metadata$extra_spec, sn, "::", sc, "|")
+
+            if (!is.null(RelNew)) {
+              if (!any(RelNew$ShortName == sc)) {
+                RelNew <- rbind(RelNew, data.frame(ShortName = sc, value = 0, stringsAsFactors = FALSE))
+              }
+            }
+
+            print(sn)
+            return(list(code = sc, SpLIST = SpLIST, metadata = metadata, RelNew = RelNew))
+          }
+        }
+
+        if (nchar(sU) == 7) {
+          chk2 <- SpLIST[SpLIST$ShortName == sU, , drop = FALSE]
+          if (nrow(chk2) == 0 || is.na(chk2$FullName[1])) {
+            message("Species not found in the checklist")
+            next
+          }
+          print(chk2$FullName[1])
+
+          if (rv_ask_choice("Use this species? (Y/N) ", c("Y", "N")) == "Y") {
+            return(list(code = sU, SpLIST = SpLIST, metadata = metadata, RelNew = RelNew))
+          }
+          next
+        }
+
+        # otherwise invalid -> re-prompt
+      }
+    }
+  }
+}
+
+#' @keywords internal
+#' @noRd
+rv_ask_choice <- function(prompt, allowed) {
+  allowed <- toupper(allowed)
+  repeat {
+    x <- toupper(trimws(readline(prompt)))
+    if (x == "") next
+    if (x %in% allowed) return(x)
+  }
+}
+
+#' @keywords internal
+#' @noRd
+rv_ask_text <- function(prompt, min_nchar = 1, allow_cmd = character()) {
+  allow_cmd <- toupper(allow_cmd)
+  repeat {
+    x <- trimws(readline(prompt))
+    if (x == "") next
+    xU <- toupper(x)
+    if (xU %in% allow_cmd) return(xU)     # return command token (uppercase)
+    if (nchar(x) >= min_nchar) return(x)  # return trimmed text
+  }
+}
+
+#----- releve making --------
+
+#' Dialogue loop for writing releves, var 1 for classic, var 2 for batch
+#' @keywords internal
+#' @noRd
+rv_releve_dialogue <- function(SpLIST, RelNew, metadata, SAVE = NULL, HeaderDATA2 = NULL, variation = 1) {
+
+  out <- list()
+
+  if (variation == 1) {
+
+    repeat {
+      add_layer <- rv_ask_choice("AddNewLayer?(Y/N) ", c("Y","N"))
+
+      if (add_layer == "N") {
+        message("Species_richness")
+        print(nrow(RelNew[(RelNew[, 2] != 0), ]))
+        break
+      }
+
+      most <- rv_ask_choice("Select Layer (3,2,1,J,0) ", c("3","2","1","J","0"))
+      oo   <- rv_ask_choice("P - percentage, BB - Braun B. scale, CS - custom scale ",
+                            c("P","BB","B","CS"))
+
+      repeat {
+        m <- rv_ask_text("AddSpecies?(GenuSpe/N) ", allow_cmd = c("N"))
+        if (m == "N") break
+
+        n <- toupper(trimws(m))
+        if (nchar(n) != 7) next
+
+        o <- rv_ask_abundance(oo)
+        res <- rv_resolve_species_code(n, SpLIST, metadata, RelNew = RelNew)
+        n <- res$code
+        SpLIST <- res$SpLIST
+        metadata <- res$metadata
+        RelNew <- res$RelNew
+
+
+
+        nana <- paste(n, most, sep = "_")
+        RelNew <- rv_add_rel_new(RelNew, nana, o)
+        print(RelNew[(RelNew[, 2] > 0), ])
+      }
+    }
+
+    out$RelNew <- RelNew
+    out$SpLIST <- SpLIST
+    out$meta <- metadata
+    return(out)
+  }
+
+  if (variation == 2) {
+
+    repeat {
+      x <- rv_ask_text("How many releves? ")
+      m <- suppressWarnings(as.numeric(x))
+      if (!is.na(m) && m > 0) break
+    }
+
+    Rels <- list()
+    DATAtemp <- rv_read_db(SAVE)$RelDATA
+    for (i in 1:m) {
+      Rels[[paste0("r", i)]] <- data.frame(ShortName = character(0),
+                                           value = character(0),
+                                           stringsAsFactors = FALSE)
+    }
+
+    oo <- rv_ask_choice("P - percentage, BB - Braun B. scale, CS - custom scale ",
+                        c("P","BB","B","CS"))
+
+    repeat {
+      x <- rv_ask_text("Add new species (GenuSpe)/N?  ", min_nchar = 1, allow_cmd = c("N"))
+
+      if (x == "N") {
+        rs <- rv_ask_choice("Add headers?(Y/N) ", c("Y","N"))
+        if (rs == "Y") {
+          for (i in 1:m) {
+            message(paste0("Relev\u00e9 ", i))
+
+            k <- rv_existing_k(HeaderDATA2)
+            nextcol <- paste0("X", k + 1L)
+            lastcol <- rv_last_x_col(HeaderDATA2)
+
+            FIELD_LABELS <- rv_schema_from_head(HeaderDATA2)
+
+            non_id <- rv_prompt_header_values(FIELD_LABELS, HeaderDATA2, prev_col = lastcol, skip = "ID")
+            id_val <- as.character(k + 1L)
+
+            vals <- vapply(FIELD_LABELS, function(lab) {
+              if (tolower(lab) == "id") id_val else non_id[[lab]]
+            }, FUN.VALUE = character(1))
+
+            HeaderDATA2[[nextcol]] <- vals
+            rv_write_db(head = HeaderDATA2, save = SAVE, meta = metadata)
+          }
+        }
+        break
+      }
+
+      n <- toupper(trimws(x))
+      if (nchar(n) != 7) next
+
+      l <- rv_ask_choice("Select Layer (3,2,1,J,0) ", c("3","2","1","J","0"))
+
+      res <- rv_resolve_species_code(n, SpLIST, metadata, RelNew = NULL)
+      n <- res$code
+      SpLIST <- res$SpLIST
+      metadata <- res$metadata
+
+      nana <- paste(n, l, sep = "_")
+
+      for (i in 1:m) {
+        message(paste0("Relev\u00e9 ", i))
+        o <- rv_ask_abundance(oo)
+
+        Rels[[paste0("r", i)]] <- rv_add_rel_new(Rels[[paste0("r", i)]], nana, o)
+        print(Rels[[paste0("r", i)]][(Rels[[paste0("r", i)]][, 2] > 0), ])
+      }
+
+      DATA2 <- rv_create_table(Rels, DATAtemp, variation = 2)
+      print(DATA2)
+      colnames(DATA2)[-1] <- paste0("X", 1:(length(colnames(DATA2)) - 1))
+
+      # persist rel + updated meta (incl. inserts)
+      rv_write_db(rel = DATA2, save = SAVE, meta = metadata)
+    }
+
+    out$SpLIST <- SpLIST
+    out$meta <- metadata
+    out$HeaderDATA2 <- HeaderDATA2
+    return(out)
+  }
+
+  stop("Unknown variation.")
+}
+
 
 #----- Reading & Writing ------------
 
@@ -478,9 +452,9 @@ rv_write_metadata <- function(meta,con) {
 rv_get_checklist <- function(checklist) {
 
   if (checklist %in% c("default","cz_dh2012")) {
-    checklist <- system.file("extdata","cz_dh2012.txt", package="Rveg",mustWork = TRUE)
-  } else if (checklist %in% c("wcvp_por","wcvp_que")) {
-    checklist <- system.file("extdata",paste0(checklist,".txt"),package="Rveg",mustWork = TRUE)
+    checklist <- system.file("extdata",paste0("/RvChecklist/","cz_dh2012.txt"), package="Rveg",mustWork = TRUE)
+  } else if (checklist %in% c("wcvp_por","wcvp_que", "cz_kaplan2019")) {
+    checklist <- system.file("extdata",paste0("/RvChecklist/",checklist,".txt"),package="Rveg",mustWork = TRUE)
   } else if (checklist %in% c("Czechia_slovakia_2015")) {
     checklist <- system.file("extdata",paste0("/TvChecklist/",checklist,".txt"),package="Rveg",mustWork = TRUE)
     }
@@ -511,7 +485,7 @@ rv_create_new_db <- function(save, labs, checklist, meta) {
 
   close(con)
 
-  con <- file(paste0(save, "REL.csv"), open = "wt", , encoding = "UTF-8")
+  con <- file(paste0(save, "REL.csv"), open = "wt", encoding = "UTF-8")
 
   for (k in names(meta)) {
     v <- if (is.null(meta[[k]])) "" else as.character(meta[[k]])
@@ -555,12 +529,12 @@ rv_read_db <- function(save) {
 
   HeaderDATA <- utils::read.table(
     paste0(save,"HEAD.csv"), sep = ",", header = TRUE, quote = "\"", comment.char = "#",
-    stringsAsFactors = FALSE, check.names = FALSE
+    stringsAsFactors = FALSE, check.names = FALSE, colClasses = "character"
   )
 
   RelDATA <- utils::read.table(
     paste0(save,"REL.csv"), sep = ",", header = TRUE, quote = "\"", comment.char = "#",
-    stringsAsFactors = FALSE, check.names = FALSE
+    stringsAsFactors = FALSE, check.names = FALSE, colClasses = "character"
   )
 
   abc <- list(HeaderDATA = HeaderDATA, RelDATA = RelDATA, meta = meta)
@@ -693,7 +667,7 @@ rv_status_banner <- function(checklist_path, database_label, save_dir, rel_count
   cat(rv_col(paste0("Database: ", normalizePath(save_dir, winslash = "/", mustWork = FALSE), "; "), "info"))
 
   same <- isTRUE(rel_count == head_count)
-  cat(rv_col(sprintf("Relev\u00e9s: %d; Headers: %d", rel_count, head_count), if (same) "ok" else "error"))
+  cat(rv_col(sprintf("Relev\u00e9s: %d; Headers: %d", rel_count, head_count), if (same) "ok" else "err"))
 }
 
 #' Prompt for all labels except ID; reuse previous if user types "RE".
@@ -730,13 +704,11 @@ rv_create_table <- function(RelNew, DATA2 = NULL, variation = 1) {
     RelNew_list <- list(RelNew)
   } else if (variation == 2) {
     RelNew_list <- RelNew
-  } else {
-    stop("Variation must be 1 or 2")
   }
 
   # Filter out 0 values immediately
   RelNew_list <- lapply(RelNew_list, function(df) {
-    df[df$value != 0, , drop = FALSE]
+    df[df$value != "0", , drop = FALSE]
   })
 
   # --- 2. Build Master Species List ---
@@ -790,7 +762,8 @@ rv_create_table <- function(RelNew, DATA2 = NULL, variation = 1) {
   # Rename columns sequentially 1, 2, 3...
   # Excluding the first column (ShortName)
   total_data_cols <- ncol(base) - 1
-  names(base)[-1] <- as.character(seq_len(total_data_cols))
+  #names(base)[-1] <- as.character(seq_len(total_data_cols))
+  names(base)[-1] <- paste0("X", seq_len(total_data_cols))
 
   # --- 5. SORTING (Happens LAST to guarantee order) ---
 
@@ -812,34 +785,14 @@ rv_create_table <- function(RelNew, DATA2 = NULL, variation = 1) {
   return(base)
 }
 
-
-#' Make SP list from checklist & metadata extra species
 #' @keywords internal
 #' @noRd
-rv_make_sp_list <- function(checklist, metadata, layers = c("3","2","1","J","0")) {
+rv_make_sp_list <- function(checklist, metadata) {
   Sp <- read.delim(checklist, sep = "\t", stringsAsFactors = FALSE, check.names = FALSE)
-
-  # Require canonical column names
-  stopifnot(all(c("ShortName", "FullName") %in% names(Sp)))
-
-  # Keep only what we need; ignore any 'Number' (or anything else)
   Sp <- Sp[, c("ShortName", "FullName")]
-
-  # Drop blank/NA short names
   Sp <- Sp[!is.na(Sp$ShortName) & nzchar(Sp$ShortName), , drop = FALSE]
 
-  # Build layered keys: ShortName_<layer>
-  out <- do.call(
-    rbind,
-    lapply(layers, function(L) {
-      data.frame(
-        ShortName = paste0(Sp$ShortName, "_", L),
-        FullName  = Sp$FullName,
-        stringsAsFactors = FALSE
-      )
-    })
-  )
-
+  out <- Sp
 
   # parse "LONG::SHORT" securely
   md <- metadata$extra_spec
@@ -857,17 +810,8 @@ rv_make_sp_list <- function(checklist, metadata, layers = c("3","2","1","J","0")
       short <- vapply(parts, function(p) if (length(p) >= 2) trimws(p[2]) else NA_character_,
                       "", USE.NAMES = FALSE)
 
-      # expand to ShortName_base + "_" + layer, replicate FullName
-      meta_out <- do.call(
-        rbind,
-        lapply(seq_along(long), function(i)
-          data.frame(
-            ShortName = paste0(short[i], "_", layers),
-            FullName  = rep(long[i], length(layers)),
-            stringsAsFactors = FALSE
-          )
-        )
-      )
+      meta_out <- data.frame(FullName = long,
+                             ShortName = short)
 
       out <- rbind(out, meta_out)
     }
@@ -1000,11 +944,20 @@ rv_last_x_col <- function(df) {
 #' @keywords internal
 #' @noRd
 rv_check_short_name <- function(code, checklist, meta) {
-  if (code %in% checklist$ShortName | code %in% meta$extra_spec) {
-    FALSE
-  } else {
-    TRUE
+  code <- toupper(trimws(code))
+  in_chk <- code %in% toupper(checklist$ShortName)
+
+  extra_codes <- character(0)
+  md <- meta$extra_spec
+  if (!is.null(md) && nzchar(trimws(md))) {
+    items <- strsplit(md, "|", fixed = TRUE)[[1]]
+    items <- items[nzchar(items)]
+    parts <- strsplit(items, "::", fixed = TRUE)
+    extra_codes <- toupper(vapply(parts, function(p) if (length(p) >= 2) trimws(p[2]) else "", ""))
+    extra_codes <- extra_codes[nzchar(extra_codes)]
   }
+
+  !(in_chk || code %in% extra_codes)
 }
 
 # pochybne funkce?
@@ -1042,7 +995,6 @@ rv_bind_rows <- function(df_list) {
 .onAttach <- function(libname, pkgname) {
   # Get the current version dynamically
   pkg_version <- utils::packageVersion("Rveg")
-
-  packageStartupMessage(paste0("Welcome to Rveg (version ", pkg_version, ")!"))
+  packageStartupMessage(rv_col(paste0("Welcome to Rveg (version ", pkg_version, ")!"),"ok"))
   packageStartupMessage("Detailed guide (v0.1.6): `vignette('Rveg')`, Updates: `news(package = 'Rveg')`")
 }

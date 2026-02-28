@@ -1,6 +1,6 @@
 Package: Rveg
 Title: Digitization of Phytosociological Relevés
-Version: 0.1.7
+Version: 0.1.8
 Authors@R: c( 
     person("Přemysl", "Král", , "kralp@fzp.czu.cz", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-2887-651X")),
@@ -23,5 +23,6 @@ Imports:
 Suggests: 
     knitr,
     rmarkdown,
-    rWCVP
+    rWCVP,
+    rWCVPdata
 VignetteBuilder: knitr

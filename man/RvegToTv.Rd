@@ -45,8 +45,7 @@ by the \code{ver} parameter:
 \examples{
 # Example: Exporting the built-in Rveg database to Turboveg v3 format
 RvegToTv(
-  database = system.file("extdata", "example_db", package = "Rveg"),
-  export = file.path(tempdir(), "tv_export"),
+  database = file.path(path.package("Rveg"), "extdata/ExampleDB", "example_1"),
   ver = 3
 )
 

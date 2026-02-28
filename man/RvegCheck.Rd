@@ -42,8 +42,7 @@ header schema.
 if (interactive()) {
   # Inspect the built-in example database
   RvegCheck(
-    database = system.file("extdata", "example_db", package = "Rveg"),
-    export = file.path(tempdir(), "checked_db")
+    database = file.path(path.package("Rveg"), "extdata/ExampleDB", "example_1")
   )
 }
 

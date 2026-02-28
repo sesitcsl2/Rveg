@@ -43,10 +43,9 @@ During the import process, the function operates interactively:
 }
 \examples{
 if (interactive()) {
-  # Example: Importing a Turboveg CSV export
+  # Example: Importing a Turboveg CSV export (or use tvexport.xml)
   TvToRveg(
-    tv = system.file("extdata", "tvexport.csv", package = "Rveg"),
-    export = file.path(tempdir(), "imported_tv_db"),
+    tv = file.path(path.package("Rveg"), "extdata/ExampleDB", "tvexport.csv"),
     Rveglayers = TRUE
   )
 }

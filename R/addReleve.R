@@ -13,7 +13,7 @@
 #' @param save Character. The output path and name where the resulting database
 #' files (`*HEAD.csv` and `*REL.csv`) will be exported. Defaults to a temporary directory.
 #' @param checklist Character. The species checklist to use. Can be a built-in
-#' checklist (at this moment: `cz_dh2012`, `Czechia_slovakia_2015`, `wcvp_que`,
+#' checklist (atm: `cz_dh2012`, `Czechia_slovakia_2015`, `cz_kaplan2019`, `wcvp_que`,
 #' `wcvp_por`) or a file path to a custom `txt` checklist. Default use `cz_dh2012`.
 #' see function \code{\link{CreateChecklist}}.
 #' @param customhead Character vector. A vector of strings defining completely
@@ -26,7 +26,7 @@
 #' a `"NEW"` database and immediately prompts the user to digitize the first relevé.
 #'
 #' @return Writes two linked CSV files (Rveg database) to the location specified by `save`: one
-#' containing the relev\u00e9 species data (`*REL.csv`) and one containing the header data (`*HEAD.csv`).
+#' containing the relevé species data (`*REL.csv`) and one containing the header data (`*HEAD.csv`).
 #'
 #' @examples
 #' if (interactive()) {
@@ -51,15 +51,7 @@ addReleve <- function(database = "NEW", save = "default", checklist = "default",
 
   if (database == "NEW") {
 
-    #
     checklist <- rv_get_checklist(checklist)
-
-    # # Built in checklists
-    # if (checklist == "default") {
-    #   checklist <- system.file("extdata","cz_dh2012.txt", package="Rveg",mustWork = TRUE)
-    # } else if (checklist %in% c("wcvp_por","wcvp_que", "/TvChecklist/Czechia_slovakia_2015")) {
-    #   checklist <- system.file("extdata",paste0(checklist,".txt"),package="Rveg",mustWork = TRUE)
-    # }
 
     # extra | custom fields
     labs <- if (is.null(customhead)) rv_default_header_fields()
@@ -74,14 +66,11 @@ addReleve <- function(database = "NEW", save = "default", checklist = "default",
     db <- rv_read_db(database)
     DATA <- db$RelDATA; HeaderDATA <- db$HeaderDATA; metadata <- db$meta
 
-    checklist <- db$meta$checklist # ignore checklists prompt on existing
-    checklist <- rv_get_checklist(checklist)
+    meta_checklist <- db$meta$checklist # ignore checklists prompt on existing
+    if (file.exists(rv_get_checklist(meta_checklist))) {
+      checklist <- rv_get_checklist(meta_checklist)
+    }
 
-    # if (checklist == "default") {
-    #   checklist <- system.file("extdata","cz_dh2012.txt", package="Rveg",mustWork = TRUE)
-    # } else if (checklist %in% c("wcvp_por","wcvp_que","cz_dh2012")) {
-    #   checklist <- system.file("extdata",paste0(checklist,".txt"),package="Rveg",mustWork = TRUE)
-    # }
 
     # ensure ID row exists & is first
     if (!any(tolower(HeaderDATA$ShortName) == "id")) {
@@ -98,20 +87,19 @@ addReleve <- function(database = "NEW", save = "default", checklist = "default",
 
     rv_write_db(DATA, HeaderDATA, save, metadata)
 
-    }
+  }
 
-  FIELD_LABELS <- rv_schema_from_head(HeaderDATA)   # includes "ID" first
+  FIELD_LABELS <- rv_schema_from_head(HeaderDATA) # includes "ID" first
 
-  SpLIST1 <- read.delim(checklist, sep = "\t")
-  #SpLIST <- rv_create_table(checklist, metadata) # creating Species checklist
-  SpLIST <- read.delim(checklist, sep = "\t")
+  SpLIST <- rv_make_sp_list(checklist,db$meta)
 
 
   # WORKFLOW  ------------------------------------------------------------------------------------------
 
   while (TRUE) {
 
-    db <- rv_read_db(save); DATA2 <- db$RelDATA; HeaderDATA2 <- db$HeaderDATA
+    db <- rv_read_db(save)
+    DATA2 <- db$RelDATA; HeaderDATA2 <- db$HeaderDATA; metadata <- db$meta
 
     if (database == "NEW"  & isTRUE(start)) {
 
@@ -169,7 +157,13 @@ addReleve <- function(database = "NEW", save = "default", checklist = "default",
         lastcol <- rv_last_x_col(HeaderDATA2)
 
         non_id <- rv_prompt_header_values(FIELD_LABELS, HeaderDATA2, prev_col = lastcol, skip = "ID")
-        last_id <- as.numeric(HeaderDATA2[[lastcol]][1])
+
+        if (is.null(lastcol)) {
+          last_id <- 0
+        } else {
+          last_id <- as.numeric(HeaderDATA2[[lastcol]][1])
+        }
+
         id_val <- as.character(last_id + 1L)
 
         vals <- vapply(FIELD_LABELS, function(lab) {
@@ -177,10 +171,8 @@ addReleve <- function(database = "NEW", save = "default", checklist = "default",
         }, FUN.VALUE = character(1))
 
 
-        HeaderDATA2[[nextcol]] <- vals
+        HeaderDATA2[[nextcol]] <- as.character(vals)
         rv_write_db(head = HeaderDATA2, save = save, meta = metadata)
-
-        #RelNew <- data.frame(ShortName = SpLIST$ShortName, value = 0, stringsAsFactors = FALSE)
         RelNew <- data.frame(ShortName = character(0),
                              value = character(0), stringsAsFactors = FALSE)
       }
@@ -195,7 +187,7 @@ addReleve <- function(database = "NEW", save = "default", checklist = "default",
           n <- as.numeric(readline("ReleveNumber? ")) # releve to repair
           if (is.na(n) != TRUE) {
             HeaderDATA3 <- rv_read_db(save)$HeaderDATA
-            print(HeaderDATA3[, n + 1])
+            print(HeaderDATA3[,c(1, n + 1)])
             tt <- toupper(readline("CorrectNumber?(Y/N) ")) # double check
             if (tt == "Y") {
               break
@@ -203,16 +195,11 @@ addReleve <- function(database = "NEW", save = "default", checklist = "default",
           }
         }
 
-        ID <- n + 1
-        #RelNew <- data.frame(ShortName = SpLIST$ShortName, value = 0)
-        RelNew <- data.frame(ShortName = character(0),
-                             value = character(0), stringsAsFactors = FALSE)
-
-        #RelNew <- RelNew[order(RelNew[, 1]), ] #
-        DATA2 <- DATA2[order(DATA2[, 1]), ] # testing the shortname ordering
-        RelNew[RelNew[, 1] %in% DATA2[, 1], ][, 2] <- DATA2[, ID]
-        TABLEexp <- RelNew[RelNew[, 2] > 0, ]
-        colnames(TABLEexp) <- c("ShortNames", "Cover")
+        ID <- n + 1 # identifikace snimku
+        RelNew <- DATA2[, c(1,ID)]
+        TABLEexp <- RelNew[RelNew[, 2] != 0, ]
+        colnames(RelNew) <- c("ShortName", "value")
+        colnames(TABLEexp) <- c("ShortName", "Cover")
         print(TABLEexp)
       }
 
@@ -220,11 +207,10 @@ addReleve <- function(database = "NEW", save = "default", checklist = "default",
         #RelNew <- data.frame(ShortName = SpLIST$ShortName, value = 0, stringsAsFactors = FALSE)
         RelNew <- data.frame(ShortName = character(0),
                              value = character(0), stringsAsFactors = FALSE)
-        }
+      }
 
-      #Rel_list <- rv_releve_dialogue(SpLIST,SpLIST1,RelNew,metadata)
       Rel_list <- rv_releve_dialogue(SpLIST,RelNew,metadata)
-      RelNew <- Rel_list$RelNew; SpLIST <- Rel_list$SpLIST; SpLIST1 <- Rel_list$SpLIST1; metadata <- Rel_list$meta
+      RelNew <- Rel_list$RelNew; SpLIST <- Rel_list$SpLIST; metadata <- Rel_list$meta
 
       if (aa == "NEW" | !isTRUE(start)) {
         start = TRUE
@@ -234,20 +220,18 @@ addReleve <- function(database = "NEW", save = "default", checklist = "default",
       if (aa == "Y" | aa == "ADDREL" | aa == "NEW") {
         DATA2 <- rv_read_db(save)$RelDATA
         DATA2 <- rv_create_table(RelNew, DATA2)
-        rv_write_db(rel = DATA2, save = save, meta = metadata)
+        rv_write_db(head = HeaderDATA2, rel = DATA2, save = save, meta = metadata)
       }
 
       if (aa == "RREL") {
         DATA2 <- rv_read_db(save)$RelDATA
+
         DATA2 <- rv_create_table(RelNew, DATA2)
-
-        colnames(DATA2)[length(colnames(DATA2))] <- paste0("X",ID - 1) #rename new col
-        DATA2[, c(ID)] <- DATA2[,ncol(DATA2)] #replace old col
-        DATA2 <- DATA2[, -ncol(DATA2)] #remove new col
-        #colnames(DATA2)[length(colnames(DATA2))] <- ID - 1
-        #DATA2 <- DATA2[, c(colnames(DATA2)[1], 1:(length(colnames(DATA2)) - 1))]
-
-        rv_write_db(rel = DATA2,save = save,meta = metadata)
+        target <- paste0("X", n)                 # n is the relevé number
+        newvals <- DATA2[[ncol(DATA2)]]
+        DATA2[[target]] <- newvals
+        DATA2[[ncol(DATA2)]] <- NULL
+        rv_write_db(rel = DATA2, head = HeaderDATA2, save = save, meta = metadata)  # see issue #1
       }
 
     }
@@ -357,8 +341,10 @@ addReleve <- function(database = "NEW", save = "default", checklist = "default",
 
     if (aa == "YSP" & ncol(DATA2) == ncol(HeaderDATA2)) {
 
-      rv_releve_dialogue(SpLIST, RelNew, metadata, save, HeaderDATA2, variation = 2)
-
+      res <- rv_releve_dialogue(SpLIST, RelNew, metadata, save, HeaderDATA2, variation = 2)
+      SpLIST <- res$SpLIST
+      metadata <- res$meta
+      HeaderDATA2 <- res$HeaderDATA2
     }
 
     if (aa == "ADDHEAD") {
@@ -383,7 +369,7 @@ addReleve <- function(database = "NEW", save = "default", checklist = "default",
       HeaderDATA2[[nextcol]] <- vals
       rv_write_db(head = HeaderDATA2, save = save, meta = metadata)
 
-      }
+    }
 
     if (aa == "N" | aa == "Q") {
       # the script ends, database is saved

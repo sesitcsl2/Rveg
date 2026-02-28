@@ -1,0 +1,31 @@
+# project_name: 
+# project_description: 
+# n_releves: 3
+# checklist: cz_kaplan2019
+# rveg_version: 0.1.7
+# extra_spec: Imaginary speciesone::IMAGSPE|Imaginary speciestwo::IMAGSPT|
+# created: 2026-02-28 11:20:17
+# last_change: 2026-02-28 11:47:37
+# db_id: 52e9-d3d9-d730
+"ShortName","X1","X2","X3"
+"ID","1","2","3"
+"DATE","2022","2022","2022"
+"SpringDATE","","",""
+"LOCALITY","CB","CB","CB"
+"FieldCODE","1","2","3"
+"Authors","PK","PK","PK"
+"PlotSize","200","200","200"
+"Latitude","","",""
+"Longitude","","",""
+"Accuracy","","",""
+"CRS","","",""
+"Slope","","",""
+"Exposure","","",""
+"E3","80","65",""
+"E2","5","0",""
+"E1","65","85",""
+"Ejuv","","",""
+"E0","","",""
+"Note","","",""
+"extraheader_char","","test",""
+"extraheader_char_2","","","test2"
