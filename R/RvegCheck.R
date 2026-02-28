@@ -63,7 +63,7 @@ RvegCheck <- function(database, export = "export", checklist = "default") {
 
   # project name
   if (nzchar(db$meta$project_name)) {
-    message(paste0("Project: ", db$meta$project_name))
+    message(rv_col(paste0("Project: ", db$meta$project_name),"info"))
   } else {
     v <- readline("No project name found. Enter? (Y/N) ")
     if(toupper(v) %in% c("Y","YES"))
@@ -72,7 +72,7 @@ RvegCheck <- function(database, export = "export", checklist = "default") {
 
   # project info
   if (nzchar(db$meta$project_description)) {
-    message(paste0("Project info: ", metadata$project_description))
+    message(rv_col(paste0("Project info: ", metadata$project_description),"info"))
   } else {
     v <- readline("No project info found. Enter? (Y/N) ")
     if(toupper(v) %in% c("Y","YES"))
@@ -80,10 +80,10 @@ RvegCheck <- function(database, export = "export", checklist = "default") {
     }
 
   # project id
-  message(paste0("id: ",metadata$db_id))
+  message(rv_col(paste0("id: ",metadata$db_id),"info"))
 
   # Rveg version
-  message(paste0("Rveg built version: ", metadata$rveg_version))
+  message(rv_col(paste0("Rveg built version: ", metadata$rveg_version),"info"))
 
   # Extra species
   if (nzchar(metadata$extra)) {
@@ -102,8 +102,8 @@ RvegCheck <- function(database, export = "export", checklist = "default") {
     }
 
   # Creation
-  message(paste0("Database created: ", metadata$created))
-  message(paste0("Last change: ",metadata$last_change))
+  message(rv_col(paste0("Database created: ", metadata$created),"info"))
+  message(rv_col(paste0("Last change: ",metadata$last_change),"info"))
 
   # export
   rv_write_db(rel = DATA,head = HeaderDATA,meta = metadata,save = export)

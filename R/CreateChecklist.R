@@ -406,6 +406,6 @@ CreateChecklist <- function(specieslist, export = "export") {
     quote = FALSE, row.names = FALSE, fileEncoding = "UTF-8"
   )
 
-  message("Checklist written: ", out_file)
+  message(rv_col(paste0("Checklist written: ", out_file),"info"))
   invisible(out)
 }

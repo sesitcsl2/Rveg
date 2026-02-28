@@ -36,7 +36,7 @@
 #' @export
 
 RvegCombine <- function(database, export = "export", checklist = "default") {
-  message("Only call this function on databases with percentage cover, if you have different scales, call RvegCheck first.")
+  message(rv_col("Only call this function on databases with percentage cover, if you have different scales, call RvegCheck first.","warn"))
   if (export == "export") {
     export <- file.path(tempdir(), "export")
   }
@@ -77,7 +77,7 @@ RvegCombine <- function(database, export = "export", checklist = "default") {
           break
 
         } else {
-          message("wrong layers input")
+          message(rv_col("wrong layers input","err"))
         }
       }
     } else if (a == "SPEC") {
@@ -87,7 +87,7 @@ RvegCombine <- function(database, export = "export", checklist = "default") {
         if (nchar(b) == 9 & nchar(c) == 9) {
 
           if (!(b %in% DATA$ShortName) || !(c %in% DATA$ShortName)) {
-            message("One or both species not found in data. Please try again.")
+            message(rv_col("One or both species not found in data. Please try again.","warn"))
             next
           }
 

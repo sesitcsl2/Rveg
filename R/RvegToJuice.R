@@ -412,7 +412,7 @@ TvToRveg <- function(tv, export = "export", checklist = "default", Rveglayers = 
 
   # --- Interactive Resolution Loop ---
   if (length(unknown_species) > 0) {
-    message(paste("Found", length(unknown_species), "unknown species."))
+    message(rv_col(paste("Found", length(unknown_species), "unknown species."),"warn"))
 
     for (bad_name in unknown_species) {
 

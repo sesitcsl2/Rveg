@@ -11,8 +11,7 @@ addReleve(
   checklist = "default",
   customhead = NULL,
   extrahead = NULL,
-  metadata = NULL,
-  start = TRUE
+  metadata = NULL
 )
 }
 \arguments{
@@ -35,9 +34,6 @@ end of the default or existing header schema.}
 
 \item{metadata}{Character vector of length 2. Used to store the Project Title
 and Project Description (e.g., \code{c("Alpine Flora", "Summer 2024 survey")}).}
-
-\item{start}{Logical. If \code{TRUE}, the function skips the main menu upon creating
-a \code{"NEW"} database and immediately prompts the user to digitize the first relevé.}
 }
 \value{
 Writes two linked CSV files (Rveg database) to the location specified by \code{save}: one
@@ -48,6 +44,9 @@ The core interactive function of the \code{Rveg} package. \code{addReleve()} lau
 console-based menu system that allows users to create new vegetation databases,
 digitize new relevés, and edit existing ones. It seamlessly manages both the
 species composition data (REL) and the environmental plot header data (HEAD).
+Parameter \code{start} was removed.
+
+\emph{For list of commands in addReleve menu prompt \code{help} or \verb{?}}
 }
 \examples{
 if (interactive()) {

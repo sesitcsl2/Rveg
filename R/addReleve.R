@@ -7,6 +7,9 @@
 #' console-based menu system that allows users to create new vegetation databases,
 #' digitize new relevés, and edit existing ones. It seamlessly manages both the
 #' species composition data (REL) and the environmental plot header data (HEAD).
+#' Parameter `start` was removed.
+#'
+#' *For list of commands in addReleve menu prompt `help` or `?`*
 #'
 #' @param database Character. The path and name of an existing Rveg database
 #' (e.g., `"path/to/my_db"`). Defaults to `"NEW"` which creates a fresh database.
@@ -22,8 +25,6 @@
 #' end of the default or existing header schema.
 #' @param metadata Character vector of length 2. Used to store the Project Title
 #' and Project Description (e.g., `c("Alpine Flora", "Summer 2024 survey")`).
-#' @param start Logical. If `TRUE`, the function skips the main menu upon creating
-#' a `"NEW"` database and immediately prompts the user to digitize the first relevé.
 #'
 #' @return Writes two linked CSV files (Rveg database) to the location specified by `save`: one
 #' containing the relevé species data (`*REL.csv`) and one containing the header data (`*HEAD.csv`).
@@ -41,7 +42,10 @@
 #' @export
 
 addReleve <- function(database = "NEW", save = "default", checklist = "default",
-                      customhead = NULL, extrahead = NULL, metadata = NULL, start = TRUE) {
+                      customhead = NULL, extrahead = NULL, metadata = NULL) {
+
+  message(rv_col("For list of commands in addReleve menu prompt `help` or `?`", "ok"))
+  message(rv_col("Write first releve with `Y`"))
 
   # LOAD DATA ------------------------------------------------------------------------------------------
 
@@ -101,52 +105,23 @@ addReleve <- function(database = "NEW", save = "default", checklist = "default",
     db <- rv_read_db(save)
     DATA2 <- db$RelDATA; HeaderDATA2 <- db$HeaderDATA; metadata <- db$meta
 
-    if (database == "NEW"  & isTRUE(start)) {
 
-      Header <- data.frame(ShortName = FIELD_LABELS, stringsAsFactors = FALSE)
-      #RelNew <- data.frame(ShortName = SpLIST$ShortName, stringsAsFactors = FALSE)
-      #RelNew$value <- 0
-      RelNew <- data.frame(ShortName = character(0),
-                           value = character(0), stringsAsFactors = FALSE)
+    rel_count  <- max(0L, ncol(DATA2)       - 1L)
+    head_count <- max(0L, ncol(HeaderDATA2) - 1L)
 
-
-      lastcol <- NULL     # NULL for brand-new
-      non_id  <- rv_prompt_header_values(FIELD_LABELS, HeaderDATA2, prev_col = lastcol, skip = "ID")
-      id_val  <- "1"
-
-      # assemble in stored order
-      vals <- vapply(FIELD_LABELS, function(lab) {
-        if (tolower(lab) == "id") id_val else non_id[[lab]]
-      }, FUN.VALUE = character(1))
-
-      HeaderDATA2$X1 <- vals
-
-      rv_write_db(head = HeaderDATA2, save = save, meta = metadata)
-
-      aa <- "NEW" # menu options
-      database <- "" # leave NEW node
-
-    } else {
-
-      rel_count  <- max(0L, ncol(DATA2)       - 1L)
-      head_count <- max(0L, ncol(HeaderDATA2) - 1L)
-
-
-      if(get0("aa",ifnotfound = NA_character_) %in% c("Y","ADDREL","ADDHEAD","RREL","RHEAD","YSP","INFO",
+    if (get0("aa", ifnotfound = NA_character_) %in% c("Y","ADDREL","ADDHEAD","RREL","RHEAD","YSP","INFO",
                                                       "REMOVEHEAD","REMOVEREL","NEW")) {
-        rv_status_banner(checklist, database, save, rel_count, head_count, metadata)
-      }
+      rv_status_banner(checklist, database, save, rel_count, head_count, metadata)
+    }
 
-      aa <- toupper(readline("$Rveg: "))
-      if (aa %in% c("H", "HELP", "?")) {
-        rv_print_help()
-        next
-      }
-
+    aa <- toupper(readline("$Rveg: "))
+    if (aa %in% c("H", "HELP", "?")) {
+      rv_print_help()
+      next
     }
 
     if ((aa == "Y" | aa == "YSP") & ncol(DATA2) != ncol(HeaderDATA2)) {
-      message("Number of relev\u00e9s:s and headers must match!!!")
+      message(rv_col("Number of relev\u00e9s:s and headers must match!!!","err"))
     } ## warning for mismatch
 
     if (aa == "NEW" | aa == "RREL" | (aa == "Y" & ncol(DATA2) == ncol(HeaderDATA2)) | aa == "ADDREL") {
@@ -212,11 +187,6 @@ addReleve <- function(database = "NEW", save = "default", checklist = "default",
       Rel_list <- rv_releve_dialogue(SpLIST,RelNew,metadata)
       RelNew <- Rel_list$RelNew; SpLIST <- Rel_list$SpLIST; metadata <- Rel_list$meta
 
-      if (aa == "NEW" | !isTRUE(start)) {
-        start = TRUE
-        database = ""
-      }
-
       if (aa == "Y" | aa == "ADDREL" | aa == "NEW") {
         DATA2 <- rv_read_db(save)$RelDATA
         DATA2 <- rv_create_table(RelNew, DATA2)
@@ -259,28 +229,28 @@ addReleve <- function(database = "NEW", save = "default", checklist = "default",
       # choose relevé
       repeat {
         n <- suppressWarnings(as.integer(readline("ReleveNumber? ")))
-        if (is.na(n) || n < 1) { cat("Please enter a positive integer.\n"); next }
+        if (is.na(n) || n < 1) { cat(rv_col("Please enter a positive integer.\n","warn")); next }
         target <- paste0("X", n)
-        if (!target %in% releve_cols) { cat("No such column: ", target, "\n", sep = ""); next }
+        if (!target %in% releve_cols) { cat(rv_col(paste0("No such column: ", target, "\n"), "warn")); next }
         print(HeaderDATA2[, c("ShortName",target), drop = FALSE])
         if (toupper(readline("CorrectColumn?(Y/N) ")) == "Y") break
       }
 
       mode <- toupper(readline("Repair mode: (S)ingle field / (R)efill all / (C)ancel ? "))
       if (mode == "C") {
-        cat("Canceled.\n")
+        cat(rv_col("Canceled.\n","warn"))
       }
 
       if (mode == "S") {
         fields <- HeaderDATA2[["ShortName"]]
         repeat {
-          cat("Available fields:\n"); print(fields)
+          cat(rv_col("Available fields:\n","ok")); print(fields)
           l <- readline("HeaderCharacteristic to repair? ")
           if (!nzchar(l)) next
           idx <- pmatch(l, fields, duplicates.ok = TRUE)
           idx <- idx[!is.na(idx)]
-          if (!length(idx)) { cat("No match. Try again.\n"); next }
-          if (length(idx) > 1) { cat("Multiple matches:\n"); print(fields[idx]); next }
+          if (!length(idx)) { cat(rv_col("No match. Try again.\n","warn")); next }
+          if (length(idx) > 1) { cat(rv_col("Multiple matches:\n","warn")); print(fields[idx]); next }
           break
         }
         cur <- HeaderDATA2[idx, target, drop = TRUE]
@@ -301,9 +271,9 @@ addReleve <- function(database = "NEW", save = "default", checklist = "default",
       print(HeaderDATA2[, c("ShortName", target), drop = FALSE])
       if (toupper(readline("save changes? (Y/N) ")) == "Y") {
         rv_write_db(head = HeaderDATA2,save = save, meta = metadata)
-        cat("Header updated.\n")
+        cat(rv_col("Header updated.\n","ok"))
       } else {
-        cat("Discarded changes.\n")
+        cat(rv_col("Discarded changes.\n","ok"))
       }
 
 
@@ -314,11 +284,11 @@ addReleve <- function(database = "NEW", save = "default", checklist = "default",
       HeaderDATA2 <- rv_read_db(save)$HeaderDATA
       while (TRUE) {
         n <- suppressWarnings(as.integer(readline("ReleveNumber? ")))
-        if (is.na(n) || n < 1) { cat("Please enter a positive integer.\n"); next }
+        if (is.na(n) || n < 1) { cat(rv_col("Please enter a positive integer.\n","warn")); next }
 
         target <- paste0("X", n)
         if (!target %in% names(HeaderDATA2)) {
-          cat("No such column: ", target, "\n", sep = ""); next
+          cat(rv_col(paste0("No such column: ", target, "\n"),"warn")); next
         }
 
         print(HeaderDATA2[, target, drop = FALSE]) # selection or releve

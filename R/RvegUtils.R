@@ -25,7 +25,7 @@ rv_cs_to_pct <- function(releve) {
 #' @noRd
 rv_species_not_found <- function(bad_name, SpList, metadata, orig_SpList = NULL) {
 
-  message(paste0("\nUNKNOWN SPECIES: '", bad_name, "'"))
+  message(rv_col(paste0("\nUNKNOWN SPECIES: '", bad_name, "'"),"warn"))
 
   while (TRUE) {
 
@@ -39,7 +39,7 @@ rv_species_not_found <- function(bad_name, SpList, metadata, orig_SpList = NULL)
 
 
 
-          message(paste0("suggest from the original list:", bad_name, " -> ", code_name, " ? (Y/N)" ))
+          cat(paste0("suggest from the original list:", bad_name, " -> ", code_name, " ? (Y/N)" ))
           m <- toupper(readline("Accept? (Y/N)" ))
           if (m == "N") {
             break
@@ -60,7 +60,8 @@ rv_species_not_found <- function(bad_name, SpList, metadata, orig_SpList = NULL)
       # Case-insensitive grep
       hits <- SpList[grep(paste0("^",m), SpList$FullName, ignore.case = TRUE), ]
       if (nrow(hits) == 0) {
-        message("No matches found.")
+        message(rv_col("No matches found.","warn"))
+
       } else {
         # Show hits with index numbers
         print(hits[, c("ShortName", "FullName")])
@@ -82,9 +83,10 @@ rv_species_not_found <- function(bad_name, SpList, metadata, orig_SpList = NULL)
       new_code <- toupper(readline("Enter new 7-letter ShortCode (e.g. AlnuGlu): "))
 
       if (nchar(new_code) != 7) {
-        message("Error: Code must be exactly 7 characters.")
+        message(rv_col("Error: Code must be exactly 7 characters.","err"))
       } else if (new_code %in% SpList$ShortName) {
-        message(paste0("Error: The code '", new_code, "' is already reserved in the checklist!"))
+        message(rv_col(paste0("The code '", new_code,
+                       "' is already reserved in the checklist!"),"err"))
       } else {
         confirm <- toupper(readline(paste0("Map '", bad_name, "' -> '", new_code, "'? (Y/N): ")))
         if (confirm == "Y") {
@@ -94,7 +96,7 @@ rv_species_not_found <- function(bad_name, SpList, metadata, orig_SpList = NULL)
           new_entry <- paste0(bad_name, "::", new_code, "|")
           metadata$extra_spec <- paste0(metadata$extra_spec, new_entry)
 
-          message("Metadata updated.")
+          message(rv_col("Metadata updated.","ok"))
           return(list(code = new_code, meta = metadata))
         }
       }
@@ -168,7 +170,7 @@ rv_resolve_species_code <- function(code, SpLIST, metadata, RelNew = NULL) {
     chk <- SpLIST[SpLIST$ShortName == code, , drop = FALSE]
 
     if (nrow(chk) == 0 || is.na(chk$FullName[1])) {
-      message("Species not found in the checklist")
+      message(rv_col("Species not found in the checklist","err"))
     } else {
       print(chk$FullName[1])
     }
@@ -188,7 +190,7 @@ rv_resolve_species_code <- function(code, SpLIST, metadata, RelNew = NULL) {
 
       searchlist <- SpLIST[grep(paste0("^", k), SpLIST$FullName, ignore.case = TRUE), , drop = FALSE]
       if (nrow(searchlist) == 0) {
-        message("No matches")
+        message(rv_col("No matches","warn"))
       } else {
         print(searchlist[order(searchlist$FullName), ])
       }
@@ -231,7 +233,7 @@ rv_resolve_species_code <- function(code, SpLIST, metadata, RelNew = NULL) {
         if (nchar(sU) == 7) {
           chk2 <- SpLIST[SpLIST$ShortName == sU, , drop = FALSE]
           if (nrow(chk2) == 0 || is.na(chk2$FullName[1])) {
-            message("Species not found in the checklist")
+            message(rv_col("Species not found in the checklist","err"))
             next
           }
           print(chk2$FullName[1])
@@ -287,7 +289,8 @@ rv_releve_dialogue <- function(SpLIST, RelNew, metadata, SAVE = NULL, HeaderDATA
       add_layer <- rv_ask_choice("AddNewLayer?(Y/N) ", c("Y","N"))
 
       if (add_layer == "N") {
-        message("Species_richness")
+
+        message(rv_col("Species_richness","info"))
         print(nrow(RelNew[(RelNew[, 2] != 0), ]))
         break
       }
@@ -350,7 +353,7 @@ rv_releve_dialogue <- function(SpLIST, RelNew, metadata, SAVE = NULL, HeaderDATA
         rs <- rv_ask_choice("Add headers?(Y/N) ", c("Y","N"))
         if (rs == "Y") {
           for (i in 1:m) {
-            message(paste0("Relev\u00e9 ", i))
+            cat(rv_col(paste0("Relev\u00e9 ", i),"info"))
 
             k <- rv_existing_k(HeaderDATA2)
             nextcol <- paste0("X", k + 1L)
@@ -385,7 +388,7 @@ rv_releve_dialogue <- function(SpLIST, RelNew, metadata, SAVE = NULL, HeaderDATA
       nana <- paste(n, l, sep = "_")
 
       for (i in 1:m) {
-        message(paste0("Relev\u00e9 ", i))
+        cat(rv_col(paste0("Relev\u00e9 ", i),"info"))
         o <- rv_ask_abundance(oo)
 
         Rels[[paste0("r", i)]] <- rv_add_rel_new(Rels[[paste0("r", i)]], nana, o)
@@ -585,7 +588,7 @@ rv_write_db <- function(rel = NULL, head = NULL, save = NULL, meta = NULL) {
 rv_read_or_re <- function(prompt, default) {
   def <- if (length(default) == 0 || is.na(default) || identical(default, "NA")) "" else as.character(default)
   # only show a hint if we actually have a previous value
-  if (nzchar(def)) message(paste0("RE <- ", def))
+  if (nzchar(def)) cat(rv_col(paste0("RE <- ", def),"info"))
   ans <- readline(prompt)
   ans_trim <- toupper(trimws(ans))
   if (ans_trim == "RE" && nzchar(def)) def else ans
