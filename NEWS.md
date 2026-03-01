@@ -28,7 +28,7 @@ Both Relevé and Header files now utilize a standardized metadata block, denoted
 A significant advancement is the introduction of the "Extra Species" protocol. Users may now define and insert unique taxa or high-precision nomenclature (subspecies, hybrids) directly during the `addReleve()` execution. These records are stored within the project’s local metadata, preserving the integrity of the primary checklist while allowing for project-specific taxonomic flexibility.
 
 ## Advances in Checklist Generation
-The `CreateChecklist()` function has been expanded to support the direct processing of R character vectors, enabling seamless integration with taxonomic databases via packages such as `rWCVP`. To demonstrate this capability, default checklists for Canada (Quebec) and Portugal have been integrated, alongside a TURBOVEG-compatible checklist for Czechia and Slovakia.
+The `CreateChecklist()` function has been expanded to support the direct processing of R character vectors, enabling seamless integration with taxonomic databases via packages such as `rWCVP`. To demonstrate this capability, default checklists for Canada (Quebec) and Portugal have been integrated, alongside a TURBOVEG-compatible checklist for Czechia and Slovakia and checklist for Czech republic by Kaplan et al. (2019).
 
 ## User Interface and Operational Efficiency
 The `addReleve()` function has been updated with a menu-driven console interface to improve the digitization workflow. This interface provides real-time access to project metadata and includes an integrated help command for on-the-fly documentation access. Additionally, low-level data processing routines were optimized to increase the efficiency of I/O operations for larger-scale phytosociological databases.

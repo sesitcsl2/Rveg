@@ -58,11 +58,4 @@ depend on the taxonomic rank:
     specieslist = paste0(path.package("Rveg"), "/extdata/SpeciesList"),
   )
 
-  # Example 2: Creating a checklist dynamically using the rWCVP package
-  if (requireNamespace("rWCVP", quietly = TRUE) & requireNamespace("rWCVPdata", quietly = TRUE)) {
-    wcvp_data <- rWCVP::wcvp_checklist(area_codes = "QUE")
-    unique_taxa <- unique(wcvp_data$taxon_name)
-    CreateChecklist(specieslist = unique_taxa)
-  }
-
 }

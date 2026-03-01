@@ -22,7 +22,5 @@ Imports:
     xml2
 Suggests: 
     knitr,
-    rmarkdown,
-    rWCVP,
-    rWCVPdata
+    rmarkdown
 VignetteBuilder: knitr

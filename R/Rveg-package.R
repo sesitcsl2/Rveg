@@ -3,6 +3,8 @@
 #' or check the quick start guide on <https://github.com/sesitcsl2/Rveg>
 #'
 #'
+#'
+#'
 #' @references
 #'
 #'

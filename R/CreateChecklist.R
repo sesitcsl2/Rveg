@@ -30,6 +30,7 @@
 #'
 #' *Note: If a 7-character code clash occurs, the 7th character is automatically adjusted using trailing letters or alphanumeric fallbacks to ensure absolute uniqueness.*
 #'
+#'
 #' @param specieslist Character vector OR Character. Either a vector
 #' of full botanical names in your R environment, or a path to a `.txt` file
 #' containing a single column named "FullName".
@@ -45,13 +46,6 @@
 #'   CreateChecklist(
 #'     specieslist = paste0(path.package("Rveg"), "/extdata/SpeciesList"),
 #'   )
-#'
-#'   # Example 2: Creating a checklist dynamically using the rWCVP package
-#'   if (requireNamespace("rWCVP", quietly = TRUE) & requireNamespace("rWCVPdata", quietly = TRUE)) {
-#'     wcvp_data <- rWCVP::wcvp_checklist(area_codes = "QUE")
-#'     unique_taxa <- unique(wcvp_data$taxon_name)
-#'     CreateChecklist(specieslist = unique_taxa)
-#'   }
 #'
 #' @export
 
