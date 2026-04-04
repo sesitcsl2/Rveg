@@ -86,11 +86,11 @@ RvegCheck <- function(database, export = "export", checklist = "default") {
   message(rv_col(paste0("Rveg built version: ", metadata$rveg_version),"info"))
 
   # Extra species
-  if (nzchar(metadata$extra)) {
+  if (!nzchar(metadata$extra_spec)) {
     message("No Custom species")
   } else {
 
-    entries <- strsplit(metadata$extra, "\\|")[[1]]
+    entries <- strsplit(metadata$extra_spec, "\\|")[[1]]
     entries <- entries[nzchar(entries)]
     parts <- strsplit(entries, "::", fixed = TRUE)
 
