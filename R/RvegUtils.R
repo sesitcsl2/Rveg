@@ -880,6 +880,7 @@ rv_normalize_fields <- function(x) {
 #' @noRd
 Merge_layers <- function(x) {
 
+  x <- suppressWarnings(as.numeric(x))
   x <- x[!is.na(x) & x > 0]
 
   # If empty, return 0; if only one layer, return it
