@@ -2,6 +2,329 @@
 #---- Rveg internal functions ------#
 #-----------------------------------#
 
+#------ new Rveg 0.2 -------
+
+#' Remap layer codes using a named vector
+#' @keywords internal
+#' @noRd
+rv_layer_map <- function(layers, map, na_value = NULL) {
+  if (!is.null(na_value)) layers[is.na(layers)] <- na_value
+  layers <- as.character(layers)
+  mapped <- map[layers]
+  unname(ifelse(is.na(mapped), layers, mapped))
+}
+
+#' Remap cover codes in a data.frame using a named vector
+#' @keywords internal
+#' @noRd
+rv_cover_map <- function(df, map) {
+  df[] <- lapply(df, function(col) {
+    mapped <- map[as.character(col)]
+    unname(ifelse(is.na(mapped), col, mapped))
+  })
+  df
+}
+
+#' Match species names to short codes from a checklist
+#' @keywords internal
+#' @noRd
+rv_species_code_map <- function(species, code_map) {
+
+  if (!"note" %in% names(code_map)) code_map$note <- NA_character_
+
+  code_map$preset <- code_map$FullName %in% species
+  missing <- species[!species %in% code_map$FullName]
+
+  if (length(missing) > 0) {
+    message(rv_col(paste0(length(missing), " species not found in checklist:"), "warn"))
+    message(paste(" ", missing, collapse = "\n"))
+    unmatched <- data.frame(ShortName = NA_character_, FullName = missing,
+                            preset = TRUE, note = NA_character_,
+                            stringsAsFactors = FALSE)
+    code_map <- rbind(code_map, unmatched)
+  }
+
+  rownames(code_map) <- NULL
+  code_map
+}
+
+
+#' Merge species rows by ShortName + Layer, with optional layer/species remapping
+#' @keywords internal
+#' @noRd
+rv_merge_species <- function(species, codes, layers, covers,
+                             merge_layers = NULL, merge_species = NULL) {
+
+  df <- data.frame(FullName = species, ShortName = codes, Layer = layers,
+                   stringsAsFactors = FALSE)
+  df <- cbind(df, covers)
+
+  plot_cols <- names(covers)
+
+  # 1. User-specified layer remapping
+  if (!is.null(merge_layers)) {
+    df$Layer <- rv_layer_map(df$Layer, merge_layers)
+  }
+
+  # 2. User-specified species remapping
+  if (!is.null(merge_species)) {
+    df$ShortName <- rv_layer_map(df$ShortName, merge_species)
+  }
+
+  # 3. Merge rows with identical ShortName + Layer
+  groups <- paste(df$ShortName, df$Layer, sep = "||")
+  unique_groups <- unique(groups)
+
+  merged <- do.call(rbind, lapply(unique_groups, function(g) {
+
+    rows <- df[groups == g, , drop = FALSE]
+    out  <- rows[1, 1:3, drop = FALSE]
+
+    for (pc in plot_cols) {
+      out[[pc]] <- Merge_layers(rows[[pc]])
+    }
+
+    if (nrow(rows) > 1) {
+      names_involved <- unique(rows$FullName)
+      if (length(names_involved) > 1) {
+        message(rv_col(paste0(
+          'Merged "', paste(names_involved[-1], collapse = '", "'),
+          '" to "', names_involved[1], '" [', out$Layer, ']'), "ok"))
+      } else {
+        message(rv_col(paste0(
+          'Merged ', nrow(rows), ' rows of "', names_involved[1],
+          '" [', out$Layer, ']'), "ok"))
+      }
+    }
+
+    out
+  }))
+
+  rownames(merged) <- NULL
+  merged
+}
+
+#' Merge species rows by ShortName + Layer, with optional layer/species remapping
+#' @keywords internal
+#' @noRd
+rv_merge_species <- function(species, codes, layers, covers,
+                             merge_layers = NULL, merge_species = NULL) {
+  df <- data.frame(FullName = species, ShortName = codes, Layer = layers,
+                   stringsAsFactors = FALSE)
+  df <- cbind(df, covers)
+  plot_cols <- names(covers)
+
+  # 1. User-specified layer remapping
+  if (!is.null(merge_layers)) {
+    df$Layer <- rv_layer_map(df$Layer, merge_layers)
+  }
+  # 2. User-specified species remapping
+  if (!is.null(merge_species)) {
+    df$ShortName <- rv_layer_map(df$ShortName, merge_species)
+  }
+
+  # 3. Merge rows with identical ShortName + Layer
+  groups <- paste(df$ShortName, df$Layer, sep = "||")
+  unique_groups <- unique(groups)
+
+  merged <- do.call(rbind, lapply(unique_groups, function(g) {
+    rows <- df[groups == g, , drop = FALSE]
+    out  <- rows[1, 1:3, drop = FALSE]
+
+    if (nrow(rows) == 1) {
+      out[plot_cols] <- rows[1, plot_cols, drop = FALSE]
+      return(out)
+    }
+
+    names_involved <- unique(rows$FullName)
+    cover_mat      <- as.matrix(rows[, plot_cols, drop = FALSE])
+    has_overlap     <- any(colSums(cover_mat != 0) > 1)
+
+    if (!has_overlap && length(names_involved) == 1) {
+      # Fast path: no overlap, same species — just sum columns
+      for (pc in plot_cols) out[[pc]] <- sum(rows[[pc]])
+    } else {
+      # Real merge — use Merge_layers for overlapping plots
+      for (pc in plot_cols) out[[pc]] <- Merge_layers(rows[[pc]])
+
+      if (length(names_involved) > 1) {
+        message(rv_col(paste0(
+          'Merged "', paste(names_involved[-1], collapse = '", "'),
+          '" to "', names_involved[1], '" [', out$Layer, ']'), "ok"))
+      } else {
+        message(rv_col(paste0(
+          'Merged ', nrow(rows), ' rows of "', names_involved[1],
+          '" [', out$Layer, ']'), "ok"))
+      }
+    }
+    out
+  }))
+
+  rownames(merged) <- NULL
+  merged
+}
+
+#' Fill unmatched ShortName codes via interactive dialogue
+#' @keywords internal
+#' @noRd
+rv_fill_shortnames <- function(map, code_map) {
+
+  if (!"note" %in% names(map)) map$note <- NA_character_
+
+  missing_idx <- which(is.na(map$ShortName))
+  if (length(missing_idx) == 0) {
+    message(rv_col("All species already matched!", "ok"))
+    return(map)
+  }
+
+  n <- length(missing_idx)
+  remove_idx <- integer(0)
+
+  cat(sprintf("\n%d unmatched species to resolve:\n", n))
+
+  for (pos in seq_along(missing_idx)) {
+    i <- missing_idx[pos]
+    sp <- map$FullName[i]
+
+    # --- suggest code (4+3 rule / GENU-SP) ---
+    parts   <- strsplit(trimws(sp), "\\s+")[[1]]
+    genus   <- parts[1]
+    epithet <- if (length(parts) > 1) parts[2] else ""
+    suggested <- NULL
+
+    if (grepl("^(sp\\.|sp|species|spp\\.|spp)$", epithet, ignore.case = TRUE)) {
+      suggested <- paste0(toupper(substr(genus, 1, 4)), "-SP")
+    } else if (nchar(genus) >= 4 && nchar(epithet) >= 3) {
+      suggested <- paste0(toupper(substr(genus, 1, 4)), toupper(substr(epithet, 1, 3)))
+    }
+
+    # --- build suggestion hint with merge/unique info ---
+    suggest_hint <- NULL
+    suggest_existing <- NULL
+    if (!is.null(suggested)) {
+      suggest_existing <- code_map$FullName[code_map$ShortName == suggested]
+      if (length(suggest_existing) > 0) {
+        suggest_hint <- sprintf("%s (merge with %s)", suggested, suggest_existing[1])
+      } else {
+        suggest_hint <- sprintf("%s (unique)", suggested)
+      }
+    }
+
+    cat(sprintf("\n[%d/%d] '%s'\n", pos, n, sp))
+    if (!is.null(suggest_hint)) cat(sprintf("  Suggested: %s\n", suggest_hint))
+
+    assigned <- FALSE
+    while (!assigned) {
+      cat("  (R)emove | (A)uto | (M)anual | (F)ind existing | (S)kip | (E)xit\n")
+      action <- rv_ask_choice("  > ", c("R", "A", "M", "F", "S", "E"))
+
+      # ---- Exit ----
+      if (action == "E") {
+        if (length(remove_idx) > 0) map <- map[-remove_idx, ]
+        still_na <- sum(is.na(map$ShortName))
+        message(rv_col(paste0("\n  Exiting. Remaining NA: ", still_na), "warn"))
+        rownames(map) <- NULL
+        return(map)
+
+        # ---- Remove ----
+      } else if (action == "R") {
+        remove_idx <- c(remove_idx, i)
+        map$note[i] <- "removed"
+        message(rv_col(paste0("  Removed: '", sp, "'"), "warn"))
+        assigned <- TRUE
+
+        # ---- Auto-create ----
+      } else if (action == "A") {
+        if (is.null(suggested)) {
+          message(rv_col("  Cannot auto-generate. Try (M)anual or (F)ind.", "warn"))
+          next
+        }
+
+        if (length(suggest_existing) > 0) {
+          map$note[i] <- paste0("auto: merged with ", suggest_existing[1], " (", suggested, ")")
+        } else {
+          map$note[i] <- paste0("auto: ", suggested)
+        }
+
+        map$ShortName[i] <- suggested
+        message(rv_col(paste0("  ", sp, " --> ", suggested), "ok"))
+        assigned <- TRUE
+
+        # ---- Manual code ----
+      } else if (action == "M") {
+        code <- toupper(trimws(readline("  Enter code: ")))
+        if (nchar(code) == 0) next
+
+        existing <- code_map$FullName[code_map$ShortName == code]
+        if (length(existing) > 0) {
+          cat(sprintf("  '%s' exists as: %s\n", code, existing[1]))
+          cat(sprintf("  This will merge '%s' with '%s'\n", sp, existing[1]))
+          if (rv_ask_choice("  Proceed? (Y/N): ", c("Y", "N")) == "N") next
+          map$note[i] <- paste0("manual: merged with ", existing[1], " (", code, ")")
+        } else {
+          map$note[i] <- paste0("manual: ", code)
+        }
+
+        map$ShortName[i] <- code
+        message(rv_col(paste0("  ", sp, " --> ", code), "ok"))
+        assigned <- TRUE
+
+        # ---- Find existing ----
+      } else if (action == "F") {
+        repeat {
+          query <- trimws(readline("  Search (min 2 letters): "))
+          if (nchar(query) < 2) next
+
+          hits <- code_map[grep(toupper(query), toupper(code_map$FullName), fixed = TRUE), ]
+          if (nrow(hits) == 0) {
+            message(rv_col("  No matches.", "warn"))
+            next
+          }
+
+          print(hits[order(hits$FullName), c("ShortName", "FullName")])
+          pick <- toupper(trimws(readline("  TypeCode (or BACK): ")))
+
+          if (pick == "BACK") break
+
+          if (pick %in% toupper(hits$ShortName)) {
+            code <- hits$ShortName[toupper(hits$ShortName) == pick][1]
+            full <- hits$FullName[toupper(hits$ShortName) == pick][1]
+            cat(sprintf("  '%s' --> %s (%s)\n", sp, code, full))
+            if (rv_ask_choice("  Confirm? (Y/N): ", c("Y", "N")) == "Y") {
+              map$ShortName[i] <- code
+              map$note[i] <- paste0("find: matched to ", full, " (", code, ")")
+              assigned <- TRUE
+              break
+            }
+          } else {
+            cat("  Code not in results.\n")
+          }
+        }
+
+        # ---- Skip ----
+      } else if (action == "S") {
+        map$note[i] <- "skipped"
+        cat("  Skipped.\n")
+        assigned <- TRUE
+      }
+    }
+  }
+
+  # Remove marked rows
+  if (length(remove_idx) > 0) map <- map[-remove_idx, ]
+
+  # Summary
+  still_na <- sum(is.na(map$ShortName))
+  cat(sprintf("\n  Resolved: %d | Removed: %d | Remaining NA: %d\n",
+              n - length(remove_idx) - still_na, length(remove_idx), still_na))
+
+  rownames(map) <- NULL
+  map
+}
+
+#------ sort? -------
+
+
 #' @keywords internal
 #' @noRd
 rv_cs_to_pct <- function(releve) {

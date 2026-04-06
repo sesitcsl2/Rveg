@@ -1,6 +1,8 @@
+# Rveg 0.1.10
+
 # Rveg 0.1.9
 
-# Rveg 0.1.8
+Minor bug hot-fixes
 
 # Rveg 0.1.8 
 
