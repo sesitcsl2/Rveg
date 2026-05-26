@@ -1,8 +1,7 @@
-# Rveg 0.1.10
+# Rveg 0.1.11 - 0.1.9
 
-# Rveg 0.1.9
-
-Minor bug hot-fixes
+Minor bug hot-fixes:
+During these updates, incorrect default checklist (`cz_dh2012.txt`) was exported. The compability of older databases might vary, depending on the species in the plots. 
 
 # Rveg 0.1.8 
 

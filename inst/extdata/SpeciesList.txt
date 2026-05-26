@@ -9837,8 +9837,8 @@ Pseudotsuga menziesii
 Pseudotsuga species
 Salsola collina
 Hylotelephium species
-x Triticosecale rimpaui
-x Triticosecale species
+xTriticosecale rimpaui
+xTriticosecale species
 Cirsium x tataricum (C. canum x oleraceum)
 Cirsium x erucagineum (C. oleraceum x rivulare)
 Epilobium adenocaulon x hirsutum
@@ -10520,7 +10520,7 @@ Pentaglottis species
 Bistorta species
 Bistorta affinis
 Persicaria pensylvanica
-Persicari lapathifolia ssp. lapathifolia x mitis
+Persicaria lapathifolia ssp. lapathifolia x mitis
 Persicaria x brauniana (P. maculosa x minor)
 Persicaria x condensata (P. maculosa x mitis)
 Persicaria hydropiper x lapathifolia

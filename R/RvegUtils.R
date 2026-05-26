@@ -4,6 +4,37 @@
 
 #------ new Rveg 0.2 -------
 
+#' split df to several columns based on the console width
+#' @keywords internal
+#' @noRd
+rv_print_dynamic <- function(df) {
+  n <- nrow(df)
+  if (n == 0) return(invisible())
+
+  # Add formatted row numbers (1 to n) to each string
+  comb <- paste(format(1:n), format(df[, 1]), format(df[, 2]), sep = "  ")
+
+  # Define the gap between column groups (8 spaces)
+  sep_spaces <- 8
+  sep_str <- "        "
+
+  # Calculate how many columns fit based on console width
+  item_width <- max(nchar(comb))
+  n_cols <- max(1, floor((getOption("width") + sep_spaces) / (item_width + sep_spaces)))
+
+  # Determine required rows to maintain the fixed column structure
+  n_rows <- ceiling(n / n_cols)
+
+  # Pad to make a perfect rectangle (n_rows * n_cols)
+  pad <- (n_rows * n_cols) - n
+
+  # Fill top-to-bottom (byrow = FALSE)
+  out_mat <- matrix(c(comb, rep("", pad)), nrow = n_rows, ncol = n_cols, byrow = FALSE)
+
+  # Print without matrix row/col names
+  write.table(out_mat, row.names = FALSE, col.names = FALSE, quote = FALSE, sep = sep_str)
+}
+
 #' Remap layer codes using a named vector
 #' @keywords internal
 #' @noRd
@@ -442,7 +473,11 @@ rv_add_rel_new <- function(RelNew,nana,o) {
     new_row[, 2] <- o
 
     RelNew <- rbind(RelNew, new_row)
-    RelNew <- RelNew[order(RelNew$ShortName), ]
+
+    most_sort <- factor(sub(".*_", "", RelNew$ShortName), levels = c("3", "2", "1", "J", "0"))
+    RelNew <- RelNew[order(most_sort, RelNew$ShortName), ]
+    # zde prostor pro smazani prazdnych druhu!
+    #RelNew <- RelNew[order(RelNew$ShortName), ]
   }
   rownames(RelNew) <- NULL
   return(RelNew)
@@ -613,8 +648,14 @@ rv_releve_dialogue <- function(SpLIST, RelNew, metadata, SAVE = NULL, HeaderDATA
 
       if (add_layer == "N") {
 
-        message(rv_col("Species_richness","info"))
-        print(nrow(RelNew[(RelNew[, 2] != 0), ]))
+        message(rv_col("Species richness","info"))
+        #print(nrow(RelNew[(RelNew[, 2] != 0), ]))
+
+        valid_data <- RelNew[RelNew[, 2] != 0, ]
+        layers <- factor(sub(".*_", "", valid_data[, 1]), levels = c("3", "2", "1", "J", "0"))
+        counts <- table(layers)
+        print(counts[counts != 0])
+
         break
       }
 
@@ -640,7 +681,11 @@ rv_releve_dialogue <- function(SpLIST, RelNew, metadata, SAVE = NULL, HeaderDATA
 
         nana <- paste(n, most, sep = "_")
         RelNew <- rv_add_rel_new(RelNew, nana, o)
-        print(RelNew[(RelNew[, 2] > 0), ])
+        #print(RelNew[(RelNew[, 2] > 0), ])
+        #rv_print_dynamic(RelNew[(RelNew[, 2] > 0), ])
+        RelNew_filter <- RelNew[(RelNew[, 2] != 0) & endsWith(as.character(RelNew[, 1]), most), ]
+        rv_print_dynamic(RelNew_filter)
+
       }
     }
 
@@ -715,7 +760,7 @@ rv_releve_dialogue <- function(SpLIST, RelNew, metadata, SAVE = NULL, HeaderDATA
         o <- rv_ask_abundance(oo)
 
         Rels[[paste0("r", i)]] <- rv_add_rel_new(Rels[[paste0("r", i)]], nana, o)
-        print(Rels[[paste0("r", i)]][(Rels[[paste0("r", i)]][, 2] > 0), ])
+        print(Rels[[paste0("r", i)]][(Rels[[paste0("r", i)]][, 2] != 0), ])
       }
 
       DATA2 <- rv_create_table(Rels, DATAtemp, variation = 2)
@@ -1090,6 +1135,8 @@ rv_create_table <- function(RelNew, DATA2 = NULL, variation = 1) {
   total_data_cols <- ncol(base) - 1
   #names(base)[-1] <- as.character(seq_len(total_data_cols))
   names(base)[-1] <- paste0("X", seq_len(total_data_cols))
+  # remove empty rows / species
+  base <- base[rowSums(base[, -1, drop = FALSE] != "0") > 0, ]
 
   # --- 5. SORTING (Happens LAST to guarantee order) ---
 
@@ -1100,7 +1147,9 @@ rv_create_table <- function(RelNew, DATA2 = NULL, variation = 1) {
   # Add temporary sorting columns
   # We use the parts directly for ordering the 'base' dataframe
   # Order: 1. Layer (Alphabetical), 2. Code (Alphabetical)
-  ord_idx <- order(parts$layer, parts$code)
+  #ord_idx <- order(parts$layer, parts$code)
+  layer_factor <- factor(parts$layer, levels = c("3", "2", "1", "J", "0"))
+  ord_idx <- order(layer_factor, parts$code)
 
   # Apply the sort
   base <- base[ord_idx, ]

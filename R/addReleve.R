@@ -44,6 +44,10 @@
 addReleve <- function(database = "NEW", save = "default", checklist = "default",
                       customhead = NULL, extrahead = NULL, metadata = NULL) {
 
+  old_opts <- options(max.print = .Machine$integer.max)
+  on.exit(options(old_opts))
+
+
   message(rv_col("For list of commands in addReleve menu prompt `help` or `?`", "ok"))
   message(rv_col("Write first releve with `Y`"))
 
@@ -58,7 +62,7 @@ addReleve <- function(database = "NEW", save = "default", checklist = "default",
     checklist <- rv_get_checklist(checklist)
 
     # extra | custom fields
-    labs <- if (is.null(customhead)) rv_default_header_fields()
+    labs <- if (is.null(customhead)) c(rv_default_header_fields(),extrahead)
     else rv_ensure_id_first(customhead)
 
     rv_create_new_db(save,labs,checklist,metadata)
@@ -175,7 +179,9 @@ addReleve <- function(database = "NEW", save = "default", checklist = "default",
         TABLEexp <- RelNew[RelNew[, 2] != 0, ]
         colnames(RelNew) <- c("ShortName", "value")
         colnames(TABLEexp) <- c("ShortName", "Cover")
-        print(TABLEexp)
+        #print(TABLEexp)
+        rv_print_dynamic(TABLEexp)
+
       }
 
       if (aa == "ADDREL") {
