@@ -50,10 +50,11 @@ RvegToJuice <- function(database,  export = "export", checklist = "default") {
   DATA <- db$RelDATA
   HeaderDATA <- db$HeaderDATA
 
-  meta_checklist <- db$meta$checklist # ignore checklists prompt on existing
-  if (file.exists(rv_get_checklist(meta_checklist))) {
-    checklist <- rv_get_checklist(meta_checklist)
-  }
+  checklist <- rv_get_checklist(
+    checklist = checklist,
+    meta = db$meta,
+    prefer_meta = TRUE
+  )
 
   SpLIST <- rv_make_sp_list(checklist,db$meta)
 
@@ -174,7 +175,13 @@ TvToRveg <- function(tv, export = "export", checklist = "default", Rveglayers = 
   }
 
   #SpLIST <- rv_make_sp_list(checklist)
-  SpLIST <- read.delim(rv_get_checklist(checklist), sep = "\t", stringsAsFactors = FALSE, check.names = FALSE)
+
+  checklist <- rv_get_checklist(
+    checklist = checklist,
+    prefer_meta = FALSE
+  )
+
+  SpLIST <- read.delim(checklist, sep = "\t", stringsAsFactors = FALSE, check.names = FALSE)
   file_end <- tolower(tools::file_ext(trimws(tv)))
 
   if (file_end == "xml" ) {
@@ -456,7 +463,7 @@ TvToRveg <- function(tv, export = "export", checklist = "default", Rveglayers = 
   data_only <- tvrel[, 3:ncol(tvrel)]
   m <- rv_ask_choice("Abundance in percentage or Braun-Blanquet scale (P/BB/B): ", c("P", "BB", "B"))
 
-  if (m %in% c("B","BB") & Rveglayers) {
+  if (m %in% c("B","BB")) {
     transform <- Vectorize(rv_bb_to_pct)
     data_only[] <- lapply(data_only, function(col) transform(col))
   }
@@ -529,10 +536,11 @@ RvegToTv <- function(database, export = "export", checklist = "default", ver = 3
   db <- rv_read_db(database)
   DATA <- db$RelDATA; HeaderDATA <- db$HeaderDATA; metadata <- db$meta
 
-  meta_checklist <- db$meta$checklist # ignore checklists prompt on existing
-  if (file.exists(rv_get_checklist(meta_checklist))) {
-    checklist <- rv_get_checklist(meta_checklist)
-  }
+  checklist <- rv_get_checklist(
+    checklist = checklist,
+    meta = db$meta,
+    prefer_meta = TRUE
+  )
 
   SpLIST <- rv_make_sp_list(checklist,db$meta)
 

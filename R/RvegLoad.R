@@ -44,10 +44,10 @@ RvegLoad <- function(database = "default",checklist = "default", customscale = F
     db$RelDATA <- rv_cs_to_pct(db$RelDATA)
   }
 
-  meta_checklist <- db$meta$checklist # ignore checklists prompt on existing
-  if (file.exists(rv_get_checklist(meta_checklist))) {
-    checklist <- rv_get_checklist(meta_checklist)
-  }
+  checklist <- rv_get_checklist(
+    checklist = checklist,
+    meta = db$meta
+  )
 
   if (!file.exists(checklist)) {
     stop("Provide used checklist")

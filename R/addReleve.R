@@ -59,7 +59,10 @@ addReleve <- function(database = "NEW", save = "default", checklist = "default",
 
   if (database == "NEW") {
 
-    checklist <- rv_get_checklist(checklist)
+    checklist <- rv_get_checklist(
+      checklist = checklist,
+      prefer_meta = FALSE
+    )
 
     # extra | custom fields
     labs <- if (is.null(customhead)) c(rv_default_header_fields(),extrahead)
@@ -74,10 +77,11 @@ addReleve <- function(database = "NEW", save = "default", checklist = "default",
     db <- rv_read_db(database)
     DATA <- db$RelDATA; HeaderDATA <- db$HeaderDATA; metadata <- db$meta
 
-    meta_checklist <- db$meta$checklist # ignore checklists prompt on existing
-    if (file.exists(rv_get_checklist(meta_checklist))) {
-      checklist <- rv_get_checklist(meta_checklist)
-    }
+    checklist <- rv_get_checklist(
+      checklist = checklist,
+      meta = db$meta,
+      prefer_meta = TRUE
+    )
 
 
     # ensure ID row exists & is first

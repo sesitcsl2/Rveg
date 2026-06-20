@@ -259,19 +259,93 @@ rv_prompt_header_values <- function(labels, HeaderDATA, prev_col, skip = "ID") {
 
 #---- Species and checklist helpers ----
 
-#' Reading & using checklist
+#' Resolve checklist path
+#' 1. If metadata contains a checklist, try that first.
+#' 2. First search installed Rveg checklist folders.
+#' 3. If not found, search the working directory / direct path.
+#' 4. If metadata checklist fails, fall back to the function argument.
 #' @keywords internal
 #' @noRd
-rv_get_checklist <- function(checklist) {
+rv_get_checklist <- function(checklist = "default",
+                             meta = NULL,
+                             prefer_meta = TRUE,
+                             wd = getwd()) {
 
-  if (checklist %in% c("default","cz_dh2012")) {
-    checklist <- system.file("extdata",paste0("/RvChecklist/","cz_dh2012.txt"), package="Rveg",mustWork = TRUE)
-  } else if (checklist %in% c("wcvp_por","wcvp_que", "cz_kaplan2019")) {
-    checklist <- system.file("extdata",paste0("/RvChecklist/",checklist,".txt"),package="Rveg",mustWork = TRUE)
-  } else if (checklist %in% c("Czechia_slovakia_2015")) {
-    checklist <- system.file("extdata",paste0("/TvChecklist/",checklist,".txt"),package="Rveg",mustWork = TRUE)
+  has_text <- function(x) {
+    if (is.null(x) || length(x) == 0L) return(FALSE)
+    x <- as.character(x[1])
+    !is.na(x) && nzchar(trimws(x))
   }
-  return(checklist)
+
+  # Candidate order
+  meta_checklist <- NULL
+  if (!is.null(meta) && has_text(meta$checklist)) {
+    meta_checklist <- meta$checklist
+  }
+
+  candidates <- if (prefer_meta) {
+    c(meta_checklist, checklist)
+  } else {
+    c(checklist, meta_checklist)
+  }
+
+  candidates <- candidates[vapply(candidates, has_text, logical(1))]
+  candidates <- unique(trimws(as.character(candidates)))
+
+  for (x in candidates) {
+
+    # Default alias
+    if (identical(x, "default")) {
+      x <- "cz_dh2012"
+    }
+
+    # Try checklist distributed with Rveg
+    checklist_name <- tools::file_path_sans_ext(basename(x))
+
+    package_paths <- c(
+      system.file(
+        "extdata", "RvChecklist", paste0(checklist_name, ".txt"),
+        package = "Rveg"
+      ),
+      system.file(
+        "extdata", "TvChecklist", paste0(checklist_name, ".txt"),
+        package = "Rveg"
+      )
+    )
+
+    package_paths <- package_paths[nzchar(package_paths)]
+
+    package_paths <- package_paths[file.exists(package_paths)]
+
+    if (length(package_paths) > 0L) {
+      return(normalizePath(package_paths[1], winslash = "/", mustWork = TRUE))
+    }
+
+
+    # 2. Try custom checklist path / working directory
+    custom_paths <- x
+
+    if (!nzchar(tools::file_ext(x))) {
+      custom_paths <- c(custom_paths, paste0(x, ".txt"))
+    }
+
+    custom_paths <- unique(c(
+      custom_paths,
+      file.path(wd, custom_paths)
+    ))
+
+    custom_paths <- custom_paths[file.exists(custom_paths)]
+
+    if (length(custom_paths) > 0L) {
+      return(normalizePath(custom_paths[1], winslash = "/", mustWork = TRUE))
+    }
+  }
+
+  stop(
+    "Checklist could not be found. Tried: ",
+    paste(candidates, collapse = ", "),
+    call. = FALSE
+  )
 }
 
 #' @keywords internal
