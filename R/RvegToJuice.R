@@ -398,7 +398,10 @@ TvToRveg <- function(tv, export = "export", checklist = "default", Rveglayers = 
   db <- rv_read_db(export)
   DATA <- db$RelDATA; HeaderDATA <- db$HeaderDATA; metadata <- db$meta
 
-  HeaderDATA <- cbind(HeaderDATA,tvhead[,3:ncol(tvhead)]) # Vyresit cislovani sloupcu
+  tvhead_data <- tvhead[, 3:ncol(tvhead), drop = FALSE]
+  colnames(tvhead_data) <- paste0("X", seq_len(ncol(tvhead_data)))
+
+  HeaderDATA <- cbind(HeaderDATA, tvhead_data)
 
   species_names <- tvrel[, 1]
   raw_layers <- tvrel[, 2]
@@ -460,7 +463,8 @@ TvToRveg <- function(tv, export = "export", checklist = "default", Rveglayers = 
 
   }
 
-  data_only <- tvrel[, 3:ncol(tvrel)]
+  data_only <- tvrel[, 3:ncol(tvrel), drop = FALSE]
+  colnames(data_only) <- paste0("X", seq_len(ncol(data_only)))
   m <- rv_ask_choice("Abundance in percentage or Braun-Blanquet scale (P/BB/B): ", c("P", "BB", "B"))
 
   if (m %in% c("B","BB")) {
@@ -478,8 +482,11 @@ TvToRveg <- function(tv, export = "export", checklist = "default", Rveglayers = 
 
   final_ids <- paste0(condensed_data$BaseCode,"_", condensed_data$LayerCode)
 
+  result_values <- condensed_data[, -c(1, 2), drop = FALSE]
+  colnames(result_values) <- paste0("X", seq_len(ncol(result_values)))
+
   result_df <- data.frame(ShortName = final_ids, stringsAsFactors = FALSE)
-  result_df <- cbind(result_df, condensed_data[, -c(1, 2)])
+  result_df <- cbind(result_df, result_values)
 
 
 
