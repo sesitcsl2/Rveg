@@ -2,7 +2,24 @@
 #---- Rveg internal functions ------#
 #-----------------------------------#
 
-#------ new Rveg 0.2 -------
+#---- Console UI, messages and printing ----
+
+#' Text styles
+#' @keywords internal
+#' @noRd
+rv_col <- function(txt, style = NULL) {
+  if (is.null(style)) return(txt)
+  # Minimal ANSI coloring (works in most R consoles / RStudio)
+  start <- switch(style,
+                  title = "\033[1;36m",  # bold cyan
+                  ok    = "\033[32m",    # green
+                  warn  = "\033[33m",    # yellow
+                  err   = "\033[31m",    # red
+                  info  = "\033[34m",    # blue
+                  "")
+  if (start == "") return(txt)
+  paste0(start, txt, "\033[0m")
+}
 
 #' split df to several columns based on the console width
 #' @keywords internal
@@ -35,452 +52,90 @@ rv_print_dynamic <- function(df) {
   write.table(out_mat, row.names = FALSE, col.names = FALSE, quote = FALSE, sep = sep_str)
 }
 
-#' Remap layer codes using a named vector
+#' Available menu commands for help command
 #' @keywords internal
 #' @noRd
-rv_layer_map <- function(layers, map, na_value = NULL) {
-  if (!is.null(na_value)) layers[is.na(layers)] <- na_value
-  layers <- as.character(layers)
-  mapped <- map[layers]
-  unname(ifelse(is.na(mapped), layers, mapped))
+rv_menu_commands <- function() {
+  c(
+    Y         = "Add new relev\u00e9 (with header)",
+    ADDREL    = "Add relev\u00e9 body only",
+    ADDHEAD   = "Add header only",
+    RREL      = "Repair an existing relev\u00e9",
+    RHEAD     = "Repair an existing header",
+    YSP       = "Batch: add one species to many relev\u00e9s",
+    PRINTREL  = "Print REL table",
+    PRINTHEAD = "Print HEAD table",
+    PRINTMETA = "Print META informations",
+    REMOVEREL = "Remove a relev\u00e9 (REL+HEAD) and reindex",
+    INFO = "Print sessions informations",
+    "?, H, HELP"       = "Show this help",
+    "Q, N"         = "Save & quit"
+  )
 }
 
-#' Remap cover codes in a data.frame using a named vector
+#' Prints available functions for menu
 #' @keywords internal
 #' @noRd
-rv_cover_map <- function(df, map) {
-  df[] <- lapply(df, function(col) {
-    mapped <- map[as.character(col)]
-    unname(ifelse(is.na(mapped), col, mapped))
-  })
-  df
-}
-
-#' Match species names to short codes from a checklist
-#' @keywords internal
-#' @noRd
-rv_species_code_map <- function(species, code_map) {
-
-  if (!"note" %in% names(code_map)) code_map$note <- NA_character_
-
-  code_map$preset <- code_map$FullName %in% species
-  missing <- species[!species %in% code_map$FullName]
-
-  if (length(missing) > 0) {
-    message(rv_col(paste0(length(missing), " species not found in checklist:"), "warn"))
-    message(paste(" ", missing, collapse = "\n"))
-    unmatched <- data.frame(ShortName = NA_character_, FullName = missing,
-                            preset = TRUE, note = NA_character_,
-                            stringsAsFactors = FALSE)
-    code_map <- rbind(code_map, unmatched)
+rv_print_help <- function() {
+  cmds <- rv_menu_commands()
+  cat(rv_col("\nCommands \n", "title"))
+  for (nm in names(cmds)) {
+    cat(rv_col(sprintf("  %-12s", nm), "title"), as.character(cmds[[nm]]), "\n", sep = "")
   }
-
-  rownames(code_map) <- NULL
-  code_map
+  cat("\n")
 }
 
 
-#' Merge species rows by ShortName + Layer, with optional layer/species remapping
+#' Project information banner (during menu)
 #' @keywords internal
 #' @noRd
-rv_merge_species <- function(species, codes, layers, covers,
-                             merge_layers = NULL, merge_species = NULL) {
+rv_status_banner <- function(checklist_path, database_label, save_dir, rel_count, head_count, meta) {
+  cat("", rv_col(paste0("Rveg ",meta$rveg_version,"::"), "title"), sep = "")
+  cat(rv_col(paste0("Project: ", meta$project_name, "; "), "info"))
+  cat(rv_col(paste0("Checklist: ", meta$checklist, "; \n"), "info"))
+  cat(rv_col(paste0("Database: ", normalizePath(save_dir, winslash = "/", mustWork = FALSE), "; "), "info"))
 
-  df <- data.frame(FullName = species, ShortName = codes, Layer = layers,
-                   stringsAsFactors = FALSE)
-  df <- cbind(df, covers)
-
-  plot_cols <- names(covers)
-
-  # 1. User-specified layer remapping
-  if (!is.null(merge_layers)) {
-    df$Layer <- rv_layer_map(df$Layer, merge_layers)
-  }
-
-  # 2. User-specified species remapping
-  if (!is.null(merge_species)) {
-    df$ShortName <- rv_layer_map(df$ShortName, merge_species)
-  }
-
-  # 3. Merge rows with identical ShortName + Layer
-  groups <- paste(df$ShortName, df$Layer, sep = "||")
-  unique_groups <- unique(groups)
-
-  merged <- do.call(rbind, lapply(unique_groups, function(g) {
-
-    rows <- df[groups == g, , drop = FALSE]
-    out  <- rows[1, 1:3, drop = FALSE]
-
-    for (pc in plot_cols) {
-      out[[pc]] <- Merge_layers(rows[[pc]])
-    }
-
-    if (nrow(rows) > 1) {
-      names_involved <- unique(rows$FullName)
-      if (length(names_involved) > 1) {
-        message(rv_col(paste0(
-          'Merged "', paste(names_involved[-1], collapse = '", "'),
-          '" to "', names_involved[1], '" [', out$Layer, ']'), "ok"))
-      } else {
-        message(rv_col(paste0(
-          'Merged ', nrow(rows), ' rows of "', names_involved[1],
-          '" [', out$Layer, ']'), "ok"))
-      }
-    }
-
-    out
-  }))
-
-  rownames(merged) <- NULL
-  merged
+  same <- isTRUE(rel_count == head_count)
+  cat(rv_col(sprintf("Relev\u00e9s: %d; Headers: %d", rel_count, head_count), if (same) "ok" else "err"))
 }
 
-#' Merge species rows by ShortName + Layer, with optional layer/species remapping
-#' @keywords internal
-#' @noRd
-rv_merge_species <- function(species, codes, layers, covers,
-                             merge_layers = NULL, merge_species = NULL) {
-  df <- data.frame(FullName = species, ShortName = codes, Layer = layers,
-                   stringsAsFactors = FALSE)
-  df <- cbind(df, covers)
-  plot_cols <- names(covers)
-
-  # 1. User-specified layer remapping
-  if (!is.null(merge_layers)) {
-    df$Layer <- rv_layer_map(df$Layer, merge_layers)
-  }
-  # 2. User-specified species remapping
-  if (!is.null(merge_species)) {
-    df$ShortName <- rv_layer_map(df$ShortName, merge_species)
-  }
-
-  # 3. Merge rows with identical ShortName + Layer
-  groups <- paste(df$ShortName, df$Layer, sep = "||")
-  unique_groups <- unique(groups)
-
-  merged <- do.call(rbind, lapply(unique_groups, function(g) {
-    rows <- df[groups == g, , drop = FALSE]
-    out  <- rows[1, 1:3, drop = FALSE]
-
-    if (nrow(rows) == 1) {
-      out[plot_cols] <- rows[1, plot_cols, drop = FALSE]
-      return(out)
-    }
-
-    names_involved <- unique(rows$FullName)
-    cover_mat      <- as.matrix(rows[, plot_cols, drop = FALSE])
-    has_overlap     <- any(colSums(cover_mat != 0) > 1)
-
-    if (!has_overlap && length(names_involved) == 1) {
-      # Fast path: no overlap, same species — just sum columns
-      for (pc in plot_cols) out[[pc]] <- sum(rows[[pc]])
-    } else {
-      # Real merge — use Merge_layers for overlapping plots
-      for (pc in plot_cols) out[[pc]] <- Merge_layers(rows[[pc]])
-
-      if (length(names_involved) > 1) {
-        message(rv_col(paste0(
-          'Merged "', paste(names_involved[-1], collapse = '", "'),
-          '" to "', names_involved[1], '" [', out$Layer, ']'), "ok"))
-      } else {
-        message(rv_col(paste0(
-          'Merged ', nrow(rows), ' rows of "', names_involved[1],
-          '" [', out$Layer, ']'), "ok"))
-      }
-    }
-    out
-  }))
-
-  rownames(merged) <- NULL
-  merged
-}
-
-#' Fill unmatched ShortName codes via interactive dialogue
-#' @keywords internal
-#' @noRd
-rv_fill_shortnames <- function(map, code_map) {
-
-  if (!"note" %in% names(map)) map$note <- NA_character_
-
-  missing_idx <- which(is.na(map$ShortName))
-  if (length(missing_idx) == 0) {
-    message(rv_col("All species already matched!", "ok"))
-    return(map)
-  }
-
-  n <- length(missing_idx)
-  remove_idx <- integer(0)
-
-  cat(sprintf("\n%d unmatched species to resolve:\n", n))
-
-  for (pos in seq_along(missing_idx)) {
-    i <- missing_idx[pos]
-    sp <- map$FullName[i]
-
-    # --- suggest code (4+3 rule / GENU-SP) ---
-    parts   <- strsplit(trimws(sp), "\\s+")[[1]]
-    genus   <- parts[1]
-    epithet <- if (length(parts) > 1) parts[2] else ""
-    suggested <- NULL
-
-    if (grepl("^(sp\\.|sp|species|spp\\.|spp)$", epithet, ignore.case = TRUE)) {
-      suggested <- paste0(toupper(substr(genus, 1, 4)), "-SP")
-    } else if (nchar(genus) >= 4 && nchar(epithet) >= 3) {
-      suggested <- paste0(toupper(substr(genus, 1, 4)), toupper(substr(epithet, 1, 3)))
-    }
-
-    # --- build suggestion hint with merge/unique info ---
-    suggest_hint <- NULL
-    suggest_existing <- NULL
-    if (!is.null(suggested)) {
-      suggest_existing <- code_map$FullName[code_map$ShortName == suggested]
-      if (length(suggest_existing) > 0) {
-        suggest_hint <- sprintf("%s (merge with %s)", suggested, suggest_existing[1])
-      } else {
-        suggest_hint <- sprintf("%s (unique)", suggested)
-      }
-    }
-
-    cat(sprintf("\n[%d/%d] '%s'\n", pos, n, sp))
-    if (!is.null(suggest_hint)) cat(sprintf("  Suggested: %s\n", suggest_hint))
-
-    assigned <- FALSE
-    while (!assigned) {
-      cat("  (R)emove | (A)uto | (M)anual | (F)ind existing | (S)kip | (E)xit\n")
-      action <- rv_ask_choice("  > ", c("R", "A", "M", "F", "S", "E"))
-
-      # ---- Exit ----
-      if (action == "E") {
-        if (length(remove_idx) > 0) map <- map[-remove_idx, ]
-        still_na <- sum(is.na(map$ShortName))
-        message(rv_col(paste0("\n  Exiting. Remaining NA: ", still_na), "warn"))
-        rownames(map) <- NULL
-        return(map)
-
-        # ---- Remove ----
-      } else if (action == "R") {
-        remove_idx <- c(remove_idx, i)
-        map$note[i] <- "removed"
-        message(rv_col(paste0("  Removed: '", sp, "'"), "warn"))
-        assigned <- TRUE
-
-        # ---- Auto-create ----
-      } else if (action == "A") {
-        if (is.null(suggested)) {
-          message(rv_col("  Cannot auto-generate. Try (M)anual or (F)ind.", "warn"))
-          next
-        }
-
-        if (length(suggest_existing) > 0) {
-          map$note[i] <- paste0("auto: merged with ", suggest_existing[1], " (", suggested, ")")
-        } else {
-          map$note[i] <- paste0("auto: ", suggested)
-        }
-
-        map$ShortName[i] <- suggested
-        message(rv_col(paste0("  ", sp, " --> ", suggested), "ok"))
-        assigned <- TRUE
-
-        # ---- Manual code ----
-      } else if (action == "M") {
-        code <- toupper(trimws(readline("  Enter code: ")))
-        if (nchar(code) == 0) next
-
-        existing <- code_map$FullName[code_map$ShortName == code]
-        if (length(existing) > 0) {
-          cat(sprintf("  '%s' exists as: %s\n", code, existing[1]))
-          cat(sprintf("  This will merge '%s' with '%s'\n", sp, existing[1]))
-          if (rv_ask_choice("  Proceed? (Y/N): ", c("Y", "N")) == "N") next
-          map$note[i] <- paste0("manual: merged with ", existing[1], " (", code, ")")
-        } else {
-          map$note[i] <- paste0("manual: ", code)
-        }
-
-        map$ShortName[i] <- code
-        message(rv_col(paste0("  ", sp, " --> ", code), "ok"))
-        assigned <- TRUE
-
-        # ---- Find existing ----
-      } else if (action == "F") {
-        repeat {
-          query <- trimws(readline("  Search (min 2 letters): "))
-          if (nchar(query) < 2) next
-
-          hits <- code_map[grep(toupper(query), toupper(code_map$FullName), fixed = TRUE), ]
-          if (nrow(hits) == 0) {
-            message(rv_col("  No matches.", "warn"))
-            next
-          }
-
-          print(hits[order(hits$FullName), c("ShortName", "FullName")])
-          pick <- toupper(trimws(readline("  TypeCode (or BACK): ")))
-
-          if (pick == "BACK") break
-
-          if (pick %in% toupper(hits$ShortName)) {
-            code <- hits$ShortName[toupper(hits$ShortName) == pick][1]
-            full <- hits$FullName[toupper(hits$ShortName) == pick][1]
-            cat(sprintf("  '%s' --> %s (%s)\n", sp, code, full))
-            if (rv_ask_choice("  Confirm? (Y/N): ", c("Y", "N")) == "Y") {
-              map$ShortName[i] <- code
-              map$note[i] <- paste0("find: matched to ", full, " (", code, ")")
-              assigned <- TRUE
-              break
-            }
-          } else {
-            cat("  Code not in results.\n")
-          }
-        }
-
-        # ---- Skip ----
-      } else if (action == "S") {
-        map$note[i] <- "skipped"
-        cat("  Skipped.\n")
-        assigned <- TRUE
-      }
-    }
-  }
-
-  # Remove marked rows
-  if (length(remove_idx) > 0) map <- map[-remove_idx, ]
-
-  # Summary
-  still_na <- sum(is.na(map$ShortName))
-  cat(sprintf("\n  Resolved: %d | Removed: %d | Remaining NA: %d\n",
-              n - length(remove_idx) - still_na, length(remove_idx), still_na))
-
-  rownames(map) <- NULL
-  map
-}
-
-#------ sort? -------
-
+#---- User input helpers ----
 
 #' @keywords internal
 #' @noRd
-rv_cs_to_pct <- function(releve) {
-
-  rele <- releve[,-1]
-  releorig <- rele
-  uniq <- unique(unlist(rele))
-
-  for (val in uniq) {
-    replace <- rv_ask_text(paste0("Percentage value for (",val,") "))
-    rele[releorig==val] <- replace
-  }
-
-  releve[,-1] <- rele
-  return(releve)
-
-  }
-
-
-#' @keywords internal
-#' @noRd
-rv_species_not_found <- function(bad_name, SpList, metadata, orig_SpList = NULL) {
-
-  message(rv_col(paste0("\nUNKNOWN SPECIES: '", bad_name, "'"),"warn"))
-
-  while (TRUE) {
-
-    if (!is.null(orig_SpList)) {
-
-      bad_code <-  orig_SpList[which(orig_SpList$name == bad_name),]$code
-      code_name <- SpList[which(SpList$ShortName == bad_code),]$FullName
-      if (length(code_name)>0) {
-
-        while(TRUE) {
-
-
-
-          cat(paste0("suggest from the original list:", bad_name, " -> ", code_name, " ? (Y/N)" ))
-          m <- toupper(readline("Accept? (Y/N)" ))
-          if (m == "N") {
-            break
-          }
-          if (m == "Y" ) {
-            new_code <- SpList[which(SpList$FullName == code_name),]$ShortName
-            return(list(code = new_code, meta = metadata))
-          }
-        }
-
-
-      }
-    }
-
-    m <- toupper(readline("Seach with 3 letters + or (I)nsert new code:"))
-
-    if (nchar(m) > 2) {
-      # Case-insensitive grep
-      hits <- SpList[grep(paste0("^",m), SpList$FullName, ignore.case = TRUE), ]
-      if (nrow(hits) == 0) {
-        message(rv_col("No matches found.","warn"))
-
-      } else {
-        # Show hits with index numbers
-        print(hits[, c("ShortName", "FullName")])
-
-        # Ask user to pick one
-        sel <- toupper(readline("Enter species shortcode to select: "))
-        if (sel %in% hits$ShortName) {
-          base_code <- sel
-          conf <- toupper(readline(paste0("Map '", bad_name, "' -> '", hits$FullName[which(hits$ShortName == sel)], "'? (Y/N): ")))
-          if (conf == "Y") {
-            return(list(code = base_code, meta = metadata))
-          }
-        }
-      }
-
-
-
-    } else if (m == "I") {
-      new_code <- toupper(readline("Enter new 7-letter ShortCode (e.g. AlnuGlu): "))
-
-      if (nchar(new_code) != 7) {
-        message(rv_col("Error: Code must be exactly 7 characters.","err"))
-      } else if (new_code %in% SpList$ShortName) {
-        message(rv_col(paste0("The code '", new_code,
-                       "' is already reserved in the checklist!"),"err"))
-      } else {
-        confirm <- toupper(readline(paste0("Map '", bad_name, "' -> '", new_code, "'? (Y/N): ")))
-        if (confirm == "Y") {
-
-          # Update Metadata (Add "FullName::ShortCode|")
-          if (is.null(metadata$extra_spec)) metadata$extra_spec <- ""
-          new_entry <- paste0(bad_name, "::", new_code, "|")
-          metadata$extra_spec <- paste0(metadata$extra_spec, new_entry)
-
-          message(rv_col("Metadata updated.","ok"))
-          return(list(code = new_code, meta = metadata))
-        }
-      }
-
-    }
+rv_ask_choice <- function(prompt, allowed) {
+  allowed <- toupper(allowed)
+  repeat {
+    x <- toupper(trimws(readline(prompt)))
+    if (x == "") next
+    if (x %in% allowed) return(x)
   }
 }
 
-
 #' @keywords internal
 #' @noRd
-rv_add_rel_new <- function(RelNew,nana,o) {
-  if (nana %in% RelNew$ShortName) {
-    RelNew[RelNew$ShortName == nana, 2] <- o
-  } else {
-    new_row <- RelNew[1, ]
-    is.na(new_row) <- TRUE
-
-    new_row$ShortName <- nana
-    new_row[, 2] <- o
-
-    RelNew <- rbind(RelNew, new_row)
-
-    most_sort <- factor(sub(".*_", "", RelNew$ShortName), levels = c("3", "2", "1", "J", "0"))
-    RelNew <- RelNew[order(most_sort, RelNew$ShortName), ]
-    # zde prostor pro smazani prazdnych druhu!
-    #RelNew <- RelNew[order(RelNew$ShortName), ]
+rv_ask_text <- function(prompt, min_nchar = 1, allow_cmd = character()) {
+  allow_cmd <- toupper(allow_cmd)
+  repeat {
+    x <- trimws(readline(prompt))
+    if (x == "") next
+    xU <- toupper(x)
+    if (xU %in% allow_cmd) return(xU)     # return command token (uppercase)
+    if (nchar(x) >= min_nchar) return(x)  # return trimmed text
   }
-  rownames(RelNew) <- NULL
-  return(RelNew)
+}
+
+#' Read a value or reuse the previous value
+#' If the user enters "RE", the previous non-empty value is returned.
+#' @keywords internal
+#' @noRd
+rv_read_or_re <- function(prompt, default) {
+  def <- if (length(default) == 0 || is.na(default) || identical(default, "NA")) "" else as.character(default)
+  # only show a hint if we actually have a previous value
+  if (nzchar(def)) cat(rv_col(paste0("RE <- ", def),"info"))
+  ans <- readline(prompt)
+  ans_trim <- toupper(trimws(ans))
+  if (ans_trim == "RE" && nzchar(def)) def else ans
 }
 
 #' @keywords internal
@@ -490,19 +145,15 @@ rv_ask_abundance <- function(scale) {
 
   if (scale == "P") {
     repeat {
-      x <- trimws(readline("Abundance?(%) "))
-      if (x == "") next
+      x <- rv_ask_text("Abundance?(%) ")
       o <- suppressWarnings(as.numeric(x))
       if (!is.na(o) && o >= 0 && o <= 100) return(o)
+      message(rv_col("Enter number in range 0-100", "warn"))
     }
   }
 
   if (scale == "CS") {
-    repeat {
-      x <- trimws(readline("Abundance? "))
-      if (x == "") next
-      return(as.character(x))
-    }
+    return(rv_ask_text("Abundance? "))
   }
 
   if (scale %in% c("BB", "B")) {
@@ -514,6 +165,249 @@ rv_ask_abundance <- function(scale) {
   }
 }
 
+#---- Header schema helpers ----
+
+#' Default header fields for creating DB
+#' @keywords internal
+#' @noRd
+rv_default_header_fields <- function() {
+  c("ID","DATE","SpringDATE","LOCALITY","FieldCODE","Authors",
+    "PlotSize","Latitude","Longitude","Accuracy","CRS","Slope","Exposure",
+    "E3","E2","E1","Ejuv","E0","Note")
+}
+
+#' Normalize labels, check for duplicates
+#' @keywords internal
+#' @noRd
+rv_normalize_fields <- function(x) {
+  if (is.null(x)) return(NULL)
+  y <- gsub("\\s+", " ", trimws(as.character(x)))
+  y <- y[nzchar(y)]
+  y[!duplicated(tolower(y))]
+}
+
+#' ID always first part of the header
+#' @keywords internal
+#' @noRd
+rv_ensure_id_first <- function(labels) {
+  labs <- rv_normalize_fields(labels)
+  labs_wo_id <- labs[tolower(labs) != "id"]
+  c("ID", labs_wo_id)
+}
+
+#' Extract schema (ShortName) from HEAD table.
+#' @keywords internal
+#' @noRd
+rv_schema_from_head <- function(head_df) {
+  if (is.null(head_df) || !"ShortName" %in% names(head_df)) return(character(0))
+  as.character(head_df$ShortName)
+}
+
+#' Append new header rows (never ID). Fill NA across existing X* columns.
+#' @keywords internal
+#' @noRd
+rv_expand_head_with_fields <- function(HeaderDATA, new_fields) {
+  nf <- setdiff(rv_normalize_fields(new_fields), rv_schema_from_head(HeaderDATA))
+  nf <- nf[tolower(nf) != "id"]
+  if (!length(nf)) return(HeaderDATA)
+  add <- data.frame(ShortName = nf, stringsAsFactors = FALSE)
+  for (xc in setdiff(names(HeaderDATA), "ShortName")) add[[xc]] <- NA
+  rbind(HeaderDATA, add)
+}
+
+#' Last X* column name or NULL.
+#' @keywords internal
+#' @noRd
+rv_last_x_col <- function(df) {
+  xs <- grep("^X\\d+$", names(df), value = TRUE)
+  if (!length(xs)) return(NULL)
+  xs <- xs[order(as.integer(sub("^X", "", xs)))]
+  lc <- tail(xs, 1)
+
+  # If last X* is effectively empty, treat as no previous column
+  vals <- df[[lc]]
+  # coerce to character, remove NA, test for any non-empty
+  ch <- ifelse(is.na(vals), "", as.character(vals))
+  if (!any(nzchar(ch))) return(NULL)
+
+  lc
+}
+
+#' @keywords internal
+#' @noRd
+rv_existing_k <- function(df) max(0L, ncol(df) - 1L)
+
+#' Prompt for all labels except ID; reuse previous if user types "RE".
+#' Returns a named character vector for the provided labels.
+#' @keywords internal
+#' @noRd
+rv_prompt_header_values <- function(labels, HeaderDATA, prev_col, skip = "ID") {
+  labs <- labels[!(tolower(labels) %in% tolower(skip))]
+  get_prev <- function(lab) {
+    if (is.null(prev_col) || !prev_col %in% names(HeaderDATA)) return("")
+    v <- HeaderDATA[HeaderDATA$ShortName == lab, prev_col, drop = TRUE]
+    if (length(v) == 0 || is.na(v) || identical(v, "NA")) "" else as.character(v)
+  }
+  vals <- vapply(labs, function(lab) {
+    prev <- get_prev(lab)
+    rv_read_or_re(paste0(lab, "? "), prev)  # your helper; only hints if prev != ""
+  }, FUN.VALUE = character(1))
+  stats::setNames(vals, labs)
+}
+
+
+
+#---- Species and checklist helpers ----
+
+#' Reading & using checklist
+#' @keywords internal
+#' @noRd
+rv_get_checklist <- function(checklist) {
+
+  if (checklist %in% c("default","cz_dh2012")) {
+    checklist <- system.file("extdata",paste0("/RvChecklist/","cz_dh2012.txt"), package="Rveg",mustWork = TRUE)
+  } else if (checklist %in% c("wcvp_por","wcvp_que", "cz_kaplan2019")) {
+    checklist <- system.file("extdata",paste0("/RvChecklist/",checklist,".txt"),package="Rveg",mustWork = TRUE)
+  } else if (checklist %in% c("Czechia_slovakia_2015")) {
+    checklist <- system.file("extdata",paste0("/TvChecklist/",checklist,".txt"),package="Rveg",mustWork = TRUE)
+  }
+  return(checklist)
+}
+
+#' @keywords internal
+#' @noRd
+rv_make_sp_list <- function(checklist, metadata) {
+  Sp <- read.delim(checklist, sep = "\t", stringsAsFactors = FALSE, check.names = FALSE)
+  Sp <- Sp[, c("ShortName", "FullName")]
+  Sp <- Sp[!is.na(Sp$ShortName) & nzchar(Sp$ShortName), , drop = FALSE]
+
+  out <- Sp
+
+  # parse "LONG::SHORT" securely
+  md <- metadata$extra_spec
+
+  # Only attempt to parse if md is a valid, non-empty string
+  if (!is.null(md) && nzchar(trimws(md))) {
+    items <- trimws(strsplit(md, "|", fixed = TRUE)[[1]])
+    items <- items[nzchar(items)]
+
+    # Check if there are actually items after trimming
+    if (length(items) > 0) {
+      parts <- strsplit(items, "::", fixed = TRUE)
+
+      long  <- vapply(parts, function(p) trimws(p[1]), "", USE.NAMES = FALSE)
+      short <- vapply(parts, function(p) if (length(p) >= 2) trimws(p[2]) else NA_character_,
+                      "", USE.NAMES = FALSE)
+
+      meta_out <- data.frame(FullName = long,
+                             ShortName = short)
+
+      out <- rbind(out, meta_out)
+    }
+  }
+
+  # Ensure keys are unique (better to stop than silently mangle)
+  dups <- duplicated(out$ShortName)
+  if (any(dups)) {
+    stop(
+      "Duplicate ShortName keys after layering: ",
+      paste(unique(out$ShortName[dups]), collapse = ", ")
+    )
+  }
+
+  rownames(out) <- NULL
+  out
+}
+
+#' Check if shortname code already exist, if not, passes TRUE (ok)
+#' @keywords internal
+#' @noRd
+rv_check_short_name <- function(code, checklist, meta) {
+  code <- toupper(trimws(code))
+  in_chk <- code %in% toupper(checklist$ShortName)
+
+  extra_codes <- character(0)
+  md <- meta$extra_spec
+  if (!is.null(md) && nzchar(trimws(md))) {
+    items <- strsplit(md, "|", fixed = TRUE)[[1]]
+    items <- items[nzchar(items)]
+    parts <- strsplit(items, "::", fixed = TRUE)
+    extra_codes <- toupper(vapply(parts, function(p) if (length(p) >= 2) trimws(p[2]) else "", ""))
+    extra_codes <- extra_codes[nzchar(extra_codes)]
+  }
+
+  !(in_chk || code %in% extra_codes)
+}
+
+rv_check_long_name <- function(name, checklist, meta) {
+  name <- toupper(trimws(name))
+  in_chk <- name %in% toupper(checklist$FullName)
+
+  extra_names <- character(0)
+  md <- meta$extra_spec
+  if (!is.null(md) && nzchar(trimws(md))) {
+    items <- strsplit(md, "|", fixed = TRUE)[[1]]
+    items <- items[nzchar(items)]
+    parts <- strsplit(items, "::", fixed = TRUE)
+    extra_names <- toupper(vapply(parts, function(p) if (length(p) >= 2) trimws(p[1]) else "", ""))
+    extra_names <- extra_names[nzchar(extra_names)]
+  }
+
+  !(in_chk || name %in% extra_names)
+}
+
+rv_search_species <- function(SpLIST) {
+  k <- rv_ask_text("SpeciesFirst3letters? (eg.Che / F=cancel) ",allow_cmd = "F", min_nchar = 2)
+
+  if (k == "F") return(invisible(NULL))
+
+  searchlist <- SpLIST[grep(paste0("^", k), SpLIST$FullName, ignore.case = TRUE), , drop = FALSE]
+
+  if (nrow(searchlist) == 0) {
+    message(rv_col("No matches found.", "warn"))
+  } else {
+    print(searchlist[order(searchlist$FullName), ])
+  }
+  return(invisible(NULL))
+}
+
+rv_insert_species <- function(SpLIST, metadata) {
+  if (is.null(metadata$extra_spec) || is.na(metadata$extra_spec)) metadata$extra_spec <- ""
+
+  repeat {
+    sn <- rv_ask_text("Full species name? (N to cancel): ", min_nchar = 1)
+    if (toupper(trimws(sn)) == "N") return(NULL)
+
+    if (!rv_check_long_name(sn, SpLIST, metadata)) {
+      message(rv_col("Species already present.", "warn"))
+      next
+    }
+
+    if (rv_ask_choice(paste0(sn, ": correct? (Y/N) "), c("Y", "N")) == "Y") break
+  }
+
+  repeat {
+    sc <- toupper(rv_ask_text("ShortCode? (GenuSpe / N to cancel): ", min_nchar = 1))
+    if (toupper(trimws(sc)) == "N") return(NULL)
+
+    if (nchar(sc) != 7) next
+
+    if (!rv_check_short_name(sc, SpLIST, metadata)) {
+      message(rv_col("Code already reserved.", "warn"))
+      next
+    }
+
+    if (rv_ask_choice(paste0(sn, "; ", sc, "? (Y/N) "), c("Y", "N")) == "Y") {
+      SpLIST <- rbind(SpLIST, data.frame(ShortName = sc, FullName = sn, stringsAsFactors = FALSE))
+      metadata$extra_spec <- paste0(metadata$extra_spec, sn, "::", sc, "|")
+      #print(sn)
+
+      # Return the updated lists AND the new code
+      return(list(code = sc, SpLIST = SpLIST, metadata = metadata))
+    }
+  }
+}
+
 #' @keywords internal
 #' @noRd
 rv_resolve_species_code <- function(code, SpLIST, metadata, RelNew = NULL) {
@@ -521,8 +415,26 @@ rv_resolve_species_code <- function(code, SpLIST, metadata, RelNew = NULL) {
   if (is.null(metadata$extra_spec) || is.na(metadata$extra_spec)) {
     metadata$extra_spec <- ""
   }
-
   code <- toupper(trimws(code))
+
+  # -------- 1. STANDARD 7-CHAR CODE CHECK -------- #
+
+  if (code != "SEARCH" && code != "INSERT") {
+    chk <- SpLIST[SpLIST$ShortName == code, , drop = FALSE]
+
+    if (nrow(chk) == 0 || is.na(chk$FullName[1])) {
+      message(rv_col(paste("Species code", code, "not found."), "err"))
+      return(NULL) # Kicks back to parent loop for immediate typo correction
+    }
+
+    print(chk$FullName[1])
+    if (rv_ask_choice("CorrectName? (Y=accept / N=reject) ", c("Y", "N")) == "Y") {
+      return(list(code = code, SpLIST = SpLIST, metadata = metadata, RelNew = RelNew))
+    } else {
+      return(NULL)
+    }
+  }
+
 
   repeat {
     chk <- SpLIST[SpLIST$ShortName == code, , drop = FALSE]
@@ -610,29 +522,223 @@ rv_resolve_species_code <- function(code, SpLIST, metadata, RelNew = NULL) {
 
 #' @keywords internal
 #' @noRd
-rv_ask_choice <- function(prompt, allowed) {
-  allowed <- toupper(allowed)
-  repeat {
-    x <- toupper(trimws(readline(prompt)))
-    if (x == "") next
-    if (x %in% allowed) return(x)
+rv_species_not_found <- function(bad_name, SpList, metadata, orig_SpList = NULL) {
+
+  message(rv_col(paste0("\nUNKNOWN SPECIES: '", bad_name, "'"),"warn"))
+
+  while (TRUE) {
+
+    if (!is.null(orig_SpList)) {
+
+      bad_code <-  orig_SpList[which(orig_SpList$name == bad_name),]$code
+      code_name <- SpList[which(SpList$ShortName == bad_code),]$FullName
+      if (length(code_name)>0) {
+
+        while(TRUE) {
+
+
+
+          cat(paste0("suggest from the original list:", bad_name, " -> ", code_name, " ? (Y/N)" ))
+          m <- rv_ask_choice("Accept? (Y/N): ", c("Y", "N"))
+          if (m == "N") {
+            break
+          }
+          if (m == "Y" ) {
+            new_code <- SpList[which(SpList$FullName == code_name),]$ShortName
+            return(list(code = new_code, meta = metadata))
+          }
+        }
+
+
+      }
+    }
+
+    m <- rv_ask_text("Search with 3 letters + or (I)nsert new code: ", min_nchar = 3, allow_cmd = "I")
+
+    if (nchar(m) > 2) {
+      # Case-insensitive grep
+      hits <- SpList[grep(paste0("^",m), SpList$FullName, ignore.case = TRUE), ]
+      if (nrow(hits) == 0) {
+        message(rv_col("No matches found.","warn"))
+
+      } else {
+        # Show hits with index numbers
+        print(hits[, c("ShortName", "FullName")])
+
+        # Ask user to pick one
+        sel <- toupper(readline("Enter species shortcode to select: "))
+        if (sel %in% hits$ShortName) {
+          base_code <- sel
+          conf <- toupper(readline(paste0("Map '", bad_name, "' -> '", hits$FullName[which(hits$ShortName == sel)], "'? (Y/N): ")))
+          if (conf == "Y") {
+            return(list(code = base_code, meta = metadata))
+          }
+        }
+      }
+
+
+
+    } else if (m == "I") {
+      new_code <- toupper(readline("Enter new 7-letter ShortCode (e.g. AlnuGlu): "))
+
+      if (nchar(new_code) != 7) {
+        message(rv_col("Error: Code must be exactly 7 characters.","err"))
+      } else if (new_code %in% SpList$ShortName) {
+        message(rv_col(paste0("The code '", new_code,
+                              "' is already reserved in the checklist!"),"err"))
+      } else {
+        confirm <- toupper(readline(paste0("Map '", bad_name, "' -> '", new_code, "'? (Y/N): ")))
+        if (confirm == "Y") {
+
+          # Update Metadata (Add "FullName::ShortCode|")
+          if (is.null(metadata$extra_spec)) metadata$extra_spec <- ""
+          new_entry <- paste0(bad_name, "::", new_code, "|")
+          metadata$extra_spec <- paste0(metadata$extra_spec, new_entry)
+
+          message(rv_col("Metadata updated.","ok"))
+          return(list(code = new_code, meta = metadata))
+        }
+      }
+
+    }
   }
 }
+
+#---- Relevé entry helpers ----
 
 #' @keywords internal
 #' @noRd
-rv_ask_text <- function(prompt, min_nchar = 1, allow_cmd = character()) {
-  allow_cmd <- toupper(allow_cmd)
-  repeat {
-    x <- trimws(readline(prompt))
-    if (x == "") next
-    xU <- toupper(x)
-    if (xU %in% allow_cmd) return(xU)     # return command token (uppercase)
-    if (nchar(x) >= min_nchar) return(x)  # return trimmed text
+rv_add_rel_new <- function(RelNew,nana,o) {
+  if (nana %in% RelNew$ShortName) {
+    RelNew[RelNew$ShortName == nana, 2] <- o
+  } else {
+    new_row <- RelNew[1, ]
+    is.na(new_row) <- TRUE
+
+    new_row$ShortName <- nana
+    new_row[, 2] <- o
+
+    RelNew <- rbind(RelNew, new_row)
+
+    most_sort <- factor(sub(".*_", "", RelNew$ShortName), levels = c("3", "2", "1", "J", "0"))
+    RelNew <- RelNew[order(most_sort, RelNew$ShortName), ]
+    # zde prostor pro smazani prazdnych druhu
+    #RelNew <- RelNew[order(RelNew$ShortName), ]
   }
+  rownames(RelNew) <- NULL
+  return(RelNew)
 }
 
-#----- releve making --------
+#' Creates tables from all releves var 1 for classic, var 2 for batch
+#' @keywords internal
+#' @noRd
+rv_create_table <- function(RelNew, DATA2 = NULL, variation = 1) {
+
+  # --- 1. Data Prep & Zero Filtering ---
+
+  # Normalize RelNew into a list
+  if (variation == 1) {
+    RelNew_list <- list(RelNew)
+  } else if (variation == 2) {
+    RelNew_list <- RelNew
+  }
+
+  # Filter out 0 values immediately
+  RelNew_list <- lapply(RelNew_list, function(df) {
+    df[df$value != "0", , drop = FALSE]
+  })
+
+  # --- 2. Build Master Species List ---
+
+  observed_names <- character(0)
+
+  # Get names from DATA2
+  if (!is.null(DATA2) && ncol(DATA2) > 1) {
+    observed_names <- c(observed_names, DATA2$ShortName)
+  }
+
+  # Get names from RelNew
+  new_names <- unlist(lapply(RelNew_list, function(x) x$ShortName))
+  observed_names <- c(observed_names, new_names)
+
+  # Create the unique backbone
+  unique_observed <- unique(observed_names)
+  base <- data.frame(ShortName = unique_observed, stringsAsFactors = FALSE)
+
+  # --- 3. Populate Data (Using Match to avoid merge-sorting issues) ---
+
+  # Fill from DATA2
+  if (!is.null(DATA2) && ncol(DATA2) > 1) {
+    # Identify columns in DATA2 that aren't ShortName
+    d2_cols <- setdiff(names(DATA2), "ShortName")
+
+    # Match indices
+    idx <- match(base$ShortName, DATA2$ShortName)
+
+    # Bring over columns
+    for(col in d2_cols) {
+      base[[col]] <- DATA2[[col]][idx]
+    }
+  }
+
+  # Fill from RelNew
+  for (i in seq_along(RelNew_list)) {
+    df <- RelNew_list[[i]]
+    idx <- match(base$ShortName, df$ShortName)
+
+    # Create new column
+    new_col_name <- paste0("new_temp_", i)
+    base[[new_col_name]] <- df$value[idx]
+  }
+
+  # Fill all NAs with "0" (doing this once for the whole DF is faster)
+  base[is.na(base)] <- "0"
+
+  # --- 4. Final Cleanup ---
+
+  # Rename columns sequentially 1, 2, 3...
+  # Excluding the first column (ShortName)
+  total_data_cols <- ncol(base) - 1
+  #names(base)[-1] <- as.character(seq_len(total_data_cols))
+  names(base)[-1] <- paste0("X", seq_len(total_data_cols))
+  # remove empty rows / species
+  base <- base[rowSums(base[, -1, drop = FALSE] != "0") > 0, ]
+
+  # --- 5. SORTING (Happens LAST to guarantee order) ---
+
+  # Split "SpeCode_Layer"
+  pattern <- "^(.+)_([^_]+)$"
+  parts <- strcapture(pattern, base$ShortName, proto = data.frame(code="", layer=""))
+
+  # Add temporary sorting columns
+  # We use the parts directly for ordering the 'base' dataframe
+  # Order: 1. Layer (Alphabetical), 2. Code (Alphabetical)
+  #ord_idx <- order(parts$layer, parts$code)
+  layer_factor <- factor(parts$layer, levels = c("3", "2", "1", "J", "0"))
+  ord_idx <- order(layer_factor, parts$code)
+
+  # Apply the sort
+  base <- base[ord_idx, ]
+
+  # Reset row names for cleanliness
+  rownames(base) <- NULL
+
+  return(base)
+}
+
+#' Reindexing after rel removal
+#' @keywords internal
+#' @noRd
+rv_reindex_releves <- function(df, keep = "ShortName") {
+  keep <- intersect(keep, names(df))
+  rel <- grep("^X\\d+$", names(df), value = TRUE)
+  if (!length(rel)) rel <- setdiff(names(df), keep)
+  rel <- setdiff(rel, keep)
+  names(df)[match(rel, names(df))] <- paste0("X", seq_along(rel))
+  df
+}
+
+#---- Relevé dialogue ----
 
 #' Dialogue loop for writing releves, var 1 for classic, var 2 for batch
 #' @keywords internal
@@ -664,29 +770,100 @@ rv_releve_dialogue <- function(SpLIST, RelNew, metadata, SAVE = NULL, HeaderDATA
                             c("P","BB","B","CS"))
 
       repeat {
-        m <- rv_ask_text("AddSpecies?(GenuSpe/N) ", allow_cmd = c("N"))
+        # First Entry
+        m <- rv_ask_text("AddSpecies? (GenuSpe / SEARCH / INSERT / N) ",
+                         allow_cmd = c("N", "SEARCH", "INSERT"))
         if (m == "N") break
 
         n <- toupper(trimws(m))
+
+        # SEARCH
+        if (n == "SEARCH") {
+          rv_search_species(SpLIST)
+          next
+        }
+
+        # INSERT
+        if (n == "INSERT") {
+          res <- rv_insert_species(SpLIST, metadata)
+          if (!is.null(res)) {
+            SpLIST <- res$SpLIST
+            metadata <- res$metadata
+            message(paste("Added", res$code, "to checklist."))
+          }
+          next
+        }
+
+        # STANDARD
         if (nchar(n) != 7) next
 
         o <- rv_ask_abundance(oo)
-        res <- rv_resolve_species_code(n, SpLIST, metadata, RelNew = RelNew)
-        n <- res$code
-        SpLIST <- res$SpLIST
-        metadata <- res$metadata
-        RelNew <- res$RelNew
+        valid_code <- FALSE
 
+        # Validation
+        # Validation
+        repeat {
+          # 1. Master Guard: Catch 'N' immediately to safely cancel
+          if (n == "N") break
 
+          # 2. Length Guard: Prevent bad inputs from querying the database
+          if (nchar(n) == 7) {
+            # 3. Database Check (Only runs if exactly 7 characters)
+            chk <- SpLIST[SpLIST$ShortName == n, , drop = FALSE]
 
+            if (nrow(chk) > 0 && !is.na(chk$FullName[1])) {
+              print(chk$FullName[1])
+              if (rv_ask_choice("CorrectName? (Y=accept / N=reject) ", c("Y", "N")) == "Y") {
+                valid_code <- TRUE
+                break
+              }
+            } else {
+              message(rv_col(paste("Code", n, "not found."), "err"))
+            }
+          }
+
+          # 4. The Fix Prompt (Triggered by bad length, bad code, or user rejection)
+          m_fix <- rv_ask_text("SpeciesCode? (GenuSpe / SEARCH / INSERT / N) ",
+                               allow_cmd = c("N", "SEARCH", "INSERT"))
+
+          if (m_fix == "N") break
+
+          n_fix <- toupper(trimws(m_fix))
+
+          if (n_fix == "SEARCH") {
+            rv_search_species(SpLIST)
+            # Update prompt to remind them they can still cancel here
+            n <- toupper(trimws(rv_ask_text("Enter SpeciesCode (or N to cancel): ")))
+            next
+          }
+
+          if (n_fix == "INSERT") {
+            res <- rv_insert_species(SpLIST, metadata)
+            if (!is.null(res)) {
+              SpLIST <- res$SpLIST
+              metadata <- res$metadata
+              n <- res$code
+              next
+            } else {
+              break # If they cancelled the insert process, cancel the entry
+            }
+          }
+
+          # Standard manual typo fix
+          n <- n_fix
+        }
+
+        # If user cancelled out of the typo loop, skip saving
+        if (!valid_code) next
+
+        # Save the record
         nana <- paste(n, most, sep = "_")
         RelNew <- rv_add_rel_new(RelNew, nana, o)
-        #print(RelNew[(RelNew[, 2] > 0), ])
-        #rv_print_dynamic(RelNew[(RelNew[, 2] > 0), ])
+
         RelNew_filter <- RelNew[(RelNew[, 2] != 0) & endsWith(as.character(RelNew[, 1]), most), ]
         rv_print_dynamic(RelNew_filter)
-
       }
+
     }
 
     out$RelNew <- RelNew
@@ -749,6 +926,10 @@ rv_releve_dialogue <- function(SpLIST, RelNew, metadata, SAVE = NULL, HeaderDATA
       l <- rv_ask_choice("Select Layer (3,2,1,J,0) ", c("3","2","1","J","0"))
 
       res <- rv_resolve_species_code(n, SpLIST, metadata, RelNew = NULL)
+      if (is.null(res)) {
+        message(rv_col("Species entry canceled.", "warn"))
+        next
+      }
       n <- res$code
       SpLIST <- res$SpLIST
       metadata <- res$metadata
@@ -781,7 +962,21 @@ rv_releve_dialogue <- function(SpLIST, RelNew, metadata, SAVE = NULL, HeaderDATA
 }
 
 
-#----- Reading & Writing ------------
+
+#---- Database metadata helpers ----
+
+#' Random pseudo code to link DB files
+#' @keywords internal
+#' @noRd
+rv_make_id <- function() {
+  # pseudo-UUID using base R
+  hex <- c(0:9, letters[1:6])
+  paste0(
+    paste(sample(hex, 4,  TRUE), collapse=""), "-",
+    paste(sample(hex, 4,  TRUE), collapse=""), "-",
+    paste(sample(hex, 4,  TRUE), collapse="")
+  )
+}
 
 #' Creates metadata at creation of database
 #' @keywords internal
@@ -817,21 +1012,8 @@ rv_write_metadata <- function(meta,con) {
 
 }
 
-#' Reading & using checklist
-#' @keywords internal
-#' @noRd
-rv_get_checklist <- function(checklist) {
 
-  if (checklist %in% c("default","cz_dh2012")) {
-    checklist <- system.file("extdata",paste0("/RvChecklist/","cz_dh2012.txt"), package="Rveg",mustWork = TRUE)
-  } else if (checklist %in% c("wcvp_por","wcvp_que", "cz_kaplan2019")) {
-    checklist <- system.file("extdata",paste0("/RvChecklist/",checklist,".txt"),package="Rveg",mustWork = TRUE)
-  } else if (checklist %in% c("Czechia_slovakia_2015")) {
-    checklist <- system.file("extdata",paste0("/TvChecklist/",checklist,".txt"),package="Rveg",mustWork = TRUE)
-    }
-  return(checklist)
-  }
-
+#---- Database reading and writing ----
 
 #' Creates new database
 #' @keywords internal
@@ -950,260 +1132,7 @@ rv_write_db <- function(rel = NULL, head = NULL, save = NULL, meta = NULL) {
 
 }
 
-#' NEED DESCRIPTION
-#' @keywords internal
-#' @noRd
-rv_read_or_re <- function(prompt, default) {
-  def <- if (length(default) == 0 || is.na(default) || identical(default, "NA")) "" else as.character(default)
-  # only show a hint if we actually have a previous value
-  if (nzchar(def)) cat(rv_col(paste0("RE <- ", def),"info"))
-  ans <- readline(prompt)
-  ans_trim <- toupper(trimws(ans))
-  if (ans_trim == "RE" && nzchar(def)) def else ans
-}
-
-#' Random pseudo code to link DB files
-#' @keywords internal
-#' @noRd
-rv_make_id <- function() {
-  # pseudo-UUID using base R
-  hex <- c(0:9, letters[1:6])
-  paste0(
-    paste(sample(hex, 4,  TRUE), collapse=""), "-",
-    paste(sample(hex, 4,  TRUE), collapse=""), "-",
-    paste(sample(hex, 4,  TRUE), collapse="")
-  )
-}
-
-#----- User interface  --------------
-
-
-
-#' Text styles
-#' @keywords internal
-#' @noRd
-rv_col <- function(txt, style = NULL) {
-  if (is.null(style)) return(txt)
-  # Minimal ANSI coloring (works in most R consoles / RStudio)
-  start <- switch(style,
-                  title = "\033[1;36m",  # bold cyan
-                  ok    = "\033[32m",    # green
-                  warn  = "\033[33m",    # yellow
-                  err   = "\033[31m",    # red
-                  info  = "\033[34m",    # blue
-                  "")
-  if (start == "") return(txt)
-  paste0(start, txt, "\033[0m")
-}
-
-#' Prints available functions for menu
-#' @keywords internal
-#' @noRd
-rv_print_help <- function() {
-  cmds <- rv_menu_commands()
-  cat(rv_col("\nCommands \n", "title"))
-  for (nm in names(cmds)) {
-    cat(rv_col(sprintf("  %-12s", nm), "title"), as.character(cmds[[nm]]), "\n", sep = "")
-  }
-  cat("\n")
-}
-
-#' Available menu commands for help command
-#' @keywords internal
-#' @noRd
-rv_menu_commands <- function() {
-  c(
-    Y         = "Add new relev\u00e9 (with header)",
-    ADDREL    = "Add relev\u00e9 body only",
-    ADDHEAD   = "Add header only",
-    RREL      = "Repair an existing relev\u00e9",
-    RHEAD     = "Repair an existing header",
-    YSP       = "Batch: add one species to many relev\u00e9s",
-    PRINTREL  = "Print REL table",
-    PRINTHEAD = "Print HEAD table",
-    REMOVEREL = "Remove a relev\u00e9 (REL+HEAD) and reindex",
-    INFO = "Print sessions informations",
-    "?, H, HELP"       = "Show this help",
-    "Q, N"         = "Save & quit"
-  )
-}
-
-#' Project information banner (during menu)
-#' @keywords internal
-#' @noRd
-rv_status_banner <- function(checklist_path, database_label, save_dir, rel_count, head_count, meta) {
-  cat("", rv_col(paste0("Rveg ",meta$rveg_version,"::"), "title"), sep = "")
-  cat(rv_col(paste0("Project: ", meta$project_name, "; "), "info"))
-  cat(rv_col(paste0("Checklist: ", meta$checklist, "; \n"), "info"))
-  cat(rv_col(paste0("Database: ", normalizePath(save_dir, winslash = "/", mustWork = FALSE), "; "), "info"))
-
-  same <- isTRUE(rel_count == head_count)
-  cat(rv_col(sprintf("Relev\u00e9s: %d; Headers: %d", rel_count, head_count), if (same) "ok" else "err"))
-}
-
-#' Prompt for all labels except ID; reuse previous if user types "RE".
-#' Returns a named character vector for the provided labels.
-#' @keywords internal
-#' @noRd
-rv_prompt_header_values <- function(labels, HeaderDATA, prev_col, skip = "ID") {
-  labs <- labels[!(tolower(labels) %in% tolower(skip))]
-  get_prev <- function(lab) {
-    if (is.null(prev_col) || !prev_col %in% names(HeaderDATA)) return("")
-    v <- HeaderDATA[HeaderDATA$ShortName == lab, prev_col, drop = TRUE]
-    if (length(v) == 0 || is.na(v) || identical(v, "NA")) "" else as.character(v)
-  }
-  vals <- vapply(labs, function(lab) {
-    prev <- get_prev(lab)
-    rv_read_or_re(paste0(lab, "? "), prev)  # your helper; only hints if prev != ""
-  }, FUN.VALUE = character(1))
-  stats::setNames(vals, labs)
-}
-
-
-
-#----- Data manipulation  -----------
-
-#' Creates tables from all releves var 1 for classic, var 2 for batch
-#' @keywords internal
-#' @noRd
-rv_create_table <- function(RelNew, DATA2 = NULL, variation = 1) {
-
-  # --- 1. Data Prep & Zero Filtering ---
-
-  # Normalize RelNew into a list
-  if (variation == 1) {
-    RelNew_list <- list(RelNew)
-  } else if (variation == 2) {
-    RelNew_list <- RelNew
-  }
-
-  # Filter out 0 values immediately
-  RelNew_list <- lapply(RelNew_list, function(df) {
-    df[df$value != "0", , drop = FALSE]
-  })
-
-  # --- 2. Build Master Species List ---
-
-  observed_names <- character(0)
-
-  # Get names from DATA2
-  if (!is.null(DATA2) && ncol(DATA2) > 1) {
-    observed_names <- c(observed_names, DATA2$ShortName)
-  }
-
-  # Get names from RelNew
-  new_names <- unlist(lapply(RelNew_list, function(x) x$ShortName))
-  observed_names <- c(observed_names, new_names)
-
-  # Create the unique backbone
-  unique_observed <- unique(observed_names)
-  base <- data.frame(ShortName = unique_observed, stringsAsFactors = FALSE)
-
-  # --- 3. Populate Data (Using Match to avoid merge-sorting issues) ---
-
-  # Fill from DATA2
-  if (!is.null(DATA2) && ncol(DATA2) > 1) {
-    # Identify columns in DATA2 that aren't ShortName
-    d2_cols <- setdiff(names(DATA2), "ShortName")
-
-    # Match indices
-    idx <- match(base$ShortName, DATA2$ShortName)
-
-    # Bring over columns
-    for(col in d2_cols) {
-      base[[col]] <- DATA2[[col]][idx]
-    }
-  }
-
-  # Fill from RelNew
-  for (i in seq_along(RelNew_list)) {
-    df <- RelNew_list[[i]]
-    idx <- match(base$ShortName, df$ShortName)
-
-    # Create new column
-    new_col_name <- paste0("new_temp_", i)
-    base[[new_col_name]] <- df$value[idx]
-  }
-
-  # Fill all NAs with "0" (doing this once for the whole DF is faster)
-  base[is.na(base)] <- "0"
-
-  # --- 4. Final Cleanup ---
-
-  # Rename columns sequentially 1, 2, 3...
-  # Excluding the first column (ShortName)
-  total_data_cols <- ncol(base) - 1
-  #names(base)[-1] <- as.character(seq_len(total_data_cols))
-  names(base)[-1] <- paste0("X", seq_len(total_data_cols))
-  # remove empty rows / species
-  base <- base[rowSums(base[, -1, drop = FALSE] != "0") > 0, ]
-
-  # --- 5. SORTING (Happens LAST to guarantee order) ---
-
-  # Split "SpeCode_Layer"
-  pattern <- "^(.+)_([^_]+)$"
-  parts <- strcapture(pattern, base$ShortName, proto = data.frame(code="", layer=""))
-
-  # Add temporary sorting columns
-  # We use the parts directly for ordering the 'base' dataframe
-  # Order: 1. Layer (Alphabetical), 2. Code (Alphabetical)
-  #ord_idx <- order(parts$layer, parts$code)
-  layer_factor <- factor(parts$layer, levels = c("3", "2", "1", "J", "0"))
-  ord_idx <- order(layer_factor, parts$code)
-
-  # Apply the sort
-  base <- base[ord_idx, ]
-
-  # Reset row names for cleanliness
-  rownames(base) <- NULL
-
-  return(base)
-}
-
-#' @keywords internal
-#' @noRd
-rv_make_sp_list <- function(checklist, metadata) {
-  Sp <- read.delim(checklist, sep = "\t", stringsAsFactors = FALSE, check.names = FALSE)
-  Sp <- Sp[, c("ShortName", "FullName")]
-  Sp <- Sp[!is.na(Sp$ShortName) & nzchar(Sp$ShortName), , drop = FALSE]
-
-  out <- Sp
-
-  # parse "LONG::SHORT" securely
-  md <- metadata$extra_spec
-
-  # Only attempt to parse if md is a valid, non-empty string
-  if (!is.null(md) && nzchar(trimws(md))) {
-    items <- trimws(strsplit(md, "|", fixed = TRUE)[[1]])
-    items <- items[nzchar(items)]
-
-    # Check if there are actually items after trimming
-    if (length(items) > 0) {
-      parts <- strsplit(items, "::", fixed = TRUE)
-
-      long  <- vapply(parts, function(p) trimws(p[1]), "", USE.NAMES = FALSE)
-      short <- vapply(parts, function(p) if (length(p) >= 2) trimws(p[2]) else NA_character_,
-                      "", USE.NAMES = FALSE)
-
-      meta_out <- data.frame(FullName = long,
-                             ShortName = short)
-
-      out <- rbind(out, meta_out)
-    }
-  }
-
-  # Ensure keys are unique (better to stop than silently mangle)
-  dups <- duplicated(out$ShortName)
-  if (any(dups)) {
-    stop(
-      "Duplicate ShortName keys after layering: ",
-      paste(unique(out$ShortName[dups]), collapse = ", ")
-    )
-  }
-
-  rownames(out) <- NULL
-  out
-}
+#---- Cover scale and cover merging helpers ----
 
 #' Transform Braun-Blanquet scale to percentage
 #' @keywords internal
@@ -1215,42 +1144,28 @@ rv_bb_to_pct <- function(x) {
   )
 }
 
-#' Reindexing after rel removal
 #' @keywords internal
 #' @noRd
-rv_reindex_releves <- function(df, keep = "ShortName") {
-  keep <- intersect(keep, names(df))
-  rel <- grep("^X\\d+$", names(df), value = TRUE)
-  if (!length(rel)) rel <- setdiff(names(df), keep)
-  rel <- setdiff(rel, keep)
-  names(df)[match(rel, names(df))] <- paste0("X", seq_along(rel))
-  df
-}
+rv_cs_to_pct <- function(releve) {
 
+  rele <- releve[,-1]
+  releorig <- rele
+  uniq <- unique(unlist(rele))
 
-#' Default header fields for creating DB
-#' @keywords internal
-#' @noRd
-rv_default_header_fields <- function() {
-  c("ID","DATE","SpringDATE","LOCALITY","FieldCODE","Authors",
-    "PlotSize","Latitude","Longitude","Accuracy","CRS","Slope","Exposure",
-    "E3","E2","E1","Ejuv","E0","Note")
-}
+  for (val in uniq) {
+    replace <- rv_ask_text(paste0("Percentage value for (",val,") "))
+    rele[releorig==val] <- replace
+  }
 
-#' Normalize labels, check for duplicates
-#' @keywords internal
-#' @noRd
-rv_normalize_fields <- function(x) {
-  if (is.null(x)) return(NULL)
-  y <- gsub("\\s+", " ", trimws(as.character(x)))
-  y <- y[nzchar(y)]
-  y[!duplicated(tolower(y))]
+  releve[,-1] <- rele
+  return(releve)
+
 }
 
 # Merging layers, Logic: l1 + l2 * (1 - l1/100)
 #' @keywords internal
 #' @noRd
-Merge_layers <- function(x) {
+rv_merge_layers <- function(x) {
 
   x <- suppressWarnings(as.numeric(x))
   x <- x[!is.na(x) & x > 0]
@@ -1267,80 +1182,77 @@ Merge_layers <- function(x) {
   return(round(result))
 }
 
-#----- Not sorted atm ---------------
-
-#' ID always first part of the header
+#' Remap layer codes using a named vector
 #' @keywords internal
 #' @noRd
-rv_ensure_id_first <- function(labels) {
-  labs <- rv_normalize_fields(labels)
-  labs_wo_id <- labs[tolower(labs) != "id"]
-  c("ID", labs_wo_id)
+rv_layer_map <- function(layers, map, na_value = NULL) {
+  if (!is.null(na_value)) layers[is.na(layers)] <- na_value
+  layers <- as.character(layers)
+  mapped <- map[layers]
+  unname(ifelse(is.na(mapped), layers, mapped))
 }
 
-#' Extract schema (ShortName) from HEAD table.
+#' Merge species rows by ShortName + Layer, with optional layer/species remapping
 #' @keywords internal
 #' @noRd
-rv_schema_from_head <- function(head_df) {
-  if (is.null(head_df) || !"ShortName" %in% names(head_df)) return(character(0))
-  as.character(head_df$ShortName)
-}
+rv_merge_species <- function(species, codes, layers, covers,
+                             merge_layers = NULL, merge_species = NULL) {
+  df <- data.frame(FullName = species, ShortName = codes, Layer = layers,
+                   stringsAsFactors = FALSE)
+  df <- cbind(df, covers)
+  plot_cols <- names(covers)
 
-#' Append new header rows (never ID). Fill NA across existing X* columns.
-#' @keywords internal
-#' @noRd
-rv_expand_head_with_fields <- function(HeaderDATA, new_fields) {
-  nf <- setdiff(rv_normalize_fields(new_fields), rv_schema_from_head(HeaderDATA))
-  nf <- nf[tolower(nf) != "id"]
-  if (!length(nf)) return(HeaderDATA)
-  add <- data.frame(ShortName = nf, stringsAsFactors = FALSE)
-  for (xc in setdiff(names(HeaderDATA), "ShortName")) add[[xc]] <- NA
-  rbind(HeaderDATA, add)
-}
-
-#' Last X* column name or NULL.
-#' @keywords internal
-#' @noRd
-rv_last_x_col <- function(df) {
-  xs <- grep("^X\\d+$", names(df), value = TRUE)
-  if (!length(xs)) return(NULL)
-  xs <- xs[order(as.integer(sub("^X", "", xs)))]
-  lc <- tail(xs, 1)
-
-  # If last X* is effectively empty, treat as no previous column
-  vals <- df[[lc]]
-  # coerce to character, remove NA, test for any non-empty
-  ch <- ifelse(is.na(vals), "", as.character(vals))
-  if (!any(nzchar(ch))) return(NULL)
-
-  lc
-}
-
-#' Check if shortname code already exist, if not, passes TRUE (ok)
-#' @keywords internal
-#' @noRd
-rv_check_short_name <- function(code, checklist, meta) {
-  code <- toupper(trimws(code))
-  in_chk <- code %in% toupper(checklist$ShortName)
-
-  extra_codes <- character(0)
-  md <- meta$extra_spec
-  if (!is.null(md) && nzchar(trimws(md))) {
-    items <- strsplit(md, "|", fixed = TRUE)[[1]]
-    items <- items[nzchar(items)]
-    parts <- strsplit(items, "::", fixed = TRUE)
-    extra_codes <- toupper(vapply(parts, function(p) if (length(p) >= 2) trimws(p[2]) else "", ""))
-    extra_codes <- extra_codes[nzchar(extra_codes)]
+  # 1. User-specified layer remapping
+  if (!is.null(merge_layers)) {
+    df$Layer <- rv_layer_map(df$Layer, merge_layers)
+  }
+  # 2. User-specified species remapping
+  if (!is.null(merge_species)) {
+    df$ShortName <- rv_layer_map(df$ShortName, merge_species)
   }
 
-  !(in_chk || code %in% extra_codes)
+  # 3. Merge rows with identical ShortName + Layer
+  groups <- paste(df$ShortName, df$Layer, sep = "||")
+  unique_groups <- unique(groups)
+
+  merged <- do.call(rbind, lapply(unique_groups, function(g) {
+    rows <- df[groups == g, , drop = FALSE]
+    out  <- rows[1, 1:3, drop = FALSE]
+
+    if (nrow(rows) == 1) {
+      out[plot_cols] <- rows[1, plot_cols, drop = FALSE]
+      return(out)
+    }
+
+    names_involved <- unique(rows$FullName)
+    cover_mat      <- as.matrix(rows[, plot_cols, drop = FALSE])
+    has_overlap     <- any(colSums(cover_mat != 0) > 1)
+
+    if (!has_overlap && length(names_involved) == 1) {
+      # Fast path: no overlap, same species — just sum columns
+      for (pc in plot_cols) out[[pc]] <- sum(rows[[pc]])
+    } else {
+      # Real merge — use Merge_layers for overlapping plots
+      for (pc in plot_cols) out[[pc]] <- rv_merge_layers(rows[[pc]])
+
+      if (length(names_involved) > 1) {
+        message(rv_col(paste0(
+          'Merged "', paste(names_involved[-1], collapse = '", "'),
+          '" to "', names_involved[1], '" [', out$Layer, ']'), "ok"))
+      } else {
+        message(rv_col(paste0(
+          'Merged ', nrow(rows), ' rows of "', names_involved[1],
+          '" [', out$Layer, ']'), "ok"))
+      }
+    }
+    out
+  }))
+
+  rownames(merged) <- NULL
+  merged
 }
 
-# pochybne funkce?
-
-#' @keywords internal
-#' @noRd
-rv_existing_k <- function(df) max(0L, ncol(df) - 1L)
+#---- Table and data-frame manipulation ----
 
 #' Robustly bind a list of dataframes by rows (Base R alternative to dplyr::bind_rows)
 #' @keywords internal
@@ -1366,6 +1278,202 @@ rv_bind_rows <- function(df_list) {
   do.call(rbind, padded_list)
 }
 
+
+#---- Optional standalone helpers ----
+
+#' Remap cover codes in a data.frame using a named vector
+#' @keywords internal
+#' @noRd
+rv_cover_map <- function(df, map) {
+  df[] <- lapply(df, function(col) {
+    mapped <- map[as.character(col)]
+    unname(ifelse(is.na(mapped), col, mapped))
+  })
+  df
+}
+
+#' Match species names to short codes from a checklist
+#' @keywords internal
+#' @noRd
+rv_species_code_map <- function(species, code_map) {
+
+  if (!"note" %in% names(code_map)) code_map$note <- NA_character_
+
+  code_map$preset <- code_map$FullName %in% species
+  missing <- species[!species %in% code_map$FullName]
+
+  if (length(missing) > 0) {
+    message(rv_col(paste0(length(missing), " species not found in checklist:"), "warn"))
+    message(paste(" ", missing, collapse = "\n"))
+    unmatched <- data.frame(ShortName = NA_character_, FullName = missing,
+                            preset = TRUE, note = NA_character_,
+                            stringsAsFactors = FALSE)
+    code_map <- rbind(code_map, unmatched)
+  }
+
+  rownames(code_map) <- NULL
+  code_map
+}
+
+#' Fill unmatched ShortName codes via interactive dialogue
+#' @keywords internal
+#' @noRd
+rv_fill_shortnames <- function(map, code_map) {
+
+  if (!"note" %in% names(map)) map$note <- NA_character_
+
+  missing_idx <- which(is.na(map$ShortName))
+  if (length(missing_idx) == 0) {
+    message(rv_col("All species already matched!", "ok"))
+    return(map)
+  }
+
+  n <- length(missing_idx)
+  remove_idx <- integer(0)
+
+  cat(sprintf("\n%d unmatched species to resolve:\n", n))
+
+  for (pos in seq_along(missing_idx)) {
+    i <- missing_idx[pos]
+    sp <- map$FullName[i]
+
+    # --- suggest code (4+3 rule / GENU-SP) ---
+    parts   <- strsplit(trimws(sp), "\\s+")[[1]]
+    genus   <- parts[1]
+    epithet <- if (length(parts) > 1) parts[2] else ""
+    suggested <- NULL
+
+    if (grepl("^(sp\\.|sp|species|spp\\.|spp)$", epithet, ignore.case = TRUE)) {
+      suggested <- paste0(toupper(substr(genus, 1, 4)), "-SP")
+    } else if (nchar(genus) >= 4 && nchar(epithet) >= 3) {
+      suggested <- paste0(toupper(substr(genus, 1, 4)), toupper(substr(epithet, 1, 3)))
+    }
+
+    # --- build suggestion hint with merge/unique info ---
+    suggest_hint <- NULL
+    suggest_existing <- NULL
+    if (!is.null(suggested)) {
+      suggest_existing <- code_map$FullName[code_map$ShortName == suggested]
+      if (length(suggest_existing) > 0) {
+        suggest_hint <- sprintf("%s (merge with %s)", suggested, suggest_existing[1])
+      } else {
+        suggest_hint <- sprintf("%s (unique)", suggested)
+      }
+    }
+
+    cat(sprintf("\n[%d/%d] '%s'\n", pos, n, sp))
+    if (!is.null(suggest_hint)) cat(sprintf("  Suggested: %s\n", suggest_hint))
+
+    assigned <- FALSE
+    while (!assigned) {
+      cat("  (R)emove | (A)uto | (M)anual | (F)ind existing | (S)kip | (E)xit\n")
+      action <- rv_ask_choice("  > ", c("R", "A", "M", "F", "S", "E"))
+
+      # ---- Exit ----
+      if (action == "E") {
+        if (length(remove_idx) > 0) map <- map[-remove_idx, ]
+        still_na <- sum(is.na(map$ShortName))
+        message(rv_col(paste0("\n  Exiting. Remaining NA: ", still_na), "warn"))
+        rownames(map) <- NULL
+        return(map)
+
+        # ---- Remove ----
+      } else if (action == "R") {
+        remove_idx <- c(remove_idx, i)
+        map$note[i] <- "removed"
+        message(rv_col(paste0("  Removed: '", sp, "'"), "warn"))
+        assigned <- TRUE
+
+        # ---- Auto-create ----
+      } else if (action == "A") {
+        if (is.null(suggested)) {
+          message(rv_col("  Cannot auto-generate. Try (M)anual or (F)ind.", "warn"))
+          next
+        }
+
+        if (length(suggest_existing) > 0) {
+          map$note[i] <- paste0("auto: merged with ", suggest_existing[1], " (", suggested, ")")
+        } else {
+          map$note[i] <- paste0("auto: ", suggested)
+        }
+
+        map$ShortName[i] <- suggested
+        message(rv_col(paste0("  ", sp, " --> ", suggested), "ok"))
+        assigned <- TRUE
+
+        # ---- Manual code ----
+      } else if (action == "M") {
+        code <- rv_ask_text("Enter code: ", min_nchar = 7)
+        if (nchar(code) == 0) next
+
+        existing <- code_map$FullName[code_map$ShortName == code]
+        if (length(existing) > 0) {
+          cat(sprintf("  '%s' exists as: %s\n", code, existing[1]))
+          cat(sprintf("  This will merge '%s' with '%s'\n", sp, existing[1]))
+          if (rv_ask_choice("  Proceed? (Y/N): ", c("Y", "N")) == "N") next
+          map$note[i] <- paste0("manual: merged with ", existing[1], " (", code, ")")
+        } else {
+          map$note[i] <- paste0("manual: ", code)
+        }
+
+        map$ShortName[i] <- code
+        message(rv_col(paste0("  ", sp, " --> ", code), "ok"))
+        assigned <- TRUE
+
+        # ---- Find existing ----
+      } else if (action == "F") {
+        repeat {
+          query <- rv_ask_text("Search (min 2 letters):", min_nchar = 2)
+          if (nchar(query) < 2) next
+
+          hits <- code_map[grep(toupper(query), toupper(code_map$FullName), fixed = TRUE), ]
+          if (nrow(hits) == 0) {
+            message(rv_col("  No matches.", "warn"))
+            next
+          }
+
+          print(hits[order(hits$FullName), c("ShortName", "FullName")])
+          pick <- rv_ask_text("TypeCode (or BACK):", allow_cmd = "BACK")
+
+          if (pick == "BACK") break
+
+          if (pick %in% toupper(hits$ShortName)) {
+            code <- hits$ShortName[toupper(hits$ShortName) == pick][1]
+            full <- hits$FullName[toupper(hits$ShortName) == pick][1]
+            cat(sprintf("  '%s' --> %s (%s)\n", sp, code, full))
+            if (rv_ask_choice("  Confirm? (Y/N): ", c("Y", "N")) == "Y") {
+              map$ShortName[i] <- code
+              map$note[i] <- paste0("find: matched to ", full, " (", code, ")")
+              assigned <- TRUE
+              break
+            }
+          } else {
+            cat("  Code not in results.\n")
+          }
+        }
+
+        # ---- Skip ----
+      } else if (action == "S") {
+        map$note[i] <- "skipped"
+        cat("  Skipped.\n")
+        assigned <- TRUE
+      }
+    }
+  }
+
+  # Remove marked rows
+  if (length(remove_idx) > 0) map <- map[-remove_idx, ]
+
+  # Summary
+  still_na <- sum(is.na(map$ShortName))
+  cat(sprintf("\n  Resolved: %d | Removed: %d | Remaining NA: %d\n",
+              n - length(remove_idx) - still_na, length(remove_idx), still_na))
+
+  rownames(map) <- NULL
+  map
+}
+
+#---- Package startup ----
 
 # on attach message
 .onAttach <- function(libname, pkgname) {

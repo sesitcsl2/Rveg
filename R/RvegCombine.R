@@ -52,11 +52,13 @@ RvegCombine <- function(database, export = "export", checklist = "default") {
 
 
   while (TRUE) {
-    a <- toupper(readline("Combine?(LAYER/SPEC/PRINTREL/N) ")) # layer selection
+    a <- rv_ask_choice("Combine?(LAYER/SPEC/PRINTREL/N) ", c("LAYER", "SPEC", "PRINTREL", "N"))
     if (a == "LAYER") {
       while (TRUE) {
-        b <- toupper(readline("Which layer?(3/2/1/0/J) "))
-        c <- toupper(readline("To which layer?(3/2/1/0/J) "))
+        layers_pool <- c("3", "2", "1", "0", "J")
+        b <- rv_ask_choice("Which layer?(3/2/1/0/J) ", layers_pool)
+        c <- rv_ask_choice("To which layer?(3/2/1/0/J) ", layers_pool)
+
         if (all(c(b, c) %in% c(1, 2, 3, "J", 0))) {
           for (i in DATA$ShortName) {
             if (i == paste0(substr(i, 1, 7), "_", b) && any(DATA$ShortName == paste0(substr(i, 1, 7), "_", c))) {
@@ -82,8 +84,8 @@ RvegCombine <- function(database, export = "export", checklist = "default") {
       }
     } else if (a == "SPEC") {
       while (TRUE) {
-        b <- toupper(readline("Which specie?(GenuSpe_L) "))
-        c <- toupper(readline("With which specie?(GenuSpe_L) "))
+        b <- rv_ask_text("Which specie?(GenuSpe_L): ", min_nchar = 9)
+        c <- rv_ask_text("With which specie?(GenuSpe_L): ", min_nchar = 9)
         if (nchar(b) == 9 & nchar(c) == 9) {
 
           if (!(b %in% DATA$ShortName) || !(c %in% DATA$ShortName)) {

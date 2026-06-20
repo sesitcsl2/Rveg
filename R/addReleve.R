@@ -113,12 +113,15 @@ addReleve <- function(database = "NEW", save = "default", checklist = "default",
     rel_count  <- max(0L, ncol(DATA2)       - 1L)
     head_count <- max(0L, ncol(HeaderDATA2) - 1L)
 
-    if (get0("aa", ifnotfound = NA_character_) %in% c("Y","ADDREL","ADDHEAD","RREL","RHEAD","YSP","INFO",
-                                                      "REMOVEHEAD","REMOVEREL","NEW")) {
+    cmds <- c("Y", "ADDREL", "ADDHEAD", "RREL", "RHEAD", "YSP", "PRINTREL",
+              "PRINTHEAD", "PRINTMETA", "REMOVEREL", "INFO", "H", "HELP",
+              "?", "Q", "N")
+
+    if (get0("aa", ifnotfound = NA_character_) %in% cmds) {
       rv_status_banner(checklist, database, save, rel_count, head_count, metadata)
     }
 
-    aa <- toupper(readline("$Rveg: "))
+    aa <- rv_ask_choice("$Rveg: ", cmds)
     if (aa %in% c("H", "HELP", "?")) {
       rv_print_help()
       next
@@ -158,20 +161,26 @@ addReleve <- function(database = "NEW", save = "default", checklist = "default",
 
       if (aa == "RREL") {
 
-        #DATA2 <- read_rel(save)
         DATA2 <- rv_read_db(save)$RelDATA
         k <- rv_existing_k(DATA2)
 
-        while (TRUE) {
-          n <- as.numeric(readline("ReleveNumber? ")) # releve to repair
-          if (is.na(n) != TRUE) {
-            HeaderDATA3 <- rv_read_db(save)$HeaderDATA
-            print(HeaderDATA3[,c(1, n + 1)])
-            tt <- toupper(readline("CorrectNumber?(Y/N) ")) # double check
-            if (tt == "Y") {
-              break
-            }
+        repeat {
+          n <- suppressWarnings(as.integer(readline("ReleveNumber? ")))
+          if (is.na(n) || n < 1) {
+            cat(rv_col("Please enter a positive integer.\n", "warn"))
+            next
           }
+
+          target <- paste0("X", n)
+          if (!target %in% names(DATA2)) {
+            cat(rv_col(paste0("No such column: ", target, "\n"), "warn"))
+            next
+          }
+
+          HeaderDATA3 <- rv_read_db(save)$HeaderDATA
+          print(HeaderDATA3[, c("ShortName", target), drop = FALSE])
+
+          if (rv_ask_choice("CorrectNumber? (Y/N) ", c("Y", "N")) == "Y") break
         }
 
         ID <- n + 1 # identifikace snimku
@@ -242,9 +251,10 @@ addReleve <- function(database = "NEW", save = "default", checklist = "default",
         if (toupper(readline("CorrectColumn?(Y/N) ")) == "Y") break
       }
 
-      mode <- toupper(readline("Repair mode: (S)ingle field / (R)efill all / (C)ancel ? "))
+      mode <- rv_ask_choice("Repair mode: (S)ingle field / (R)efill all / (C)ancel ? ", c("S", "R", "C"))
       if (mode == "C") {
         cat(rv_col("Canceled.\n","warn"))
+        next
       }
 
       if (mode == "S") {
@@ -275,7 +285,7 @@ addReleve <- function(database = "NEW", save = "default", checklist = "default",
       }
 
       print(HeaderDATA2[, c("ShortName", target), drop = FALSE])
-      if (toupper(readline("save changes? (Y/N) ")) == "Y") {
+      if (rv_ask_choice("save changes? (Y/N) ", c("Y", "N")) == "Y"){
         rv_write_db(head = HeaderDATA2,save = save, meta = metadata)
         cat(rv_col("Header updated.\n","ok"))
       } else {
@@ -299,7 +309,7 @@ addReleve <- function(database = "NEW", save = "default", checklist = "default",
 
         print(HeaderDATA2[, target, drop = FALSE]) # selection or releve
 
-        tt <- toupper(readline("CorrectNumber?(Y/N) "))
+        tt <- rv_ask_choice("CorrectNumber?(Y/N) ", c("Y", "N"))
         if (tt != "Y") next
 
         # Remove from both REL and HEAD (keep order of remaining columns)

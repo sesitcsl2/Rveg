@@ -60,8 +60,10 @@ RvegLoad <- function(database = "default",checklist = "default", customscale = F
                       stringsAsFactors = FALSE)
 
   DATArele <- cbind(layer, db$RelDATA) # pro vrstvu
-  for (i in 1:length(DATArele$ShortName)) {
-    DATArele$fullName[i] <- SpLIST$FullName[SpLIST$ShortName == substr(DATArele$ShortName[i], 1, 7)]
+  for (i in seq_along(DATArele$ShortName)) {
+    idx <- match(substr(DATArele$ShortName[i], 1, 7), SpLIST$ShortName)
+    DATArele$fullName[i] <- if (is.na(idx)) NA_character_ else SpLIST$FullName[idx]
+    #DATArele$fullName[i] <- SpLIST$FullName[SpLIST$ShortName == substr(DATArele$ShortName[i], 1, 7)]
     DATArele$layer[i] <- substr(DATArele$ShortName[i], 9, 9)
     DATArele$ShortName[i] <- substr(DATArele$ShortName[i], 1, 7)
   }

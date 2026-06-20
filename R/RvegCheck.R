@@ -65,18 +65,16 @@ RvegCheck <- function(database, export = "export", checklist = "default") {
   if (nzchar(db$meta$project_name)) {
     message(rv_col(paste0("Project: ", db$meta$project_name),"info"))
   } else {
-    v <- readline("No project name found. Enter? (Y/N) ")
-    if(toupper(v) %in% c("Y","YES"))
-    metadata$project_name <- readline("Project name: ")
+    if (rv_ask_choice("No project name found. Enter? (Y/N) ", c("Y", "N")) == "Y") {
+      metadata$project_name <- rv_ask_text("Project name: ", min_nchar = 1)
     }
 
   # project info
   if (nzchar(db$meta$project_description)) {
     message(rv_col(paste0("Project info: ", metadata$project_description),"info"))
   } else {
-    v <- readline("No project info found. Enter? (Y/N) ")
-    if(toupper(v) %in% c("Y","YES"))
-      metadata$project_description <- readline("Project info: ")
+    if (rv_ask_choice("No project info found. Enter? (Y/N) ", c("Y", "N")) == "Y") {
+      metadata$project_description <- rv_ask_text("Project info: ", min_nchar = 1)
     }
 
   # project id

@@ -335,6 +335,9 @@ TvToRveg <- function(tv, export = "export", checklist = "default", Rveglayers = 
     lookup_nodes <- xml_find_all(tvdata, "/Plot_package/Lookup_tables/Species_list/species_record")
     dictionary_list <- list()
 
+    final_dictionary <- data.frame(nr = character(), name = character(),
+                                   stringsAsFactors = FALSE)
+
     if (length(lookup_nodes) > 0) {
       for (k in seq_along(lookup_nodes)) {
         l_attrs <- xml_attrs(lookup_nodes[[k]])
@@ -452,12 +455,7 @@ TvToRveg <- function(tv, export = "export", checklist = "default", Rveglayers = 
   }
 
   data_only <- tvrel[, 3:ncol(tvrel)]
-  while(TRUE){
-    m <- toupper(readline("Abundance in percentage or Braun-blanquet?"))
-    if (m %in% c("P","BB","B")) {
-      break
-    }
-  }
+  m <- rv_ask_choice("Abundance in percentage or Braun-blanquet? (P/BB/B): ", c("P", "BB", "B"))
 
   if (m %in% c("B","BB") & Rveglayers) {
     transform <- Vectorize(rv_bb_to_pct)
@@ -468,7 +466,7 @@ TvToRveg <- function(tv, export = "export", checklist = "default", Rveglayers = 
   condensed_data <- aggregate(
     x = data_only,
     by = list(BaseCode = base_codes_col, LayerCode = layer_code),
-    FUN = Merge_layers
+    FUN = rv_merge_layers
   )
 
 
