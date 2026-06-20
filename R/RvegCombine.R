@@ -52,12 +52,12 @@ RvegCombine <- function(database, export = "export", checklist = "default") {
 
 
   while (TRUE) {
-    a <- rv_ask_choice("Combine?(LAYER/SPEC/PRINTREL/N) ", c("LAYER", "SPEC", "PRINTREL", "N"))
+    a <- rv_ask_choice("Combine? (LAYER/SPEC/PRINTREL/N) ", c("LAYER", "SPEC", "PRINTREL", "N"))
     if (a == "LAYER") {
       while (TRUE) {
         layers_pool <- c("3", "2", "1", "0", "J")
-        b <- rv_ask_choice("Which layer?(3/2/1/0/J) ", layers_pool)
-        c <- rv_ask_choice("To which layer?(3/2/1/0/J) ", layers_pool)
+        b <- rv_ask_choice("Which layer? (3/2/1/0/J) ", layers_pool)
+        c <- rv_ask_choice("To which layer? (3/2/1/0/J) ", layers_pool)
 
         if (all(c(b, c) %in% c(1, 2, 3, "J", 0))) {
           for (i in DATA$ShortName) {
@@ -84,8 +84,8 @@ RvegCombine <- function(database, export = "export", checklist = "default") {
       }
     } else if (a == "SPEC") {
       while (TRUE) {
-        b <- rv_ask_text("Which specie?(GenuSpe_L): ", min_nchar = 9)
-        c <- rv_ask_text("With which specie?(GenuSpe_L): ", min_nchar = 9)
+        b <- toupper(rv_ask_text("Which species? (GenuSpe_L): ", min_nchar = 9))
+        c <- toupper(rv_ask_text("With which species? (GenuSpe_L): ", min_nchar = 9))
         if (nchar(b) == 9 & nchar(c) == 9) {
 
           if (!(b %in% DATA$ShortName) || !(c %in% DATA$ShortName)) {
@@ -95,7 +95,7 @@ RvegCombine <- function(database, export = "export", checklist = "default") {
 
           l1 <- as.numeric(DATA[DATA$ShortName == b, -1])
           l2 <- as.numeric(DATA[DATA$ShortName == c, -1])
-          l3 <- round(l1 + (l2 * (1 - (l1 / 100)))) # propability shared cover
+          l3 <- round(l1 + (l2 * (1 - (l1 / 100)))) # probabilistic shared cover
 
           DATA <- DATA[DATA$ShortName != b, ]
           DATA[DATA$ShortName == c, -1] <- l3

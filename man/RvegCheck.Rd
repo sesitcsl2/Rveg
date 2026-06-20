@@ -27,7 +27,7 @@ A diagnostic and managing utility to verify the health and integrity of an \code
 and outputs a summary of the database's current state.
 }
 \details{
-\emph{Note: This function is currently under active development.} #'
+\emph{Note: This function is currently under active development.}
 At present, the function serves primarily as a diagnostic and metadata-repair tool.
 When run, it checks the database for a \code{project_name} and \code{project_description}.
 If these are missing, it will interactively prompt the user to supply them. It also

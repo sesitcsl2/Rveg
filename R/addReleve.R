@@ -128,7 +128,7 @@ addReleve <- function(database = "NEW", save = "default", checklist = "default",
     }
 
     if ((aa == "Y" | aa == "YSP") & ncol(DATA2) != ncol(HeaderDATA2)) {
-      message(rv_col("Number of relev\u00e9s:s and headers must match!!!","err"))
+      message(rv_col("Number of relev\u00e9s and headers must match!!!","err"))
     } ## warning for mismatch
 
     if (aa == "NEW" | aa == "RREL" | (aa == "Y" & ncol(DATA2) == ncol(HeaderDATA2)) | aa == "ADDREL") {
@@ -248,7 +248,7 @@ addReleve <- function(database = "NEW", save = "default", checklist = "default",
         target <- paste0("X", n)
         if (!target %in% releve_cols) { cat(rv_col(paste0("No such column: ", target, "\n"), "warn")); next }
         print(HeaderDATA2[, c("ShortName",target), drop = FALSE])
-        if (toupper(readline("CorrectColumn?(Y/N) ")) == "Y") break
+        if (toupper(readline("CorrectColumn? (Y/N) ")) == "Y") break
       }
 
       mode <- rv_ask_choice("Repair mode: (S)ingle field / (R)efill all / (C)ancel ? ", c("S", "R", "C"))
@@ -309,7 +309,7 @@ addReleve <- function(database = "NEW", save = "default", checklist = "default",
 
         print(HeaderDATA2[, target, drop = FALSE]) # selection or releve
 
-        tt <- rv_ask_choice("CorrectNumber?(Y/N) ", c("Y", "N"))
+        tt <- rv_ask_choice("CorrectNumber? (Y/N) ", c("Y", "N"))
         if (tt != "Y") next
 
         # Remove from both REL and HEAD (keep order of remaining columns)

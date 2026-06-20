@@ -65,9 +65,9 @@ rv_menu_commands <- function() {
     YSP       = "Batch: add one species to many relev\u00e9s",
     PRINTREL  = "Print REL table",
     PRINTHEAD = "Print HEAD table",
-    PRINTMETA = "Print META informations",
+    PRINTMETA = "Print metadata",
     REMOVEREL = "Remove a relev\u00e9 (REL+HEAD) and reindex",
-    INFO = "Print sessions informations",
+    INFO = "Print session information",
     "?, H, HELP"       = "Show this help",
     "Q, N"         = "Save & quit"
   )
@@ -145,7 +145,7 @@ rv_ask_abundance <- function(scale) {
 
   if (scale == "P") {
     repeat {
-      x <- rv_ask_text("Abundance?(%) ")
+      x <- rv_ask_text("Abundance? (%) ")
       o <- suppressWarnings(as.numeric(x))
       if (!is.na(o) && o >= 0 && o <= 100) return(o)
       message(rv_col("Enter number in range 0-100", "warn"))
@@ -158,7 +158,7 @@ rv_ask_abundance <- function(scale) {
 
   if (scale %in% c("BB", "B")) {
     bb <- rv_ask_choice(
-      "Abundance?(0,R,+,1,2,M,A,B,3,4,5) ",
+      "Abundance? (0,R,+,1,2,M,A,B,3,4,5) ",
       c("0","R","+","1","2","M","A","B","3","4","5")
     )
     return(rv_bb_to_pct(bb))
@@ -750,7 +750,7 @@ rv_releve_dialogue <- function(SpLIST, RelNew, metadata, SAVE = NULL, HeaderDATA
   if (variation == 1) {
 
     repeat {
-      add_layer <- rv_ask_choice("AddNewLayer?(Y/N) ", c("Y","N"))
+      add_layer <- rv_ask_choice("AddNewLayer? (Y/N) ", c("Y","N"))
 
       if (add_layer == "N") {
 
@@ -766,7 +766,7 @@ rv_releve_dialogue <- function(SpLIST, RelNew, metadata, SAVE = NULL, HeaderDATA
       }
 
       most <- rv_ask_choice("Select Layer (3,2,1,J,0) ", c("3","2","1","J","0"))
-      oo   <- rv_ask_choice("P - percentage, BB - Braun B. scale, CS - custom scale ",
+      oo   <- rv_ask_choice("P - percentage, BB - Braun-Blanquet scale, CS - custom scale ",
                             c("P","BB","B","CS"))
 
       repeat {
@@ -888,14 +888,14 @@ rv_releve_dialogue <- function(SpLIST, RelNew, metadata, SAVE = NULL, HeaderDATA
                                            stringsAsFactors = FALSE)
     }
 
-    oo <- rv_ask_choice("P - percentage, BB - Braun B. scale, CS - custom scale ",
+    oo <- rv_ask_choice("P - percentage, BB - Braun-Blanquet scale, CS - custom scale ",
                         c("P","BB","B","CS"))
 
     repeat {
       x <- rv_ask_text("Add new species (GenuSpe)/N?  ", min_nchar = 1, allow_cmd = c("N"))
 
       if (x == "N") {
-        rs <- rv_ask_choice("Add headers?(Y/N) ", c("Y","N"))
+        rs <- rv_ask_choice("Add headers? (Y/N) ", c("Y","N"))
         if (rs == "Y") {
           for (i in 1:m) {
             cat(rv_col(paste0("Relev\u00e9 ", i),"info"))

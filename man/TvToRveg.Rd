@@ -32,8 +32,8 @@ specified checklist, and maps vegetation layers.
 }
 \details{
 This function natively supports both \code{.csv} and \code{.xml} Turboveg export formats.
-In Turboveg, either selecet \verb{Standard XML file} or \verb{Spreadsheet table}. In the case
-of spreadsheet table, select format `semicolon delimited and requested header data.
+In Turboveg, either selecet \verb{Standard XML file} or \verb{Spreadsheet table}.
+For spreadsheet export, select semicolon-delimited format and include the requested header data.
 
 During the import process, the function operates interactively:
 \itemize{

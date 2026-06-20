@@ -14,14 +14,13 @@
 #' * **Absence Encoding:** Zero values (`0`) are converted to `.`.
 #' * **Encoding:** Files are written using `ISO-8859-15` encoding, which is the standard expected by JUICE for proper character rendering.
 #'
-#' For JUICE import first import relevé data as Spreadsheet file and follow with Header data as Tab delimineted file.
+#' For JUICE import first import relevé data as Spreadsheet file and follow with Header data as tab-delimited file.
 #'
 #'
 #' @param database Character. The path and name of an existing Rveg database
 #' to be exported (e.g., `"path/to/my_db"`).
 #' @param export Character. The output path and name where the resulting JUICE-compatible
 #' files will be saved. Defaults to a temporary directory.
-#' @param export name of your exported csv file
 #' @param checklist Character. The species checklist to use. By default, the function
 #' attempts to read the checklist specified in the database's metadata. You can
 #' override this by providing a custom file path or a built-in dictionary string.
@@ -134,8 +133,8 @@ RvegToJuice <- function(database,  export = "export", checklist = "default") {
 #'
 #' @details
 #' This function natively supports both `.csv` and `.xml` Turboveg export formats.
-#' In Turboveg, either selecet `Standard XML file` or `Spreadsheet table`. In the case
-#' of spreadsheet table, select format `semicolon delimited and requested header data.
+#' In Turboveg, either selecet `Standard XML file` or `Spreadsheet table`.
+#' For spreadsheet export, select semicolon-delimited format and include the requested header data.
 #'
 #' During the import process, the function operates interactively:
 #' * **Species Resolution:** If a species in the Turboveg file cannot be automatically matched to the provided checklist, the function will pause and prompt the user to manually resolve the unknown species using a search interface.
@@ -455,7 +454,7 @@ TvToRveg <- function(tv, export = "export", checklist = "default", Rveglayers = 
   }
 
   data_only <- tvrel[, 3:ncol(tvrel)]
-  m <- rv_ask_choice("Abundance in percentage or Braun-blanquet? (P/BB/B): ", c("P", "BB", "B"))
+  m <- rv_ask_choice("Abundance in percentage or Braun-Blanquet scale (P/BB/B): ", c("P", "BB", "B"))
 
   if (m %in% c("B","BB") & Rveglayers) {
     transform <- Vectorize(rv_bb_to_pct)

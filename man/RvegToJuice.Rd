@@ -11,7 +11,8 @@ RvegToJuice(database, export = "export", checklist = "default")
 \item{database}{Character. The path and name of an existing Rveg database
 to be exported (e.g., \code{"path/to/my_db"}).}
 
-\item{export}{name of your exported csv file}
+\item{export}{Character. The output path and name where the resulting JUICE-compatible
+files will be saved. Defaults to a temporary directory.}
 
 \item{checklist}{Character. The species checklist to use. By default, the function
 attempts to read the checklist specified in the database's metadata. You can
@@ -37,7 +38,7 @@ background transformations:
 \item \strong{Encoding:} Files are written using \code{ISO-8859-15} encoding, which is the standard expected by JUICE for proper character rendering.
 }
 
-For JUICE import first import relevé data as Spreadsheet file and follow with Header data as Tab delimineted file.
+For JUICE import first import relevé data as Spreadsheet file and follow with Header data as tab-delimited file.
 }
 \examples{
 # Example: Exporting the built-in example Rveg database to JUICE format

@@ -6,7 +6,7 @@
 #' and outputs a summary of the database's current state.
 #'
 #' @details
-#' *Note: This function is currently under active development.* #'
+#' *Note: This function is currently under active development.*
 #' At present, the function serves primarily as a diagnostic and metadata-repair tool.
 #' When run, it checks the database for a `project_name` and `project_description`.
 #' If these are missing, it will interactively prompt the user to supply them. It also
@@ -68,6 +68,7 @@ RvegCheck <- function(database, export = "export", checklist = "default") {
     if (rv_ask_choice("No project name found. Enter? (Y/N) ", c("Y", "N")) == "Y") {
       metadata$project_name <- rv_ask_text("Project name: ", min_nchar = 1)
     }
+  }
 
   # project info
   if (nzchar(db$meta$project_description)) {
@@ -76,6 +77,7 @@ RvegCheck <- function(database, export = "export", checklist = "default") {
     if (rv_ask_choice("No project info found. Enter? (Y/N) ", c("Y", "N")) == "Y") {
       metadata$project_description <- rv_ask_text("Project info: ", min_nchar = 1)
     }
+  }
 
   # project id
   message(rv_col(paste0("id: ",metadata$db_id),"info"))
