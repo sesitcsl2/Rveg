@@ -121,7 +121,7 @@ addReleve <- function(database = "NEW", save = "default", checklist = "default",
               "PRINTHEAD", "PRINTMETA", "REMOVEREL", "INFO", "H", "HELP",
               "?", "Q", "N")
 
-    if (get0("aa", ifnotfound = NA_character_) %in% cmds) {
+    if (get0("aa", ifnotfound = NA_character_) %in% c("Y","ADDREL","ADDHEAD","RREL","RHEAD","YSP","INFO")) {
       rv_status_banner(checklist, database, save, rel_count, head_count, metadata)
     }
 
