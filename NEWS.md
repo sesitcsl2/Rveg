@@ -1,7 +1,14 @@
 # Rveg 0.1.11 - 0.1.9
 
-Minor bug hot-fixes:
+## Minor bug hot-fixes:
 During these updates, incorrect default checklist (`cz_dh2012.txt`) was exported. The compability of older databases might vary, depending on the species in the plots. 
+
+## QOL update
+Corrected typos
+
+## Next releases
+In the upcoming release v 0.2, you can expect new updated quide and also vegetation classification option.
+
 
 # Rveg 0.1.8 
 
