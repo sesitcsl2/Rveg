@@ -1,3 +1,5 @@
+# Rveg 0.2.0
+
 # Rveg 0.1.11 - 0.1.9
 
 ## Minor bug hot-fixes:

@@ -1,6 +1,6 @@
 Package: Rveg
 Title: Digitization of Phytosociological Relevés
-Version: 0.1.11
+Version: 0.2.0
 Authors@R: c( 
     person("Přemysl", "Král", , "kralp@fzp.czu.cz", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-2887-651X")),
@@ -16,7 +16,6 @@ URL: https://plant-ecology-lab-czu.com/rveg/
 License: GPL (>= 3)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.3
 Imports:
     utils,
     xml2
@@ -24,3 +23,4 @@ Suggests:
     knitr,
     rmarkdown
 VignetteBuilder: knitr
+Config/roxygen2/version: 8.1.0
