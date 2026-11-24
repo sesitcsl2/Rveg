@@ -7,9 +7,15 @@
 #'
 #' @details
 #' The structure of the imported data is controlled by the `variation` parameter:
-#' * **`variation = 1` (Default):** Returns a single, large data frame. The header data (HEAD) is bound to the top of the species composition data (REL), with new columns added for `FullName` and `layer`.
+#' * **`variation = 1` (Default):** Returns a single, large data frame. The header data (HEAD) is bound to the top of the species composition data (REL), with new columns added for `fullName` and `layer`.
 #' * **`variation = 2`:** Returns the raw database as a list of three elements: `$HeaderDATA`, `$RelDATA`, and `$meta` (metadata) without any taxonomic translation.
-#' * **`variation = 3`:** Returns the database as a list of three elements, but `$RelDATA` is processed to include the translated `FullName` and `layer` columns.
+#' * **`variation = 3`:** Returns the database as a list of three elements, but `$RelDATA` is processed to include the translated `fullName` and `layer` columns.
+#' * **`variation = 4`:** Returns `$HeaderDATA` and `$RelDATA` with plots in rows, plus `$meta`.
+#'   Both tables use the original plot keys (e.g., `X1`) as row names. The columns are
+#'   header fields and taxa by layer, respectively. Taxon columns use `FullName_layer`
+#'   or `ShortName_layer` if the checklist has no name for that code.
+#'   The cover table is numeric when all nonblank values are numeric. Otherwise it
+#'   preserves the original cover-scale symbols as text.
 #'
 #' **Custom Scales:** If `customscale = TRUE`, the function operates interactively. It will pause and prompt the user to manually define percentage replacements for any custom abundance symbols found in the data.
 #'
@@ -18,9 +24,9 @@
 #' @param checklist Character. The species checklist to use for taxonomy translation.
 #' By default, the function uses the checklist specified in the database's metadata.
 #' @param customscale Logical. If `TRUE`, launches an interactive prompt to convert custom abundance scales into numeric percentages. Defaults to `FALSE`.
-#' @param variation Numeric. Determines the format of the returned object (`1`, `2`, or `3`). Defaults to `1`.
+#' @param variation Numeric. Determines the format of the returned object (`1` to `4`). Defaults to `1`.
 #'
-#' @return A data frame (if `variation = 1`) or a list containing data frames and metadata (if `variation = 2` or `3`).
+#' @return A data frame if `variation = 1`, or a list containing data frames and metadata for variants `2` to `4`.
 #'
 #' @examples
 #' # Example 1: Load the built-in Rveg database into a single data frame
@@ -56,8 +62,8 @@ RvegLoad <- function(database = "default",checklist = "default", customscale = F
   SpLIST <- rv_make_sp_list(checklist,db$meta)
 
   layer <- data.frame(fullName = character(nrow(db$RelDATA)),
-                      layer = character(nrow(db$RelDATA)),
-                      stringsAsFactors = FALSE)
+    layer = character(nrow(db$RelDATA)),
+    stringsAsFactors = FALSE)
 
   DATArele <- cbind(layer, db$RelDATA) # pro vrstvu
   for (i in seq_along(DATArele$ShortName)) {
@@ -70,6 +76,29 @@ RvegLoad <- function(database = "default",checklist = "default", customscale = F
 
   DATArele <- cbind(DATArele$ShortName,DATArele[,-3])
   colnames(DATArele)[1] <- "ShortName"
+
+  if (variation == 4) {
+    plots <- names(db$RelDATA)[-1L]
+    headers <- t(db$HeaderDATA[plots])
+    colnames(headers) <- make.unique(db$HeaderDATA$ShortName)
+
+    taxa <- DATArele$fullName
+    missing_names <- is.na(taxa) | !nzchar(taxa)
+    taxa[missing_names] <- DATArele$ShortName[missing_names]
+    cover <- t(DATArele[plots])
+    colnames(cover) <- make.unique(paste(taxa, DATArele$layer, sep = "_", recycle0 = TRUE))
+
+    numeric_cover <- suppressWarnings(as.numeric(cover))
+    symbols <- cover[is.na(numeric_cover) & !is.na(cover)]
+    if (!any(nzchar(trimws(symbols)))) {
+      cover <- matrix(numeric_cover, nrow = nrow(cover), ncol = ncol(cover),
+        dimnames = dimnames(cover))
+    }
+
+    db$HeaderDATA <- as.data.frame(headers, optional = TRUE)
+    db$RelDATA <- as.data.frame(cover, optional = TRUE)
+    return(db)
+  }
 
   DATAhead <- cbind(rep("",times=nrow(db$HeaderDATA)),db$HeaderDATA)
   DATAhead <- cbind(rep("",times=nrow(DATAhead)),DATAhead)
@@ -88,8 +117,8 @@ RvegLoad <- function(database = "default",checklist = "default", customscale = F
     db2<- db
     db2$RelDATA <- DATArele
     output <- db2
-    } ## separate output with fullnames.
+  } ## separate output with fullnames.
 
   return(output)
 
-  }
+}

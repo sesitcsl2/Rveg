@@ -12,8 +12,8 @@
 #' background transformations:
 #' * **Layer Mapping:** Rveg layers are automatically converted to JUICE's numeric layer representations (e.g., Tree layer "3" becomes "2", Shrub "2" becomes "4", Herb "1" becomes "6", etc.).
 #' * **Absence Encoding:** Zero values (`0`) are converted to `.`.
-#' * **Encoding:** Files are written using `ISO-8859-15` encoding, which is the standard expected by JUICE for proper character rendering.
-#'
+#' * **Encoding:** Files use `ISO-8859-15`. Rveg warns when it omits unsupported characters from the exported text.
+
 #' For JUICE import first import relevé data as Spreadsheet file and follow with Header data as tab-delimited file.
 #'
 #'
@@ -65,17 +65,14 @@ RvegToJuice <- function(database,  export = "export", checklist = "default") {
   code <- as.character(DATA[[1]])
   short <- substr(code, 1, 7)
   layer_raw <- substr(code, 9, 9)
-
-  layer_map <- c("3" = "2", "2" = "4", "1" = "6", "0" = "9", "J" = "7")
-  layer <- unname(layer_map[layer_raw])
-  layer[is.na(layer)] <- layer_raw[is.na(layer)]
+  layer <- rv_juice_layers(layer_raw, "rveg_to_juice", unmapped = "keep")
 
   species <- unname(sp_map[short])
-  species[is.na(species)] <- short
+  unmatched <- is.na(species)
+  species[unmatched] <- short[unmatched]
 
   cover <- as.matrix(DATA[, -1, drop = FALSE])
   cover[cover == 0] <- "."
-  cover <- apply(cover, 2, as.character)
 
   rel_out <- rbind(
     c(NA, NA, seq_len(ncol(cover))),
@@ -88,6 +85,23 @@ RvegToJuice <- function(database,  export = "export", checklist = "default") {
   HeaderDATA <- HeaderDATA[-1, , drop = FALSE]
   HeaderDATA <- cbind("Relev\u00e9 number" = seq_len(nrow(HeaderDATA)), HeaderDATA)
 
+
+  # --- check export encoding ---- ####
+  encoding <- "ISO-8859-15"
+  tty <- paste0("Export from ", database)
+  ttz <- paste0("Number of relev\u00e9s:", ncol(cover))
+  text <- c(names(HeaderDATA), unlist(HeaderDATA, use.names = FALSE), tty, ttz, rel_out)
+  invalid <- !is.na(text) & is.na(iconv(text, to = encoding))
+  if (any(invalid)) {
+    omit_unsupported <- function(x) {
+      encoded <- iconv(x, to = encoding, sub = "")
+      iconv(encoded, from = encoding, to = "UTF-8")
+    }
+    HeaderDATA[] <- lapply(HeaderDATA, omit_unsupported)
+    tty <- omit_unsupported(tty)
+    rel_out[] <- omit_unsupported(rel_out)
+  }
+
   # --- write files ---
   header_file <- paste0(export, "H.csv")
   rel_file <- paste0(export, "R.csv")
@@ -99,13 +113,10 @@ RvegToJuice <- function(database,  export = "export", checklist = "default") {
     eol = "\r\n",
     row.names = FALSE,
     quote = FALSE,
-    fileEncoding = "ISO-8859-15"
+    fileEncoding = encoding
   )
 
-  tty <- paste0("Export from ", database)
-  ttz <- paste0("Number of relev\u00e9s:", ncol(cover))
-
-  con <- file(rel_file, open = "w", encoding = "ISO-8859-15")
+  con <- file(rel_file, open = "w", encoding = encoding)
   writeLines(c(tty, ttz, ""), con = con, sep = "\r\n")
   close(con)
 
@@ -119,8 +130,15 @@ RvegToJuice <- function(database,  export = "export", checklist = "default") {
     na = "",
     quote = FALSE,
     append = TRUE,
-    fileEncoding = "ISO-8859-15"
+    fileEncoding = encoding
   )
+
+  if (any(invalid)) {
+    warning("JUICE export omitted characters that ", encoding,
+      " cannot represent, for example in ",
+      encodeString(text[which(invalid)[1L]], quote = '"'), ".", call. = FALSE)
+  }
+  invisible(NULL)
 
 }
 
@@ -404,23 +422,15 @@ TvToRveg <- function(tv, export = "export", checklist = "default", Rveglayers = 
   HeaderDATA <- cbind(HeaderDATA, tvhead_data)
 
   species_names <- tvrel[, 1]
-  raw_layers <- tvrel[, 2]
-  first_letter <- substr(raw_layers, 1, 1)
 
   unique_import_names <- unique(species_names)
-  unknown_mask <- !(unique_import_names %in% SpLIST$FullName)
-  unknown_species <- unique_import_names[unknown_mask]
-
-  # Create a lookup vector (Name -> BaseCode)
-  # Start by filling knowns
-  name_map <- character(length(unique_import_names))
-  names(name_map) <- unique_import_names
-
-  # Fill knowns from SpList
-  known_names <- unique_import_names[!unknown_mask]
-  match_idx <- match(known_names, SpLIST$FullName)
-  raw_codes <- SpLIST$ShortName[match_idx]
-  name_map[known_names] <- raw_codes
+  candidates <- rv_checklist_matches(unique_import_names, SpLIST)
+  # Use the first matching code in checklist order.
+  codes <- vapply(candidates, function(matches) {
+    if (length(matches)) matches[1L] else NA_character_
+  }, character(1L), USE.NAMES = FALSE)
+  name_map <- setNames(codes, unique_import_names)
+  unknown_species <- unique_import_names[is.na(name_map)]
 
   # --- Interactive Resolution Loop ---
   if (length(unknown_species) > 0) {
@@ -442,25 +452,9 @@ TvToRveg <- function(tv, export = "export", checklist = "default", Rveglayers = 
 
   base_codes_col <- name_map[species_names]
 
-  raw_layers <- tvrel[, 2]
-  first_letter <- substr(raw_layers, 1, 1)
-  layer_code <- raw_layers
-
+  layer_code <- tvrel[, 2]
   if (Rveglayers) {
-    # Map letters to your numeric codes
-    layer_code <- character(length(first_letter))
-    layer_code[first_letter == "h"] <- "1"
-    layer_code[first_letter == "s"] <- "2"
-    layer_code[first_letter == "t"] <- "3"
-    layer_code[first_letter == "m"] <- "0"
-    layer_code[first_letter == "j"] <- "J"
-
-    layer_code[first_letter %in% c("6")] <- "1"
-    layer_code[first_letter %in% c("4","5")] <- "2"
-    layer_code[first_letter %in% c("1","2","3")] <- "3"
-    layer_code[first_letter %in% c("9","0")] <- "0"
-    layer_code[first_letter %in% c("7","8")] <- "J"
-
+    layer_code <- rv_juice_layers(layer_code, "tv_to_rveg", unmapped = "empty")
   }
 
   data_only <- tvrel[, 3:ncol(tvrel), drop = FALSE]
@@ -565,10 +559,7 @@ RvegToTv <- function(database, export = "export", checklist = "default", ver = 3
   if (any(miss)) warning("Unmatched ShortName codes: ", paste(unique(key[miss]), collapse = ", "))
 
   ## layers
-  DATA$Layer <- substr(DATA$ShortName, 9, 9)
-  map <- c("0"="ml", "1"="hl", "2"="s1", "3"="t1", "J"="jl")
-  x <- as.character(DATA$Layer)
-  DATA$Layer <- ifelse(x %in% names(map), unname(map[x]), DATA$Layer)
+  DATA$Layer <- rv_juice_layers(substr(DATA$ShortName, 9, 9), "rveg_to_tv", unmapped = "keep")
 
 
   if (ver == 3) {

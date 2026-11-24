@@ -27,14 +27,17 @@ environmental plot header data (HEAD), and seamlessly combines their metadata.
 During the merge process:
 \itemize{
 \item \strong{Relevé Re-indexing:} The relevé columns from both databases are sequentially re-indexed (e.g., \code{X1}, \code{X2}, ..., \code{Xn}) to prevent column name collisions.
-\item \strong{Checklist Validation:} The function checks the metadata of both databases to ensure they were built using the same species checklist. If the checklists differ, it will issue a warning, though the merge will still proceed.
+\item \strong{Checklist Validation:} The result uses the first database's checklist.
+The function warns when the checklists differ and reports code changes
+and matches based on normalized names.
 \item \strong{Missing Species:} If a species exists in one database but not the other, the function automatically fills the absences with \code{0}.
-\item \strong{Metadata:} The total number of relevés is updated, and any custom species (\code{extra_spec}) from both databases are concatenated together.
+\item \strong{Metadata:} Taxa without a unique target code are kept as separate
+entries in \code{extra_spec}. The total number of relevés is updated.
 }
 }
 \examples{
 # Example: Merging the built-in database with itself
-db_path <- file.path(path.package("Rveg"), "extdata/ExampleDB", "example_1")
+db_path <- file.path(path.package("Rveg"), "extdata/ExampleDB", "example_2")
 
 RvegMerge(
   database_1 = db_path,

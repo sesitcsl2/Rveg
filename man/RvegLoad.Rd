@@ -20,10 +20,10 @@ By default, the function uses the checklist specified in the database's metadata
 
 \item{customscale}{Logical. If \code{TRUE}, launches an interactive prompt to convert custom abundance scales into numeric percentages. Defaults to \code{FALSE}.}
 
-\item{variation}{Numeric. Determines the format of the returned object (\code{1}, \code{2}, or \code{3}). Defaults to \code{1}.}
+\item{variation}{Numeric. Determines the format of the returned object (\code{1} to \code{4}). Defaults to \code{1}.}
 }
 \value{
-A data frame (if \code{variation = 1}) or a list containing data frames and metadata (if \code{variation = 2} or \code{3}).
+A data frame if \code{variation = 1}, or a list containing data frames and metadata for variants \code{2} to \code{4}.
 }
 \description{
 Reads an existing \code{Rveg} database (containing relevé data, header data, and metadata)
@@ -33,9 +33,15 @@ into R for analysis. By default, it automatically translates the internal 7-char
 \details{
 The structure of the imported data is controlled by the \code{variation} parameter:
 \itemize{
-\item \strong{\code{variation = 1} (Default):} Returns a single, large data frame. The header data (HEAD) is bound to the top of the species composition data (REL), with new columns added for \code{FullName} and \code{layer}.
+\item \strong{\code{variation = 1} (Default):} Returns a single, large data frame. The header data (HEAD) is bound to the top of the species composition data (REL), with new columns added for \code{fullName} and \code{layer}.
 \item \strong{\code{variation = 2}:} Returns the raw database as a list of three elements: \verb{$HeaderDATA}, \verb{$RelDATA}, and \verb{$meta} (metadata) without any taxonomic translation.
-\item \strong{\code{variation = 3}:} Returns the database as a list of three elements, but \verb{$RelDATA} is processed to include the translated \code{FullName} and \code{layer} columns.
+\item \strong{\code{variation = 3}:} Returns the database as a list of three elements, but \verb{$RelDATA} is processed to include the translated \code{fullName} and \code{layer} columns.
+\item \strong{\code{variation = 4}:} Returns \verb{$HeaderDATA} and \verb{$RelDATA} with plots in rows, plus \verb{$meta}.
+Both tables use the original plot keys (e.g., \code{X1}) as row names. The columns are
+header fields and taxa by layer, respectively. Taxon columns use \code{FullName_layer}
+or \code{ShortName_layer} if the checklist has no name for that code.
+The cover table is numeric when all nonblank values are numeric. Otherwise it
+preserves the original cover-scale symbols as text.
 }
 
 \strong{Custom Scales:} If \code{customscale = TRUE}, the function operates interactively. It will pause and prompt the user to manually define percentage replacements for any custom abundance symbols found in the data.

@@ -14,12 +14,13 @@ unaffordable then Rveg package. Also R package solution can save users
 effort, as significant part of the world science community nowadays use
 R for the further analyses.
 
-Rveg creates
+Rveg also classifies vegetation plots using ESy rules or a
+VegKey-inspired model.
 
 ## Installation
 
 You can install the development version of Rveg from
-[GitHub](https://github.com/) with `devtools` package:
+[GitHub](https://github.com/sesitcsl2/Rveg) with `devtools` package:
 
 ``` r
 install.packages("devtools")
@@ -37,18 +38,18 @@ require(Rveg)
 
 ## Usage
 
-Soon you might watch commented videomanual on youtube.
-
 Rveg brings a few functions for working with vegetation occurrence and
 abundance data, I.e phytosociological relevés.
 
 ``` r
 addReleve() # Records your relevés
-RvegCheck() # Check your database for duplicities
+RvegCheck() # Inspect and edit database metadata
 RvegMerge() # Merge two databases
 RvegCombine() # Merge two species in database or merge Layers
 RvegToJuice() # Convert Rveg database to JUICE compatible format 
-tvToRveg() # Convert Turboveg csv export to Rveg database format
+TvToRveg() # Import Turboveg CSV or XML
+RvegClassify() # Classify vegetation plots
+RvegLoad() # Load a database into R
 ```
 
 For more detailed informations about their usage use `help(fun)`
@@ -57,12 +58,12 @@ For more detailed informations about their usage use `help(fun)`
 
 ``` r
 require(Rveg)
-addReleve(SAVE = "My_first_database")
+addReleve(save = "My_first_database")
 ```
 
-That will start dialoque communication in console for writing the
-relevés. Rveg database consist of Header csv file and Relevé csv file.
-First you have to fill header DATA for your first relevé.
+At the `$Rveg:` prompt, enter `Y` to start your first relevé. Rveg asks
+for the header fields, then the species records. The database is saved
+as `My_first_databaseHEAD.csv` and `My_first_databaseREL.csv`.
 
 ``` console
 DATE?(Y/M/D): 2023/1/5
@@ -134,5 +135,5 @@ database. You will simply rerun addReleve function with one more
 argument, bringing you back to the dialoque menu.
 
 ``` r
-addReleve(DATABASE= "My_first_database", SAVE = "My_first_database")
+addReleve(database = "My_first_database", save = "My_first_database")
 ```

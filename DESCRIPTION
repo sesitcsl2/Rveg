@@ -6,13 +6,26 @@ Authors@R: c(
            comment = c(ORCID = "0000-0002-2887-651X")),
     person("Jan", "Douda", , "douda@fzp.czu.cz", role = "aut",
            comment = c(ORCID = "0000-0002-1205-364X")))
-Description: Simple and fast tool for transforming phytosociological 
-    vegetation data into digital form for the following analysis.
-    Danihelka, Chrtek, and Kaplan (2012, ISSN:00327786).
-    Hennekens, and Schaminée (2001) <doi:10.2307/3237010>.
-    Tichý (2002) <doi:10.1111/j.1654-1103.2002.tb02069.x>.
-    Wickham, François, Henry, Müller (2022) <https://CRAN.R-project.org/package=dplyr>.
-URL: https://plant-ecology-lab-czu.com/rveg/
+Description: Digitizes, manages, and classifies phytosociological vegetation
+    plots. Includes a checklist of Czech vascular plants based on
+    Danihelka, Chrtek, and Kaplan (2012)
+    <https://www.preslia.cz/article/159>. Imports vegetation data from
+    'TURBOVEG' (Hennekens and Schaminée, 2001)
+    <doi:10.2307/3237010> and exports data for 'JUICE' (Tichý, 2002)
+    <doi:10.1111/j.1654-1103.2002.tb02069.x>. Supports vegetation
+    classification using 'CzechVeg-ESy' expert rules (Chytrý et al., 2020)
+    <doi:10.5281/zenodo.3605562> and a constancy-based classifier inspired
+    by 'VegKey' (Tichý and Chytrý, 2019) <doi:10.1111/jvs.12799>.
+    The bundled default classification model was trained on
+    'CzechVeg-OpenStrat' (Chytrý et al., 2026)
+    <doi:10.5281/zenodo.19231152>. Resolves plant synonyms using the
+    World Checklist of Vascular Plants (Govaerts et al., 2021)
+    <doi:10.1038/s41597-021-00997-6>, the taxonomic backbone of
+    'Plants of the World Online'. For package methodology, see
+    Král and Douda (2025) <doi:10.1111/jvs.70012>.
+URL: https://plant-ecology-lab-czu.com/resources/rveg/,
+    https://github.com/sesitcsl2/Rveg
+BugReports: https://github.com/sesitcsl2/Rveg/issues
 License: GPL (>= 3)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)

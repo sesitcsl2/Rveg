@@ -9,9 +9,9 @@
 #' * **Layer Merging (`LAYER`):** Moves all species recorded in one specific layer (e.g., shrub layer `2`) into another layer (e.g., tree layer `3`).
 #' * **Species Merging (`SPEC`):** Merges the records of one specific taxon into another across the entire database, which is highly useful for resolving taxonomic aggregates or correcting identification errors after data entry.
 #'
-#' **Mathematical Consolidation:** #' When merging entities that both have non-zero percentage covers in the same relevé,
-#' the function does not simply add them together (which could exceed 100%). Instead,
-#' it uses a probabilistic sum formula to estimate the combined cover:
+#' **Mathematical Consolidation:** When both records have positive cover in a
+#' relevé, Rveg rounds their probabilistic sum to two decimal places. A single
+#' contributing cover is carried forward as recorded.
 #' \deqn{Combined = C_1 + C_2 \times (1 - \frac{C_1}{100})}{Combined = C1 + C2 * (1 - C1/100)}
 #'
 #' @param database Character. The path and name of the existing `Rveg` database
@@ -51,6 +51,12 @@ RvegCombine <- function(database, export = "export", checklist = "default") {
     prefer_meta = TRUE
   )
 
+  combine_cover <- function(first, second) {
+    combined <- first + second * (1 - first / 100)
+    overlap <- which(first > 0 & second > 0)
+    combined[overlap] <- round(combined[overlap], digits = 2L)
+    combined
+  }
 
   while (TRUE) {
     a <- rv_ask_choice("Combine? (LAYER/SPEC/PRINTREL/N) ", c("LAYER", "SPEC", "PRINTREL", "N"))
@@ -65,7 +71,7 @@ RvegCombine <- function(database, export = "export", checklist = "default") {
             if (i == paste0(substr(i, 1, 7), "_", b) && any(DATA$ShortName == paste0(substr(i, 1, 7), "_", c))) {
               l1 <- as.numeric(DATA[DATA$ShortName == i, -1])
               l2 <- as.numeric(DATA[DATA$ShortName == paste0(substr(i, 1, 7), "_", c), -1])
-              l3 <- round(l1 + (l2 * (1 - (l1 / 100))))
+              l3 <- combine_cover(l1, l2)
 
               DATA <- DATA[DATA$ShortName != paste0(substr(i, 1, 7), "_", b), ]
               DATA[DATA$ShortName == paste0(substr(i, 1, 7), "_", c), -1] <- l3
@@ -96,7 +102,7 @@ RvegCombine <- function(database, export = "export", checklist = "default") {
 
           l1 <- as.numeric(DATA[DATA$ShortName == b, -1])
           l2 <- as.numeric(DATA[DATA$ShortName == c, -1])
-          l3 <- round(l1 + (l2 * (1 - (l1 / 100)))) # probabilistic shared cover
+          l3 <- combine_cover(l1, l2)
 
           DATA <- DATA[DATA$ShortName != b, ]
           DATA[DATA$ShortName == c, -1] <- l3

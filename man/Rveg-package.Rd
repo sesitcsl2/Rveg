@@ -11,22 +11,81 @@ For detailed guide run \code{vignette("Rveg","Rveg")}
 or check the quick start guide on \url{https://github.com/sesitcsl2/Rveg}
 }
 \references{
-Danihelka, Chrtek, and Kaplan (2012, ISSN:00327786), "Checklist of vascular plants of the czech republic. Preslia".
+Král, P. and Douda, J. (2025).
+"Introducing Rveg: An R Package for Phytosociological Data Digitizing".
+Journal of Vegetation Science 36: e70012.
+\doi{10.1111/jvs.70012}
 
-Hennekens, and Schaminée (2001) \url{doi:10.2307/3237010}, "TURBOVEG, a comprehensive data base management system for vegetation data. Journal of Vegetation Science".
+Danihelka, J., Chrtek, J. and Kaplan, Z. (2012).
+"Checklist of vascular plants of the Czech Republic".
+Preslia 84: 647-811.
+\url{https://www.preslia.cz/article/159}
 
-Tichý (2002) \url{doi:10.1111/j.1654-1103.2002.tb02069.x}, "JUICE, software for vegetation classification. Journal of Vegetation Science".
+Hennekens, S.M. and Schaminée, J.H.J. (2001).
+"TURBOVEG, a comprehensive data base management system for vegetation data".
+Journal of Vegetation Science 12: 589-591.
+\doi{10.2307/3237010}
 
-Wickham, François, Henry, Müller (2022) \url{https://CRAN.R-project.org/package=dplyr}, "dplyr: A Grammar of Data Manipulation".
+Tichý, L. (2002).
+"JUICE, software for vegetation classification".
+Journal of Vegetation Science 13: 451-453.
+\doi{10.1111/j.1654-1103.2002.tb02069.x}
 
-Višňák (1986, ISSN:00327786) \url{https://www.preslia.cz/archive/Preslia_58_1986_353-368.pdf}, "Příspěvek k poznání antropogenní vegetace v severních Čechách, zvláště v městě Liberci. Preslia".
+Chytrý, M. et al. (2020).
+"CzechVeg-ESy: Expert system for automatic classification of vegetation
+plots from the Czech Republic".
+Zenodo, version v1-2020-01-12.
+\doi{10.5281/zenodo.3605562}
+
+Bruelheide, H., Tichý, L., Chytrý, M. and Jansen, F. (2021).
+"Implementing the formal language of the vegetation classification expert
+systems (ESy) in the statistical computing environment R".
+Applied Vegetation Science 24: e12562.
+\doi{10.1111/avsc.12562}
+
+Tichý, L. (2005).
+"New similarity indices for the assignment of relevés to vegetation units
+of an existing phytosociological classification".
+Plant Ecology 179: 67-72.
+\doi{10.1007/s11258-004-5798-8}
+
+Tichý, L. and Chytrý, M. (2019).
+"Probabilistic key for identifying vegetation types in the field:
+A new method and Android application".
+Journal of Vegetation Science 30: 1035-1038.
+\doi{10.1111/jvs.12799}
+
+Chytrý, M. et al. (2026).
+"Czech Vegetation Database".
+Zenodo, version 1.1.
+\doi{10.5281/zenodo.19231152}
+
+Govaerts, R. et al. (2021).
+"The World Checklist of Vascular Plants, a continuously updated resource
+for exploring global plant diversity".
+Scientific Data 8: 215.
+\doi{10.1038/s41597-021-00997-6}
+
+Govaerts, R. (2026).
+"The World Checklist of Vascular Plants (WCVP)".
+Version 16, released on 4 June 2026.
+Royal Botanic Gardens, Kew.
+\doi{10.15468/6h8ucr}
+
+Višňák, R. (1986).
+"Příspěvek k poznání antropogenní vegetace v severních Čechách,
+zvláště v městě Liberci".
+Preslia 58: 353-368.
+\url{https://www.preslia.cz/archive/Preslia_58_1986_353-368.pdf}
 
 Kaplan, Danihelka, Chrtek, Kirschner, Kubát, Štech, and Štěpánek (eds) (2019, ISBN:9788020026606) \url{https://botanospol.cz/cs/node/2681}, "Key to the flora of the Czech Republic, Ed. 2., Academia, Praha".
 }
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://plant-ecology-lab-czu.com/rveg/}
+  \item \url{https://plant-ecology-lab-czu.com/resources/rveg/}
+  \item \url{https://github.com/sesitcsl2/Rveg}
+  \item Report bugs at \url{https://github.com/sesitcsl2/Rveg/issues}
 }
 
 }
@@ -35,6 +94,7 @@ Useful links:
 
 Authors:
 \itemize{
+  \item Přemysl Král \email{kralp@fzp.czu.cz} (\href{https://orcid.org/0000-0002-2887-651X}{ORCID})
   \item Jan Douda \email{douda@fzp.czu.cz} (\href{https://orcid.org/0000-0002-1205-364X}{ORCID})
 }
 

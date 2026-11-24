@@ -31,9 +31,9 @@ specific species or entire vegetation layers within an existing \code{Rveg} data
 \item \strong{Species Merging (\code{SPEC}):} Merges the records of one specific taxon into another across the entire database, which is highly useful for resolving taxonomic aggregates or correcting identification errors after data entry.
 }
 
-\strong{Mathematical Consolidation:} #' When merging entities that both have non-zero percentage covers in the same relevé,
-the function does not simply add them together (which could exceed 100\%). Instead,
-it uses a probabilistic sum formula to estimate the combined cover:
+\strong{Mathematical Consolidation:} When both records have positive cover in a
+relevé, Rveg rounds their probabilistic sum to two decimal places. A single
+contributing cover is carried forward as recorded.
 \deqn{Combined = C_1 + C_2 \times (1 - \frac{C_1}{100})}{Combined = C1 + C2 * (1 - C1/100)}
 }
 \examples{

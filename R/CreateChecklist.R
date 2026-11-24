@@ -70,8 +70,43 @@ CreateChecklist <- function(specieslist, export = "export") {
   FullName <- unique(trimws(FullName))
   FullName <- FullName[nzchar(FullName)]
 
+  # Use one original spelling for each normalized name before allocating codes.
+  keys <- rv_taxon_key(FullName)
+  ordered <- order(FullName, method = "radix")
+  keep <- sort(ordered[!duplicated(keys[ordered])])
+  duplicates <- setdiff(seq_along(FullName), keep)
+  if (length(duplicates)) {
+    retained <- FullName[keep][match(keys[duplicates], keys[keep])]
+    message("Equivalent checklist names combined:\n",
+      paste(FullName[duplicates], "->", retained, collapse = "\n"))
+    FullName <- FullName[keep]
+  }
+
+  out <- rv_checklist_table(FullName)
+
+  ## ---- Write file ---- ####
+
+  if (identical(export, "export")) export <- file.path(tempdir(), "export")
+  dir.create(dirname(export), recursive = TRUE, showWarnings = FALSE)
+  out_file <- paste0(export, ".txt")
+
+  utils::write.table(
+    out, file = out_file, sep = "\t",
+    quote = FALSE, row.names = FALSE, fileEncoding = "UTF-8"
+  )
+
+  message(rv_col(paste0("Checklist written: ", out_file),"info"))
+  invisible(out)
+}
+
+# Assign checklist codes while keeping the supplied reference codes reserved.
+rv_checklist_table <- function(FullName, reference = NULL, reserved = character(),
+                               add_genus = TRUE) {
+  reserved <- unique(toupper(c(reserved, reference$ShortName)))
+  reserved <- reserved[!is.na(reserved)]
   ## Replace "× Genus" -> "XGenus" (line start only)
-  FullName_parse <- sub("^\\s*\u00D7\\s*", "X", FullName)
+  parse_hybrid_genus <- function(x) sub("^\\s*\u00D7\\s*", "X", x)
+  FullName_parse <- parse_hybrid_genus(FullName)
 
   ## Drop genus-only rows (require >= 2 tokens)
   tok_counts <- vapply(strsplit(FullName_parse, "\\s+"), length, integer(1))
@@ -165,14 +200,31 @@ CreateChecklist <- function(specieslist, export = "export") {
 
   ## ---- Genus code map (order-independent) ----- ####
 
+  reference_genera <- toupper(sub("\\s+.*$", "", parse_hybrid_genus(trimws(reference$FullName))))
+  ref_codes <- toupper(reference$ShortName)
+  root_length <- pmin(nchar(reference_genera), 3L)
+  same_root <- substr(ref_codes, 1L, root_length) == substr(reference_genera, 1L, root_length)
+  reference_order <- order(!endsWith(ref_codes, "-SP"))
+  valid_reference <- reference_order[!is.na(reference_genera[reference_order]) &
+    nzchar(reference_genera[reference_order]) & !is.na(ref_codes[reference_order]) &
+    nchar(ref_codes[reference_order]) == 7L & same_root[reference_order]]
+  ref_prefixes <- setNames(substr(ref_codes[valid_reference], 1L, 4L),
+    reference_genera[valid_reference])
+  ref_prefixes <- ref_prefixes[!duplicated(names(ref_prefixes))]
+
   make_gen_codes_unique <- function(ug) {
     ug <- toupper(ug)
     uniq_g <- sort(unique(ug))  # stable regardless of input order
     codes <- character(length(uniq_g))
-    used  <- character(0)
+    used <- unique(substr(reserved, 1L, 4L))
 
     for (i in seq_along(uniq_g)) {
       gi <- uniq_g[i]
+      existing <- unname(ref_prefixes[gi])
+      if (!is.na(existing)) {
+        codes[i] <- existing
+        next
+      }
       base <- sprintf("%-4s", substring(gi, 1, 4))
       cand <- base
 
@@ -190,7 +242,7 @@ CreateChecklist <- function(specieslist, export = "export") {
             cand <- paste0(substring(gi, 1, 3), p)
             if (!(cand %in% used)) { codes[i] <- cand; used <- c(used, cand); break }
           }
-          if (!nzchar(codes[i])) codes[i] <- base
+          if (!nzchar(codes[i])) stop("No available genus code for ", gi, call. = FALSE)
           break
         }
       }
@@ -217,7 +269,7 @@ CreateChecklist <- function(specieslist, export = "export") {
   for (i in seq_along(FullName)) {
     tok <- spec_tokens[[i]]
 
-    has_species <- any(tok == "SPECIES")
+    has_species <- any(tok == "SPECIES") || identical(tok, "SP")
     has_x       <- any(tok == "X")
     has_agg     <- any(tok %in% agg_tokens)
     pos_sect    <- match(TRUE, tok %in% sect_tokens)
@@ -307,10 +359,11 @@ CreateChecklist <- function(specieslist, export = "export") {
   # allocate per base6
   for (b in unique(base6)) {
     idx <- which(base6 == b)
-    if (length(idx) <= 1L) next
+    reserved_group <- reserved[substr(reserved, 1L, 6L) == b]
+    if (length(idx) <= 1L && !length(reserved_group)) next
 
     ord <- idx[order(FullName[idx])]  # stable ordering independent of input order
-    used <- character(0)
+    used <- substring(reserved_group, 7L, 7L)
 
     for (i in ord) {
       s7 <- cur7[i]
@@ -324,7 +377,7 @@ CreateChecklist <- function(specieslist, export = "export") {
       for (x in c(cand7[[i]], pool)) {
         if (!(x %in% used)) { picked <- x; break }
       }
-      if (!nzchar(picked)) picked <- "X"
+      if (!nzchar(picked)) stop("No available taxon code for ", FullName[i], call. = FALSE)
 
       cur7[i] <- picked
       shortname[i] <- paste0(base6[i], picked)
@@ -346,7 +399,7 @@ CreateChecklist <- function(specieslist, export = "export") {
   sp_shortnames <- paste0(unname(gen_code_map[uniq_gen]), "-SP")
   missing_sp <- !(sp_shortnames %in% out$ShortName)
 
-  if (any(missing_sp)) {
+  if (add_genus && any(missing_sp)) {
     # stable "original" casing: pick genus as it appears in the alphabetically sorted FullName list
     ord_full <- order(FullName)
     genus_sorted_up   <- genus_up[ord_full]
@@ -389,17 +442,5 @@ CreateChecklist <- function(specieslist, export = "export") {
   }
 
 
-  ## ---- Write file ---- ####
-
-  if (identical(export, "export")) export <- file.path(tempdir(), "export")
-  dir.create(dirname(export), recursive = TRUE, showWarnings = FALSE)
-  out_file <- paste0(export, ".txt")
-
-  utils::write.table(
-    out, file = out_file, sep = "\t",
-    quote = FALSE, row.names = FALSE, fileEncoding = "UTF-8"
-  )
-
-  message(rv_col(paste0("Checklist written: ", out_file),"info"))
-  invisible(out)
+  out
 }

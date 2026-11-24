@@ -35,10 +35,9 @@ background transformations:
 \itemize{
 \item \strong{Layer Mapping:} Rveg layers are automatically converted to JUICE's numeric layer representations (e.g., Tree layer "3" becomes "2", Shrub "2" becomes "4", Herb "1" becomes "6", etc.).
 \item \strong{Absence Encoding:} Zero values (\code{0}) are converted to \code{.}.
-\item \strong{Encoding:} Files are written using \code{ISO-8859-15} encoding, which is the standard expected by JUICE for proper character rendering.
-}
-
+\item \strong{Encoding:} Files use \code{ISO-8859-15}. Rveg warns when it omits unsupported characters from the exported text.
 For JUICE import first import relevé data as Spreadsheet file and follow with Header data as tab-delimited file.
+}
 }
 \examples{
 # Example: Exporting the built-in example Rveg database to JUICE format

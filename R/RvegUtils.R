@@ -350,35 +350,25 @@ rv_get_checklist <- function(checklist = "default",
 
 #' @keywords internal
 #' @noRd
+rv_extra_species <- function(metadata) {
+  md <- metadata$extra_spec
+  if (!isTRUE(nzchar(trimws(md), keepNA = TRUE)))
+    return(data.frame(ShortName = character(), FullName = character()))
+
+  items <- trimws(strsplit(md, "|", fixed = TRUE)[[1L]])
+  parts <- strsplit(items[nzchar(items)], "::", fixed = TRUE)
+  data.frame(
+    ShortName = vapply(parts, function(p) trimws(p[2L]), "", USE.NAMES = FALSE),
+    FullName = vapply(parts, function(p) trimws(p[1L]), "", USE.NAMES = FALSE)
+  )
+}
+
 rv_make_sp_list <- function(checklist, metadata) {
   Sp <- read.delim(checklist, sep = "\t", stringsAsFactors = FALSE, check.names = FALSE)
   Sp <- Sp[, c("ShortName", "FullName")]
   Sp <- Sp[!is.na(Sp$ShortName) & nzchar(Sp$ShortName), , drop = FALSE]
 
-  out <- Sp
-
-  # parse "LONG::SHORT" securely
-  md <- metadata$extra_spec
-
-  # Only attempt to parse if md is a valid, non-empty string
-  if (!is.null(md) && nzchar(trimws(md))) {
-    items <- trimws(strsplit(md, "|", fixed = TRUE)[[1]])
-    items <- items[nzchar(items)]
-
-    # Check if there are actually items after trimming
-    if (length(items) > 0) {
-      parts <- strsplit(items, "::", fixed = TRUE)
-
-      long  <- vapply(parts, function(p) trimws(p[1]), "", USE.NAMES = FALSE)
-      short <- vapply(parts, function(p) if (length(p) >= 2) trimws(p[2]) else NA_character_,
-                      "", USE.NAMES = FALSE)
-
-      meta_out <- data.frame(FullName = long,
-                             ShortName = short)
-
-      out <- rbind(out, meta_out)
-    }
-  }
+  out <- rbind(Sp, rv_extra_species(metadata))
 
   # Ensure keys are unique (better to stop than silently mangle)
   dups <- duplicated(out$ShortName)
@@ -1266,6 +1256,38 @@ rv_layer_map <- function(layers, map, na_value = NULL) {
   unname(ifelse(is.na(mapped), layers, mapped))
 }
 
+# Convert vegetation layers between the conventions used by Rveg and its file formats.
+rv_juice_layers <- function(layers, direction, unmapped = c("na", "keep", "empty")) {
+  layers <- as.character(layers)
+  unmapped <- match.arg(unmapped)
+
+  # JUICE manual, section 1.7.1. Layer 0 means undefined.
+  from_juice <- c("0" = NA_character_, "1" = "3", "2" = "3", "3" = "3",
+    "4" = "2", "5" = "2", "6" = "1", "7" = "J", "8" = "J", "9" = "0")
+
+  # Use one representative per Rveg layer on export.
+  to_juice <- c("3" = "2", "2" = "4", "1" = "6", "0" = "9", "J" = "7")
+  to_tv <- c("3" = "t1", "2" = "s1", "1" = "hl", "0" = "ml", "J" = "jl")
+
+  if (direction == "tv_to_rveg") {
+    # Preserve the legacy Turboveg import convention for numeric layer 0.
+    from_juice["0"] <- "0"
+    map <- c(setNames(names(to_tv), substr(to_tv, 1L, 1L)), from_juice)
+    keys <- substr(layers, 1L, 1L)
+  } else {
+    map <- switch(direction, rveg_to_juice = to_juice, juice_to_rveg = from_juice,
+      rveg_to_tv = to_tv)
+    keys <- layers
+  }
+
+  matches <- match(keys, names(map))
+  result <- unname(map[matches])
+  missing <- is.na(matches)
+  if (unmapped == "keep") result[missing] <- layers[missing]
+  if (unmapped == "empty") result[missing] <- ""
+  result
+}
+
 #' Merge species rows by ShortName + Layer, with optional layer/species remapping
 #' @keywords internal
 #' @noRd
@@ -1547,6 +1569,777 @@ rv_fill_shortnames <- function(map, code_map) {
   map
 }
 
+#---- Rveg Classify ----
+
+# Rveg relevés in long format for classification
+rv_releves <- function(rel) {
+  plots <- grep("^X[0-9]+$", names(rel), value = TRUE)
+  cover <- as.matrix(rel[plots])
+  storage.mode(cover) <- "double"
+  presence <- which(cover > 0, arr.ind = TRUE)
+
+  species <- data.frame(
+    plot_id = plots[presence[, 2]],
+    taxon_name = rel$fullName[presence[, 1]],
+    layer = rv_juice_layers(rel$layer[presence[, 1]], "rveg_to_juice"),
+    cover_pct = cover[presence],
+    taxon_id = rel$ShortName[presence[, 1]],
+    stringsAsFactors = FALSE
+  )
+  list(plot_id = plots, species = species)
+}
+
+# Taxon name normalization
+rv_taxon_key <- function(x) {
+  x <- tolower(sub("^$", NA_character_, trimws(x)))
+  x <- gsub("[[:space:]]*\u00d7[[:space:]]*", " x ", x)
+  x <- gsub("\\b(ssp\\.?|subsp\\.?|subspecies)(?=\\s|$)", "subsp.", x, perl = TRUE)
+  x <- gsub('"', "", x, fixed = TRUE)
+  x <- gsub("\\b(sensu|s\\.?)[[:space:]]*lat(o)?\\.?(?=\\s|\\*|$)", "s.lat.", x, perl = TRUE)
+  x <- gsub("\\b(sensu|s\\.?)[[:space:]]*str(icto)?\\.?(?=\\s|\\*|$)", "s.str.", x, perl = TRUE)
+  x <- gsub("\\baggr?\\.?(?=\\s|$)", "agg.", x, perl = TRUE)
+  x <- trimws(gsub("[[:space:]]+", " ", x))
+  sub("^([^ ]+) sp\\.?$", "\\1 species", x)
+}
+
+# Find checklist codes by exact name, with normalized spelling as a fallback.
+rv_checklist_matches <- function(names, checklist) {
+  checklist <- checklist[!is.na(checklist$ShortName) & nzchar(checklist$ShortName), , drop = FALSE]
+  by_name <- split(checklist$ShortName, checklist$FullName)
+  candidates <- by_name[names]
+  missing <- lengths(candidates) == 0L
+  if (any(missing)) {
+    by_key <- split(checklist$ShortName, rv_taxon_key(checklist$FullName))
+    candidates[missing] <- by_key[rv_taxon_key(names[missing])]
+  }
+  lapply(candidates, unique)
+}
+
+# Taxon matching and synonyms
+rv_resolve_synonym_file <- function(synonym_file) {
+  if (is.null(synonym_file)) return(NULL)
+
+  if (identical(synonym_file, "WCVP-Global")) {
+    filename <- "WCVP-v16-synonyms.tsv.gz"
+    bundled <- system.file("extdata", "Classification", filename, package = "Rveg")
+    if (nzchar(bundled)) return(bundled)
+
+    cache <- if (getRversion() >= "4.0.0") tools::R_user_dir("Rveg", "cache") else tempdir()
+    cached <- file.path(cache, "Classification", filename)
+    if (file.exists(cached)) return(cached)
+    if (!interactive()) {
+      stop("Global WCVP synonyms are missing. Run once in an interactive R session to download them, ",
+        "or pass a local synonym file.", call. = FALSE)
+    }
+
+    choice <- rv_ask_choice(paste0("Download global WCVP v16 synonyms from GitHub (about 7 MiB)?\n",
+      "Y = download; N = use the bundled Czech table: "), c("Y", "N"))
+    if (choice == "Y") return(rv_download_wcvp_synonyms(cached))
+    synonym_file <- "WCVP-Czech"
+  }
+
+  if (identical(synonym_file, "WCVP-Czech")) {
+    return(system.file("extdata", "Classification", "WCVP-v16-Czech-synonyms.tsv.gz",
+      package = "Rveg", mustWork = TRUE))
+  }
+  if (file.exists(synonym_file)) synonym_file else NULL
+}
+
+# World Checklist of Vascular Plants v16, Royal Botanic Gardens, Kew, CC BY 3.0.
+# https://doi.org/10.34885/egs6-cp24
+rv_download_wcvp_synonyms <- function(file) {
+  folder <- dirname(file)
+  if (!dir.exists(folder)) dir.create(folder, recursive = TRUE, showWarnings = FALSE)
+  pending <- tempfile(tmpdir = folder)
+  on.exit(unlink(pending), add = TRUE)
+
+  settings <- options(timeout = max(300L, getOption("timeout")))
+  on.exit(options(settings), add = TRUE)
+  url <- paste0("https://github.com/sesitcsl2/Rveg/releases/download/wcvp-v16/",
+    "WCVP-v16-synonyms.tsv.gz")
+  status <- utils::download.file(url, pending, mode = "wb")
+  if (status != 0L) stop("Could not download the global WCVP synonym table.", call. = FALSE)
+  if (!identical(unname(tools::md5sum(pending)), "28489a2869602da56e2b9613855c529e"))
+    stop("The downloaded WCVP synonym table does not match the expected file.", call. = FALSE)
+  if (!file.rename(pending, file) && !file.exists(file))
+    stop("Could not save the global WCVP synonym table.", call. = FALSE)
+  file
+}
+
+rv_match_taxa <- function(source, target, synonym_file = NULL, aggregate_targets = target) {
+  target <- unique(target[!is.na(target)])
+  source_key <- rv_taxon_key(source)
+  target_key <- rv_taxon_key(target)
+  by_name <- split(target, target_key)
+  candidates <- by_name[source_key]
+
+  # Exact spelling takes precedence over normalized spellings.
+  exact <- !is.na(source) & source %in% target
+  candidates[exact] <- as.list(source[exact])
+
+  # Look for a same-name aggregate when there is no name match.
+  aggregate <- grepl(" (agg\\.|s\\.lat\\.)$", target_key) & target %in% aggregate_targets
+  base <- sub(" (agg\\.|s\\.lat\\.)$", "", target_key[aggregate])
+  binomial <- grepl("^[^ ]+ [^ ]+$", base) & !grepl(" (species|spp?\\.?)$", base)
+  by_aggregate <- split(target[aggregate][binomial], base[binomial])
+  missing <- lengths(candidates) == 0L & !is.na(source_key)
+  candidates[missing] <- by_aggregate[source_key[missing]]
+
+  # Look up synonyms for names still missing from the rules or model.
+  missing <- which(lengths(candidates) == 0L & !is.na(source_key))
+  if (length(missing) && !is.null(synonym_file)) {
+    synonym_table <- utils::read.delim(synonym_file, quote = "", colClasses = "character",
+      fileEncoding = "UTF-8")
+    synonym_list <- strsplit(synonym_table$synonyms, " | ", fixed = TRUE)
+    row_id <- seq_len(nrow(synonym_table))
+    name_rows <- c(row_id, rep(row_id, lengths(synonym_list)))
+    names_all <- c(synonym_table$accepted_name, unlist(synonym_list, use.names = FALSE))
+
+    # Search the genera used by either the source or the target names.
+    needed <- unique(c(source_key[missing], target_key))
+    first_word <- tolower(sub('[[:space:]"\u00d7].*$', "", trimws(names_all)))
+    possible <- first_word %in% sub(" .*", "", needed) | first_word == ""
+    keys <- rv_taxon_key(names_all[possible])
+    use <- !is.na(keys) & keys %in% needed
+    synonym_rows <- lapply(split(name_rows[possible][use], keys[use]), unique)
+
+    target_rows <- synonym_rows[target_key]
+    names_by_row <- split(rep(target, lengths(target_rows)),
+      unlist(target_rows, use.names = FALSE))
+    source_rows <- synonym_rows[source_key[missing]]
+
+    for (i in seq_along(missing)) {
+      source_ids <- source_rows[[i]]
+      matches <- unique(unlist(names_by_row[as.character(source_ids)], use.names = FALSE))
+      if (length(matches) != 1L || length(source_ids) != 1L) next
+      target_ids <- synonym_rows[[rv_taxon_key(matches)]]
+      if (length(target_ids) != 1L) next
+
+      # Avoid inferring a subspecies or variety from a species name alone.
+      infra <- " (subsp\\.|var\\.|subvar\\.|f\\.|nothosubsp\\.|nothovar\\.|nothof\\.) "
+      if (grepl(infra, rv_taxon_key(matches)) &&
+          !grepl(infra, source_key[missing[i]])) next
+      candidates[[missing[i]]] <- matches
+    }
+  }
+
+  result <- rep(NA_character_, length(source))
+  single <- lengths(candidates) == 1L
+  result[single] <- unlist(candidates[single], use.names = FALSE)
+  result
+}
+
+# Apply the ESy aggregation rules to each record using its name and layer.
+rv_esy_aggregate_names <- function(species, mappings) {
+  if (!nrow(species) || is.null(mappings) || !nrow(mappings)) return(as.list(species$taxon_name))
+  by_layer <- split(mappings$target[!is.na(mappings$layer)],
+    paste(mappings$source[!is.na(mappings$layer)],
+      mappings$layer[!is.na(mappings$layer)], sep = "\r"))
+  any_layer <- split(mappings$target[is.na(mappings$layer)],
+    mappings$source[is.na(mappings$layer)])
+  key <- paste(species$taxon_name, ifelse(is.na(species$layer), "0", species$layer),
+    sep = "\r")
+  Map(function(name, specific, general) {
+    goal <- unique(c(specific, general))
+    if (length(goal)) goal else name
+  }, species$taxon_name, by_layer[key], any_layer[species$taxon_name])
+}
+
+# Combine the records that contribute to each plot and taxon.
+rv_cover_matrix <- function(species, plots, taxa, mappings = NULL,
+  names_by_row = rv_esy_aggregate_names(species, mappings)) {
+  cover <- matrix(0, length(plots), length(taxa), dimnames = list(plots, taxa))
+  if (!nrow(species)) return(cover)
+
+  rows <- rep(seq_len(nrow(species)), lengths(names_by_row))
+  columns <- match(unlist(names_by_row, use.names = FALSE), taxa)
+  use <- !is.na(columns)
+  cells <- match(species$plot_id[rows[use]], plots) +
+    length(plots) * (columns[use] - 1L)
+  if (length(cells)) {
+    merged <- rowsum(log1p(-species$cover_pct[rows[use]] / 100), cells,
+      reorder = FALSE)
+    cover[as.integer(rownames(merged))] <- round(-100 * expm1(merged[, 1]), 10L)
+  }
+  cover
+}
+
+### ESy
+# Read and understand ESy rules
+rv_read_esy_rules <- function(file) {
+  lines <- readLines(file, encoding = "UTF-8", warn = FALSE)
+  lines <- sub("^\ufeff", "", lines)
+
+  # Read the rows between the start and end markers of a section.
+  section <- function(number, title, trim = TRUE) {
+    start <- match(paste0("SECTION ", number, ": ", title), lines)
+    end <- match(paste0("SECTION ", number, ": End"), lines)
+    if (is.na(start)) return(character())
+    out <- head(lines[seq.int(start + 1L, end)], -1L)
+    out <- out[nzchar(trimws(out))]
+    if (trim) trimws(out) else out
+  }
+
+  ## Section 1 - Species aggregation
+  aggregation <- section(1, "Species aggregation", trim = FALSE)
+  target_line <- !grepl("^\\s", aggregation)
+  layer_pattern <- "\\s+(?:-\\s+)?([0-9])$"
+  has_layer <- grepl(layer_pattern, trimws(aggregation), perl = TRUE)
+  layers <- rep(NA_character_, length(aggregation))
+  layers[has_layer] <- sub(".*([0-9])$", "\\1", trimws(aggregation[has_layer]))
+  taxa <- trimws(sub(layer_pattern, "", trimws(aggregation), perl = TRUE))
+  mappings <- unique(data.frame(
+    source = taxa[!target_line],
+    layer = layers[!target_line],
+    target = taxa[target_line][cumsum(target_line)[!target_line]]
+  ))
+
+  ## Section 2 - Species groups
+  members <- section(2, "Species groups")
+  prefix <- "^(###|#[0-9]{2}|#TC|#SC|##[DCQ])[[:space:]]+"
+  group_line <- grepl("^(###|#TC|#SC|##[DCQ])[[:space:]]+", members)
+  group_names <- sub(prefix, "", members[group_line])
+  groups <- split(members[!group_line], group_names[cumsum(group_line)[!group_line]])
+  groups <- lapply(groups[group_names], unique)
+  discriminating <- group_names[grepl("^##[DCQ][[:space:]]+", members[group_line])]
+
+  ## Section 3 - Group definitions
+  definitions <- section(3, "Group definitions")
+  definitions <- definitions[!startsWith(definitions, "---")]
+  tail_lines <- lines[seq_along(lines) > match("SECTION 3: End", lines)]
+  legacy_header <- grepl("^[0-9A-Za-z][[:space:]]+\\S", definitions)
+  legacy_names <- sub("^[0-9A-Za-z][[:space:]]+", "", definitions[legacy_header])
+  legacy_codes <- sub("[[:space:]].*$", "", legacy_names)
+  legacy_priority <- substr(definitions[legacy_header], 1L, 1L)
+
+  # Older files may store names in a legend or use the names as headings.
+  legend_start <- match("Syntaxon codes", trimws(tail_lines))
+  if (!is.na(legend_start)) {
+    legend <- trimws(tail_lines[seq_along(tail_lines) > legend_start])
+    legend <- legend[grepl("^\\S+ - .+$", legend)]
+    name_only <- legacy_codes == legacy_names
+    legend_codes <- sub(" - .*$", "", legend)
+    labels <- sub("^\\S+ - ", "", legend)[match(tolower(legacy_codes[name_only]), tolower(legend_codes))]
+    legacy_names[name_only] <- paste(legacy_codes[name_only],
+      ifelse(is.na(labels), legacy_codes[name_only], labels))
+  } else if (anyDuplicated(legacy_codes) && any(legacy_names == legacy_codes) &&
+      all(grepl("^[A-Z][a-z]+", legacy_names))) {
+    legacy_names <- paste(gsub("[^[:alnum:]-]+", "_", legacy_names), legacy_names)
+  }
+  definitions[legacy_header] <- paste(legacy_priority,
+    ifelse(legacy_names == legacy_codes, paste(legacy_codes, legacy_codes), legacy_names))
+
+  # Normalize compact thresholds and brackets found in legacy JUICE files.
+  threshold <- "(UP|GR|GE|EQ)[[:space:]]*([+-]?[0-9]+(?:\\.[0-9]+)?)"
+  definitions[!legacy_header] <- gsub(paste0("<([^<>]+)>[[:space:]]+", threshold, ">"),
+    "<\\1 \\2 \\3>", definitions[!legacy_header], perl = TRUE)
+  label_pattern <- "^([0-9A-Za-z])[[:space:]]+(\\S+)[[:space:]]+(.+)$"
+  is_label <- grepl(label_pattern, definitions)
+  header <- definitions[is_label]
+  priority <- match(sub(label_pattern, "\\1", header), c(0:9, LETTERS, letters))
+  codes <- sub(label_pattern, "\\2", header)
+  labels <- sub(label_pattern, "\\3", header)
+  formulas <- split(definitions[!is_label], factor(cumsum(is_label)[!is_label],
+    levels = seq_along(codes)))
+  formulas <- vapply(formulas, paste, collapse = " ", FUN.VALUE = character(1))
+  tokens <- regmatches(formulas, gregexpr("<[^<>]+>|AND|OR|NOT|[(){}]|\\[|\\]", formulas))
+
+  # Convert each <...> expression into one predicate.
+  atoms <- unique(unlist(lapply(tokens, function(x) x[startsWith(x, "<")]),
+    use.names = FALSE))
+  terms <- trimws(substr(atoms, 2L, nchar(atoms) - 1L))
+  terms <- sub("UP([0-9]{2})$", " UP \\1", terms)
+  terms <- sub(" (UP|GR|GE|EQ)([+-]?[0-9][0-9.]*)$", " \\1 \\2", terms)
+  terms <- sub(paste0(threshold, "$"), " \\1 \\2", terms, perl = TRUE)
+  terms <- gsub("[[:space:]]+", " ", terms)
+
+  # A condition can refer to taxa or species groups and include exclusions.
+  read_term <- function(text) {
+    pieces <- strsplit(text, "[[:space:]]+EXCEPT[[:space:]]+")[[1]]
+    sets <- lapply(strsplit(pieces, "|", fixed = TRUE), trimws)
+    items <- sets[[1]]
+    kind <- if (grepl(prefix, items[1])) sub("^([^ ]+) .*", "\\1", items[1]) else "species"
+    if (items[1] %in% c("#T$", "#$$")) kind <- items[1]
+    name <- sub(prefix, "", items[1])
+
+    expand <- function(x) {
+      key <- sub(prefix, "", x)
+      grouped <- grepl(prefix, x) | (startsWith(key, "+") & key %in% names(groups))
+      unique(c(key[!grouped], unlist(groups[key[grouped]], use.names = FALSE)))
+    }
+    excluded <- expand(unlist(sets[-1], use.names = FALSE))
+    taxa <- if (kind %in% c("#T$", "#$$")) character() else expand(items)
+    if (kind == "species" && length(items) > 1L) kind <- "#TC"
+    list(kind = kind, taxa = setdiff(taxa, excluded), excluded = excluded,
+      group = name, label = text)
+  }
+
+  # Read UP/GR (>), GE (>=), EQ (==) and relative thresholds such as $xx. -> split to parts
+  numeric_pattern <- "^[+-]?(?:[0-9]+(?:\\.[0-9]*)?|\\.[0-9]+)$"
+  predicates <- lapply(terms, function(text) {
+    parts <- regmatches(text, regexec("^(.*?) (UP|GR|GE|EQ) (.+)$", text, perl = TRUE))[[1]]
+
+    if (startsWith(text, "$$N ") || startsWith(text, "$$C ")) {
+      value <- parts[4]
+      if (startsWith(text, "$$N ")) value <- as.numeric(value)
+      return(list(field = substring(parts[2], 5L), op = parts[3], value = value))
+    }
+
+    if (!length(parts)) {
+      left <- read_term(text)
+      if (left$kind %in% c("##D", "##C", "##Q")) {
+        set <- if (grepl("^\\+[0-9]{2} ", left$group)) substr(left$group, 1, 3) else ""
+        sets <- ifelse(grepl("^\\+[0-9]{2} ", discriminating),
+          substr(discriminating, 1, 3), "")
+        peers <- setdiff(discriminating[sets == set], left$group)
+        return(list(left = left, op = "GR", peers = peers))
+      }
+      minimum <- if (left$kind == "###") {
+        if (length(left$taxa) == 2L) 2L else ceiling(length(left$taxa) / 2)
+      } else as.integer(substring(left$kind, 2L))
+      return(list(left = left, op = "GE", value = minimum))
+    }
+
+    left <- read_term(parts[2])
+    right <- parts[4]
+    if (grepl(numeric_pattern, right, perl = TRUE))
+      return(list(left = left, op = parts[3], value = as.numeric(right)))
+    if (startsWith(right, "$") && grepl(numeric_pattern, substring(right, 2L), perl = TRUE))
+      return(list(left = left, op = parts[3], relative = as.numeric(substring(right, 2L))))
+
+    right <- read_term(right)
+    if (right$kind %in% c("#T$", "#$$")) {
+      right$excluded <- union(right$excluded, left$taxa)
+      right$label <- paste(right$label, left$label, sep = "\r")
+    }
+    list(left = left, op = parts[3], right = right)
+  })
+
+  # Rules combining
+  # Build R calls directly so deeply nested ESy rules fit without parsing R text.
+  # ESy 'A NOT B' means 'A & !B' and has the same precedence as AND.
+  precedence <- c(OR = 1L, AND = 2L, NOT = 2L, "(" = 0L)
+  expressions <- lapply(tokens, function(terms) {
+    operators <- character()
+    operands <- list()
+    reduce <- function() {
+      last <- length(operators)
+      op <- operators[last]
+      operators <<- operators[-last]
+      n <- length(operands)
+      right <- operands[[n]]
+      if (op == "NOT") right <- call("!", right)
+      operands[[n - 1L]] <<- call(if (op == "OR") "|" else "&", operands[[n - 1L]], right)
+      operands[[n]] <<- NULL
+    }
+    for (token in terms) {
+      if (startsWith(token, "<")) {
+        operands[[length(operands) + 1L]] <- call("[[", quote(predicates), match(token, atoms))
+      } else if (token %in% c("(", "[", "{")) {
+        operators <- c(operators, "(")
+      } else if (token %in% c(")", "]", "}")) {
+        while (length(operators) && tail(operators, 1L) != "(") reduce()
+        operators <- head(operators, -1L)
+      } else {
+        while (length(operators) && precedence[tail(operators, 1L)] >= precedence[token]) reduce()
+        operators <- c(operators, token)
+      }
+    }
+    while (length(operators)) reduce()
+    operands[[1L]]
+  })
+
+  # What taxons to be taken from Rveg Database
+  required_taxa <- unique(unlist(lapply(predicates, function(p) {
+    c(p$left$taxa, p$right$taxa, unlist(groups[p$peers], use.names = FALSE))
+  }), use.names = FALSE))
+  needs_all_taxa <- any(vapply(predicates, function(p) {
+    !is.null(p$relative) || any(c(p$left$kind, p$right$kind) %in% c("#T$", "#$$"))
+  }, logical(1)))
+  header_fields <- unique(unlist(lapply(predicates, `[[`, "field"), use.names = FALSE))
+
+  ## Section 4 - Similarity (FPFI)
+  profile <- section(4, "Similarity")
+  # Some older files append a numbered frequency table outside section 4.
+  profile_start <- grep("^Frequency table[[:space:]]+-{3,}", trimws(tail_lines))
+  profile_end <- grep("^Frequency table - END", trimws(tail_lines))
+  if (!length(profile) && length(profile_start) == 1L && length(profile_end) == 1L) {
+    legacy_profile <- trimws(tail_lines[seq.int(profile_start, profile_end)])
+    profile_groups <- grep("^Group[0-9]+ name:[[:space:]]*$", legacy_profile)
+    numbers <- suppressWarnings(as.integer(sub("^.*-", "", codes)))
+    group_numbers <- as.integer(sub("^Group([0-9]+) name:.*$", "\\1", legacy_profile[profile_groups]))
+    if (identical(numbers, seq_along(codes)) && identical(group_numbers, numbers)) {
+      legacy_profile[profile_groups] <- paste0("Group", numbers, " name: ", codes)
+      profile <- legacy_profile[nzchar(legacy_profile)]
+    }
+  }
+  similarity <- NULL
+  if (length(profile)) {
+    # Read the total number of plots, the plot count per association and the taxon frequencies.
+    last_number <- function(x) as.numeric(sub("^.*[[:space:]]", "", x))
+    total <- last_number(profile[2])
+    n_groups <- as.integer(last_number(profile[3]))
+    start <- seq.int(4L, 2L + 2L * n_groups, by = 2L)
+    profile_codes <- sub("\\s.*$", "", trimws(sub("^Group[0-9]+ name:", "", profile[start])))
+    group_n <- last_number(profile[start + 1L])
+
+    payload <- profile[seq.int(5L + 2L * n_groups, length(profile) - 1L)]
+    payload <- payload[!grepl("^-{3,}$", payload)]
+    rows <- matrix(payload, nrow = n_groups + 2L)
+    profile_taxa <- rows[1, ]
+    counts <- t(matrix(last_number(rows[-c(1, 2), , drop = FALSE]), nrow = n_groups))
+
+    # For repeated taxa, keep the highest frequency recorded in each unit.
+    for (name in unique(profile_taxa[duplicated(profile_taxa)])) {
+      same <- which(profile_taxa == name)
+      counts[same[1], ] <- apply(counts[same, , drop = FALSE], 2, max)
+    }
+    keep <- !duplicated(profile_taxa)
+    counts <- counts[keep, , drop = FALSE]
+    profile_taxa <- profile_taxa[keep]
+
+    taxon_n <- rowSums(counts)
+    phi <- (total * counts - outer(taxon_n, group_n)) /
+      sqrt(outer(taxon_n * (total - taxon_n), group_n * (total - group_n)))
+    phi[!is.finite(phi) | phi < 0] <- 0
+    denom_count <- colSums(counts)
+    denom_phi <- colSums(phi)
+    denom_count[denom_count == 0] <- 1
+    denom_phi[denom_phi == 0] <- 1
+    weights <- 50 * (sweep(counts, 2, denom_count, "/") +
+        sweep(phi, 2, denom_phi, "/"))
+    similarity <- list(taxa = profile_taxa, codes = profile_codes, weights = weights)
+  }
+
+  list(
+    associations = data.frame(code = codes, name = labels, priority = priority),
+    formulas = expressions, predicates = predicates,
+    taxa = required_taxa, groups = groups, mappings = mappings,
+    header_fields = header_fields, needs_all_taxa = needs_all_taxa,
+    similarity = similarity, source = basename(file)
+  )
+}
+
+# Combine parsed ESy sections for a joint evaluation of the rules.
+rv_merge_esy_rules <- function(definitions) {
+  # Offsets keep each formula connected to its original predicates.
+  shift <- function(expr, offset) {
+    if (identical(expr[[1L]], quote(`[[`))) {
+      expr[[3L]] <- expr[[3L]] + offset
+      return(expr)
+    }
+    as.call(c(list(expr[[1L]]), lapply(as.list(expr)[-1L], shift, offset = offset)))
+  }
+  associations <- profiles <- formulas <- predicates <- groups <- list()
+  for (i in seq_along(definitions)) {
+    rule <- definitions[[i]]
+    units <- rule$associations
+    units$original_code <- units$code
+    units$code <- paste(i, units$code, sep = "/")[seq_len(nrow(units))]
+    units$rule_source <- rep(rule$source, nrow(units))
+    associations[[i]] <- units
+    formulas <- c(formulas, lapply(rule$formulas, shift, offset = length(predicates)))
+
+    # Qualify group names and codes by file, including competing groups.
+    group_names <- names(rule$groups)
+    keys <- setNames(paste(i, group_names, sep = "/")[seq_along(group_names)], group_names)
+    groups <- c(groups, setNames(rule$groups, unname(keys)))
+    predicates <- c(predicates, lapply(rule$predicates, function(p) {
+      if (length(p$peers)) p$peers <- unname(keys[p$peers])
+      p
+    }))
+    if (!is.null(rule$similarity)) {
+      profile <- rule$similarity
+      profile$codes <- paste(i, profile$codes, sep = "/")
+      profiles[[length(profiles) + 1L]] <- profile
+    }
+  }
+
+  # Align profile rows while keeping the weights from each reference dataset.
+  similarity <- NULL
+  if (length(profiles)) {
+    taxa <- unique(unlist(lapply(profiles, `[[`, "taxa"), use.names = FALSE))
+    weights <- lapply(profiles, function(profile) {
+      aligned <- matrix(0, length(taxa), length(profile$codes))
+      aligned[match(profile$taxa, taxa), ] <- profile$weights
+      aligned
+    })
+    similarity <- list(taxa = taxa, codes = unlist(lapply(profiles, `[[`, "codes"), use.names = FALSE),
+      weights = do.call(cbind, weights))
+  }
+
+  list(associations = do.call(rbind, associations), formulas = formulas, predicates = predicates,
+    taxa = unique(unlist(lapply(definitions, `[[`, "taxa"), use.names = FALSE)),
+    groups = groups, mappings = unique(do.call(rbind, lapply(definitions, `[[`, "mappings"))),
+    header_fields = unique(unlist(lapply(definitions, `[[`, "header_fields"), use.names = FALSE)),
+    needs_all_taxa = any(vapply(definitions, `[[`, logical(1L), "needs_all_taxa")),
+    similarity = similarity,
+    source = paste(vapply(definitions, `[[`, character(1L), "source"), collapse = " + "))
+}
+
+# Evaluate the formal ESy definitions for each plot.
+rv_classify_esy <- function(data, rules, top_n = 3L, exclude_layers = c("7", "8"),
+  min_fpfi = 0, synonym_file = NULL, include_fpfi_taxa = FALSE) {
+  ids <- data$plot_id
+  species <- data$species
+  species <- species[!species$layer %in% exclude_layers, , drop = FALSE]
+
+  # Keep unmatched taxa when the rules use all recorded taxa.
+  if (rules$needs_all_taxa) {
+    use <- is.na(species$taxon_name)
+    species$taxon_name[use] <- species$source_taxon_name[use]
+  }
+  species <- species[!is.na(species$taxon_name) & species$cover_pct > 0, , drop = FALSE]
+  taxa <- rules$taxa
+  if (rules$needs_all_taxa) taxa <- union(taxa, species$taxon_name)
+
+  ## evaluate individual predicates
+  # Each predicate returns one logical value per plot.
+  hits_by_batch <- list()
+  uncertain_ids <- character()
+  batch_size <- max(1L, min(4096L, floor(4e6 / max(1L, length(taxa)))))
+  formal_ids <- ids[ids %in% species$plot_id]
+  batches <- split(formal_ids, ceiling(seq_along(formal_ids) / batch_size))
+
+  for (batch in batches) {
+    records <- species[species$plot_id %in% batch, , drop = FALSE]
+    cover <- rv_cover_matrix(records, batch, taxa, rules$mappings)
+
+    # Calculate the cover or species count requested by the ESy term.
+    term_value <- function(term) {
+      selected <- term$taxa
+      if (term$kind %in% c("#T$", "#$$")) selected <- setdiff(colnames(cover), term$excluded)
+      values <- cover[, selected, drop = FALSE]
+      kind <- term$kind
+      if (kind %in% c("#SC", "#$$"))
+        return(if (length(selected)) do.call(pmax, as.data.frame(values)) else rep(0, length(batch)))
+      if (kind %in% c("#TC", "#T$"))
+        return(round(-100 * expm1(rowSums(log1p(-values / 100))), 10L))
+      if (kind == "##Q") return(round(rowSums(sqrt(values)), 5L))
+      if (kind %in% c("##C", "species")) return(rowSums(values))
+      rowSums(values > 0)
+    }
+
+    predicates <- lapply(rules$predicates, function(p) {
+      if (!is.null(p$field)) {
+        left <- data$headers[[p$field]][match(batch, ids)]
+        if (is.numeric(p$value)) {
+          left <- as.numeric(left)
+        } else {
+          left <- trimws(left)
+          left[left == ""] <- NA_character_
+        }
+        right <- p$value
+      } else {
+        left <- term_value(p$left)
+        right <- p$value
+        if (!is.null(p$right)) right <- term_value(p$right)
+        if (!is.null(p$relative))
+          right <- p$relative / 100 * term_value(list(kind = "#T$", excluded = character()))
+        if (!is.null(p$peers)) {
+          peer_values <- lapply(p$peers, function(name)
+            term_value(list(kind = p$left$kind, taxa = rules$groups[[name]])))
+          right <- if (length(peer_values)) do.call(pmax, peer_values) else 0
+        }
+      }
+      switch(p$op, UP = left > right, GR = left > right,
+        GE = left >= right, EQ = left == right)
+    })
+
+    ## evaluate definitions and apply priorities
+    truth <- vapply(rules$formulas,
+      function(expr) eval(expr, envir = list(predicates = predicates)),
+      logical(length(batch)))
+    if (is.null(dim(truth))) truth <- matrix(truth, ncol = length(rules$formulas))
+    hits <- which(truth, arr.ind = TRUE)
+    priority <- rules$associations$priority
+
+    best_priority <- integer(length(batch))
+    if (nrow(hits)) {
+      best <- tapply(priority[hits[, 2]], hits[, 1], max)
+      best_priority[as.integer(names(best))] <- best
+    }
+    unknown <- which(is.na(truth), arr.ind = TRUE)
+    uncertain <- unique(unknown[priority[unknown[, 2]] >=
+        best_priority[unknown[, 1]], 1])
+    uncertain_ids <- c(uncertain_ids, batch[uncertain])
+
+    selected <- hits[priority[hits[, 2]] == best_priority[hits[, 1]] &
+        !hits[, 1] %in% uncertain, , drop = FALSE]
+    hits_by_batch[[length(hits_by_batch) + 1L]] <- data.frame(
+      plot_id = batch[selected[, 1]],
+      association_code = rules$associations$code[selected[, 2]],
+      association_name = rules$associations$name[selected[, 2]]
+    )
+  }
+
+  all_matches <- if (length(hits_by_batch)) do.call(rbind, hits_by_batch) else
+    data.frame(plot_id = character(), association_code = character(),
+      association_name = character())
+  all_matches <- unique(all_matches)
+  all_matches$rule_source <- rep(rules$source, nrow(all_matches))
+
+  ## summarize formal matches ---
+  n_matches <- tabulate(match(all_matches$plot_id, ids), length(ids))
+  n_matches[ids %in% uncertain_ids] <- NA_integer_
+  single <- match(ids, all_matches$plot_id)
+  single[n_matches != 1L | is.na(n_matches)] <- NA_integer_
+  summary <- data.frame(
+    plot_id = ids,
+    esy_n_matches = n_matches,
+    esy_code = all_matches$association_code[single],
+    esy_name = all_matches$association_name[single]
+  )
+
+  ## FPFI (optional Similarity section)
+  fpfi_ranked <- data.frame(
+    plot_id = character(), rank = integer(), association_code = character(),
+    association_name = character(), fpfi = numeric(), n_used_taxa = integer()
+  )
+  fpfi_taxon_map <- NULL
+
+  if (!is.null(rules$similarity)) {
+    profile <- rules$similarity
+    valid_ids <- setdiff(ids, uncertain_ids)
+    fpfi_species <- data$species
+    fpfi_species <- fpfi_species[fpfi_species$plot_id %in% valid_ids &
+        !fpfi_species$layer %in% exclude_layers &
+        fpfi_species$cover_pct > 0, , drop = FALSE]
+    # Match the original names again because the profile may use different names.
+    original_names <- unique(fpfi_species$source_taxon_name)
+    profile_names <- rv_match_taxa(original_names, profile$taxa, synonym_file)
+    alternative <- profile_names[match(fpfi_species$source_taxon_name, original_names)]
+    replace <- !fpfi_species$taxon_name %in% profile$taxa & !is.na(alternative)
+    fpfi_species$taxon_name[replace] <- alternative[replace]
+    named <- !is.na(fpfi_species$taxon_name)
+    fpfi_records <- fpfi_species[named, , drop = FALSE]
+    fpfi_names <- rv_esy_aggregate_names(fpfi_records, rules$mappings)
+
+    if (include_fpfi_taxa) {
+      # Record the profile names used after applying the layer-specific ESy rules.
+      targets <- vector("list", nrow(fpfi_species))
+      targets[named] <- lapply(fpfi_names, intersect, y = profile$taxa)
+      rows <- rep(seq_len(nrow(fpfi_species)), lengths(targets))
+      fpfi_taxon_map <- unique(data.frame(taxon_id = fpfi_species$taxon_id[rows],
+        taxon_name = fpfi_species$source_taxon_name[rows],
+        matched_name = as.character(unlist(targets, use.names = FALSE))))
+      evaluated <- unique(data.frame(taxon_id = fpfi_species$taxon_id,
+        taxon_name = fpfi_species$source_taxon_name))
+      key <- paste(fpfi_taxon_map$taxon_id, fpfi_taxon_map$taxon_name, sep = "\r")
+      unmatched <- evaluated[!paste(evaluated$taxon_id, evaluated$taxon_name, sep = "\r") %in% key,
+        , drop = FALSE]
+      unmatched$matched_name <- rep(NA_character_, nrow(unmatched))
+      fpfi_taxon_map <- rbind(fpfi_taxon_map, unmatched)
+    }
+
+    present <- rv_cover_matrix(fpfi_records, valid_ids, profile$taxa, names_by_row = fpfi_names) > 0
+    formal <- split(all_matches$association_code, all_matches$plot_id)
+    by_code <- setNames(rules$associations$name, rules$associations$code)
+
+    ranked <- lapply(seq_along(valid_ids), function(i) {
+      taxon_rows <- which(present[i, ])
+      if (!length(taxon_rows)) return(NULL)
+      score <- colSums(profile$weights[taxon_rows, , drop = FALSE])
+      possible <- if (valid_ids[i] %in% names(formal)) {
+        profile$codes %in% formal[[valid_ids[i]]]
+      } else rep(TRUE, length(profile$codes))
+      choices <- which(possible & score > 0 & score >= min_fpfi)
+      if (!length(choices)) return(NULL)
+      best <- head(choices[order(-score[choices], profile$codes[choices])], top_n)
+      if (!length(best)) return(NULL)
+      data.frame(
+        plot_id = valid_ids[i], rank = seq_along(best),
+        association_code = profile$codes[best],
+        association_name = unname(by_code[profile$codes[best]]),
+        fpfi = unname(score[best]), n_used_taxa = length(taxon_rows)
+      )
+    })
+    fpfi_ranked <- do.call(rbind, ranked)
+    if (is.null(fpfi_ranked)) fpfi_ranked <- data.frame(
+      plot_id = character(), rank = integer(), association_code = character(),
+      association_name = character(), fpfi = numeric(), n_used_taxa = integer())
+  }
+
+  result <- list(summary = summary, all_matches = all_matches, fpfi_ranked = fpfi_ranked)
+  result$fpfi_taxon_map <- fpfi_taxon_map
+  result
+}
+
+### Veg Key
+# Combine cover across layers to keep one record per taxon and plot.
+# Classification and model creation use the same calculation.
+rv_vegkey_records <- function(species, plots, exclude_layers) {
+  species <- species[species$plot_id %in% plots &
+      !is.na(species$taxon_name) &
+      !species$layer %in% exclude_layers &
+      (is.na(species$cover_pct) | species$cover_pct > 0),
+    c("plot_id", "taxon_name", "cover_pct"), drop = FALSE]
+  if (!nrow(species)) return(species)
+  taxa <- unique(species$taxon_name)
+  key <- match(species$plot_id, plots) +
+    length(plots) * (match(species$taxon_name, taxa) - 1L)
+  merged <- rowsum(log1p(-species$cover_pct / 100), key, reorder = FALSE)
+  out <- species[match(as.integer(rownames(merged)), key), , drop = FALSE]
+  out$cover_pct <- round(-100 * expm1(merged[, 1]), 10L)
+  rownames(out) <- NULL
+  out
+}
+
+# Multiply the constancies of recorded taxa by summing their logarithms.
+rv_classify_vegkey <- function(data, model, top_n = 3L, candidate_units = NULL,
+  use_dominance = TRUE) {
+  ids <- data$plot_id
+  units <- if (is.null(candidate_units)) model$units$code else unique(candidate_units)
+  unit_info <- model$units[match(units, model$units$code), , drop = FALSE]
+  presence <- model$presence[, units, drop = FALSE]
+  occurrence <- log(pmax(presence, model$min_constancy))
+  dominant <- if (use_dominance && !is.null(model$dominant)) {
+    log(pmax(model$dominant[, units, drop = FALSE], model$min_constancy))
+  } else NULL
+
+  ## select plot taxa
+  species <- rv_vegkey_records(data$species, ids, model$exclude_layers)
+  species <- species[species$taxon_name %in% rownames(presence)[rowSums(presence) > 0], , drop = FALSE]
+  by_plot <- split(seq_len(nrow(species)), species$plot_id)
+
+  ## score and rank vegetation units
+  ranked <- lapply(ids, function(id) {
+    records <- species[by_plot[[id]], , drop = FALSE]
+    if (!nrow(records)) return(NULL)
+    weights <- occurrence[records$taxon_name, , drop = FALSE]
+    high <- !is.na(records$cover_pct) & records$cover_pct > 25
+    if (!is.null(dominant))
+      weights[high, ] <- dominant[records$taxon_name[high], , drop = FALSE]
+
+    score <- colSums(weights)
+    score <- exp(score - max(score))
+    score <- 100 * score / sum(score)
+    best <- head(order(-score, units), top_n)
+    if (!length(best)) return(NULL)
+    data.frame(
+      plot_id = id, rank = seq_along(best), unit_code = units[best],
+      unit_name = unit_info$name[best], relative_score = unname(score[best]),
+      n_training = unit_info$n_plots[best]
+    )
+  })
+  ranked <- do.call(rbind, ranked)
+  if (is.null(ranked)) ranked <- data.frame(
+    plot_id = character(), rank = integer(), unit_code = character(),
+    unit_name = character(), relative_score = numeric(), n_training = integer())
+
+  ## VegKey - summarize scores
+  best <- match(ids, ranked$plot_id)
+  summary <- data.frame(
+    plot_id = ids,
+    n_used_taxa = unname(lengths(by_plot[ids])),
+    vegkey_code = ranked$unit_code[best],
+    vegkey_name = ranked$unit_name[best],
+    relative_score = ranked$relative_score[best]
+  )
+  list(summary = summary, vegkey_ranked = ranked)
+}
+
+
 #---- Package startup ----
 
 # on attach message
@@ -1554,5 +2347,5 @@ rv_fill_shortnames <- function(map, code_map) {
   # Get the current version dynamically
   pkg_version <- utils::packageVersion("Rveg")
   packageStartupMessage(rv_col(paste0("Welcome to Rveg (version ", pkg_version, ")!"),"ok"))
-  packageStartupMessage("Detailed guide (v0.1.6): `vignette('Rveg')`, Updates: `news(package = 'Rveg')`")
+  packageStartupMessage("User guide: `vignette('Rveg')`, Updates: `news(package = 'Rveg')`")
 }
