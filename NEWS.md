@@ -1,3 +1,5 @@
+# Rveg (development version)
+
 # Rveg 0.2.0
 - Added vegetation classification with CzechVeg-ESy and a VegKey-inspired model.
 - Bundled Czech WCVP synonyms and added an optional download for the global table.
