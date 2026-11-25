@@ -96,7 +96,7 @@ rv_status_banner <- function(checklist_path, database_label, save_dir, rel_count
   cat(rv_col(paste0("Database: ", normalizePath(save_dir, winslash = "/", mustWork = FALSE), "; "), "info"))
 
   same <- isTRUE(rel_count == head_count)
-  cat(rv_col(sprintf("Relev\u00e9s: %d; Headers: %d", rel_count, head_count), if (same) "ok" else "err"))
+  cat(rv_col(sprintf("Relev\u00e9s: %d; Headers: %d", rel_count, head_count), if (same) "ok" else "err"), "\n", sep = "")
 }
 
 #---- User input helpers ----
@@ -132,7 +132,7 @@ rv_ask_text <- function(prompt, min_nchar = 1, allow_cmd = character()) {
 rv_read_or_re <- function(prompt, default) {
   def <- if (length(default) == 0 || is.na(default) || identical(default, "NA")) "" else as.character(default)
   # only show a hint if we actually have a previous value
-  if (nzchar(def)) cat(rv_col(paste0("RE <- ", def),"info"))
+  if (nzchar(def)) cat(rv_col(paste0("RE <- ", def),"info"), "\n", sep = "")
   ans <- readline(prompt)
   ans_trim <- toupper(trimws(ans))
   if (ans_trim == "RE" && nzchar(def)) def else ans
@@ -602,7 +602,7 @@ rv_species_not_found <- function(bad_name, SpList, metadata, orig_SpList = NULL)
 
 
 
-          cat(paste0("suggest from the original list:", bad_name, " -> ", code_name, " ? (Y/N)" ))
+          cat(paste0("suggest from the original list:", bad_name, " -> ", code_name, " ? (Y/N)" ), "\n", sep = "")
           m <- rv_ask_choice("Accept? (Y/N): ", c("Y", "N"))
           if (m == "N") {
             break
@@ -962,7 +962,7 @@ rv_releve_dialogue <- function(SpLIST, RelNew, metadata, SAVE = NULL, HeaderDATA
         rs <- rv_ask_choice("Add headers? (Y/N) ", c("Y","N"))
         if (rs == "Y") {
           for (i in 1:m) {
-            cat(rv_col(paste0("Relev\u00e9 ", i),"info"))
+            cat(rv_col(paste0("Relev\u00e9 ", i),"info"), "\n", sep = "")
 
             k <- rv_existing_k(HeaderDATA2)
             nextcol <- paste0("X", k + 1L)
@@ -1001,7 +1001,7 @@ rv_releve_dialogue <- function(SpLIST, RelNew, metadata, SAVE = NULL, HeaderDATA
       nana <- paste(n, l, sep = "_")
 
       for (i in 1:m) {
-        cat(rv_col(paste0("Relev\u00e9 ", i),"info"))
+        cat(rv_col(paste0("Relev\u00e9 ", i),"info"), "\n", sep = "")
         o <- rv_ask_abundance(oo)
 
         Rels[[paste0("r", i)]] <- rv_add_rel_new(Rels[[paste0("r", i)]], nana, o)
